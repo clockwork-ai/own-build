@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clockwork AI · Your business, running like clockwork</title>
+<meta name="description" content="AI that answers enquiries, chases invoices and books jobs while you sleep. Built in Manchester for tradesmen and local businesses.">
+<!-- Preview build. Remove noindex at launch. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E0F12">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/01-night.webp" media="(min-width: 861px)">
+<link rel="preload" as="image" href="assets/01-night-p.webp" media="(max-width: 860px)">
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+  :root {
+    --sc-canvas:     #0E0F12;
+    --sc-surface:    #17191D;
+    --sc-ink:        #E8EED6;
+    --sc-ink-soft:   #A7AC9C;
+    --sc-accent:     #CBB892;
+    --sc-accent-ink: #0E0F12;
+    --sc-font-display: "Instrument Serif", Georgia, serif;
+    --sc-font-text:    "Geist", system-ui, sans-serif;
+    --sc-font-mono:    "Geist Mono", ui-monospace, monospace;
+    --sc-shadow-color: 225 18% 3%;
+
+    --graphite: #24262A;
+    --steel: #6E7378;
+    --lume-25: color-mix(in oklab, var(--sc-ink) 25%, transparent);
+    --lume-45: color-mix(in oklab, var(--sc-ink) 45%, transparent);
+    --dock-h: 0px;
+  }
+
+  /* Instrument Serif ships one weight. Light-on-dark display gets a hair of air. */
+  .sc-display { font-weight: 400; letter-spacing: -0.018em; }
+  body { letter-spacing: 0; }
+  .skip { position: absolute; left: -999px; top: 8px; z-index: 100; background: var(--sc-accent); color: var(--sc-accent-ink); padding: 10px 16px; border-radius: 999px; }
+  .skip:focus { left: 12px; }
+
+  /* ---------------------------------------------------------- buttons -- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 48px; padding: 0 22px; border-radius: 999px;
+    font: 500 0.98rem/1 var(--sc-font-text); letter-spacing: -0.005em;
+    text-decoration: none; white-space: nowrap; cursor: pointer; border: 0;
+    transition: transform 140ms var(--sc-ease-out), background-color 160ms var(--sc-ease-out), border-color 160ms var(--sc-ease-out), color 160ms var(--sc-ease-out);
+  }
+  .btn--primary { background: var(--sc-accent); color: var(--sc-accent-ink); box-shadow: var(--sc-e2), inset 0 1px 0 rgba(255,255,255,.35); }
+  .btn--ghost { background: color-mix(in oklab, var(--sc-canvas) 55%, transparent); color: var(--sc-ink); border: 1px solid var(--sc-hairline-strong); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn--primary:hover { background: #D8C7A3; }
+    .btn--ghost:hover { border-color: var(--lume-45); background: color-mix(in oklab, var(--sc-surface) 80%, transparent); }
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+  .btn svg { width: 18px; height: 18px; flex: none; }
+  .note { font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+
+  /* ------------------------------------------------------------ chrome -- */
+  .bar {
+    position: fixed; inset: 0 0 auto 0; z-index: 60;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: calc(env(safe-area-inset-top, 0px) + 14px) var(--sc-gutter) 14px;
+    background: linear-gradient(to bottom, color-mix(in oklab, var(--sc-canvas) 78%, transparent), transparent);
+    pointer-events: none;
+    transition: background-color 220ms var(--sc-ease-out), border-color 220ms var(--sc-ease-out);
+    border-bottom: 1px solid transparent;
+  }
+  .bar.is-solid { background: color-mix(in oklab, var(--sc-canvas) 88%, transparent); border-bottom-color: var(--sc-hairline); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .bar > * { pointer-events: auto; }
+  .bar__logo { display: block; border-radius: 6px; }
+  .bar__logo img { height: 26px; width: auto; }
+  .bar__right { display: flex; align-items: center; gap: 12px; }
+  .bar .btn { min-height: 44px; padding: 0 18px; font-size: 0.92rem; }
+
+  /* The subdial: the page's own clock, and its navigation. */
+  .subdial { position: relative; }
+  .subdial__btn {
+    display: flex; align-items: center; gap: 10px; min-height: 44px;
+    padding: 5px 14px 5px 5px; border-radius: 999px; cursor: pointer;
+    background: color-mix(in oklab, var(--sc-surface) 78%, transparent);
+    border: 1px solid var(--sc-hairline); color: var(--sc-ink);
+    box-shadow: var(--sc-e1), var(--sc-edge);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    transition: border-color 160ms var(--sc-ease-out), transform 140ms var(--sc-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) { .subdial__btn:hover { border-color: var(--lume-45); } }
+  .subdial__btn:active { transform: scale(0.97); }
+  .subdial__btn svg { width: 34px; height: 34px; }
+  .subdial__time { font: 500 0.86rem/1 var(--sc-font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+  .subdial__menu {
+    position: absolute; right: 0; top: calc(100% + 10px); width: 17.5rem;
+    margin: 0; padding: 8px; list-style: none; border-radius: 16px;
+    background: color-mix(in oklab, var(--sc-surface) 96%, transparent);
+    border: 1px solid var(--sc-hairline); box-shadow: var(--sc-e3), var(--sc-edge);
+    opacity: 0; transform: translateY(-6px) scale(0.98); transform-origin: top right;
+    visibility: hidden;
+    transition: opacity 180ms var(--sc-ease-out), transform 180ms var(--sc-ease-out), visibility 0s linear 180ms;
+  }
+  .subdial[data-open] .subdial__menu { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+  .subdial__menu a {
+    display: grid; grid-template-columns: 3.4rem 1fr; align-items: baseline;
+    padding: 11px 12px; border-radius: 10px; text-decoration: none; color: var(--sc-ink);
+    transition: background-color 140ms var(--sc-ease-out);
+  }
+  .subdial__menu a:hover, .subdial__menu a:focus-visible { background: color-mix(in oklab, var(--sc-ink) 7%, transparent); }
+  .subdial__menu a:active { background: color-mix(in oklab, var(--sc-ink) 11%, transparent); }
+  .subdial__menu a[aria-current="true"] time { color: var(--sc-accent); }
+  .subdial__menu time { font: 400 0.82rem/1 var(--sc-font-mono); color: var(--sc-ink-soft); font-variant-numeric: tabular-nums; }
+
+  .dock { display: none; }
+
+  /* ------------------------------------------------------- 02:14 hero -- */
+  .hero { background: #090A0D; }
+  .hero__plate { position: absolute; inset: 0; transform-origin: 70% 60%;
+    transform: scale(calc(1.04 + var(--sc-p, 0) * 0.1)) translate3d(0, calc(var(--sc-p, 0) * -2.5vh), 0); }
+  .hero__plate img { width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; max-width: none; }
+  .hero__shade { position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(90deg, color-mix(in oklab, #090A0D 70%, transparent) 0%, transparent 46%),
+      linear-gradient(to top, color-mix(in oklab, #090A0D 80%, transparent) 0%, transparent 42%); }
+
+  .hero__dial {
+    --d: min(76vh, 48vw);
+    position: absolute; width: var(--d); height: var(--d);
+    left: calc(var(--sc-gutter) - var(--d) * 0.1); top: 43%; translate: 0 -50%;
+    pointer-events: none;
+  }
+  .plane { position: absolute; inset: 0; transform-origin: 50% 50%; }
+  .plane svg { width: 100%; height: 100%; overflow: visible; }
+  .plane--face  { -webkit-mask-image: linear-gradient(to bottom, #000 58%, rgba(0,0,0,.28) 86%); mask-image: linear-gradient(to bottom, #000 58%, rgba(0,0,0,.28) 86%); transform: scale(calc(1 + var(--sc-p, 0) * 0.5)); opacity: calc(1 - max(0, var(--sc-p, 0) - 0.62) * 2.4); }
+  .plane--hands { transform: scale(calc(1 + var(--sc-p, 0) * 0.78)); opacity: calc(1 - max(0, var(--sc-p, 0) - 0.7) * 3); }
+  .plane--glass {
+    border-radius: 50%; z-index: 25;
+    transform: scale(calc(1 + var(--sc-p, 0) * 1.5));
+    opacity: calc(0.85 - var(--sc-p, 0) * 1.1);
+    background:
+      radial-gradient(60% 60% at 30% 22%, color-mix(in oklab, var(--sc-ink) 9%, transparent), transparent 70%),
+      conic-gradient(from 300deg, transparent 0deg, color-mix(in oklab, var(--sc-ink) 7%, transparent) 30deg, transparent 70deg);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--sc-ink) 7%, transparent), inset 0 -30px 60px -40px rgba(0,0,0,.6);
+  }
+  .hero__comp {
+    position: absolute; left: 50%; top: 12%; translate: -50% 0; width: 58%;
+    text-shadow: 0 0 14px #0B0C0F, 0 0 4px #0B0C0F;
+    text-align: center; z-index: 22;
+    transform: scale(calc(1 + var(--sc-p, 0) * 0.5)); transform-origin: 50% 160%;
+    opacity: calc(1 - max(0, var(--sc-p, 0) - 0.68) * 3.2);
+  }
+  .comp__time { font: 400 clamp(1.4rem, 1rem + 1.3vw, 2.2rem)/1 var(--sc-font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--sc-ink); }
+  .comp__log { list-style: none; margin: 14px 0 0; padding: 0; position: relative; min-height: 3.2em; }
+  .comp__log li { opacity: 0; transition: opacity 320ms var(--sc-ease-out); }
+  .comp__log li.is-on { opacity: 1; }
+  .comp__log li { position: absolute; inset: 0 0 auto; font-size: clamp(0.86rem, 0.8rem + 0.25vw, 1rem); line-height: 1.4; color: var(--sc-ink); text-wrap: balance; }
+  .comp__log li::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--sc-accent); margin-right: 8px; vertical-align: 0.15em; }
+  .comp__label { margin-top: 10px; display: block; font-size: 0.68rem; }
+
+  .hero__copy { position: absolute; left: var(--sc-gutter); right: var(--sc-gutter); bottom: clamp(2.5rem, 9vh, 6rem); z-index: 20; max-width: 44rem; }
+  .hero__copy h1 { font-size: clamp(2.7rem, 1.4rem + 4.6vw, 6.2rem); line-height: 0.98; }
+  .hero__copy h1 em { font-style: italic; color: var(--sc-accent); }
+  .hero__copy p { margin: 18px 0 0; max-width: 34ch; font-size: var(--sc-t-lg); line-height: 1.45; color: color-mix(in oklab, var(--sc-ink) 86%, transparent); }
+  .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 26px; }
+
+  /* ---------------------------------------------------------- the cost -- */
+  .cost { position: relative; background: #0B0C0F; padding-block: clamp(5rem, 12vh, 9rem) 0; overflow: clip; }
+  .cost__plate { position: absolute; inset: 0 0 auto auto; width: min(68vw, 1200px); height: min(100%, 900px); pointer-events: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 42%), linear-gradient(to top, transparent 0%, #000 30%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 42%), linear-gradient(to top, transparent 0%, #000 30%);
+    -webkit-mask-composite: source-in; mask-composite: intersect; }
+  .cost__plate img { width: 100%; height: 100%; object-fit: cover; object-position: 70% 40%; opacity: 0.85; max-width: none; }
+  .cost__inner { position: relative; }
+  .cost h2 { font-size: var(--sc-t-3xl); max-width: 13ch; }
+  .cost .sc-body { font-size: var(--sc-t-lg); line-height: 1.5; max-width: 38ch; color: color-mix(in oklab, var(--sc-ink) 80%, transparent); }
+  .ledger { margin: clamp(3rem, 8vh, 5rem) 0 0; max-width: 52rem; border-top: 1px solid var(--sc-hairline); }
+  .ledger div { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 2rem; padding: 18px 0; border-bottom: 1px solid var(--sc-hairline); }
+  .ledger dt { font-size: var(--sc-t-lg); line-height: 1.35; }
+  .ledger dd { margin: 0; color: var(--sc-ink-soft); line-height: 1.5; align-self: center; }
+  .ledger__head { font: 400 var(--sc-t-xs)/1 var(--sc-font-mono); letter-spacing: var(--sc-track-wide); text-transform: uppercase; color: var(--sc-ink-soft); }
+  .ledger div.ledger__head { padding: 14px 0; }
+  .silence { min-height: 92vh; min-height: 92svh; display: grid; place-items: center; text-align: center; padding: 10vh var(--sc-gutter); }
+  .silence p { font: 400 var(--sc-t-3xl)/1 var(--sc-font-display); letter-spacing: -0.018em; margin: 0; }
+  .silence p em { color: var(--sc-accent); }
+
+  /* ---------------------------------------------------- the wind (peak) -- */
+  .day { background: var(--sc-canvas); }
+  .day__stage {
+    display: grid; grid-template-columns: minmax(15rem, 1fr) auto minmax(17rem, 1fr);
+    align-items: center; gap: clamp(1.5rem, 3.5vw, 4rem);
+    padding: calc(env(safe-area-inset-top, 0px) + 76px) var(--sc-gutter) 5vh;
+  }
+  .day__intro h2 { font-size: var(--sc-t-2xl); line-height: 1.02; margin-top: 10px; }
+  .day__intro p { margin: 14px 0 0; color: var(--sc-ink-soft); max-width: 30ch; }
+  .tally { margin-top: clamp(1.5rem, 5vh, 3rem); padding-top: 18px; border-top: 1px solid var(--sc-hairline); }
+  .tally__n { font: 400 clamp(2.6rem, 1.6rem + 2.8vw, 4.4rem)/1 var(--sc-font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .tally__n small { font-size: 0.5em; color: var(--sc-ink-soft); margin: 0 0.2em; }
+  .tally p { margin: 8px 0 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); max-width: 30ch; }
+
+  .wdial { position: relative; width: min(76vh, 44vw); aspect-ratio: 1; }
+  .wdial__ap { position: absolute; inset: 21%; border-radius: 50%; overflow: hidden; background: #08090B; box-shadow: inset 0 0 0 1px var(--sc-hairline), 0 30px 60px -30px rgba(0,0,0,.8); }
+  .wdial__ap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 520ms var(--sc-ease-out); max-width: none; }
+  .wdial__ap img.is-on { opacity: 1; }
+  .wdial__ap::after { content: ""; position: absolute; inset: 0; background: radial-gradient(80% 80% at 50% 40%, transparent 45%, rgba(8,9,11,.55) 100%), linear-gradient(to top, rgba(8,9,11,.85) 0%, transparent 38%); }
+  .wdial__clock { position: absolute; left: 50%; bottom: 27%; translate: -50% 0; z-index: 2; text-align: center; }
+  .wdial__clock b { display: block; font: 400 clamp(1.5rem, 1rem + 1.4vw, 2.3rem)/1 var(--sc-font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+  .wdial svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; z-index: 3; }
+
+  .day__log { position: relative; height: min(64vh, 560px); overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent); }
+  .day__log ol { list-style: none; margin: 0; padding: 0; transition: transform 420ms var(--sc-ease-out); }
+  .day__log li { display: grid; grid-template-columns: 3.6rem 1fr; gap: 2px 14px; padding: 13px 0; opacity: 0.28; transition: opacity 300ms var(--sc-ease-out); }
+  .day__log li.is-done { opacity: 0.7; }
+  .day__log li.is-now { opacity: 1; }
+  .day__log time { font: 400 0.86rem/1.5 var(--sc-font-mono); font-variant-numeric: tabular-nums; color: var(--sc-ink-soft); }
+  .day__log li.is-now time { color: var(--sc-accent); }
+  .day__log p { margin: 0; font-size: 0.98rem; line-height: 1.45; }
+  .day__log span { grid-column: 2; font: 400 0.76rem/1.4 var(--sc-font-mono); color: var(--sc-ink-soft); letter-spacing: 0.02em; }
+
+  /* ------------------------------------------------------ how it works -- */
+  .how .sc-copy { max-width: min(36rem, 80vw); }
+  .how h2 { font-size: var(--sc-t-3xl); }
+  .how .sc-copy p { margin: 0; font-size: var(--sc-t-lg); line-height: 1.5; color: var(--sc-ink); }
+  .how .sc-copy p + p { margin-top: 14px; color: color-mix(in oklab, var(--sc-ink) 82%, transparent); }
+  .how .sc-scrim--lead { background: linear-gradient(90deg, color-mix(in oklab, var(--sc-canvas) 88%, transparent) 0%, color-mix(in oklab, var(--sc-canvas) 55%, transparent) 34%, transparent 62%); }
+
+  /* ---------------------------------------------------------- the parts -- */
+  .parts { background: #111216; }
+  .parts__grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(2.5rem, 6vw, 7rem); align-items: start; }
+  .parts h2 { font-size: var(--sc-t-3xl); max-width: 14ch; }
+  .partlist { list-style: none; margin: clamp(2rem, 5vh, 3.5rem) 0 0; padding: 0; border-top: 1px solid var(--sc-hairline); }
+  .partlist li { display: grid; grid-template-columns: minmax(9rem, 13rem) 1fr; gap: 6px 2rem; padding: 22px 0; border-bottom: 1px solid var(--sc-hairline); }
+  .partlist h3 { margin: 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); letter-spacing: -0.01em; }
+  .partlist p { margin: 0; color: color-mix(in oklab, var(--sc-ink) 84%, transparent); line-height: 1.55; }
+  .partlist q { display: block; grid-column: 2; margin-top: 4px; font: 400 0.8rem/1.5 var(--sc-font-mono); color: var(--sc-ink-soft); quotes: none; }
+  .partlist q::before { content: "Sample message: "; color: var(--sc-accent); }
+  .control { position: sticky; top: 110px; padding: clamp(1.5rem, 3vw, 2.4rem); border-radius: 20px;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--sc-surface) 92%, #fff 2%), var(--sc-surface));
+    box-shadow: var(--sc-e2), var(--sc-edge); border: 1px solid var(--sc-hairline); }
+  .control h3 { margin: 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); }
+  .control ul { margin: 16px 0 0; padding: 0; list-style: none; }
+  .control li { padding: 10px 0; border-top: 1px solid var(--sc-hairline); color: color-mix(in oklab, var(--sc-ink) 86%, transparent); line-height: 1.5; }
+  .control li:first-child { border-top: 0; }
+  .ladder { margin-top: 26px; display: grid; gap: 10px; }
+  .ladder div { display: grid; grid-template-columns: 8.2rem 1fr; gap: 12px; align-items: baseline; }
+  .ladder b { font: 500 0.78rem/1.3 var(--sc-font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--sc-accent); }
+  .ladder span { color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; }
+
+  /* ------------------------------------------------------------- proof -- */
+  .work { background: var(--sc-canvas); }
+  .work__head { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem clamp(2rem, 6vw, 6rem); align-items: end; }
+  .work h2 { font-size: var(--sc-t-3xl); max-width: 12ch; }
+  .work__head p { margin: 0; color: color-mix(in oklab, var(--sc-ink) 82%, transparent); font-size: var(--sc-t-lg); line-height: 1.5; max-width: 36ch; }
+  .work__head a { color: var(--sc-ink); }
+  .compare { position: relative; margin: clamp(2.5rem, 6vh, 4rem) 0 0; border-radius: 14px; overflow: hidden; box-shadow: var(--sc-e3); border: 1px solid var(--sc-hairline); aspect-ratio: 1200 / 750; background: #fff; }
+  .compare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; max-width: none; }
+  .compare__new { position: absolute; inset: 0; }
+  .compare__tag { position: absolute; z-index: 2; bottom: 14px; padding: 7px 12px; border-radius: 999px; font: 500 0.74rem/1 var(--sc-font-mono); letter-spacing: 0.06em; text-transform: uppercase; background: rgba(14,15,18,.82); color: var(--sc-ink); }
+  .compare__tag--old { right: 14px; }
+  .compare__tag--new { left: 14px; }
+  .compare--phone { display: none; }
+  .work__foot { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem clamp(1.5rem, 4vw, 4rem); margin-top: clamp(2rem, 5vh, 3rem); }
+  .work__foot div { border-top: 1px solid var(--sc-hairline); padding-top: 16px; }
+  .work__foot h3 { margin: 0 0 6px; font: 500 0.98rem/1.3 var(--sc-font-text); }
+  .work__foot p { margin: 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.55; }
+  .linkline { display: inline-flex; align-items: center; gap: 8px; margin-top: 26px; color: var(--sc-ink); text-decoration: none; border-bottom: 1px solid var(--lume-45); padding-bottom: 3px; transition: border-color 160ms var(--sc-ease-out), color 160ms var(--sc-ease-out); }
+  .linkline:hover { border-color: var(--sc-accent); color: var(--sc-accent); }
+  .linkline:active { opacity: 0.8; }
+
+  /* ------------------------------------------------------------ prices -- */
+  .prices { background: #101114; display: flex; align-items: center; }
+  .rail { gap: clamp(1rem, 1.6vw, 1.5rem); padding-inline: var(--sc-gutter); align-items: stretch; }
+  .rail > * { flex: none; }
+  .rail__lead { width: clamp(17rem, 26vw, 24rem); align-self: center; padding-right: 1rem; }
+  .rail__lead h2 { font-size: var(--sc-t-3xl); }
+  .rail__lead p { margin: 16px 0 0; color: var(--sc-ink-soft); line-height: 1.55; }
+  .offer {
+    width: clamp(17.5rem, 25vw, 23rem); display: flex; flex-direction: column;
+    padding: 26px 24px 24px; border-radius: 20px;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--sc-surface) 90%, #fff 3%), var(--sc-surface));
+    border: 1px solid var(--sc-hairline); box-shadow: var(--sc-e2), var(--sc-edge);
+  }
+  .offer--lead { background: linear-gradient(180deg, #1D1E1F, #17181A); border-color: color-mix(in oklab, var(--sc-accent) 40%, transparent); box-shadow: var(--sc-e3), var(--sc-edge); }
+  .offer .sc-label { color: var(--sc-accent); }
+  .offer h3 { margin: 12px 0 0; font: 400 var(--sc-t-xl)/1.08 var(--sc-font-display); letter-spacing: -0.01em; }
+  .offer__price { margin-top: 18px; font: 400 clamp(2.2rem, 1.6rem + 1.6vw, 3rem)/1 var(--sc-font-display); letter-spacing: -0.02em; font-variant-numeric: lining-nums; }
+  .offer__price small { font: 400 0.95rem/1 var(--sc-font-text); color: var(--sc-ink-soft); letter-spacing: 0; margin-left: 4px; }
+  .offer__alt { margin: 8px 0 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); line-height: 1.45; }
+  .offer > p:not(.offer__alt) { margin: 16px 0 0; line-height: 1.55; color: color-mix(in oklab, var(--sc-ink) 85%, transparent); font-size: 0.97rem; }
+  .offer .btn { margin-top: auto; align-self: flex-start; }
+  .offer .offer__spacer { flex: 1; min-height: 20px; }
+  .rail__note { width: clamp(15rem, 22vw, 19rem); align-self: center; padding-left: 0.5rem; }
+  .rail__note h3 { margin: 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); color: var(--sc-accent); }
+  .rail__note p { margin: 12px 0 0; color: color-mix(in oklab, var(--sc-ink) 82%, transparent); line-height: 1.55; }
+
+  /* ------------------------------------------------------------- close -- */
+  .close { background: #1a1612; }
+  .close__plate { position: absolute; inset: 0; }
+  .close__plate img { width: 100%; height: 100%; object-fit: cover; object-position: 65% 50%; max-width: none; }
+  .close__shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(14,15,18,.82) 0%, transparent 30%); }
+  .close__disc {
+    --d: min(68vh, 40rem);
+    position: absolute; z-index: 20; width: var(--d); aspect-ratio: 1; border-radius: 50%;
+    left: calc(var(--sc-gutter) + 2vw); top: 47%; translate: 0 -50%;
+    display: grid; place-items: center; text-align: center;
+    background: radial-gradient(circle at 50% 38%, #1A1C21 0%, #0E0F12 70%);
+    box-shadow: 0 2px 4px rgba(10,8,6,.3), 0 30px 60px -20px rgba(30,18,8,.55), 0 80px 120px -40px rgba(30,18,8,.45), inset 0 1px 0 rgba(232,238,214,.12);
+  }
+  .close__disc > svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .close__inner { position: relative; width: 66%; }
+  .close__inner .comp__time { color: var(--sc-accent); font-size: 1.05rem; }
+  .close__inner h2 { margin-top: 14px; font-size: clamp(1.8rem, 1.1rem + 1.9vw, 2.9rem); line-height: 1.02; }
+  .close__inner .btn { margin-top: 22px; }
+  .close__inner .note { margin: 12px 0 0; }
+  .close__side { position: absolute; z-index: 20; right: var(--sc-gutter); bottom: 22%; text-align: right; max-width: 22rem; }
+  .close__side p { margin: 0; font: 400 var(--sc-t-xl)/1.15 var(--sc-font-display); color: #FFF8EC; text-shadow: 0 1px 12px rgba(20,14,8,.5); }
+  .close__alt { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; flex-wrap: wrap; }
+  .foot { position: absolute; z-index: 20; left: var(--sc-gutter); right: var(--sc-gutter); bottom: calc(18px + var(--dock-h)); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: var(--sc-t-xs); color: color-mix(in oklab, var(--sc-ink) 75%, transparent); }
+  .foot img { height: 20px; width: auto; }
+  .foot nav { display: flex; gap: 18px; flex-wrap: wrap; }
+  .foot a { color: inherit; text-decoration: none; }
+  .foot a:hover { color: var(--sc-ink); text-decoration: underline; }
+
+  /* ------------------------------------------------------------ phones -- */
+  @media (max-width: 860px) {
+    :root { --dock-h: calc(64px + env(safe-area-inset-bottom, 0px)); }
+    .bar .btn { display: none; }
+    .bar__logo img { height: 22px; }
+    .subdial__time { font-size: 0.8rem; }
+    .dock {
+      display: grid; grid-template-columns: 1fr 1fr 1.6fr; gap: 8px;
+      position: fixed; inset: auto 0 0 0; z-index: 60;
+      padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+      background: color-mix(in oklab, var(--sc-canvas) 92%, transparent);
+      border-top: 1px solid var(--sc-hairline);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .dock .btn { min-height: 48px; padding: 0 12px; font-size: 0.92rem; }
+
+    .hero__dial { --d: min(88vw, 50svh); left: 50%; top: calc(env(safe-area-inset-top, 0px) + 70px); translate: -50% 0; }
+    .hero__plate img { object-position: 50% 60%; }
+    .hero__shade { background: linear-gradient(to top, rgba(9,10,13,.94) 0%, rgba(9,10,13,.6) 34%, transparent 58%), linear-gradient(to bottom, rgba(9,10,13,.5), transparent 30%); }
+    .hero__copy { bottom: calc(var(--dock-h) + 22px); }
+    .hero__copy h1 { font-size: clamp(2.5rem, 11vw, 3.4rem); }
+    .hero__copy p { font-size: 1.05rem; margin-top: 12px; }
+    .hero__copy .cta-row { display: none; }
+
+    .cost__plate { width: 100%; height: 56vh; opacity: 0.55;
+      -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 60%); mask-image: linear-gradient(to top, transparent 0%, #000 60%); }
+    .cost { padding-top: 34vh; }
+    .ledger div { grid-template-columns: 1fr; }
+
+    .day__stage { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; gap: 14px; justify-items: center; align-content: start; padding-bottom: calc(var(--dock-h) + 10px); }
+    .day__intro { justify-self: stretch; }
+    .day__intro h2 { font-size: 1.9rem; margin-top: 4px; }
+    .day__intro p, .tally p { display: none; }
+    .tally { position: absolute; right: var(--sc-gutter); top: calc(env(safe-area-inset-top, 0px) + 76px); margin: 0; padding: 0; border: 0; text-align: right; }
+    .tally__n { font-size: 2rem; }
+    .tally__cap { display: block !important; font: 400 0.68rem/1.3 var(--sc-font-mono); color: var(--sc-ink-soft); letter-spacing: 0.04em; }
+    .wdial { width: min(86vw, 44svh); }
+    .day__log { justify-self: stretch; height: auto; max-height: 24svh; min-height: 9rem; }
+
+    .parts__grid { grid-template-columns: 1fr; }
+    .partlist li { grid-template-columns: 1fr; }
+    .partlist q { grid-column: 1; }
+    .control { position: static; }
+    .ladder div { grid-template-columns: 1fr; gap: 2px; }
+
+    .work__head { grid-template-columns: 1fr; }
+    .compare--desk { display: none; }
+    .compare--phone { display: block; aspect-ratio: auto; max-width: 22rem; margin-inline: auto; height: auto; }
+    .compare--phone .compare__pair { position: relative; aspect-ratio: 585 / 1266; }
+    .compare--phone .compare__tag { bottom: auto; top: 46%; }
+    .work__foot { grid-template-columns: 1fr; }
+
+    .how .sc-scrim--lead { background: linear-gradient(to top, rgba(14,15,18,.96) 0%, rgba(14,15,18,.86) 42%, rgba(14,15,18,.35) 64%, transparent 78%); }
+    .how .sc-copy { bottom: calc(var(--dock-h) + 24px); }
+    .hero__comp { width: 64%; top: 11%; }
+    .comp__log li { font-size: 0.84rem; }
+    .rail__lead, .rail__note { width: 78vw; }
+    .offer { width: 80vw; }
+
+    .close__disc { --d: min(92vw, 56svh); left: 50%; top: calc(env(safe-area-inset-top, 0px) + 64px); translate: -50% 0; }
+    .close__inner { width: 74%; }
+    .close__inner h2 { font-size: clamp(1.5rem, 6.4vw, 2rem); }
+    .close__inner .btn { min-height: 46px; padding: 0 18px; font-size: 0.92rem; }
+    .close__side { left: var(--sc-gutter); right: var(--sc-gutter); bottom: calc(var(--dock-h) + 104px); text-align: left; max-width: none; }
+    .close__side p { font-size: 1.3rem; }
+    .close__shade { background: linear-gradient(to top, rgba(14,15,18,.95) 0%, rgba(14,15,18,.86) 26%, rgba(14,15,18,.4) 40%, transparent 52%); }
+    .close__alt { display: none; }
+    .foot { bottom: calc(var(--dock-h) + 12px); }
+    .foot nav { display: none; }
+  }
+  .tally__cap { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__plate, .plane, .hero__comp { transform: none !important; }
+    .plane--glass { opacity: 0.5 !important; }
+    .day__log ol, .day__log li, .wdial__ap img { transition: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__logo" href="#tonight" aria-label="Clockwork AI, back to the top"><img src="assets/logo-lockup.svg" alt="Clockwork AI" width="200" height="40"></a>
+  <div class="bar__right">
+    <nav class="subdial" aria-label="Sections">
+      <button class="subdial__btn" type="button" aria-expanded="false" aria-controls="dialmenu">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="20" cy="20" r="18.5" fill="#0E0F12" stroke="rgba(232,238,214,.28)"/>
+          <g id="subticks" stroke="rgba(232,238,214,.55)" stroke-width="1" stroke-linecap="round"></g>
+          <g id="submarks" fill="#CBB892"></g>
+          <line id="subhour" x1="20" y1="20" x2="20" y2="11.5" stroke="#E8EED6" stroke-width="1.8" stroke-linecap="round"/>
+          <line id="submin" x1="20" y1="20" x2="20" y2="6.5" stroke="#E8EED6" stroke-width="1.1" stroke-linecap="round"/>
+          <circle cx="20" cy="20" r="1.8" fill="#CBB892"/>
+        </svg>
+        <span class="subdial__time" id="subtime">02:14</span>
+        <span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Open the section list</span>
+      </button>
+      <ol class="subdial__menu" id="dialmenu"></ol>
+    </nav>
+    <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 02:14 · RECOGNITION. Pinned stage, four planes: night plate, dial face, hands, glass. -->
+  <section id="tonight" class="act" data-title="Tonight" data-sc-act="pin" data-sc-span="2.2">
+    <div data-sc-stage class="hero">
+      <picture class="hero__plate">
+        <source media="(max-width: 860px)" srcset="assets/01-night-p.webp">
+        <img src="assets/01-night.webp" width="2400" height="1350" alt="" fetchpriority="high">
+      </picture>
+      <div class="hero__shade"></div>
+
+      <div class="hero__dial">
+        <div class="plane plane--face" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="97" fill="rgba(9,10,13,.32)" stroke="rgba(232,238,214,.22)" stroke-width="0.5"/>
+            <g id="heroticks"></g>
+            <circle cx="100" cy="100" r="66" fill="none" stroke="rgba(232,238,214,.10)" stroke-width="0.4"/>
+            <circle cx="176.2" cy="56" r="2.6" fill="#CBB892"/>
+          </svg>
+        </div>
+        <div class="plane plane--hands" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <g id="herohour"><line x1="100" y1="108" x2="100" y2="52" stroke="#E8EED6" stroke-width="2.6" stroke-linecap="round"/></g>
+            <g id="heromin"><line x1="100" y1="112" x2="100" y2="22" stroke="#E8EED6" stroke-width="1.4" stroke-linecap="round"/></g>
+            <circle cx="100" cy="100" r="3.2" fill="#CBB892"/>
+          </svg>
+        </div>
+        <div class="plane plane--glass" aria-hidden="true"></div>
+
+      <div class="hero__comp">
+        <div class="comp__time" id="herotime" aria-hidden="true">02:14</div>
+        <ol class="comp__log" aria-label="A sample night for a roofer">
+          <li data-at="134" class="is-on">02:14 · Chased three unpaid invoices</li>
+          <li data-at="140">02:20 · Booked a 9am survey for a leak</li>
+          <li data-at="147">02:27 · Tomorrow's job sheets are ready</li>
+        </ol>
+        <span class="sc-label comp__label">Sample night, for a roofer</span>
+      </div>
+      </div>
+
+      <div class="hero__copy" data-sc-cue="0 0.55 0">
+        <h1 class="sc-display">Your business, running like <em>clockwork.</em></h1>
+        <p>Even at 2am. AI that answers enquiries, chases invoices and books jobs while you sleep.</p>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+          <span class="note">Free 30 minute call. Built in Manchester.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE COST · flow -->
+  <section id="cost" class="cost" data-title="The cost">
+    <div class="cost__plate" aria-hidden="true"><img src="assets/02-kitchen.webp" width="2000" height="1125" alt="" loading="lazy"></div>
+    <div class="sc-wrap cost__inner">
+      <div class="sc-stack" data-sc-in data-sc-stagger="70">
+        <span class="sc-label">Last night, 22:41</span>
+        <h2 class="sc-display">You're good at the work. It's everything around it.</h2>
+        <p class="sc-body">Calls missed while you're up a ladder. Quotes that sit for days. Chasing, rebooking, and paperwork at the kitchen table. That's where the evenings go.</p>
+      </div>
+      <dl class="ledger" data-sc-in data-sc-stagger="60">
+        <div class="ledger__head"><span>Where it gets stuck</span><span>What it costs you</span></div>
+        <div><dt>Calls missed while you're on a job</dt><dd>The customer rings the next firm.</dd></div>
+        <div><dt>Quotes take days to go out</dt><dd>The job goes to whoever quotes first.</dd></div>
+        <div><dt>Quotes go quiet</dt><dd>Work you've already priced never gets booked.</dd></div>
+        <div><dt>Chasing payment</dt><dd>Hours on the phone, and cash tied up.</dd></div>
+        <div><dt>Asking for reviews</dt><dd>Happy customers never leave one.</dd></div>
+      </dl>
+    </div>
+    <div class="silence"><p data-sc-in>Then the clockwork <em>starts.</em></p></div>
+  </section>
+
+  <!-- THE WIND · PEAK. Pinned; the visitor's scroll turns the hour hand through a sample day. -->
+  <section id="day" class="act day" data-title="A day, wound" data-sc-act="pin" data-sc-span="6.4">
+    <div data-sc-stage class="day__stage">
+      <div class="day__intro">
+        <span class="sc-label">A sample day for a roofer</span>
+        <h2 class="sc-display">Wind the day.</h2>
+        <p>Keep scrolling and the hand goes round one working day. Every job the clockwork takes off you lights up as it passes.</p>
+        <div class="tally">
+          <div class="tally__n" aria-live="off"><span id="tallyh">0</span><small>h</small><span id="tallym">00</span><small>min</small></div>
+          <span class="tally__cap">handed back, sample day</span>
+          <p>Handed back in this sample day. Illustrative: it's the total of the minutes on the log, not a client result.</p>
+        </div>
+      </div>
+
+      <div class="wdial" aria-hidden="true">
+        <div class="wdial__ap">
+          <img src="assets/h-0630.webp" width="900" height="1192" alt="" data-from="5" data-to="9" loading="lazy">
+          <img src="assets/h-1100.webp" width="900" height="1192" alt="" data-from="9" data-to="15" loading="lazy">
+          <img src="assets/h-1800.webp" width="900" height="1192" alt="" data-from="15" data-to="21" loading="lazy">
+          <img src="assets/h-2300.webp" width="900" height="1192" alt="" data-from="21" data-to="29" loading="lazy">
+        </div>
+        <div class="wdial__clock"><b id="daytime">06:00</b></div>
+        <svg viewBox="0 0 400 400">
+          <circle cx="200" cy="200" r="197" fill="none" stroke="rgba(232,238,214,.16)" stroke-width="0.8"/>
+          <g id="dayticks"></g>
+          <g id="daysegs"></g>
+          <circle cx="200" cy="200" r="132" fill="none" stroke="rgba(232,238,214,.08)" stroke-width="4"/>
+          <circle id="dayarc" cx="200" cy="200" r="132" fill="none" stroke="#CBB892" stroke-width="4" stroke-linecap="round" transform="rotate(-90 200 200)" stroke-dasharray="0 9999"/>
+          <g id="dayhand">
+            <line x1="200" y1="226" x2="200" y2="12" stroke="#CBB892" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="200" cy="200" r="5" fill="#CBB892"/>
+            <circle cx="200" cy="200" r="2" fill="#0E0F12"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="day__log">
+        <ol id="daylog">
+          <li data-t="6.5" data-min="20"><time>06:30</time><p>Sent today's job sheets to the lads, with addresses and access notes.</p><span>about 20 min by hand</span></li>
+          <li data-t="7.0833" data-min="25"><time>07:05</time><p>Replied to two quote requests from last night and asked for photos and postcodes.</p><span>about 25 min by hand</span></li>
+          <li data-t="8.6667" data-min="15"><time>08:40</time><p>Missed call while you were up a ladder. Texted back straight away and booked a call-back.</p><span>about 15 min by hand</span></li>
+          <li data-t="10.25" data-min="30"><time>10:15</time><p>Rain forecast for Thursday. Moved two customers to Friday, and both confirmed.</p><span>about 30 min by hand</span></li>
+          <li data-t="12.5" data-min="45"><time>12:30</time><p>Drafted a quote from this morning's survey notes and photos, ready for you to check.</p><span>about 45 min by hand</span></li>
+          <li data-t="14" data-min="10"><time>14:00</time><p>Followed up a quote that had gone quiet for five days. The customer booked.</p><span>about 10 min by hand</span></li>
+          <li data-t="16.75" data-min="20"><time>16:45</time><p>Job signed off. Invoice sent, with a review request.</p><span>about 20 min by hand</span></li>
+          <li data-t="19.5" data-min="10"><time>19:30</time><p>Answered "do you cover Bolton?" on WhatsApp, in your words.</p><span>about 10 min by hand</span></li>
+          <li data-t="21.1667" data-min="10"><time>21:10</time><p>Sent a second polite reminder on an unpaid invoice.</p><span>about 10 min by hand</span></li>
+          <li data-t="23.6667" data-min="15"><time>23:40</time><p>Leak enquiry. Asked for a photo and the postcode, marked it urgent and booked a 9am survey.</p><span>about 15 min by hand</span></li>
+          <li data-t="26.2333" data-min="20"><time>02:14</time><p>Chased three unpaid invoices.</p><span>about 20 min by hand</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS · scrub. The movement under the reader's hand. -->
+  <section id="how" class="act how" data-title="How it works" data-sc-act="scrub" data-sc-span="2.6" data-sc-dwell="0.32">
+    <div data-sc-stage>
+      <img class="sc-stage__poster" src="assets/04-movement-poster.webp" width="1600" height="900" alt="">
+      <video data-sc-scrub data-sc-src="assets/04-movement.mp4" data-sc-src-mobile="assets/04-movement-m.mp4" muted playsinline></video>
+      <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
+      <div class="sc-copy sc-copy--lead" data-sc-cue="0.04 0.5">
+        <h2 class="sc-display">Automation does a task. An agentic workflow does a job.</h2>
+      </div>
+      <div class="sc-copy sc-copy--lead" data-sc-cue="0.46 0.98">
+        <p>A customer messages at 9pm about a leak. Plain automation replies "thanks, we'll be in touch".</p>
+        <p>Ours asks for a photo and the postcode, checks you cover the area, marks it urgent, offers a survey slot tomorrow and books it. If they go quiet, it follows up. You wake up to a booked job.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PARTS · flow -->
+  <section id="parts" class="sc-section parts" data-title="The parts">
+    <div class="sc-wrap parts__grid">
+      <div>
+        <div class="sc-stack" data-sc-in data-sc-stagger="70">
+          <h2 class="sc-display">Six parts. Each one takes a job off you.</h2>
+          <p class="sc-body">We fit only the parts your business needs, in the tools you already use: your phone, WhatsApp, email, calendar and job software.</p>
+        </div>
+        <ol class="partlist" data-sc-in data-sc-stagger="60">
+          <li><h3>The catcher</h3><p>Every missed call and message gets a reply straight away. It takes the details and books a call-back.</p><q>Sorry we missed you, we're up on a roof. What's the job and your postcode? We'll ring you back today.</q></li>
+          <li><h3>The quote engine</h3><p>Quotes drafted from your survey notes and photos, ready for you to check and send the same day.</p></li>
+          <li><h3>The chaser</h3><p>Polite follow-ups on quiet quotes and unpaid invoices, stopped the moment they reply.</p></li>
+          <li><h3>The diary</h3><p>Bookings, confirmations and reminders, and easy rebooking when the weather turns.</p></li>
+          <li><h3>The review asker</h3><p>A review request goes out the day a job is signed off.</p><q>Thanks for having us. If you're happy with the roof, a quick review would mean a lot.</q></li>
+          <li><h3>The front desk</h3><p>Answers "do you cover...?" and "how much is...?" on your site and WhatsApp, in your words.</p></li>
+        </ol>
+      </div>
+      <aside class="control" data-sc-in aria-labelledby="control-h">
+        <h3 id="control-h">You stay in control.</h3>
+        <ul>
+          <li>You set the rules: what it can say, what it can book, and what it must always check with you.</li>
+          <li>Nothing goes out in your name unless you've approved the wording.</li>
+          <li>Every message and booking is logged, so you can check it any time.</li>
+          <li>You own it. Monthly support is optional, never a condition.</li>
+        </ul>
+        <div class="ladder" aria-label="How much it does on its own">
+          <div><b>Manual wind</b><span>It drafts, you send.</span></div>
+          <div><b>Automatic</b><span>It runs, you approve the big things.</span></div>
+          <div><b>Perpetual</b><span>It runs and reports back.</span></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- PROOF · reveal. The old site wipes away to the new one. -->
+  <section id="work" class="sc-section work" data-title="Our work" data-sc-act="flow">
+    <div class="sc-wrap">
+      <div class="work__head" data-sc-in data-sc-stagger="70">
+        <h2 class="sc-display">First on the bench: D&nbsp;&amp;&nbsp;P Roofing.</h2>
+        <p>Roofers and builders near Bolton, with 30 years on the tools and <a href="https://trustedtraders.which.co.uk/businesses/d-p-roofing-building-ltd/" target="_blank" rel="noopener">5.0 from 142 reviews on Which?</a>. Their site didn't show any of that. We researched their local competitors, then rebuilt it to beat them.</p>
+      </div>
+
+      <figure class="compare compare--desk">
+        <img src="assets/dp-old-desktop.webp" width="1200" height="750" alt="D & P's current website: a dark photo of an extension with their name in the middle and a pale quote button." loading="lazy">
+        <span class="compare__tag compare__tag--old">Their current site</span>
+        <div class="compare__new" data-sc-reveal="left" data-sc-reveal-at="0.32 0.62">
+          <img src="assets/dp-new-desktop.webp" width="1200" height="750" alt="The new D & P site: a re-roofed house, the headline 'The price we quote is the price you pay', and their Which? score of 5.0 from 142 reviews." loading="lazy">
+          <span class="compare__tag compare__tag--new">The new site</span>
+        </div>
+      </figure>
+      <figure class="compare compare--phone">
+        <div class="compare__pair">
+          <img src="assets/dp-old-phone.webp" width="585" height="1266" alt="D & P's current website on a phone." loading="lazy">
+          <span class="compare__tag compare__tag--old">Current</span>
+          <div class="compare__new" data-sc-reveal="left" data-sc-reveal-at="0.3 0.58">
+            <img src="assets/dp-new-phone.webp" width="585" height="1266" alt="The new D & P site on a phone, with tap to call and WhatsApp." loading="lazy">
+            <span class="compare__tag compare__tag--new">New</span>
+          </div>
+        </div>
+      </figure>
+
+      <div class="work__foot" data-sc-in data-sc-stagger="60">
+        <div><h3>Competitors researched first</h3><p>We check the local firms a customer would compare you with, then build to beat every one of them.</p></div>
+        <div><h3>A written report with it</h3><p>Your old site against the new one, in plain English: what changed and why it matters.</p></div>
+        <div><h3>What's next for them</h3><p>An out-of-hours assistant for emergency leak calls, which they asked for. No results to show yet. We'll publish real numbers when there are some.</p></div>
+      </div>
+      <a class="linkline" href="https://clockwork-ai.github.io/D-and-P/dandp-roofing/" target="_blank" rel="noopener">See the D &amp; P demo <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+
+  <!-- PRICES · pan -->
+  <section id="prices" class="act" data-title="Prices" data-sc-act="pan" data-sc-span="4.4">
+    <div data-sc-stage class="prices">
+      <div class="rail" data-sc-pan="0.04">
+        <div class="rail__lead">
+          <h2 class="sc-display">What it costs.</h2>
+          <p>Fixed prices, agreed before we start. Monthly plans roll month to month and are never a condition of a build.</p>
+        </div>
+        <article class="offer offer--lead">
+          <span class="sc-label">Start here</span>
+          <h3>The Clockwork Check</h3>
+          <div class="offer__price">£495</div>
+          <p class="offer__alt">After a free 30 minute call.</p>
+          <p>We map your week, find where jobs get stuck and give you a written plan with a fixed price for each piece. Credited against any build within 60 days. If we can't find 5 hours a week to save you, you get your money back.</p>
+          <span class="offer__spacer"></span>
+          <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+        </article>
+        <article class="offer">
+          <span class="sc-label">For trades</span>
+          <h3>Trade Website</h3>
+          <div class="offer__price">£1,495</div>
+          <p class="offer__alt">Or £129 a month for 12 months, then it's yours.</p>
+          <p>Built from your real job photos and reviews, with tap to call and WhatsApp on every screen. Care and hosting £39 a month.</p>
+        </article>
+        <article class="offer">
+          <span class="sc-label">For trades</span>
+          <h3>Trade Growth</h3>
+          <div class="offer__price">£249<small>a month</small></div>
+          <p class="offer__alt">12 months, nothing to pay up front.</p>
+          <p>The website, your Google Business Profile set up and kept fresh, review requests after every job, and a text back to every missed call.</p>
+        </article>
+        <article class="offer">
+          <span class="sc-label">Automations</span>
+          <h3>One part, fitted</h3>
+          <div class="offer__price"><small style="margin:0 6px 0 0">from</small>£1,250</div>
+          <p class="offer__alt">Fixed price per part.</p>
+          <p>Missed calls, quotes, chasing or the diary. AI agents that run a whole job, from £3,500.</p>
+        </article>
+        <article class="offer">
+          <span class="sc-label">Keep it running</span>
+          <h3>Run plan</h3>
+          <div class="offer__price">£149<small>a month</small></div>
+          <p class="offer__alt">Per system. Rolls monthly.</p>
+          <p>We watch it, tune it and fix it. Managed agents from £495 a month. Half-day training for your team, £695.</p>
+        </article>
+        <div class="rail__note">
+          <h3>Founding clients</h3>
+          <p>The first five clients get 30% off, in return for a case study, a testimonial and permission to show the work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07:00 · CLOSE. The appointment sits in the dial. -->
+  <section id="book" class="act" data-title="Book" data-sc-act="pin" data-sc-span="1.3">
+    <div data-sc-stage class="close">
+      <picture class="close__plate">
+        <source media="(max-width: 860px)" srcset="assets/07-dawn-p.webp">
+        <img src="assets/07-dawn.webp" width="2400" height="1350" alt="" loading="lazy">
+      </picture>
+      <div class="close__shade"></div>
+
+      <div class="close__disc">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <g id="closeticks"></g>
+          <circle cx="56" cy="176.2" r="3" fill="#CBB892"/>
+        </svg>
+        <div class="close__inner" data-sc-cue="0.02" data-sc-rise="0">
+          <div class="comp__time">07:00</div>
+          <h2 class="sc-display">Show us the job that eats your evenings.</h2>
+          <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+          <p class="note">Free 30 minute call. No obligation.</p>
+        </div>
+      </div>
+
+      <div class="close__side" data-sc-cue="0.04">
+        <p>1948: the first stored program ran in Manchester. 2026: yours can.</p>
+        <div class="close__alt">
+          <a class="btn btn--ghost" href="tel:+447985379605">Call 07985 379605</a>
+          <a class="btn btn--ghost" href="https://wa.me/447985379605?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <img src="assets/logo-lockup.svg" alt="Clockwork AI" width="100" height="20">
+        <span>Manchester and the North West · © 2026 Clockwork AI</span>
+        <nav aria-label="Footer">
+          <a href="#how">How it works</a>
+          <a href="#prices">Prices</a>
+          <a href="#work">Our work</a>
+        </nav>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<nav class="dock" aria-label="Contact">
+  <a class="btn btn--ghost" href="tel:+447985379605" aria-label="Call 07985 379605">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call</a>
+  <a class="btn btn--ghost" href="https://wa.me/447985379605?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener" aria-label="WhatsApp Callum">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-1.9-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-1.9z"/></svg>WhatsApp</a>
+  <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Check</a>
+</nav>
+
+<script src="scrollcraft.js"></script>
+<script>
+(() => {
+  ScrollCraft.mount(document.body);
+  const NS = 'http://www.w3.org/2000/svg';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const pOf = el => parseFloat(el.style.getPropertyValue('--sc-p')) || 0;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const pad = n => String(n).padStart(2, '0');
+  const hhmm = h => { const m = Math.round(((h % 24) + 24) % 24 * 60) % 1440; return pad(Math.floor(m / 60)) + ':' + pad(m % 60); };
+  const polar = (cx, cy, r, deg) => [cx + r * Math.sin(deg * Math.PI / 180), cy - r * Math.cos(deg * Math.PI / 180)];
+  const line = (g, x1, y1, x2, y2, attrs) => { const l = document.createElementNS(NS, 'line'); Object.entries({ x1, y1, x2, y2, ...attrs }).forEach(([k, v]) => l.setAttribute(k, v)); g.appendChild(l); return l; };
+  const ticks = (g, cx, n, rOut, rIn, every, rBig, attrs, bigAttrs, skip = -1) => {
+    for (let i = 0; i < n; i++) {
+      if (i === skip) continue;
+      const a = i * 360 / n, big = i % every === 0;
+      const [x1, y1] = polar(cx, cx, big ? rBig : rIn, a), [x2, y2] = polar(cx, cx, rOut, a);
+      line(g, x1, y1, x2, y2, big ? bigAttrs : attrs);
+    }
+  };
+
+  // ---- dial faces, drawn once
+  ticks($('#heroticks'), 100, 60, 93, 90, 5, 84,
+    { stroke: 'rgba(232,238,214,.32)', 'stroke-width': 0.5 },
+    { stroke: 'rgba(232,238,214,.78)', 'stroke-width': 1.3, 'stroke-linecap': 'round' }, 10);
+  ticks($('#closeticks'), 100, 60, 94, 91, 5, 86,
+    { stroke: 'rgba(232,238,214,.22)', 'stroke-width': 0.45 },
+    { stroke: 'rgba(232,238,214,.6)', 'stroke-width': 1.1, 'stroke-linecap': 'round' }, 35);
+  ticks($('#subticks'), 20, 12, 17.5, 15.5, 3, 14.5, { 'stroke-width': 0.8 }, { 'stroke-width': 1.3 });
+  const dayTicks = $('#dayticks');
+  ticks(dayTicks, 200, 96, 190, 186, 4, 178,
+    { stroke: 'rgba(232,238,214,.22)', 'stroke-width': 0.6 },
+    { stroke: 'rgba(232,238,214,.62)', 'stroke-width': 1.4, 'stroke-linecap': 'round' });
+  for (let h = 0; h < 24; h += 3) {
+    const [x, y] = polar(200, 200, 162, h * 15);
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', x); t.setAttribute('y', y + 3.5); t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('fill', 'rgba(232,238,214,.55)'); t.setAttribute('font-family', 'Geist Mono, monospace'); t.setAttribute('font-size', '10');
+    t.textContent = pad(h); dayTicks.appendChild(t);
+  }
+
+  // ---- hero: the night moves on from 02:14 to 03:05 as you scroll
+  const hero = $('#tonight'), heroHour = $('#herohour'), heroMin = $('#heromin'), heroTime = $('#herotime');
+  const heroLines = [...document.querySelectorAll('.comp__log li')];
+  function drawHero() {
+    // the hero runs on the same page clock as the subdial, so the two never disagree
+    const mins = Math.floor(timeAtY(scrollY) * 60);
+    let on = heroLines[0];
+    heroLines.forEach(li => { if (mins >= +li.dataset.at) on = li; });
+    heroLines.forEach(li => li.classList.toggle('is-on', li === on));
+    heroHour.setAttribute('transform', `rotate(${(mins / 720) * 360} 100 100)`);
+    heroMin.setAttribute('transform', `rotate(${(mins % 60) * 6} 100 100)`);
+    heroTime.textContent = hhmm(mins / 60);
+  }
+
+  // ---- the wind: one sample day, 06:00 round to 06:00
+  const day = $('#day'), hand = $('#dayhand'), segs = $('#daysegs'), arc = $('#dayarc'), dayTime = $('#daytime');
+  const logList = $('#daylog'), items = [...logList.children];
+  const entries = items.map(li => ({ li, t: +li.dataset.t, min: +li.dataset.min }));
+  const totalMin = entries.reduce((s, e) => s + e.min, 0);
+  const R = 175, C = 2 * Math.PI * 132;
+  entries.forEach(e => {
+    // each job drawn at its time, its length to true scale (1 minute = 0.25 degrees, min 3 for visibility)
+    const a0 = (e.t % 24) * 15, a1 = a0 + Math.max(3, e.min * 0.25);
+    const [x0, y0] = polar(200, 200, R, a0), [x1, y1] = polar(200, 200, R, a1);
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', `M${x0} ${y0} A${R} ${R} 0 0 1 ${x1} ${y1}`);
+    path.setAttribute('fill', 'none'); path.setAttribute('stroke-width', 7); path.setAttribute('stroke-linecap', 'butt');
+    segs.appendChild(path); e.seg = path;
+  });
+  const imgs = [...document.querySelectorAll('.wdial__ap img')];
+  let lastNow = -1;
+  function drawDay() {
+    const p = pOf(day);
+    const s = reduce ? 1 : clamp((p - 0.05) / 0.86, 0, 1);
+    const t = 6 + 24 * s;
+    hand.setAttribute('transform', `rotate(${(t % 24) * 15} 200 200)`);
+    dayTime.textContent = hhmm(t);
+    let lit = 0, now = -1;
+    entries.forEach((e, i) => {
+      const done = t >= e.t;
+      if (done) { lit += e.min; now = i; }
+      e.seg.setAttribute('stroke', done ? '#CBB892' : 'rgba(138,143,148,.55)');
+      e.seg.setAttribute('stroke-dasharray', done ? 'none' : '2 2');
+    });
+    entries.forEach((e, i) => { e.li.classList.toggle('is-done', i < now); e.li.classList.toggle('is-now', i === now); });
+    if (now !== lastNow) {
+      lastNow = now;
+      const target = items[Math.max(0, now)];
+      const box = logList.parentElement.clientHeight;
+      const y = target.offsetTop - box / 2 + target.offsetHeight / 2;
+      logList.style.transform = `translateY(${-clamp(y, 0, logList.scrollHeight - box)}px)`;
+    }
+    arc.setAttribute('stroke-dasharray', `${(lit / 1440) * C} ${C}`);
+    $('#tallyh').textContent = Math.floor(lit / 60);
+    $('#tallym').textContent = pad(lit % 60);
+    const tt = t >= 24 ? t : t;
+    imgs.forEach(img => img.classList.toggle('is-on', tt >= +img.dataset.from && tt < +img.dataset.to));
+  }
+
+  // ---- the subdial: the page's own clock, 02:14 at the top to 07:00 at the close
+  const acts = [...document.querySelectorAll('main > section[id]')];
+  const menu = $('#dialmenu'), subBtn = $('.subdial__btn'), subWrap = $('.subdial');
+  const START = 2 + 14 / 60, END = 7;
+  const timeAtY = y => { const max = document.documentElement.scrollHeight - innerHeight; return START + (END - START) * clamp(y / Math.max(1, max), 0, 1); };
+  function buildMenu() {
+    menu.innerHTML = '';
+    const marks = $('#submarks'); marks.innerHTML = '';
+    acts.forEach(sec => {
+      const y = sec.id === 'book' ? document.documentElement.scrollHeight : sec.offsetTop;
+      const h = sec.id === 'book' ? END : timeAtY(sec.offsetTop);
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="#${sec.id}"><time>${hhmm(h)}</time><span>${sec.dataset.title}</span></a>`;
+      menu.appendChild(li);
+      const [x, yy] = polar(20, 20, 16.2, ((h % 12) / 12) * 360);
+      const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x); c.setAttribute('cy', yy); c.setAttribute('r', 1.1); marks.appendChild(c);
+    });
+  }
+  const bar = $('.bar');
+  function drawSub() {
+    const h = timeAtY(scrollY);
+    bar.classList.toggle('is-solid', scrollY > innerHeight * 1.1);
+    $('#subhour').setAttribute('transform', `rotate(${((h % 12) / 12) * 360} 20 20)`);
+    $('#submin').setAttribute('transform', `rotate(${(h % 1) * 360} 20 20)`);
+    $('#subtime').textContent = hhmm(h);
+    const cur = acts.reduce((c, s) => (s.offsetTop <= scrollY + innerHeight * 0.4 ? s : c), acts[0]);
+    menu.querySelectorAll('a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + cur.id ? 'true' : 'false'));
+  }
+  const setOpen = open => {
+    if (open) subWrap.setAttribute('data-open', ''); else subWrap.removeAttribute('data-open');
+    subBtn.setAttribute('aria-expanded', String(open));
+    if (open) menu.querySelector('a')?.focus();
+  };
+  subBtn.addEventListener('click', () => setOpen(!subWrap.hasAttribute('data-open')));
+  menu.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && subWrap.hasAttribute('data-open')) { setOpen(false); subBtn.focus(); } });
+  document.addEventListener('pointerdown', e => { if (!subWrap.contains(e.target)) setOpen(false); });
+
+  function frame() { drawHero(); drawDay(); drawSub(); requestAnimationFrame(frame); }
+  const start = () => { buildMenu(); frame(); };
+  (document.fonts?.ready || Promise.resolve()).then(() => requestAnimationFrame(start));
+  addEventListener('resize', () => { lastNow = -1; buildMenu(); });
+})();
+</script>
+</body>
+</html>
