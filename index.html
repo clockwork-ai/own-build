@@ -152,6 +152,7 @@
     transform: scale(calc(1 + var(--sc-p, 0) * 0.5)); transform-origin: 50% 160%;
     opacity: calc(1 - max(0, var(--sc-p, 0) - 0.68) * 3.2);
   }
+  .comp__time small { font-size: 0.5em; margin-left: 0.3em; color: var(--sc-accent); letter-spacing: 0.06em; text-transform: uppercase; }
   .comp__time { font: 400 clamp(1.4rem, 1rem + 1.3vw, 2.2rem)/1 var(--sc-font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--sc-ink); }
   .comp__log { list-style: none; margin: 14px 0 0; padding: 0; position: relative; min-height: 3.2em; }
   .comp__log li { opacity: 0; transition: opacity 320ms var(--sc-ease-out); }
@@ -320,31 +321,98 @@
   .linkline:hover { border-color: var(--sc-accent); color: var(--sc-accent); }
   .linkline:active { opacity: 0.8; }
 
-  /* ------------------------------------------------------------ prices -- */
-  .prices { background: #101114; display: flex; align-items: center; }
-  .rail { gap: clamp(1rem, 1.6vw, 1.5rem); padding-inline: var(--sc-gutter); align-items: stretch; }
-  .rail > * { flex: none; }
-  .rail__lead { width: clamp(17rem, 26vw, 24rem); align-self: center; padding-right: 1rem; }
-  .rail__lead h2 { font-size: var(--sc-t-3xl); }
-  .rail__lead p { margin: 16px 0 0; color: var(--sc-ink-soft); line-height: 1.55; }
-  .offer {
-    width: clamp(17.5rem, 25vw, 23rem); display: flex; flex-direction: column;
-    padding: 26px 24px 24px; border-radius: 20px;
-    background: linear-gradient(180deg, color-mix(in oklab, var(--sc-surface) 90%, #fff 3%), var(--sc-surface));
-    border: 1px solid var(--sc-hairline); box-shadow: var(--sc-e2), var(--sc-edge);
+  /* ------------------------------------------------------- what we do -- */
+  .offer2 { background: #101114; }
+  .offer2 .lede-h { font-size: var(--sc-t-3xl); max-width: 16ch; }
+  .offer2 .lede-p { margin: 18px 0 0; max-width: 46ch; font-size: var(--sc-t-lg); line-height: 1.5; color: color-mix(in oklab, var(--sc-ink) 82%, transparent); }
+
+  .pick { display: grid; grid-template-columns: minmax(17rem, 0.85fr) 1.15fr; gap: clamp(1.5rem, 4vw, 4.5rem); margin-top: clamp(2.5rem, 6vh, 4rem); align-items: start; }
+  .pick__list { display: grid; gap: 10px; position: sticky; top: 110px; }
+  .pick__btn {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%;
+    min-height: 64px; padding: 16px 20px; border-radius: 16px; cursor: pointer; text-align: left;
+    background: var(--sc-surface); color: var(--sc-ink); border: 1px solid var(--sc-hairline);
+    font: 500 1.05rem/1.3 var(--sc-font-text); box-shadow: var(--sc-e1), var(--sc-edge);
+    transition: border-color 160ms var(--sc-ease-out), background-color 160ms var(--sc-ease-out), transform 140ms var(--sc-ease-out);
   }
-  .offer--lead { background: linear-gradient(180deg, #1D1E1F, #17181A); border-color: color-mix(in oklab, var(--sc-accent) 40%, transparent); box-shadow: var(--sc-e3), var(--sc-edge); }
-  .offer .sc-label { color: var(--sc-accent); }
-  .offer h3 { margin: 12px 0 0; font: 400 var(--sc-t-xl)/1.08 var(--sc-font-display); letter-spacing: -0.01em; }
-  .offer__price { margin-top: 18px; font: 400 clamp(2.2rem, 1.6rem + 1.6vw, 3rem)/1 var(--sc-font-display); letter-spacing: -0.02em; font-variant-numeric: lining-nums; }
-  .offer__price small { font: 400 0.95rem/1 var(--sc-font-text); color: var(--sc-ink-soft); letter-spacing: 0; margin-left: 4px; }
-  .offer__alt { margin: 8px 0 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); line-height: 1.45; }
-  .offer > p:not(.offer__alt) { margin: 16px 0 0; line-height: 1.55; color: color-mix(in oklab, var(--sc-ink) 85%, transparent); font-size: 0.97rem; }
-  .offer .btn { margin-top: auto; align-self: flex-start; }
-  .offer .offer__spacer { flex: 1; min-height: 20px; }
-  .rail__note { width: clamp(15rem, 22vw, 19rem); align-self: center; padding-left: 0.5rem; }
-  .rail__note h3 { margin: 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); color: var(--sc-accent); }
-  .rail__note p { margin: 12px 0 0; color: color-mix(in oklab, var(--sc-ink) 82%, transparent); line-height: 1.55; }
+  .pick__btn::after { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--lume-45); transition: background-color 160ms var(--sc-ease-out), box-shadow 160ms var(--sc-ease-out); }
+  @media (hover: hover) and (pointer: fine) { .pick__btn:hover { border-color: var(--lume-45); } }
+  .pick__btn:active { transform: scale(0.985); }
+  .pick__btn:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+  .pick__btn[aria-pressed="true"] { border-color: color-mix(in oklab, var(--sc-accent) 70%, transparent); background: color-mix(in oklab, var(--sc-surface) 88%, var(--sc-accent) 8%); }
+  .pick__btn[aria-pressed="true"]::after { background: var(--sc-accent); box-shadow: inset 0 0 0 1px var(--sc-accent); }
+  .pick__hint { margin: 8px 0 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+
+  .pick__panel { padding: clamp(1.25rem, 2.6vw, 2rem); border-radius: 22px; background: linear-gradient(180deg, color-mix(in oklab, var(--sc-surface) 92%, #fff 2%), var(--sc-surface)); border: 1px solid var(--sc-hairline); box-shadow: var(--sc-e3), var(--sc-edge); }
+  .pick__panel h3 { margin: 6px 0 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); letter-spacing: -0.01em; }
+  .thread { list-style: none; margin: 18px 0 0; padding: 16px; border-radius: 16px; background: #0B0C0F; border: 1px solid var(--sc-hairline); display: grid; gap: 10px; }
+  .msg { max-width: 84%; padding: 10px 14px; border-radius: 16px; font-size: 0.95rem; line-height: 1.45; }
+  .msg--in { justify-self: start; background: #1E2024; border-bottom-left-radius: 4px; }
+  .msg--out { justify-self: end; background: color-mix(in oklab, var(--sc-accent) 18%, #15161A); border: 1px solid color-mix(in oklab, var(--sc-accent) 30%, transparent); border-bottom-right-radius: 4px; }
+  .msg--event { justify-self: center; max-width: none; padding: 2px 0; font: 400 0.74rem/1.4 var(--sc-font-mono); letter-spacing: 0.04em; color: var(--sc-ink-soft); text-align: center; }
+  .msg--note { justify-self: stretch; max-width: none; border: 1px dashed color-mix(in oklab, var(--sc-accent) 55%, transparent); background: transparent; font-size: 0.9rem; }
+  .msg small { display: block; margin-bottom: 3px; font: 500 0.64rem/1 var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink-soft); }
+  .msg--out small, .msg--note small { color: var(--sc-accent); }
+  .pick__panel.is-shown .msg { animation: msgIn 460ms var(--sc-ease-out) both; animation-delay: calc(var(--i, 0) * 240ms); }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .facts { margin: 20px 0 0; display: grid; gap: 0; border-top: 1px solid var(--sc-hairline); }
+  .facts div { display: grid; grid-template-columns: 7.5rem 1fr; gap: 4px 16px; padding: 12px 0; border-bottom: 1px solid var(--sc-hairline); }
+  .facts dt { font: 500 0.74rem/1.5 var(--sc-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--sc-accent); }
+  .facts dd { margin: 0; line-height: 1.55; color: color-mix(in oklab, var(--sc-ink) 88%, transparent); }
+  .worth { margin-top: 18px; padding: clamp(1.1rem, 2.2vw, 1.6rem); border-radius: 18px; border: 1px solid color-mix(in oklab, var(--sc-accent) 40%, transparent); background: linear-gradient(180deg, #1C1B19, #161618); box-shadow: var(--sc-e2), var(--sc-edge); }
+  .worth h3 { margin: 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); color: var(--sc-accent); }
+  .worth__hint { margin: 6px 0 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+  .worth__row { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 6px 14px; margin-top: 16px; }
+  .worth__row label { font-size: 0.95rem; color: color-mix(in oklab, var(--sc-ink) 88%, transparent); }
+  .worth__row output { font: 500 1.05rem/1 var(--sc-font-mono); font-variant-numeric: tabular-nums; color: var(--sc-ink); }
+  .worth__row input { grid-column: 1 / -1; width: 100%; height: 28px; margin: 0; accent-color: var(--sc-accent); cursor: pointer; }
+  .worth__row input:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 4px; border-radius: 6px; }
+  .worth__result { margin: 18px 0 0; font: 400 clamp(1.25rem, 1rem + 0.9vw, 1.6rem)/1.3 var(--sc-font-display); letter-spacing: -0.01em; }
+  .worth__result b { font-weight: 400; color: var(--sc-accent); }
+  .worth__small { margin: 8px 0 0; font-size: 0.8rem; color: var(--sc-ink-soft); }
+  .pick__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 22px; }
+
+  .steps { list-style: none; margin: clamp(4rem, 10vh, 6rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2.5vw, 2rem); counter-reset: step; }
+  .steps li { position: relative; padding: 24px 22px 22px; border-radius: 18px; border: 1px solid var(--sc-hairline); background: color-mix(in oklab, var(--sc-surface) 70%, transparent); }
+  .steps li.is-key { border-color: color-mix(in oklab, var(--sc-accent) 45%, transparent); background: linear-gradient(180deg, #1D1E1F, #17181A); box-shadow: var(--sc-e2), var(--sc-edge); }
+  .steps li::before { counter-increment: step; content: counter(step); display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--lume-45); font: 500 0.82rem/1 var(--sc-font-mono); }
+  .steps li.is-key::before { border-color: var(--sc-accent); background: var(--sc-accent); color: var(--sc-accent-ink); }
+  .steps h3 { margin: 14px 0 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); letter-spacing: -0.01em; }
+  .steps h3 span { color: var(--sc-accent); white-space: nowrap; }
+  .steps p { margin: 10px 0 0; line-height: 1.55; color: color-mix(in oklab, var(--sc-ink) 84%, transparent); font-size: 0.97rem; }
+  .steps__head { margin-top: clamp(4rem, 10vh, 6rem); }
+  .steps__head + .steps { margin-top: 1.5rem; }
+
+  .promises { list-style: none; margin: 1.5rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .promises li { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--sc-hairline-strong); font-size: 0.92rem; }
+  .promises li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--sc-accent); }
+
+  .faq { margin-top: clamp(4rem, 10vh, 6rem); display: grid; grid-template-columns: minmax(14rem, 0.7fr) 1.3fr; gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
+  .faq h2, .pricelist h2 { font-size: var(--sc-t-2xl); }
+  .faq details { border-bottom: 1px solid var(--sc-hairline); }
+  .faq details:first-child { border-top: 1px solid var(--sc-hairline); }
+  .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 2px; font-size: var(--sc-t-lg); border-radius: 6px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; flex: none; font: 400 1.4rem/1 var(--sc-font-mono); color: var(--sc-accent); transition: transform 180ms var(--sc-ease-out); }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  @media (hover: hover) and (pointer: fine) { .faq summary:hover { color: var(--sc-accent); } }
+  .faq summary:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+  .faq details p { margin: 0 0 18px; max-width: 60ch; line-height: 1.6; color: color-mix(in oklab, var(--sc-ink) 84%, transparent); }
+
+  .pricelist { margin-top: clamp(4rem, 10vh, 6rem); }
+  .pricelist__wrap { margin-top: 1.25rem; overflow-x: auto; border-radius: 16px; border: 1px solid var(--sc-hairline); }
+  .pricelist table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  .pricelist th, .pricelist td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--sc-hairline); vertical-align: top; line-height: 1.5; }
+  .pricelist tr:last-child td { border-bottom: 0; }
+  .pricelist th { font: 500 0.72rem/1.4 var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink-soft); background: color-mix(in oklab, var(--sc-surface) 70%, transparent); }
+  .pricelist td:first-child { width: 32%; }
+  .pricelist td:nth-child(2) { width: 28%; }
+  .pricelist td:nth-child(3) { color: color-mix(in oklab, var(--sc-ink) 80%, transparent); font-size: 0.93rem; }
+  .pricelist table { min-width: 720px; }
+  .pricelist td b { font-weight: 500; }
+  .pricelist td span { display: block; font-size: 0.88rem; color: var(--sc-ink-soft); }
+  .pricelist .founding { margin: 14px 0 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
+  .pricelist .founding b { color: var(--sc-accent); font-weight: 500; }
 
   /* ------------------------------------------------------------- close -- */
   .close { background: #1a1612; }
@@ -412,7 +480,7 @@
 
     .day__stage { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; gap: 14px; justify-items: center; align-content: start; padding-bottom: calc(var(--dock-h) + 10px); }
     .day__intro { justify-self: stretch; }
-    .day__intro h2 { font-size: 1.9rem; margin-top: 4px; }
+    .day__intro h2 { font-size: 1.75rem; margin-top: 4px; max-width: calc(100% - 8.5rem); }
     .day__intro p, .tally p { display: none; }
     .tally { position: absolute; right: var(--sc-gutter); top: calc(env(safe-area-inset-top, 0px) + 76px); margin: 0; padding: 0; border: 0; text-align: right; }
     .tally__n { font-size: 2rem; }
@@ -437,10 +505,23 @@
     .how .sc-copy { bottom: calc(var(--dock-h) + 24px); }
     .hero__comp { width: 64%; top: 11%; }
     .comp__log li { font-size: 0.84rem; }
-    .rail__lead, .rail__note { width: 78vw; }
-    .offer { width: 80vw; }
+    .pick { grid-template-columns: 1fr; }
+    .pick__list { position: static; }
+    .steps { grid-template-columns: 1fr; }
+    .faq { grid-template-columns: 1fr; }
+    .facts div { grid-template-columns: 1fr; gap: 2px; }
+    .msg { max-width: 90%; }
+    .pricelist table { min-width: 0; }
+    .pricelist thead { display: none; }
+    .pricelist tr { display: block; padding: 14px 16px; border-bottom: 1px solid var(--sc-hairline); }
+    .pricelist tr:last-child { border-bottom: 0; }
+    .pricelist td { display: block; width: auto !important; padding: 0; border: 0; }
+    .pricelist td + td { margin-top: 6px; color: var(--sc-accent); }
+    .pricelist td + td span { color: var(--sc-ink-soft); }
+    .pricelist td:nth-child(3) { color: color-mix(in oklab, var(--sc-ink) 80%, transparent); font-size: 0.9rem; }
+    .pricelist td:nth-child(3)::before { content: "Pays for itself when: "; color: var(--sc-ink-soft); }
 
-    .close__disc { --d: min(92vw, 56svh); left: 50%; top: calc(env(safe-area-inset-top, 0px) + 64px); translate: -50% 0; }
+    .close__disc { --d: min(90vw, 54svh); left: 50%; top: calc(env(safe-area-inset-top, 0px) + 88px); translate: -50% 0; }
     .close__inner { width: 74%; }
     .close__inner h2 { font-size: clamp(1.5rem, 6.4vw, 2rem); }
     .close__inner .btn { min-height: 46px; padding: 0 18px; font-size: 0.92rem; }
@@ -459,6 +540,7 @@
     .day__log ol, .day__log li, .wdial__ap img, .wf__rail ol, .wf__rail li, .wf__rail ol::after { transition: none; }
     .silence__dial, .silence__hand { transform: none !important; }
     .silence__arc { stroke-dasharray: 100 100; }
+    .pick__panel.is-shown .msg { animation: none; }
   }
 </style>
 </head>
@@ -520,11 +602,12 @@
 
       <div class="hero__comp">
         <span class="sc-label comp__label comp__label--top">From a sample day</span>
-        <div class="comp__time" id="herotime" aria-hidden="true">02:14</div>
+        <div class="comp__time" aria-label="2:14 in the morning">02:14<small>am</small></div>
         <ol class="comp__log" aria-label="From a sample day">
-          <li data-at="134" class="is-on">02:14 · Leak enquiry, answered straight away</li>
-          <li data-at="140">02:20 · Photo and postcode in. Marked urgent</li>
-          <li data-at="147">02:27 · 9am survey booked. Owner sent a summary</li>
+          <li data-at="0" class="is-on">Leak enquiry, answered straight away</li>
+          <li data-at="0.2">Talked them through turning the water off and making it safe</li>
+          <li data-at="0.4">Photo and postcode in. Marked urgent</li>
+          <li data-at="0.6">9am visit booked. Owner sent a summary</li>
         </ol>
       </div>
       </div>
@@ -582,12 +665,12 @@
   </section>
 
   <!-- THE WIND · PEAK. Pinned; the visitor's scroll turns the hour hand through a sample day. -->
-  <section id="day" class="act day trim" data-title="A day, wound" data-sc-act="pin" data-sc-span="6.4">
+  <section id="day" class="act day trim" data-title="A working day" data-sc-act="pin" data-sc-span="6.4">
     <div data-sc-stage class="day__stage">
       <div class="day__intro">
         <span class="sc-label">A sample day across the trades</span>
-        <h2 class="sc-display">Wind the day.</h2>
-        <p>Keep scrolling and the hand goes round one working day for a roofer, a plumber, an electrician and a builder. Every job the clockwork takes off them lights up as it passes.</p>
+        <h2 class="sc-display">What it does while you work.</h2>
+        <p>Scroll and the hand moves through one working day for a roofer, a plumber, an electrician and a builder. Each job it handles for them lights up as the hand passes.</p>
         <div class="tally">
           <div class="tally__n" aria-live="off"><span id="tallyh">0</span><small>h</small><span id="tallym">00</span><small>min</small></div>
           <span class="tally__cap">handed back, sample day</span>
@@ -631,7 +714,7 @@
           <li data-t="19.5" data-min="10"><time>19:30</time><p><b class="trade">Builder</b>Answered "do you cover Bolton?" on WhatsApp, in their words.</p><span>about 10 min by hand</span></li>
           <li data-t="21.1667" data-min="10"><time>21:10</time><p><b class="trade">Plumber</b>Sent a second polite reminder on an unpaid invoice.</p><span>about 10 min by hand</span></li>
           <li data-t="23.6667" data-min="20"><time>23:40</time><p><b class="trade">Electrician</b>Chased three unpaid invoices.</p><span>about 20 min by hand</span></li>
-          <li data-t="26.2333" data-min="15"><time>02:14</time><p><b class="trade">Roofer</b>Leak enquiry. Got a photo and the postcode, marked it urgent, booked a 9am survey and sent the owner a summary.</p><span>about 15 min by hand</span></li>
+          <li data-t="26.2333" data-min="15"><time>02:14</time><p><b class="trade">Plumber</b>Leak enquiry. Talked them through turning the water off, got a photo and the postcode, marked it urgent, booked a 9am visit and sent the owner a summary.</p><span>about 15 min by hand</span></li>
         </ol>
       </div>
     </div>
@@ -654,7 +737,7 @@
   </section>
 
   <!-- THE 9PM LEAK · pin. Each step lights as the reader scrolls. -->
-  <section id="leak" class="act wf trim" data-title="The 9pm leak" data-sc-act="pin" data-sc-span="4.2">
+  <section id="leak" class="act wf trim" data-title="The 9pm leak" data-sc-act="pin" data-sc-span="4.6">
     <div data-sc-stage class="wf__stage">
       <div class="wf__intro">
         <span class="sc-label">A sample workflow</span>
@@ -666,6 +749,7 @@
           <li><div class="wf__meta"><time>21:02</time><span class="wf__who">Customer</span></div><h3>A call comes in</h3><p>"Got a leak over the back bedroom. Can someone come and look?" You're up a ladder on another job.</p></li>
           <li><div class="wf__meta"><time>21:02</time><span class="wf__who">Agent</span></div><h3>It picks up straight away</h3><p>It answers in your business name and says it's your assistant, not a person.</p></li>
           <li><div class="wf__meta"><time>21:03</time><span class="wf__who">Agent</span></div><h3>It gets the details</h3><p>What's happening, their name and postcode, and a photo by text or WhatsApp.</p></li>
+          <li><div class="wf__meta"><time>21:03</time><span class="wf__who">Agent</span></div><h3>It makes it safe</h3><p>It talks them through turning the water off at the stopcock and keeping clear of any electrics near the water, only if it's safe to.</p><q>Your stopcock is usually under the kitchen sink. Turn it clockwise until it stops. Don't touch any switches or sockets near the water.</q></li>
           <li><div class="wf__meta"><time>21:04</time><span class="wf__who">Agent</span></div><h3>It checks the job</h3><p>The postcode is in your area. Water coming through a ceiling, so it's marked urgent.</p></li>
           <li><div class="wf__meta"><time>21:05</time><span class="wf__who">Calendar</span></div><h3>It checks your diary</h3><p>It finds the first free slots: 9am or 1pm tomorrow.</p></li>
           <li><div class="wf__meta"><time>21:06</time><span class="wf__who">Agent</span></div><h3>It books the job in</h3><p>The customer picks 9am. It goes in your calendar and they get a confirmation.</p><q>You're booked in for 9am tomorrow. Keep clear of the area and put a bucket down if it's safe to.</q></li>
@@ -746,55 +830,158 @@
     </div>
   </section>
 
-  <!-- PRICES · pan -->
-  <section id="prices" class="act trim" data-title="Prices" data-sc-act="pan" data-sc-span="4.4">
-    <div data-sc-stage class="prices">
-      <div class="rail" data-sc-pan="0.04">
-        <div class="rail__lead">
-          <h2 class="sc-display">What it costs.</h2>
-          <p>Fixed prices, agreed before we start. Monthly plans roll month to month and are never a condition of a build.</p>
+  <!-- WHAT WE DO · interactive. Start from the visitor's problem, show it working, then the steps and prices. -->
+  <section id="offer" class="sc-section offer2 trim" data-title="What we do" data-sc-act="flow">
+    <div class="sc-wrap">
+      <div class="sc-stack" data-sc-in data-sc-stagger="70">
+        <h2 class="sc-display lede-h">What's slowing you down?</h2>
+        <p class="lede-p">Tap the one that sounds like you. We'll show you what we'd set up, what you'd do, and what it costs.</p>
+      </div>
+
+      <div class="pick">
+        <div>
+          <div class="pick__list" role="group" aria-label="Pick what's slowing you down">
+            <button class="pick__btn" type="button" aria-pressed="true" data-pick="calls">I miss calls when I'm on a job</button>
+            <button class="pick__btn" type="button" aria-pressed="false" data-pick="quotes">Quotes take me ages</button>
+            <button class="pick__btn" type="button" aria-pressed="false" data-pick="payment">I'm always chasing payment</button>
+            <button class="pick__btn" type="button" aria-pressed="false" data-pick="google">I need more work from Google</button>
+          </div>
+          <p class="pick__hint">Not sure, or it's something else? That's what the free call is for.</p>
         </div>
-        <article class="offer offer--lead">
-          <span class="sc-label">Start here</span>
-          <h3>The Clockwork Check</h3>
-          <div class="offer__price">£495</div>
-          <p class="offer__alt">After a free 30 minute call.</p>
-          <p>We map your week, find where jobs get stuck and give you a written plan with a fixed price for each piece. Credited against any build within 60 days. If we can't find 5 hours a week to save you, you get your money back.</p>
-          <span class="offer__spacer"></span>
-          <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
-        </article>
-        <article class="offer">
-          <span class="sc-label">For trades</span>
-          <h3>Trade Website</h3>
-          <div class="offer__price">£1,495</div>
-          <p class="offer__alt">Or £129 a month for 12 months, then it's yours.</p>
-          <p>Built from your real job photos and reviews, with tap to call and WhatsApp on every screen. Care and hosting £39 a month.</p>
-        </article>
-        <article class="offer">
-          <span class="sc-label">For trades</span>
-          <h3>Trade Growth</h3>
-          <div class="offer__price">£249<small>a month</small></div>
-          <p class="offer__alt">12 months, nothing to pay up front.</p>
-          <p>The website, your Google Business Profile set up and kept fresh, review requests after every job, and a text back to every missed call.</p>
-        </article>
-        <article class="offer">
-          <span class="sc-label">Automations</span>
-          <h3>One part, fitted</h3>
-          <div class="offer__price"><small style="margin:0 6px 0 0">from</small>£1,250</div>
-          <p class="offer__alt">Fixed price per part.</p>
-          <p>Missed calls, quotes, chasing or the diary. AI agents that run a whole job, from £3,500.</p>
-        </article>
-        <article class="offer">
-          <span class="sc-label">Keep it running</span>
-          <h3>Run plan</h3>
-          <div class="offer__price">£149<small>a month</small></div>
-          <p class="offer__alt">Per system. Rolls monthly.</p>
-          <p>We watch it, tune it and fix it. Managed agents from £495 a month. Half-day training for your team, £695.</p>
-        </article>
-        <div class="rail__note">
-          <h3>Founding clients</h3>
-          <p>The first five clients get 30% off, in return for a case study, a testimonial and permission to show the work.</p>
+
+        <div aria-live="polite">
+          <article class="pick__panel is-shown" data-panel="calls">
+            <span class="sc-label">Sample conversation</span>
+            <h3>A missed call becomes a booked call-back.</h3>
+            <ol class="thread">
+              <li class="msg msg--event" style="--i:0">10:42 · Missed call while you're up a ladder</li>
+              <li class="msg msg--out" style="--i:1"><small>Your business, by text</small>Sorry we missed you, we're on a job. What do you need, and what's your postcode? We'll ring you back today.</li>
+              <li class="msg msg--in" style="--i:2"><small>Customer</small>Gutter's leaking over the front door. BL5 3HB.</li>
+              <li class="msg msg--out" style="--i:3"><small>Your business</small>Thanks. We'll call you by 1pm. If water's getting inside, reply URGENT.</li>
+              <li class="msg msg--note" style="--i:4"><small>To you</small>New enquiry: gutter leak, BL5 3HB. Call back by 1pm.</li>
+            </ol>
+            <dl class="facts">
+              <div><dt>We set up</dt><dd>An instant text to everyone you miss, in your business name. It gets the job and the postcode, and books a call-back.</dd></div>
+              <div><dt>You do</dt><dd>Nothing different. You keep your number, and you ring them back already knowing the job.</dd></div>
+              <div><dt>It costs</dt><dd>£79 a month on its own, or it comes with Trade Growth at £249 a month. If one missed call a month turns into a job worth more than £79, it's paid for itself.</dd></div>
+            </dl>
+          </article>
+
+          <article class="pick__panel" data-panel="quotes" hidden>
+            <span class="sc-label">Sample conversation</span>
+            <h3>Survey this morning, quote out this afternoon.</h3>
+            <ol class="thread">
+              <li class="msg msg--event" style="--i:0">11:20 · You leave the survey</li>
+              <li class="msg msg--in" style="--i:1"><small>You, voice note</small>Mrs Patel, back roof, about 40 tiles, new felt, two days with two of us.</li>
+              <li class="msg msg--out" style="--i:2"><small>Your assistant</small>Quote drafted from your notes and photos: £2,840, in your usual layout. Send it?</li>
+              <li class="msg msg--in" style="--i:3"><small>You</small>Send it.</li>
+              <li class="msg msg--note" style="--i:4"><small>Five days later</small>No reply yet, so a polite follow-up went out. Mrs Patel booked for the 14th.</li>
+            </ol>
+            <dl class="facts">
+              <div><dt>We set up</dt><dd>Send a voice note or your survey photos. It drafts the quote in your format, and chases it politely if it goes quiet.</dd></div>
+              <div><dt>You do</dt><dd>Check the price and press send. Nothing goes out without your OK.</dd></div>
+              <div><dt>It costs</dt><dd>From £1,250, a fixed price agreed before we start, and £149 a month if you'd like us to look after it. Win one bigger job you'd have lost by quoting late, and it's paid for itself.</dd></div>
+            </dl>
+          </article>
+
+          <article class="pick__panel" data-panel="payment" hidden>
+            <span class="sc-label">Sample conversation</span>
+            <h3>Reminders go out, so you don't have to chase.</h3>
+            <ol class="thread">
+              <li class="msg msg--event" style="--i:0">Day 0 · Invoice sent with the job sign-off</li>
+              <li class="msg msg--out" style="--i:1"><small>Day 7, your business</small>Hi Tom, just a reminder that invoice 1043 for £640 is due this week. Thanks again for having us.</li>
+              <li class="msg msg--out" style="--i:2"><small>Day 14, your business</small>Hi Tom, invoice 1043 is now a week overdue. Could you let us know when it'll be paid?</li>
+              <li class="msg msg--in" style="--i:3"><small>Customer</small>Sorry, paid it just now.</li>
+              <li class="msg msg--note" style="--i:4"><small>To you</small>Invoice 1043 paid, £640. Reminders stopped.</li>
+            </ol>
+            <dl class="facts">
+              <div><dt>We set up</dt><dd>Friendly reminders at set times, in your words, that stop the moment they pay or reply.</dd></div>
+              <div><dt>You do</dt><dd>Nothing. You get told when it's paid, or if someone needs a call from you.</dd></div>
+              <div><dt>It costs</dt><dd>From £1,250, a fixed price agreed before we start, and £149 a month if you'd like us to look after it. It pays you back in your evenings, and in money in the bank weeks sooner.</dd></div>
+            </dl>
+          </article>
+
+          <article class="pick__panel" data-panel="google" hidden>
+            <span class="sc-label">Sample conversation</span>
+            <h3>Found on Google, picked over the firm next door.</h3>
+            <ol class="thread">
+              <li class="msg msg--event" style="--i:0">16:45 · Job signed off</li>
+              <li class="msg msg--out" style="--i:1"><small>Your business</small>Thanks for having us, Sarah. If you're happy with the work, a quick Google review would mean a lot. Here's the link.</li>
+              <li class="msg msg--in" style="--i:2"><small>Customer</small>Done! Five stars, the lads were brilliant.</li>
+              <li class="msg msg--note" style="--i:3"><small>On Google</small>A new five-star review, on a profile that shows your real jobs, your areas and your number.</li>
+            </ol>
+            <dl class="facts">
+              <div><dt>We set up</dt><dd>A website built from your real job photos and reviews, your Google profile set up properly, and a review request after every job.</dd></div>
+              <div><dt>You do</dt><dd>Send us your photos and answer a few questions. About an hour of your time, all in.</dd></div>
+              <div><dt>It costs</dt><dd>Trade Website £1,495, or £129 a month for 12 months, then it's yours. Trade Growth, £249 a month, adds your Google profile, review requests and the missed-call text back. One extra job a month from Google usually covers it.</dd></div>
+            </dl>
+          </article>
+
+          <div class="worth">
+            <h3>What's it worth to you?</h3>
+            <p class="worth__hint">Move these to your own numbers.</p>
+            <div class="worth__row">
+              <label for="wa" id="wala">Missed calls a month that would turn into a job</label>
+              <output for="wa" id="wao">2</output>
+              <input type="range" id="wa" min="0" max="10" step="1" value="2" aria-describedby="wres">
+            </div>
+            <div class="worth__row">
+              <label for="wb" id="wbla">Your average job</label>
+              <output for="wb" id="wbo">£400</output>
+              <input type="range" id="wb" min="100" max="5000" step="50" value="400" aria-describedby="wres">
+            </div>
+            <p class="worth__result" id="wres" aria-live="polite"></p>
+            <p class="worth__small">Your numbers, not a promise. Not every call or quote turns into work.</p>
+          </div>
+
+          <div class="pick__cta">
+            <a class="btn btn--primary" id="pickcta" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+            <span class="note">Free 30 minute call first. No obligation.</span>
+          </div>
         </div>
+      </div>
+
+      <div class="steps__head" data-sc-in>
+        <h2 class="sc-display" style="font-size:var(--sc-t-2xl)">How it works.</h2>
+      </div>
+      <ol class="steps" data-sc-in data-sc-stagger="70">
+        <li><h3>A free 30 minute call</h3><p>Tell us how your week runs and where it hurts. No cost, no obligation.</p></li>
+        <li class="is-key"><h3>The Clockwork Check <span>£495</span></h3><p>We look at how your business runs, from the first enquiry to getting paid, and work out what would make the biggest difference. You get one clear recommendation, with one fixed price to build it and any monthly cost shown up front.</p><p>Go ahead within 60 days and the £495 comes off that price. If we can't find 5 hours a week to save you, you get your money back.</p></li>
+        <li><h3>We build it, you approve it</h3><p>Nothing goes live until you've checked it. You keep your number and the tools you already use, and we look after it afterwards if you want us to.</p></li>
+      </ol>
+      <ul class="promises" data-sc-in>
+        <li>Keep your number</li><li>No tech skills needed</li><li>You approve every message</li><li>You own what we build</li><li>Cancel monthly support any time</li>
+      </ul>
+
+      <div class="faq">
+        <h2 class="sc-display" data-sc-in>Fair questions.</h2>
+        <div data-sc-in>
+          <details><summary>Do I need to be good with computers?</summary><p>No. We set it all up and show you how it works. Most of it runs without you touching anything, and the bits that need you come to your phone.</p></details>
+          <details><summary>Will I keep my phone number?</summary><p>Yes. The number on your van, your cards and Google stays exactly the same.</p></details>
+          <details><summary>What if it says something wrong?</summary><p>You agree the wording before anything goes live, and anything unusual, like prices or discounts, comes to you first. Every message is logged, so you can check it any time.</p></details>
+          <details><summary>Do I own it?</summary><p>Yes. If you stop the monthly support, you keep what we built.</p></details>
+          <details><summary>What does it cost each month?</summary><p>Websites are £39 a month for hosting and care. Automations are £149 a month if you'd like us to look after them, or nothing if you don't. You'll see the monthly cost before you agree to anything.</p></details>
+        </div>
+      </div>
+
+      <div class="pricelist" data-sc-in>
+        <h2 class="sc-display">Every price, in one place.</h2>
+        <div class="pricelist__wrap">
+          <table>
+            <thead><tr><th scope="col">What</th><th scope="col">Price</th><th scope="col">Pays for itself when</th></tr></thead>
+            <tbody>
+              <tr><td><b>The Clockwork Check</b><span>What would make the biggest difference, with one fixed price to do it</span></td><td>£495<span>Comes off the price if you go ahead within 60 days</span></td><td>it finds 5 hours a week to save you. If it doesn't, you get the £495 back.</td></tr>
+              <tr><td><b>Missed-call text back</b><span>On its own</span></td><td>£79 a month</td><td>one missed call a month turns into a job worth more than £79.</td></tr>
+              <tr><td><b>Trade Website</b><span>Built from your real photos and reviews</span></td><td>£1,495, or £129 a month for 12 months<span>Then it's yours. Hosting and care £39 a month</span></td><td>the jobs it brings in add up to £1,495. For most trades that's a handful of jobs.</td></tr>
+              <tr><td><b>Trade Growth</b><span>Website, Google profile, review requests and missed-call text back</span></td><td>£249 a month for 12 months<span>Nothing to pay up front</span></td><td>it brings in one extra job a month worth more than £249.</td></tr>
+              <tr><td><b>One job automated</b><span>Quotes, chasing payment or the diary</span></td><td>From £1,250<span>Fixed price, agreed before we start</span></td><td>it wins a job you'd have lost, or saves you the hours. At 3 hours a week and £40 an hour, that's about 10 weeks.</td></tr>
+              <tr><td><b>A system that handles a whole job</b><span>Like the 9pm leak above</span></td><td>From £3,500</td><td>it catches the jobs that come in when you can't answer, like a 2am leak.</td></tr>
+              <tr><td><b>We look after it</b><span>Watch it, fix it, tweak it</span></td><td>£149 a month per automation<span>Cancel any month. Bigger systems from £495 a month</span></td><td>it keeps the rest working, so nothing quietly stops and costs you a job.</td></tr>
+              <tr><td><b>Half-day training</b><span>For your team to use AI themselves</span></td><td>£695</td><td>your team saves an hour or two a week each.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="founding"><b>Founding clients:</b> the first five clients get 30% off, in return for a case study, a testimonial and permission to show the work.</p>
       </div>
     </div>
   </section>
@@ -810,10 +997,20 @@
 
       <div class="close__disc">
         <svg viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <radialGradient id="slotfill" cx="100" cy="100" r="98" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#CBB892" stop-opacity="0.03"/>
+              <stop offset="0.7" stop-color="#CBB892" stop-opacity="0.12"/>
+              <stop offset="1" stop-color="#CBB892" stop-opacity="0.22"/>
+            </radialGradient>
+          </defs>
+          <!-- The 30 minute call: 07:00 to 07:30 shaded on the minute track -->
+          <path d="M100 100 L100 2 A98 98 0 0 1 100 198 Z" fill="url(#slotfill)"/>
+          <path d="M100 5 A95 95 0 0 1 100 195" fill="none" stroke="#CBB892" stroke-width="3" stroke-linecap="round"/>
           <g id="closeticks"></g>
           <circle cx="56" cy="176.2" r="3" fill="#CBB892"/>
         </svg>
-        <div class="close__inner" data-sc-cue="0.02" data-sc-rise="0">
+        <div class="close__inner">
           <div class="comp__time">07:00</div>
           <h2 class="sc-display">Show us the job that eats your evenings.</h2>
           <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
@@ -821,7 +1018,7 @@
         </div>
       </div>
 
-      <div class="close__side" data-sc-cue="0.04">
+      <div class="close__side">
         <p>1948: the first stored program ran in Manchester. 2026: yours can.</p>
         <div class="close__alt">
           <a class="btn btn--ghost" href="tel:+447985379605">Call 07985 379605</a>
@@ -834,7 +1031,7 @@
         <span>Manchester and the North West · © 2026 Clockwork AI</span>
         <nav aria-label="Footer">
           <a href="#how">How it works</a>
-          <a href="#prices">Prices</a>
+          <a href="#offer">Prices</a>
           <a href="#work">Our work</a>
         </nav>
       </footer>
@@ -896,18 +1093,18 @@
   }
 
   // ---- hero: the night moves on from 02:14 to 03:05 as you scroll
-  const hero = $('#tonight'), heroHour = $('#herohour'), heroMin = $('#heromin'), heroTime = $('#herotime');
+  const hero = $('#tonight'), heroHour = $('#herohour'), heroMin = $('#heromin');
+  // The hero clock holds at 02:14. Only the log under it moves on as you scroll.
+  heroHour.setAttribute('transform', `rotate(${(134 / 720) * 360} 100 100)`);
+  heroMin.setAttribute('transform', `rotate(${14 * 6} 100 100)`);
   const heroLines = [...document.querySelectorAll('.comp__log li')];
   function drawHero() {
-    // the hero runs on the same page clock as the subdial, so the two never disagree
-    const mins = Math.floor(timeAtY(scrollY) * 60);
+    const p = pOf(hero);
     let on = heroLines[0];
-    heroLines.forEach(li => { if (mins >= +li.dataset.at) on = li; });
+    heroLines.forEach(li => { if (p >= +li.dataset.at) on = li; });
     heroLines.forEach(li => li.classList.toggle('is-on', li === on));
-    heroHour.setAttribute('transform', `rotate(${(mins / 720) * 360} 100 100)`);
-    heroMin.setAttribute('transform', `rotate(${(mins % 60) * 6} 100 100)`);
-    heroTime.textContent = hhmm(mins / 60);
   }
+
 
   // ---- the wind: one sample day, 06:00 round to 06:00
   const day = $('#day'), hand = $('#dayhand'), segs = $('#daysegs'), arc = $('#dayarc'), dayTime = $('#daytime');
@@ -958,7 +1155,12 @@
   const acts = [...document.querySelectorAll('main > section[id]')];
   const menu = $('#dialmenu'), subBtn = $('.subdial__btn'), subWrap = $('.subdial');
   const START = 2 + 14 / 60, END = 7;
-  const timeAtY = y => { const max = document.documentElement.scrollHeight - innerHeight; return START + (END - START) * clamp(y / Math.max(1, max), 0, 1); };
+  // The page clock holds at 02:14 through the hero, then runs on to 07:00 by the close.
+  const timeAtY = y => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const y0 = hero.offsetTop + hero.offsetHeight - innerHeight;
+    return START + (END - START) * clamp((y - y0) / Math.max(1, max - y0), 0, 1);
+  };
   function buildMenu() {
     menu.innerHTML = '';
     const marks = $('#submarks'); marks.innerHTML = '';
@@ -1006,6 +1208,71 @@
     const y = li.offsetTop - box * 0.38;
     wfList.style.transform = `translateY(${-clamp(y, 0, Math.max(0, wfList.scrollHeight - box))}px)`;
   }
+
+  // ---- what we do: pick a problem, show its sample, carry the choice into the booking
+  const pickBtns = [...document.querySelectorAll('.pick__btn')], panels = [...document.querySelectorAll('.pick__panel')];
+  const pickCta = $('#pickcta'), CAL = pickCta.getAttribute('href');
+  function choose(btn, focus) {
+    pickBtns.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    panels.forEach(p => {
+      const on = p.dataset.panel === btn.dataset.pick;
+      p.hidden = !on;
+      p.classList.remove('is-shown');
+      if (on) requestAnimationFrame(() => p.classList.add('is-shown'));
+    });
+    pickCta.href = CAL + '?a2=' + encodeURIComponent(btn.textContent.trim());
+    if (focus) btn.focus();
+  }
+  pickBtns.forEach((b, i) => {
+    b.addEventListener('click', () => choose(b));
+    b.addEventListener('keydown', e => {
+      const d = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
+      if (d) { e.preventDefault(); choose(pickBtns[(i + d + pickBtns.length) % pickBtns.length], true); }
+    });
+  });
+  pickCta.href = CAL + '?a2=' + encodeURIComponent(pickBtns[0].textContent.trim());
+
+  // ---- what's it worth: the visitor's own numbers, worked out live for the chosen problem
+  const W = {
+    calls:   { a: ['Missed calls a month that would turn into a job', 0, 10, 1, 2], b: ['Your average job', 100, 5000, 50, 400], up: 0, mo: 79, kind: 'jobs' },
+    quotes:  { a: ['Jobs a month you lose by quoting late', 0, 6, 1, 1], b: ['Your average job', 100, 10000, 100, 1500], up: 1250, mo: 149, kind: 'jobs' },
+    payment: { a: ['Hours a month you spend chasing payment', 0, 30, 1, 6], b: ['What an hour of your time is worth', 15, 150, 5, 40], up: 1250, mo: 149, kind: 'hours' },
+    google:  { a: ['Extra jobs a month from Google', 0, 10, 1, 2], b: ['Your average job', 100, 5000, 50, 400], up: 0, mo: 249, kind: 'jobs' },
+  };
+  const wa = $('#wa'), wb = $('#wb'), gbp = n => '£' + Math.round(n).toLocaleString('en-GB');
+  let wKey = 'calls';
+  function setWorth(key) {
+    wKey = key; const c = W[key];
+    [[wa, c.a, '#wala'], [wb, c.b, '#wbla']].forEach(([el, [label, min, max, step, val], lab]) => {
+      $(lab).textContent = label; el.min = min; el.max = max; el.step = step; el.value = val;
+    });
+    drawWorth();
+  }
+  function drawWorth() {
+    const c = W[wKey], a = +wa.value, b = +wb.value, value = a * b;
+    $('#wao').textContent = a;
+    $('#wbo').textContent = gbp(b);
+    let out;
+    if (value === 0) out = 'At these numbers you may not need this one. The free call will tell you straight.';
+    else if (c.kind === 'hours') {
+      const m = value > c.mo ? Math.ceil(c.up / (value - c.mo)) : 0;
+      out = `${a} hours at ${gbp(b)} an hour is <b>${gbp(value)} of your time</b> every month. ` +
+        (m ? `The ${gbp(c.up)} build pays for itself in about ${m} month${m > 1 ? 's' : ''}.` : 'At these numbers it would take a long time to pay for itself.');
+    } else if (c.up) {
+      const m = value > c.mo ? Math.ceil(c.up / (value - c.mo)) : 0;
+      out = `${a} job${a > 1 ? 's' : ''} at ${gbp(b)} is <b>${gbp(value)} of work</b> a month you'd keep. ` +
+        (m ? `The ${gbp(c.up)} build pays for itself in about ${m} month${m > 1 ? 's' : ''}.` : 'At these numbers it would take a long time to pay for itself.');
+    } else {
+      out = `${a} job${a > 1 ? 's' : ''} at ${gbp(b)} is <b>${gbp(value)} of work</b> a month, for ${gbp(c.mo)} a month.`;
+    }
+    $('#wres').innerHTML = out;
+  }
+  [wa, wb].forEach(el => el.addEventListener('input', drawWorth));
+  pickBtns.forEach(btn => btn.addEventListener('click', () => setWorth(btn.dataset.pick)));
+  pickBtns.forEach(btn => btn.addEventListener('keydown', () => requestAnimationFrame(() => {
+    const on = pickBtns.find(b => b.getAttribute('aria-pressed') === 'true'); if (on && on.dataset.pick !== wKey) setWorth(on.dataset.pick);
+  })));
+  setWorth('calls');
 
   function frame() { drawHero(); drawDay(); drawFlow(); drawSub(); requestAnimationFrame(frame); }
   const start = () => { buildMenu(); frame(); };
