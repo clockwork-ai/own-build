@@ -158,7 +158,7 @@
   .comp__log li.is-on { opacity: 1; }
   .comp__log li { position: absolute; inset: 0 0 auto; font-size: clamp(0.86rem, 0.8rem + 0.25vw, 1rem); line-height: 1.4; color: var(--sc-ink); text-wrap: balance; }
   .comp__log li::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--sc-accent); margin-right: 8px; vertical-align: 0.15em; }
-  .comp__label { margin-top: 10px; display: block; font-size: 0.68rem; }
+  .comp__label { display: block; font-size: 0.68rem; margin-bottom: 8px; }
 
   .hero__copy { position: absolute; left: var(--sc-gutter); right: var(--sc-gutter); bottom: clamp(2.5rem, 9vh, 6rem); z-index: 20; max-width: 44rem; }
   .hero__copy h1 { font-size: clamp(2.7rem, 1.4rem + 4.6vw, 6.2rem); line-height: 0.98; }
@@ -167,17 +167,22 @@
   .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 26px; }
 
   /* ---------------------------------------------------------- the cost -- */
-  .cost { position: relative; background: #0B0C0F; padding-block: clamp(5rem, 12vh, 9rem) 0; overflow: clip; }
+  .cost { position: relative; background: #0B0C0F; padding-block: clamp(5rem, 12vh, 9rem) clamp(4rem, 10vh, 7rem); overflow: clip; }
   .cost__plate { position: absolute; inset: 0 0 auto auto; width: min(68vw, 1200px); height: min(100%, 900px); pointer-events: none;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 42%), linear-gradient(to top, transparent 0%, #000 30%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 42%), linear-gradient(to top, transparent 0%, #000 30%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 42%), linear-gradient(to top, transparent 0%, transparent 38%, #000 66%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 42%), linear-gradient(to top, transparent 0%, transparent 38%, #000 66%);
     -webkit-mask-composite: source-in; mask-composite: intersect; }
   .cost__plate img { width: 100%; height: 100%; object-fit: cover; object-position: 70% 40%; opacity: 0.85; max-width: none; }
   .cost__inner { position: relative; }
   .cost h2 { font-size: var(--sc-t-3xl); max-width: 13ch; }
   .cost .sc-body { font-size: var(--sc-t-lg); line-height: 1.5; max-width: 38ch; color: color-mix(in oklab, var(--sc-ink) 80%, transparent); }
   .ledger { margin: clamp(3rem, 8vh, 5rem) 0 0; max-width: 52rem; border-top: 1px solid var(--sc-hairline); }
-  .ledger div { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 2rem; padding: 18px 0; border-bottom: 1px solid var(--sc-hairline); }
+  .ledger { max-width: 78rem !important; }
+  .ledger .src { color: color-mix(in oklab, var(--sc-ink) 62%, transparent); font-size: 0.86rem; line-height: 1.55; align-self: start; }
+  .ledger cite { display: block; margin-top: 4px; font: 400 0.74rem/1.4 var(--sc-font-mono); font-style: normal; letter-spacing: 0.02em; }
+  .ledger cite a { color: var(--sc-accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--sc-accent) 40%, transparent); transition: border-color 160ms var(--sc-ease-out); }
+  .ledger cite a:hover { border-color: var(--sc-accent); }
+  .ledger div { display: grid; grid-template-columns: 1fr 0.9fr 1.3fr; gap: 6px 2rem; padding: 18px 0; border-bottom: 1px solid var(--sc-hairline); }
   .ledger dt { font-size: var(--sc-t-lg); line-height: 1.35; }
   .ledger dd { margin: 0; color: var(--sc-ink-soft); line-height: 1.5; align-self: center; }
   .ledger__head { font: 400 var(--sc-t-xs)/1 var(--sc-font-mono); letter-spacing: var(--sc-track-wide); text-transform: uppercase; color: var(--sc-ink-soft); }
@@ -185,6 +190,22 @@
   .silence { min-height: 92vh; min-height: 92svh; display: grid; place-items: center; text-align: center; padding: 10vh var(--sc-gutter); }
   .silence p { font: 400 var(--sc-t-3xl)/1 var(--sc-font-display); letter-spacing: -0.018em; margin: 0; }
   .silence p em { color: var(--sc-accent); }
+
+  /* A champagne hairline wherever the ground changes. */
+  .trim { position: relative; }
+  .trim::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 6; pointer-events: none;
+    background: linear-gradient(90deg, transparent 0%, color-mix(in oklab, var(--sc-accent) 75%, transparent) 18%, color-mix(in oklab, var(--sc-accent) 75%, transparent) 82%, transparent 100%); }
+
+  .silence { position: relative; overflow: clip; background: #0B0C0F; }
+  .silence__plate { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.16; max-width: none;
+    -webkit-mask-image: radial-gradient(60% 60% at 50% 50%, #000 0%, transparent 100%); mask-image: radial-gradient(60% 60% at 50% 50%, #000 0%, transparent 100%); }
+  .silence__dial { position: absolute; left: 50%; top: 50%; width: min(118vmin, 1100px); aspect-ratio: 1; translate: -50% -50%;
+    transform: scale(calc(0.9 + var(--sc-p, 0) * 0.14)); opacity: 0.7;
+    -webkit-mask-image: radial-gradient(circle, #000 52%, transparent 71%); mask-image: radial-gradient(circle, #000 52%, transparent 71%); }
+  .silence__dial svg { width: 100%; height: 100%; }
+  .silence__hand { transform-box: view-box; transform-origin: 200px 200px; transform: rotate(calc(var(--sc-p, 0) * 360deg)); }
+  .silence__arc { stroke-dasharray: calc(var(--sc-p, 0) * 100) 100; }
+  .silence p { position: relative; z-index: 2; }
 
   /* ---------------------------------------------------- the wind (peak) -- */
   .day { background: var(--sc-canvas); }
@@ -219,6 +240,7 @@
   .day__log time { font: 400 0.86rem/1.5 var(--sc-font-mono); font-variant-numeric: tabular-nums; color: var(--sc-ink-soft); }
   .day__log li.is-now time { color: var(--sc-accent); }
   .day__log p { margin: 0; font-size: 0.98rem; line-height: 1.45; }
+  .trade { display: block; margin-bottom: 3px; font: 500 0.68rem/1.2 var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-accent); }
   .day__log span { grid-column: 2; font: 400 0.76rem/1.4 var(--sc-font-mono); color: var(--sc-ink-soft); letter-spacing: 0.02em; }
 
   /* ------------------------------------------------------ how it works -- */
@@ -227,6 +249,33 @@
   .how .sc-copy p { margin: 0; font-size: var(--sc-t-lg); line-height: 1.5; color: var(--sc-ink); }
   .how .sc-copy p + p { margin-top: 14px; color: color-mix(in oklab, var(--sc-ink) 82%, transparent); }
   .how .sc-scrim--lead { background: linear-gradient(90deg, color-mix(in oklab, var(--sc-canvas) 88%, transparent) 0%, color-mix(in oklab, var(--sc-canvas) 55%, transparent) 34%, transparent 62%); }
+
+  /* ---------------------------------------------------- the 9pm workflow -- */
+  .wf { background: var(--sc-canvas); }
+  .wf__stage { display: grid; grid-template-columns: minmax(16rem, 0.85fr) 1.15fr; gap: clamp(2rem, 6vw, 7rem); align-items: center;
+    padding: calc(env(safe-area-inset-top, 0px) + 84px) var(--sc-gutter) 5vh; }
+  .wf__intro h2 { font-size: var(--sc-t-3xl); margin-top: 10px; max-width: 11ch; }
+  .wf__intro p { margin: 16px 0 0; color: var(--sc-ink-soft); max-width: 34ch; line-height: 1.6; }
+  .wf__rail { position: relative; height: min(74vh, 660px); overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 86%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 86%, transparent); }
+  .wf__rail ol { list-style: none; margin: 0; padding: 0 0 0 2.4rem; position: relative; transition: transform 420ms var(--sc-ease-out); }
+  .wf__rail ol::before { content: ""; position: absolute; left: 0.6rem; top: 22px; bottom: 22px; width: 1px; background: var(--sc-hairline-strong); }
+  .wf__rail ol::after { content: ""; position: absolute; left: 0.6rem; top: 22px; bottom: 22px; width: 1px; background: var(--sc-accent); transform-origin: top; transform: scaleY(var(--wf, 0)); transition: transform 360ms var(--sc-ease-out); }
+  .wf__rail li { position: relative; padding: 14px 0 16px; opacity: 0.3; transition: opacity 300ms var(--sc-ease-out); }
+  .wf__rail li.is-done { opacity: 0.62; }
+  .wf__rail li.is-now { opacity: 1; }
+  .wf__rail li::before { content: ""; position: absolute; left: calc(-2.4rem + 0.6rem - 5px); top: 20px; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--sc-canvas); box-shadow: inset 0 0 0 1px var(--lume-45); transition: background-color 300ms var(--sc-ease-out), box-shadow 300ms var(--sc-ease-out); }
+  .wf__rail li.is-done::before, .wf__rail li.is-now::before { background: var(--sc-accent); box-shadow: inset 0 0 0 1px var(--sc-accent); }
+  .wf__meta { display: flex; align-items: center; gap: 10px; }
+  .wf__meta time { font: 400 0.82rem/1 var(--sc-font-mono); font-variant-numeric: tabular-nums; color: var(--sc-ink-soft); }
+  .wf__rail li.is-now .wf__meta time { color: var(--sc-accent); }
+  .wf__who { font: 500 0.66rem/1 var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; border: 1px solid var(--sc-hairline-strong); color: var(--sc-ink); }
+  .wf__rail h3 { margin: 8px 0 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); letter-spacing: -0.01em; }
+  .wf__rail p { margin: 6px 0 0; color: color-mix(in oklab, var(--sc-ink) 84%, transparent); line-height: 1.55; max-width: 46ch; }
+  .wf__rail q { display: block; margin-top: 10px; max-width: 44ch; padding: 10px 14px; border-radius: 14px 14px 14px 4px; quotes: none;
+    background: color-mix(in oklab, var(--sc-surface) 92%, #fff 3%); border: 1px solid var(--sc-hairline); font-size: 0.9rem; line-height: 1.5; color: var(--sc-ink); }
+  .wf__rail q::before { content: "Sample message"; display: block; margin-bottom: 4px; font: 500 0.64rem/1 var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-accent); }
 
   /* ---------------------------------------------------------- the parts -- */
   .parts { background: #111216; }
@@ -353,6 +402,13 @@
       -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 60%); mask-image: linear-gradient(to top, transparent 0%, #000 60%); }
     .cost { padding-top: 34vh; }
     .ledger div { grid-template-columns: 1fr; }
+    .ledger__head span:nth-child(n+2) { display: none; }
+    .silence__dial { width: 96vw; opacity: 0.85; }
+    .wf__stage { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 12px; align-content: start; padding-bottom: calc(var(--dock-h) + 10px); }
+    .wf__intro h2 { font-size: 1.9rem; max-width: none; margin-top: 4px; }
+    .wf__intro p { display: none; }
+    .wf__rail { height: auto; max-height: calc(100svh - var(--dock-h) - 210px); min-height: 18rem; }
+    .wf__rail h3 { font-size: 1.3rem; }
 
     .day__stage { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; gap: 14px; justify-items: center; align-content: start; padding-bottom: calc(var(--dock-h) + 10px); }
     .day__intro { justify-self: stretch; }
@@ -400,7 +456,9 @@
   @media (prefers-reduced-motion: reduce) {
     .hero__plate, .plane, .hero__comp { transform: none !important; }
     .plane--glass { opacity: 0.5 !important; }
-    .day__log ol, .day__log li, .wdial__ap img { transition: none; }
+    .day__log ol, .day__log li, .wdial__ap img, .wf__rail ol, .wf__rail li, .wf__rail ol::after { transition: none; }
+    .silence__dial, .silence__hand { transform: none !important; }
+    .silence__arc { stroke-dasharray: 100 100; }
   }
 </style>
 </head>
@@ -461,13 +519,13 @@
         <div class="plane plane--glass" aria-hidden="true"></div>
 
       <div class="hero__comp">
+        <span class="sc-label comp__label comp__label--top">From a sample day</span>
         <div class="comp__time" id="herotime" aria-hidden="true">02:14</div>
-        <ol class="comp__log" aria-label="A sample night for a roofer">
-          <li data-at="134" class="is-on">02:14 · Chased three unpaid invoices</li>
-          <li data-at="140">02:20 · Booked a 9am survey for a leak</li>
-          <li data-at="147">02:27 · Tomorrow's job sheets are ready</li>
+        <ol class="comp__log" aria-label="From a sample day">
+          <li data-at="134" class="is-on">02:14 · Leak enquiry, answered straight away</li>
+          <li data-at="140">02:20 · Photo and postcode in. Marked urgent</li>
+          <li data-at="147">02:27 · 9am survey booked. Owner sent a summary</li>
         </ol>
-        <span class="sc-label comp__label">Sample night, for a roofer</span>
       </div>
       </div>
 
@@ -483,7 +541,7 @@
   </section>
 
   <!-- THE COST · flow -->
-  <section id="cost" class="cost" data-title="The cost">
+  <section id="cost" class="cost trim" data-title="The cost">
     <div class="cost__plate" aria-hidden="true"><img src="assets/02-kitchen.webp" width="2000" height="1125" alt="" loading="lazy"></div>
     <div class="sc-wrap cost__inner">
       <div class="sc-stack" data-sc-in data-sc-stagger="70">
@@ -492,24 +550,44 @@
         <p class="sc-body">Calls missed while you're up a ladder. Quotes that sit for days. Chasing, rebooking, and paperwork at the kitchen table. That's where the evenings go.</p>
       </div>
       <dl class="ledger" data-sc-in data-sc-stagger="60">
-        <div class="ledger__head"><span>Where it gets stuck</span><span>What it costs you</span></div>
-        <div><dt>Calls missed while you're on a job</dt><dd>The customer rings the next firm.</dd></div>
-        <div><dt>Quotes take days to go out</dt><dd>The job goes to whoever quotes first.</dd></div>
-        <div><dt>Quotes go quiet</dt><dd>Work you've already priced never gets booked.</dd></div>
-        <div><dt>Chasing payment</dt><dd>Hours on the phone, and cash tied up.</dd></div>
-        <div><dt>Asking for reviews</dt><dd>Happy customers never leave one.</dd></div>
+        <div class="ledger__head"><span>Where it gets stuck</span><span>What it costs you</span><span>The evidence</span></div>
+        <div><dt>Calls missed while you're on a job</dt><dd>The customer rings the next firm.</dd>
+          <dd class="src">A third of micro businesses failed to answer incoming calls, and 69% of callers who reached voicemail hung up without leaving a message. <cite><a href="https://www.moneypenny.com/us/resources/news/small-business-call-report" target="_blank" rel="noopener">Moneypenny, 2016</a></cite></dd></div>
+        <div><dt>Quotes take days to go out</dt><dd>The job goes to whoever gets back first.</dd>
+          <dd class="src">Firms that replied to an enquiry within an hour were nearly 7 times as likely to get a proper conversation with the customer as those that replied an hour later. <cite><a href="https://hbr.org/2011/03/the-short-life-of-online-sales-leads" target="_blank" rel="noopener">Harvard Business Review, 2011</a></cite></dd></div>
+        <div><dt>Quotes go quiet</dt><dd>Work you've already priced never gets booked.</dd>
+          <dd class="src">We couldn't find a figure we trust for this one, so we won't quote one.</dd></div>
+        <div><dt>Chasing payment</dt><dd>Hours on the phone, and cash tied up.</dd>
+          <dd class="src">Late payments cost the UK economy almost £11 billion a year, and 38 businesses close every day because of them. <cite><a href="https://www.gov.uk/government/consultations/late-payments-tackling-poor-payment-practices/outcome/late-payment-consultation-time-to-pay-up-government-response-web-version" target="_blank" rel="noopener">UK Government, 2025</a></cite></dd></div>
+        <div><dt>Asking for reviews</dt><dd>Happy customers never leave one.</dd>
+          <dd class="src">83% of people who were asked to leave a review went on to leave one. <cite><a href="https://www.brightlocal.com/research/local-consumer-review-survey/" target="_blank" rel="noopener">BrightLocal, 2026 (US survey)</a></cite></dd></div>
       </dl>
     </div>
-    <div class="silence"><p data-sc-in>Then the clockwork <em>starts.</em></p></div>
+  </section>
+
+  <!-- Authored silence. The seconds hand starts under the reader's scroll. -->
+  <section class="silence trim" data-sc-act="flow">
+    <img class="silence__plate" src="assets/04-movement-poster.webp" width="1600" height="900" alt="" loading="lazy">
+    <div class="silence__dial" aria-hidden="true">
+      <svg viewBox="0 0 400 400">
+        <circle cx="200" cy="200" r="198" fill="none" stroke="rgba(232,238,214,.14)" stroke-width="0.6"/>
+        <g id="silticks"></g>
+        <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(232,238,214,.06)" stroke-width="0.6"/>
+        <circle cx="352.4" cy="112" r="3.4" fill="#CBB892"/>
+        <circle class="silence__arc" cx="200" cy="200" r="186" fill="none" stroke="#CBB892" stroke-width="1.6" stroke-linecap="round" pathLength="100" transform="rotate(-90 200 200)"/>
+        <g class="silence__hand"><circle cx="200" cy="14" r="4.2" fill="#CBB892"/></g>
+      </svg>
+    </div>
+    <p data-sc-in>Then the clockwork <em>starts.</em></p>
   </section>
 
   <!-- THE WIND · PEAK. Pinned; the visitor's scroll turns the hour hand through a sample day. -->
-  <section id="day" class="act day" data-title="A day, wound" data-sc-act="pin" data-sc-span="6.4">
+  <section id="day" class="act day trim" data-title="A day, wound" data-sc-act="pin" data-sc-span="6.4">
     <div data-sc-stage class="day__stage">
       <div class="day__intro">
-        <span class="sc-label">A sample day for a roofer</span>
+        <span class="sc-label">A sample day across the trades</span>
         <h2 class="sc-display">Wind the day.</h2>
-        <p>Keep scrolling and the hand goes round one working day. Every job the clockwork takes off you lights up as it passes.</p>
+        <p>Keep scrolling and the hand goes round one working day for a roofer, a plumber, an electrician and a builder. Every job the clockwork takes off them lights up as it passes.</p>
         <div class="tally">
           <div class="tally__n" aria-live="off"><span id="tallyh">0</span><small>h</small><span id="tallym">00</span><small>min</small></div>
           <span class="tally__cap">handed back, sample day</span>
@@ -519,9 +597,11 @@
 
       <div class="wdial" aria-hidden="true">
         <div class="wdial__ap">
-          <img src="assets/h-0630.webp" width="900" height="1192" alt="" data-from="5" data-to="9" loading="lazy">
-          <img src="assets/h-1100.webp" width="900" height="1192" alt="" data-from="9" data-to="15" loading="lazy">
-          <img src="assets/h-1800.webp" width="900" height="1192" alt="" data-from="15" data-to="21" loading="lazy">
+          <img src="assets/h-0630.webp" width="900" height="1192" alt="" data-from="5" data-to="8" loading="lazy">
+          <img src="assets/h-0900.webp" width="900" height="1192" alt="" data-from="8" data-to="11" loading="lazy">
+          <img src="assets/h-1100.webp" width="900" height="1192" alt="" data-from="11" data-to="14" loading="lazy">
+          <img src="assets/h-1400.webp" width="900" height="1192" alt="" data-from="14" data-to="17" loading="lazy">
+          <img src="assets/h-1800.webp" width="900" height="1192" alt="" data-from="17" data-to="21" loading="lazy">
           <img src="assets/h-2300.webp" width="900" height="1192" alt="" data-from="21" data-to="29" loading="lazy">
         </div>
         <div class="wdial__clock"><b id="daytime">06:00</b></div>
@@ -541,17 +621,17 @@
 
       <div class="day__log">
         <ol id="daylog">
-          <li data-t="6.5" data-min="20"><time>06:30</time><p>Sent today's job sheets to the lads, with addresses and access notes.</p><span>about 20 min by hand</span></li>
-          <li data-t="7.0833" data-min="25"><time>07:05</time><p>Replied to two quote requests from last night and asked for photos and postcodes.</p><span>about 25 min by hand</span></li>
-          <li data-t="8.6667" data-min="15"><time>08:40</time><p>Missed call while you were up a ladder. Texted back straight away and booked a call-back.</p><span>about 15 min by hand</span></li>
-          <li data-t="10.25" data-min="30"><time>10:15</time><p>Rain forecast for Thursday. Moved two customers to Friday, and both confirmed.</p><span>about 30 min by hand</span></li>
-          <li data-t="12.5" data-min="45"><time>12:30</time><p>Drafted a quote from this morning's survey notes and photos, ready for you to check.</p><span>about 45 min by hand</span></li>
-          <li data-t="14" data-min="10"><time>14:00</time><p>Followed up a quote that had gone quiet for five days. The customer booked.</p><span>about 10 min by hand</span></li>
-          <li data-t="16.75" data-min="20"><time>16:45</time><p>Job signed off. Invoice sent, with a review request.</p><span>about 20 min by hand</span></li>
-          <li data-t="19.5" data-min="10"><time>19:30</time><p>Answered "do you cover Bolton?" on WhatsApp, in your words.</p><span>about 10 min by hand</span></li>
-          <li data-t="21.1667" data-min="10"><time>21:10</time><p>Sent a second polite reminder on an unpaid invoice.</p><span>about 10 min by hand</span></li>
-          <li data-t="23.6667" data-min="15"><time>23:40</time><p>Leak enquiry. Asked for a photo and the postcode, marked it urgent and booked a 9am survey.</p><span>about 15 min by hand</span></li>
-          <li data-t="26.2333" data-min="20"><time>02:14</time><p>Chased three unpaid invoices.</p><span>about 20 min by hand</span></li>
+          <li data-t="6.5" data-min="20"><time>06:30</time><p><b class="trade">Roofer</b>Sent today's job sheets to the lads, with addresses and access notes.</p><span>about 20 min by hand</span></li>
+          <li data-t="7.0833" data-min="25"><time>07:05</time><p><b class="trade">Plumber</b>Replied to two quote requests from last night and asked for photos and postcodes.</p><span>about 25 min by hand</span></li>
+          <li data-t="8.6667" data-min="15"><time>08:40</time><p><b class="trade">Electrician</b>Missed call in the middle of a rewire. Texted back straight away and booked a call-back.</p><span>about 15 min by hand</span></li>
+          <li data-t="10.25" data-min="30"><time>10:15</time><p><b class="trade">Roofer</b>Rain forecast for Thursday. Moved two customers to Friday, and both confirmed.</p><span>about 30 min by hand</span></li>
+          <li data-t="12.5" data-min="45"><time>12:30</time><p><b class="trade">Builder</b>Drafted an extension quote from this morning's survey notes and photos, ready to check.</p><span>about 45 min by hand</span></li>
+          <li data-t="14" data-min="10"><time>14:00</time><p><b class="trade">Plumber</b>Followed up a boiler quote that had gone quiet for five days. The customer booked.</p><span>about 10 min by hand</span></li>
+          <li data-t="16.75" data-min="20"><time>16:45</time><p><b class="trade">Electrician</b>Job signed off. Invoice sent, with a review request.</p><span>about 20 min by hand</span></li>
+          <li data-t="19.5" data-min="10"><time>19:30</time><p><b class="trade">Builder</b>Answered "do you cover Bolton?" on WhatsApp, in their words.</p><span>about 10 min by hand</span></li>
+          <li data-t="21.1667" data-min="10"><time>21:10</time><p><b class="trade">Plumber</b>Sent a second polite reminder on an unpaid invoice.</p><span>about 10 min by hand</span></li>
+          <li data-t="23.6667" data-min="20"><time>23:40</time><p><b class="trade">Electrician</b>Chased three unpaid invoices.</p><span>about 20 min by hand</span></li>
+          <li data-t="26.2333" data-min="15"><time>02:14</time><p><b class="trade">Roofer</b>Leak enquiry. Got a photo and the postcode, marked it urgent, booked a 9am survey and sent the owner a summary.</p><span>about 15 min by hand</span></li>
         </ol>
       </div>
     </div>
@@ -567,14 +647,37 @@
         <h2 class="sc-display">Automation does a task. An agentic workflow does a job.</h2>
       </div>
       <div class="sc-copy sc-copy--lead" data-sc-cue="0.46 0.98">
-        <p>A customer messages at 9pm about a leak. Plain automation replies "thanks, we'll be in touch".</p>
-        <p>Ours asks for a photo and the postcode, checks you cover the area, marks it urgent, offers a survey slot tomorrow and books it. If they go quiet, it follows up. You wake up to a booked job.</p>
+        <p>A customer gets in touch at 9pm about a leak. Plain automation replies "thanks, we'll be in touch", and nothing else happens until you see it.</p>
+        <p>An agentic workflow handles the whole thing, then tells you it's done. Here's how it runs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE 9PM LEAK · pin. Each step lights as the reader scrolls. -->
+  <section id="leak" class="act wf trim" data-title="The 9pm leak" data-sc-act="pin" data-sc-span="4.2">
+    <div data-sc-stage class="wf__stage">
+      <div class="wf__intro">
+        <span class="sc-label">A sample workflow</span>
+        <h2 class="sc-display">The 9pm leak, step by step.</h2>
+        <p>Every step is logged. Your rules decide what it can do on its own, and anything unusual comes to you first.</p>
+      </div>
+      <div class="wf__rail">
+        <ol id="wflist">
+          <li><div class="wf__meta"><time>21:02</time><span class="wf__who">Customer</span></div><h3>A call comes in</h3><p>"Got a leak over the back bedroom. Can someone come and look?" You're up a ladder on another job.</p></li>
+          <li><div class="wf__meta"><time>21:02</time><span class="wf__who">Agent</span></div><h3>It picks up straight away</h3><p>It answers in your business name and says it's your assistant, not a person.</p></li>
+          <li><div class="wf__meta"><time>21:03</time><span class="wf__who">Agent</span></div><h3>It gets the details</h3><p>What's happening, their name and postcode, and a photo by text or WhatsApp.</p></li>
+          <li><div class="wf__meta"><time>21:04</time><span class="wf__who">Agent</span></div><h3>It checks the job</h3><p>The postcode is in your area. Water coming through a ceiling, so it's marked urgent.</p></li>
+          <li><div class="wf__meta"><time>21:05</time><span class="wf__who">Calendar</span></div><h3>It checks your diary</h3><p>It finds the first free slots: 9am or 1pm tomorrow.</p></li>
+          <li><div class="wf__meta"><time>21:06</time><span class="wf__who">Agent</span></div><h3>It books the job in</h3><p>The customer picks 9am. It goes in your calendar and they get a confirmation.</p><q>You're booked in for 9am tomorrow. Keep clear of the area and put a bucket down if it's safe to.</q></li>
+          <li><div class="wf__meta"><time>21:06</time><span class="wf__who">You</span></div><h3>It tells you, or the engineer</h3><p>A summary with the photo, address and slot, by text or WhatsApp. Prices and anything unusual wait for your OK.</p><q>New urgent job: leak, back bedroom ceiling, BL5. Booked 9am tomorrow. Photo attached.</q></li>
+          <li><div class="wf__meta"><time>08:00</time><span class="wf__who">Agent</span></div><h3>It follows up</h3><p>A reminder on the morning of the job, and one polite nudge if they go quiet.</p></li>
+        </ol>
       </div>
     </div>
   </section>
 
   <!-- THE PARTS · flow -->
-  <section id="parts" class="sc-section parts" data-title="The parts">
+  <section id="parts" class="sc-section parts trim" data-title="The parts">
     <div class="sc-wrap parts__grid">
       <div>
         <div class="sc-stack" data-sc-in data-sc-stagger="70">
@@ -608,7 +711,7 @@
   </section>
 
   <!-- PROOF · reveal. The old site wipes away to the new one. -->
-  <section id="work" class="sc-section work" data-title="Our work" data-sc-act="flow">
+  <section id="work" class="sc-section work trim" data-title="Our work" data-sc-act="flow">
     <div class="sc-wrap">
       <div class="work__head" data-sc-in data-sc-stagger="70">
         <h2 class="sc-display">First on the bench: D&nbsp;&amp;&nbsp;P Roofing.</h2>
@@ -644,7 +747,7 @@
   </section>
 
   <!-- PRICES · pan -->
-  <section id="prices" class="act" data-title="Prices" data-sc-act="pan" data-sc-span="4.4">
+  <section id="prices" class="act trim" data-title="Prices" data-sc-act="pan" data-sc-span="4.4">
     <div data-sc-stage class="prices">
       <div class="rail" data-sc-pan="0.04">
         <div class="rail__lead">
@@ -777,6 +880,9 @@
     { stroke: 'rgba(232,238,214,.22)', 'stroke-width': 0.45 },
     { stroke: 'rgba(232,238,214,.6)', 'stroke-width': 1.1, 'stroke-linecap': 'round' }, 35);
   ticks($('#subticks'), 20, 12, 17.5, 15.5, 3, 14.5, { 'stroke-width': 0.8 }, { 'stroke-width': 1.3 });
+  ticks($('#silticks'), 200, 120, 196, 191, 10, 180,
+    { stroke: 'rgba(232,238,214,.16)', 'stroke-width': 0.6 },
+    { stroke: 'rgba(232,238,214,.42)', 'stroke-width': 1.4, 'stroke-linecap': 'round' }, 20);
   const dayTicks = $('#dayticks');
   ticks(dayTicks, 200, 96, 190, 186, 4, 178,
     { stroke: 'rgba(232,238,214,.22)', 'stroke-width': 0.6 },
@@ -886,10 +992,25 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && subWrap.hasAttribute('data-open')) { setOpen(false); subBtn.focus(); } });
   document.addEventListener('pointerdown', e => { if (!subWrap.contains(e.target)) setOpen(false); });
 
-  function frame() { drawHero(); drawDay(); drawSub(); requestAnimationFrame(frame); }
+  // ---- the 9pm leak: steps light up in order, the rail fills, the current step stays in view
+  const wfSec = $('#leak'), wfList = $('#wflist'), wfSteps = [...wfList.querySelectorAll('li')];
+  let wfLast = -1;
+  function drawFlow() {
+    const s = clamp((pOf(wfSec) - 0.04) / 0.84, 0, 1);
+    const now = Math.min(wfSteps.length - 1, Math.floor(s * wfSteps.length));
+    if (now === wfLast) return;
+    wfLast = now;
+    wfSteps.forEach((li, i) => { li.classList.toggle('is-done', i < now); li.classList.toggle('is-now', i === now); });
+    wfList.style.setProperty('--wf', wfSteps.length > 1 ? now / (wfSteps.length - 1) : 1);
+    const box = wfList.parentElement.clientHeight, li = wfSteps[now];
+    const y = li.offsetTop - box * 0.38;
+    wfList.style.transform = `translateY(${-clamp(y, 0, Math.max(0, wfList.scrollHeight - box))}px)`;
+  }
+
+  function frame() { drawHero(); drawDay(); drawFlow(); drawSub(); requestAnimationFrame(frame); }
   const start = () => { buildMenu(); frame(); };
   (document.fonts?.ready || Promise.resolve()).then(() => requestAnimationFrame(start));
-  addEventListener('resize', () => { lastNow = -1; buildMenu(); });
+  addEventListener('resize', () => { lastNow = -1; wfLast = -1; buildMenu(); });
 })();
 </script>
 </body>
