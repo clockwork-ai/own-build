@@ -16,7 +16,7 @@
     ['services.html', 'Services and prices', '09:00'],
     ['missed-calls.html', 'Missed calls', '10:42'],
     ['clockwork-check.html', 'The Clockwork Check', '11:00'],
-    ['work.html', 'Our work', '14:00'],
+    ['work.html', 'My work', '14:00'],
     ['about.html', 'About', '17:30'],
     ['book.html', 'Book a call', '08:00'],
   ];
