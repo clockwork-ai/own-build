@@ -97,7 +97,7 @@
   .subdial__menu {
     position: absolute; right: 0; top: calc(100% + 10px); width: 17.5rem;
     margin: 0; padding: 8px; list-style: none; border-radius: 16px;
-    background: color-mix(in oklab, var(--sc-surface) 96%, transparent);
+    background: #17191D;
     border: 1px solid var(--sc-hairline); box-shadow: var(--sc-e3), var(--sc-edge);
     opacity: 0; transform: translateY(-6px) scale(0.98); transform-origin: top right;
     visibility: hidden;
@@ -115,9 +115,17 @@
   .subdial__menu time { font: 400 0.82rem/1 var(--sc-font-mono); color: var(--sc-ink-soft); font-variant-numeric: tabular-nums; }
   .subdial__menu .menu__head { padding: 10px 12px 4px; font: 500 0.66rem/1 var(--sc-font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--sc-ink-soft); }
   .subdial__menu .menu__rule { height: 1px; margin: 6px 8px; background: var(--sc-hairline); }
-  .subdial__menu { max-height: calc(100svh - 110px); overflow-y: auto; }
+  .subdial__menu { max-height: calc(100svh - 110px - var(--dock-h)); overflow-y: auto; overscroll-behavior: contain; }
 
   .dock { display: none; }
+
+  .subdial__label { display: inline-flex; align-items: center; gap: 7px; padding-left: 10px; margin-left: 2px; border-left: 1px solid var(--sc-hairline-strong); font: 500 0.84rem/1 var(--sc-font-text); letter-spacing: 0; }
+  .subdial__label::after { content: ""; width: 12px; height: 8px; background: linear-gradient(currentColor, currentColor) 0 0 / 100% 1.5px no-repeat, linear-gradient(currentColor, currentColor) 0 50% / 100% 1.5px no-repeat, linear-gradient(currentColor, currentColor) 0 100% / 100% 1.5px no-repeat; }
+  .subdial[data-open] .subdial__label { color: var(--sc-accent); }
+  @media (max-width: 860px) {
+    .subdial__time { display: none; }
+    .subdial__label { border-left: 0; padding-left: 2px; }
+  }
 
   /* ------------------------------------------------------- 02:14 hero -- */
   .hero { background: #090A0D; }
@@ -382,6 +390,9 @@
   .pick__btn:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
   .pick__btn[aria-pressed="true"] { border-color: color-mix(in oklab, var(--sc-accent) 70%, transparent); background: color-mix(in oklab, var(--sc-surface) 88%, var(--sc-accent) 8%); }
   .pick__btn[aria-pressed="true"]::after { background: var(--sc-accent); box-shadow: inset 0 0 0 1px var(--sc-accent); }
+  .anybiz { margin-top: 22px; padding: 16px 18px; border-radius: 14px; border: 1px dashed color-mix(in oklab, var(--sc-accent) 50%, transparent); }
+  .anybiz b { font: 400 var(--sc-t-lg)/1.2 var(--sc-font-display); color: var(--sc-accent); font-weight: 400; }
+  .anybiz p { margin: 6px 0 0; font-size: 0.92rem; line-height: 1.55; color: color-mix(in oklab, var(--sc-ink) 84%, transparent); }
   .pick__hint { margin: 8px 0 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
 
   .pick__panel { padding: clamp(1.25rem, 2.6vw, 2rem); border-radius: 22px; background: linear-gradient(180deg, color-mix(in oklab, var(--sc-surface) 92%, #fff 2%), var(--sc-surface)); border: 1px solid var(--sc-hairline); box-shadow: var(--sc-e3), var(--sc-edge); }
@@ -652,7 +663,8 @@
           <circle cx="20" cy="20" r="1.8" fill="#CBB892"/>
         </svg>
         <span class="subdial__time" id="subtime">02:14</span>
-        <span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Open the section list</span>
+        <span class="subdial__label" aria-hidden="true">Menu</span>
+        <span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Open the menu</span>
       </button>
       <ol class="subdial__menu" id="dialmenu"></ol>
     </nav>
@@ -976,6 +988,10 @@
             <button class="pick__btn" type="button" aria-pressed="false" data-pick="google">I need more work from Google</button>
           </div>
           <p class="pick__hint">Not sure, or it's something else? That's what the free call is for. <a href="services.html" style="color:var(--sc-ink)">See every service</a>.</p>
+          <div class="anybiz">
+            <b>Not a trade?</b>
+            <p>We started with trades because that's where Callum comes from. The same systems work in any business that takes enquiries, books work or sends invoices: offices, clinics, salons, agencies. Book the free 30 minutes and we'll look at yours.</p>
+          </div>
         </div>
 
         <div aria-live="polite">
@@ -1015,18 +1031,19 @@
 
           <article class="pick__panel" data-panel="payment" hidden>
             <span class="sc-label">Sample conversation</span>
-            <h3>Reminders go out, so you don't have to chase.</h3>
+            <h3>Money in sooner, without the chasing.</h3>
             <ol class="thread">
-              <li class="msg msg--event" style="--i:0">Day 0 · Invoice sent with the job sign-off</li>
-              <li class="msg msg--out" style="--i:1"><small>Day 7, your business</small>Hi Tom, just a reminder that invoice 1043 for £640 is due this week. Thanks again for having us.</li>
-              <li class="msg msg--out" style="--i:2"><small>Day 14, your business</small>Hi Tom, invoice 1043 is now a week overdue. Could you let us know when it'll be paid?</li>
-              <li class="msg msg--in" style="--i:3"><small>Customer</small>Sorry, paid it just now.</li>
-              <li class="msg msg--note" style="--i:4"><small>To you</small>Invoice 1043 paid, £640. Reminders stopped.</li>
+              <li class="msg msg--event" style="--i:0">Quote accepted · Bathroom refit, £6,400</li>
+              <li class="msg msg--out" style="--i:1"><small>Your business</small>Thanks, Sarah. Here's your 25% deposit link to lock in your start date. The rest is split into two stage payments as the work goes.</li>
+              <li class="msg msg--in" style="--i:2"><small>Customer</small>Paid the deposit.</li>
+              <li class="msg msg--out" style="--i:3"><small>Job done, your business</small>Your final invoice is attached with a pay-now link. Pay within 7 days and it's 2% less.</li>
+              <li class="msg msg--note" style="--i:4"><small>To you</small>Final invoice paid in 3 days. Reminders never needed.</li>
             </ol>
             <dl class="facts">
-              <div><dt>We set up</dt><dd>Friendly reminders at set times, in your words, that stop the moment they pay or reply.</dd></div>
-              <div><dt>You do</dt><dd>Nothing. You get told when it's paid, or if someone needs a call from you.</dd></div>
-              <div><dt>It costs</dt><dd>From £1,250, a fixed price agreed before we start, and £149 a month if you'd like us to look after it. It pays you back in your evenings, and in money in the bank weeks sooner.</dd></div>
+              <div><dt>We set up</dt><dd>Deposits and stage payments on bigger jobs, a pay-now link on every invoice and an early-payment discount if you want one, plus friendly reminders that stop the moment they pay.</dd></div>
+              <div><dt>Service plans</dt><dd>If you sell monthly maintenance or service plans, they bill themselves every month, and renewals and service reminders go out on time.</dd></div>
+              <div><dt>You do</dt><dd>Set your terms once. You get told when money lands, or if someone needs a call from you.</dd></div>
+              <div><dt>It costs</dt><dd>From £1,250, a fixed price agreed before we start, and £149 a month if you'd like us to look after it.</dd></div>
             </dl>
           </article>
 
@@ -1149,7 +1166,7 @@
       </div>
       <div class="sc-copy sc-copy--lead" data-sc-cue="0.48 0.98">
         <span class="sc-label">At the numbers you put in above</span>
-        <p class="home__total"><b id="hometotal">£9,600 of work</b> kept this year.</p>
+        <p class="home__total" id="homeline"><b>£9,600 of work</b> kept this year.</p>
         <p>Change the numbers above and this changes too.</p>
       </div>
     </div>
@@ -1352,7 +1369,13 @@
   // Other pages, each at its own hour. Keep in step with PAGES in pages.js.
   const PAGES = [['how-it-works.html', 'How it works', '06:30'], ['services.html', 'Services and prices', '09:00'], ['clockwork-check.html', 'The Clockwork Check', '11:00'], ['work.html', 'Our work', '14:00'], ['about.html', 'About', '17:30'], ['book.html', 'Book a call', '08:00']];
   function buildMenu() {
-    menu.innerHTML = '<li><div class="menu__head">On this page</div></li>';
+    menu.innerHTML = '<li><div class="menu__head">Pages</div></li>';
+    PAGES.forEach(([href, name, t]) => {
+      const li = document.createElement('li'), a = document.createElement('a');
+      a.href = href; a.innerHTML = `<time>${t}</time><span></span>`; a.lastChild.textContent = name;
+      li.appendChild(a); menu.appendChild(li);
+    });
+    menu.insertAdjacentHTML('beforeend', '<li><div class="menu__rule"></div></li><li><div class="menu__head">On this page</div></li>');
     const marks = $('#submarks'); marks.innerHTML = '';
     acts.forEach(sec => {
       const y = sec.id === 'book' ? document.documentElement.scrollHeight : sec.offsetTop;
@@ -1363,12 +1386,7 @@
       const [x, yy] = polar(20, 20, 16.2, ((h % 12) / 12) * 360);
       const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x); c.setAttribute('cy', yy); c.setAttribute('r', 1.1); marks.appendChild(c);
     });
-    menu.insertAdjacentHTML('beforeend', '<li><div class="menu__rule"></div></li><li><div class="menu__head">Pages</div></li>');
-    PAGES.forEach(([href, name, t]) => {
-      const li = document.createElement('li'), a = document.createElement('a');
-      a.href = href; a.innerHTML = `<time>${t}</time><span></span>`; a.lastChild.textContent = name;
-      li.appendChild(a); menu.appendChild(li);
-    });
+
   }
   const bar = $('.bar');
   function drawSub() {
@@ -1432,7 +1450,7 @@
   const W = {
     calls:   { a: ['Missed calls a month that would turn into a job', 0, 10, 1, 2], b: ['Your average job', 100, 5000, 50, 400], up: 0, mo: 79, kind: 'jobs' },
     quotes:  { a: ['Jobs a month you lose by quoting late', 0, 6, 1, 1], b: ['Your average job', 100, 10000, 100, 1500], up: 1250, mo: 149, kind: 'jobs' },
-    payment: { a: ['Hours a month you spend chasing payment', 0, 30, 1, 6], b: ['What an hour of your time is worth', 15, 150, 5, 40], up: 1250, mo: 149, kind: 'hours' },
+    payment: { a: ['Hours a month you spend chasing payment', 0, 30, 1, 6], b: ['Money owed to you right now', 0, 50000, 250, 4000], up: 1250, mo: 149, kind: 'cash' },
     google:  { a: ['Extra jobs a month from Google', 0, 10, 1, 2], b: ['Your average job', 100, 5000, 50, 400], up: 0, mo: 249, kind: 'jobs' },
   };
   const wa = $('#wa'), wb = $('#wb'), gbp = n => '£' + Math.round(n).toLocaleString('en-GB');
@@ -1449,7 +1467,10 @@
     $('#wao').textContent = a;
     $('#wbo').textContent = gbp(b);
     let out;
-    if (value === 0) out = 'At these numbers you may not need this one. The free call will tell you straight.';
+    if (c.kind === 'cash') {
+      out = (a + b === 0) ? 'At these numbers you may not need this one. The free call will tell you straight.'
+        : `<b>${gbp(b)} waiting to be paid</b>, and ${a} hour${a === 1 ? '' : 's'} a month chasing it. Deposits, stage payments and a pay-now link bring more of it in on the day, and the reminders chase the rest, so those hours come back to you.`;
+    } else if (value === 0) out = 'At these numbers you may not need this one. The free call will tell you straight.';
     else if (c.kind === 'hours') {
       const m = value > c.mo ? Math.ceil(c.up / (value - c.mo)) : 0;
       out = `${a} hours at ${gbp(b)} an hour is <b>${gbp(value)} of your time</b> every month. ` +
@@ -1462,8 +1483,11 @@
       out = `${a} job${a > 1 ? 's' : ''} at ${gbp(b)} is <b>${gbp(value)} of work</b> a month, for ${gbp(c.mo)} a month.`;
     }
     $('#wres').innerHTML = out;
-    drawChart(c, value);
-    $('#hometotal').textContent = gbp(value * 12) + (c.kind === 'hours' ? ' of your time' : ' of work');
+    $('#wchart').hidden = c.kind === 'cash';
+    if (c.kind !== 'cash') drawChart(c, value);
+    $('#homeline').innerHTML = c.kind === 'cash'
+      ? `<b>${a * 12} hours of chasing</b> back this year.`
+      : `<b>${gbp(value * 12)}${c.kind === 'hours' ? ' of your time' : ' of work'}</b> kept this year.`;
   }
 
   // ---- 12-month chart: cumulative cost against cumulative value, at the visitor's numbers
