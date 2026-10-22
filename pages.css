@@ -296,3 +296,29 @@ main a:not(.btn):not(.linkline):hover { color: var(--sc-accent); }
 @media (prefers-reduced-motion: reduce) {
   .subdial__menu, .btn, .bar { transition: none; }
 }
+
+/* Phone number in the bar on desktop; on phones the dock carries it. */
+.bar__tel { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; border-radius: 8px; color: var(--sc-ink); text-decoration: none;
+  font: 500 0.92rem/1 var(--sc-font-mono); font-variant-numeric: tabular-nums; transition: color 160ms var(--sc-ease-out), opacity 160ms var(--sc-ease-out); }
+.bar__tel:hover { color: var(--sc-accent); }
+.bar__tel:active { opacity: 0.75; }
+.bar__tel:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+
+/* Footer links are full-size tap targets. */
+.foot nav { gap: 0 18px; }
+.foot nav a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* Book, call and WhatsApp at the top of the phone menu. */
+.menu__cta { display: none; }
+@media (max-width: 860px) {
+  .bar__tel { display: none; }
+  .subdial__menu { position: fixed; inset: calc(env(safe-area-inset-top, 0px) + 72px) 0 0 0; width: auto; max-height: none; border-radius: 0; border-width: 1px 0 0;
+    padding: 14px var(--sc-gutter) calc(24px + var(--dock-h)); transform-origin: top center; }
+  .bar:has(.subdial[data-open]) { background: var(--sc-canvas); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .subdial__menu a { padding: 14px 12px; font-size: 1.05rem; }
+  .menu__cta { display: grid; gap: 8px; padding: 2px 0 12px; }
+  .menu__cta div { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .subdial__menu .menu__cta .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 16px; font-size: 1rem; }
+  .subdial__menu .menu__cta .btn--primary, .subdial__menu .menu__cta .btn--primary:hover { background: var(--sc-accent); color: var(--sc-accent-ink); }
+}
+html.menu-open { overflow: hidden; }

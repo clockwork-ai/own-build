@@ -14,6 +14,7 @@
     ['index.html', 'Home', '02:14'],
     ['how-it-works.html', 'How it works', '06:30'],
     ['services.html', 'Services and prices', '09:00'],
+    ['missed-calls.html', 'Missed calls', '10:42'],
     ['clockwork-check.html', 'The Clockwork Check', '11:00'],
     ['work.html', 'Our work', '14:00'],
     ['about.html', 'About', '17:30'],
@@ -81,6 +82,9 @@
   const menu = $('#dialmenu');
   if (menu) {
     const add = html => { const li = document.createElement('li'); li.innerHTML = html; menu.appendChild(li); return li; };
+    // Phones: the same three actions as the dock, at the top of the menu.
+    const book = $('.dock .btn--primary'), wa = $('.dock a[href^="https://wa.me"]');
+    if (book && wa) add(`<div class="menu__cta"><a class="btn btn--primary" href="${book.href}" target="_blank" rel="noopener">Book a free 30-minute call</a><div><a class="btn btn--ghost" href="tel:+447985379605">Call</a><a class="btn btn--ghost" href="${wa.href}" target="_blank" rel="noopener">WhatsApp</a></div></div>`);
     add('<div class="menu__head">Pages</div>');
     PAGES.forEach(([href, name, t]) => {
       const li = add('<a></a>'), a = li.firstChild;
@@ -101,6 +105,7 @@
   const setOpen = open => {
     if (open) subWrap.setAttribute('data-open', ''); else subWrap.removeAttribute('data-open');
     subBtn.setAttribute('aria-expanded', String(open));
+    document.documentElement.classList.toggle('menu-open', open && matchMedia('(max-width: 860px)').matches);
     if (open) menu.querySelector('a')?.focus();
   };
   subBtn?.addEventListener('click', () => setOpen(!subWrap.hasAttribute('data-open')));

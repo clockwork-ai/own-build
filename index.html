@@ -3,8 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Clockwork AI · Your business, running like clockwork</title>
-<meta name="description" content="AI that answers enquiries, chases invoices and books jobs while you sleep. Built in Manchester for tradesmen and local businesses.">
+<title>Clockwork AI · AI admin help for trades in Manchester</title>
+<meta name="description" content="AI that answers enquiries, books jobs and gets you paid sooner, even at 2am. Built in Manchester by a former Gas Safe engineer, for trades and local businesses.">
+<link rel="canonical" href="https://clockworkai.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clockwork AI">
+<meta property="og:title" content="Clockwork AI · Your business, running like clockwork">
+<meta property="og:description" content="AI that answers enquiries, books jobs and gets you paid sooner, even at 2am. Built in Manchester for trades and local businesses.">
+<meta property="og:url" content="https://clockworkai.app/">
+<meta property="og:image" content="https://clockworkai.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Clockwork AI",
+  "url": "https://clockworkai.app/",
+  "logo": "https://clockworkai.app/apple-touch-icon.png",
+  "image": "https://clockworkai.app/assets/og.jpg",
+  "description": "Websites, missed-call text back, AI receptionists and admin automation for trades and local businesses.",
+  "telephone": "+447985379605",
+  "email": "callum@clockworkai.app",
+  "founder": { "@type": "Person", "name": "Callum Broadfoot" },
+  "address": { "@type": "PostalAddress", "addressLocality": "Manchester", "addressRegion": "Greater Manchester", "addressCountry": "GB" },
+  "areaServed": [{ "@type": "City", "name": "Manchester" }, { "@type": "AdministrativeArea", "name": "North West England" }],
+  "priceRange": "££"
+}
+</script>
 <meta name="theme-color" content="#0E0F12">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -640,6 +668,56 @@
     .silence__arc { stroke-dasharray: 100 100; }
     .pick__panel.is-shown .msg { animation: none; }
   }
+
+  /* Who and what: Callum, then the three steps. */
+  .intro { padding-block: clamp(4.5rem, 12vh, 8rem); background: #0B0C0F; }
+  .intro__grid { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
+  .intro__face { margin: 0; width: 100%; aspect-ratio: 1; border-radius: 50%; overflow: hidden;
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--sc-accent) 40%, transparent), 0 0 0 10px color-mix(in oklab, var(--sc-accent) 8%, transparent), var(--sc-e3); }
+  .intro__face img { width: 100%; height: 100%; object-fit: cover; }
+  .intro h2 { font-size: var(--sc-t-3xl); line-height: 1.02; max-width: 18ch; }
+  .intro .sc-body { max-width: 58ch; line-height: 1.7; }
+  .intro__for { margin: 6px 0 0; font: 500 0.82rem/1.5 var(--sc-font-mono); letter-spacing: 0.04em; color: var(--sc-accent); }
+  .offerline { list-style: none; margin: clamp(2.5rem, 7vh, 4rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .offerline li { position: relative; padding: 22px 22px 24px; border-radius: 18px; background: var(--sc-surface); border: 1px solid var(--sc-hairline); box-shadow: var(--sc-e2), var(--sc-edge); }
+  .offerline li.is-key { border-color: color-mix(in oklab, var(--sc-accent) 45%, transparent); box-shadow: var(--sc-e3), var(--sc-edge); }
+  .offerline span { font: 500 0.78rem/1 var(--sc-font-mono); color: var(--sc-accent); }
+  .offerline h3 { margin: 12px 0 0; font: 400 var(--sc-t-xl)/1.15 var(--sc-font-display); letter-spacing: -0.01em; }
+  .offerline p { margin: 8px 0 0; line-height: 1.6; color: color-mix(in oklab, var(--sc-ink) 85%, transparent); }
+  .offerline__cta { margin-top: 24px; align-items: center; gap: 18px; }
+  .offerline__cta .linkline { margin-top: 0; }
+  @media (max-width: 860px) {
+    .intro__grid { grid-template-columns: 1fr; }
+    .intro__face { width: min(46vw, 180px); }
+    .offerline { grid-template-columns: 1fr; }
+  }
+
+  /* Phone number in the bar on desktop; on phones the dock carries it. */
+  .bar__tel { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; border-radius: 8px; color: var(--sc-ink); text-decoration: none;
+    font: 500 0.92rem/1 var(--sc-font-mono); font-variant-numeric: tabular-nums; transition: color 160ms var(--sc-ease-out), opacity 160ms var(--sc-ease-out); }
+  .bar__tel:hover { color: var(--sc-accent); }
+  .bar__tel:active { opacity: 0.75; }
+  .bar__tel:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+  
+  /* Footer links are full-size tap targets. */
+  .foot nav { gap: 0 18px; }
+  .foot nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  
+  /* Book, call and WhatsApp at the top of the phone menu. */
+  .menu__cta { display: none; }
+  @media (max-width: 860px) {
+    .bar__tel { display: none; }
+    .subdial__menu { position: fixed; inset: calc(env(safe-area-inset-top, 0px) + 72px) 0 0 0; width: auto; max-height: none; border-radius: 0; border-width: 1px 0 0;
+      padding: 14px var(--sc-gutter) calc(24px + var(--dock-h)); transform-origin: top center; }
+    .bar:has(.subdial[data-open]) { background: var(--sc-canvas); backdrop-filter: none; -webkit-backdrop-filter: none; }
+    .subdial__menu a { padding: 14px 12px; font-size: 1.05rem; }
+    .menu__cta { display: grid; gap: 8px; padding: 2px 0 12px; }
+    .menu__cta div { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .subdial__menu .menu__cta .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 16px; font-size: 1rem; }
+    .subdial__menu .menu__cta .btn--primary, .subdial__menu .menu__cta .btn--primary:hover { background: var(--sc-accent); color: var(--sc-accent-ink); }
+  }
+  html.menu-open { overflow: hidden; }
+  
 </style>
 </head>
 <body>
@@ -666,6 +744,7 @@
       </button>
       <ol class="subdial__menu" id="dialmenu"></ol>
     </nav>
+    <a class="bar__tel" href="tel:+447985379605">07985 379605</a>
     <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
   </div>
 </header>
@@ -722,8 +801,8 @@
           <p class="scard__quote">"Water's coming through my bedroom ceiling."</p>
         </li>
         <li class="scard" data-step="2">
-          <div class="scard__head">Your agent answered<time>02:14</time></div>
-          <p>Took the details, then talked them through turning the water off at the stopcock.</p>
+          <div class="scard__head">Your assistant answered<time>02:14</time></div>
+          <p>Said it was your assistant, took the details, then talked them through turning the water off at the stopcock.</p>
         </li>
         <li class="scard scard--cal" data-step="3">
           <div class="scard__head">Your calendar, tomorrow<time>02:15</time></div>
@@ -738,7 +817,7 @@
         <li class="scard scard--job" data-step="5">
           <div class="scard__head">Engineer's job app<time>02:16</time></div>
           <div class="job">
-            <img src="assets/leak-photo.webp" width="480" height="636" alt="The customer's photo: a stained, bulging bedroom ceiling dripping into a bucket.">
+            <img src="assets/leak-photo.webp" width="480" height="636" alt="Sample photo: a stained, bulging bedroom ceiling dripping into a bucket.">
             <div>
               <p class="job__title">Urgent leak, back bedroom ceiling</p>
               <p>M41 · Tomorrow, 09:00</p>
@@ -752,12 +831,38 @@
       <div class="hero__copy" data-sc-cue="0 0.74 0">
         <div class="hero__copyin">
         <h1 class="sc-display">Your business, running like <em>clockwork.</em></h1>
-        <p>Even at 2am. AI that answers enquiries, chases invoices and books jobs while you sleep.</p>
+        <p>For plumbers, roofers, sparks and builders. AI that answers enquiries, books jobs and gets you paid sooner, even at 2am.</p>
         <div class="cta-row">
           <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
           <span class="note">No obligation. Built in Manchester.</span>
         </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO AND WHAT · flow. Callum, who it's for, and the three steps with prices, before the long scroll. -->
+  <section id="callum" class="sc-section intro trim" data-title="Who's behind it">
+    <div class="sc-wrap intro__grid">
+      <figure class="intro__face" data-sc-in>
+        <img src="assets/callum-portrait-sq.jpg" width="720" height="720" alt="Callum, who runs Clockwork AI." loading="lazy">
+      </figure>
+      <div class="sc-stack" data-sc-in data-sc-stagger="70">
+        <span class="sc-label">Built by a tradesman</span>
+        <h2 class="sc-display">I've done the quotes at the kitchen table too.</h2>
+        <p class="sc-body">I'm Callum. I've been on the tools since I was 16, plumbing and heating mostly, and I was a Gas Safe engineer. I've run vans, a team of lads and an office, so I know where the admin piles up. Now I build the systems that take it off you.</p>
+        <p class="intro__for">For trades across Manchester and the North West. Other businesses welcome.</p>
+      </div>
+    </div>
+    <div class="sc-wrap">
+      <ol class="offerline" data-sc-in data-sc-stagger="70">
+        <li><span>1</span><h3>A free 30-minute call</h3><p>No cost, no obligation. You talk to Callum.</p></li>
+        <li class="is-key"><span>2</span><h3>The Clockwork Check, £495</h3><p>One recommendation and one fixed price. If we can't find 5 hours a week to save you, you get your money back.</p></li>
+        <li><span>3</span><h3>We build it</h3><p>Fixed price, paid up front, with the £495 taken off. You check it before it goes live.</p></li>
+      </ol>
+      <div class="cta-row offerline__cta" data-sc-in>
+        <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
+        <a class="linkline" href="services.html">See every price <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -781,6 +886,8 @@
           <dd class="src">We couldn't find a figure we trust for this one, so we won't quote one.</dd></div>
         <div><dt>Chasing payment</dt><dd>Hours on the phone, and cash tied up.</dd>
           <dd class="src">Late payments cost the UK economy almost £11 billion a year, and 38 businesses close every day because of them. <cite><a href="https://www.gov.uk/government/consultations/late-payments-tackling-poor-payment-practices/outcome/late-payment-consultation-time-to-pay-up-government-response-web-version" target="_blank" rel="noopener">UK Government, 2025</a></cite></dd></div>
+        <div><dt>Invoices done on a Sunday</dt><dd>Your weekend, or your partner's.</dd>
+          <dd class="src">No figure for this one. You'll know if it's you.</dd></div>
         <div><dt>Asking for reviews</dt><dd>Happy customers never leave one.</dd>
           <dd class="src">83% of people who were asked to leave a review went on to leave one. <cite><a href="https://www.brightlocal.com/research/local-consumer-review-survey/" target="_blank" rel="noopener">BrightLocal, 2026 (US survey)</a></cite></dd></div>
       </dl>
@@ -866,11 +973,11 @@
       <video data-sc-scrub data-sc-src="assets/04-movement.mp4" data-sc-src-mobile="assets/04-movement-m.mp4" muted playsinline></video>
       <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
       <div class="sc-copy sc-copy--lead" data-sc-cue="0.04 0.5">
-        <h2 class="sc-display">Automation does a task. An agentic workflow does a job.</h2>
+        <h2 class="sc-display">Automation does a task. Ours does the whole job.</h2>
       </div>
       <div class="sc-copy sc-copy--lead" data-sc-cue="0.46 0.98">
         <p>A customer gets in touch at 9pm about a leak. Plain automation replies "thanks, we'll be in touch", and nothing else happens until you see it.</p>
-        <p>An agentic workflow handles the whole thing, then tells you it's done. Here's how it runs.</p>
+        <p>What we build handles the whole thing, then tells you it's done. Here's how it runs.</p>
       </div>
     </div>
   </section>
@@ -911,10 +1018,14 @@
           <li><h3>The catcher</h3><p>Every missed call and message gets a reply straight away. It takes the details and books a call-back.</p><q>Sorry we missed you, we're up on a roof. What's the job and your postcode? We'll ring you back today.</q></li>
           <li><h3>The quote engine</h3><p>Quotes drafted from your survey notes and photos, ready for you to check and send the same day.</p></li>
           <li><h3>The chaser</h3><p>Polite follow-ups on quiet quotes and unpaid invoices, stopped the moment they reply.</p></li>
-          <li><h3>The diary</h3><p>Bookings, confirmations and reminders, and easy rebooking when the weather turns.</p></li>
+          <li><h3>The diary</h3><p>Bookings, confirmations and a reminder the night before, so nobody's out when you turn up. Easy rebooking when the weather turns.</p></li>
           <li><h3>The review asker</h3><p>A review request goes out the day a job is signed off.</p><q>Thanks for having us. If you're happy with the roof, a quick review would mean a lot.</q></li>
-          <li><h3>The front desk</h3><p>Answers "do you cover...?" and "how much is...?" on your site and WhatsApp, in your words.</p></li>
+          <li><h3>The front desk</h3><p>Answers "do you cover...?" and "how much is...?" on your site and WhatsApp, in your words. Photos and postcodes from WhatsApp land in one list per customer, not lost in forty chats.</p></li>
         </ol>
+        <div class="cta-row" data-sc-in style="margin-top:28px">
+          <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
+          <span class="note">We'll tell you which parts are worth it for you.</span>
+        </div>
       </div>
       <aside class="control" data-sc-in aria-labelledby="control-h">
         <h3 id="control-h">You stay in control.</h3>
@@ -922,7 +1033,7 @@
           <li>You set the rules: what it can say, what it can book, and what it must always check with you.</li>
           <li>Nothing goes out in your name unless you've approved the wording.</li>
           <li>Every message and booking is logged, so you can check it any time.</li>
-          <li>You own it. Monthly support is optional, never a condition.</li>
+          <li>You own it. Monthly care is optional, never a condition.</li>
         </ul>
         <div class="ladder" aria-label="How much it does on its own">
           <div><b>Manual wind</b><span>It drafts, you send.</span></div>
@@ -937,7 +1048,7 @@
   <section id="work" class="sc-section work trim" data-title="Our work" data-sc-act="flow">
     <div class="sc-wrap">
       <div class="work__head" data-sc-in data-sc-stagger="70">
-        <h2 class="sc-display">First on the bench: D&nbsp;&amp;&nbsp;P Roofing.</h2>
+        <h2 class="sc-display">Our first job: D&nbsp;&amp;&nbsp;P Roofing.</h2>
         <p>Roofers and builders near Bolton, with 30 years on the tools and <a href="https://trustedtraders.which.co.uk/businesses/d-p-roofing-building-ltd/" target="_blank" rel="noopener">5.0 from 142 reviews on Which?</a>. Their old site didn't show their Which? score. As our first case study, we researched their local competitors and rebuilt it free to beat them.</p>
       </div>
 
@@ -1057,7 +1168,7 @@
             <dl class="facts">
               <div><dt>We set up</dt><dd>A website built from your real job photos and reviews, your Google profile set up properly, and a review request after every job.</dd></div>
               <div><dt>You do</dt><dd>Send us your photos and answer a few questions. About an hour of your time, all in.</dd></div>
-              <div><dt>It costs</dt><dd>Trade Website £1,495, or £129 a month for 12 months, then it's yours. Trade Growth, £249 a month, adds your Google profile, review requests and the missed-call text back. One extra job a month from Google usually covers it.</dd></div>
+              <div><dt>It costs</dt><dd>Trade Website £1,495, or £129 a month for 12 months, then it's yours. Trade Growth, £249 a month, adds your Google profile, review requests and the missed-call text back. One extra job a month worth more than £249 covers it.</dd></div>
             </dl>
           </article>
 
@@ -1116,7 +1227,7 @@
         <li><h3>We build it, you approve it</h3><p>Nothing goes live until you've checked it. You keep your number and the tools you already use, and we look after it afterwards if you want us to.</p></li>
       </ol>
       <ul class="promises" data-sc-in>
-        <li>Keep your number</li><li>No tech skills needed</li><li>You approve every message</li><li>You own what we build</li><li>Cancel monthly support any time</li>
+        <li>Keep your number</li><li>No tech skills needed</li><li>You approve every message</li><li>You own what we build</li><li>Cancel aftercare any month</li>
       </ul>
 
       <div class="faq">
@@ -1124,29 +1235,28 @@
         <div data-sc-in>
           <details><summary>Do I need to be good with computers?</summary><p>No. We set it all up and show you how it works. Most of it runs without you touching anything, and the bits that need you come to your phone.</p></details>
           <details><summary>Will I keep my phone number?</summary><p>Yes. The number on your van, your cards and Google stays exactly the same.</p></details>
+          <details><summary>Will it sound like a robot?</summary><p>It tells customers it's your assistant, not a person, and only says what you've approved. Prices and anything odd come to you first. You try it on your own phone before it goes live.</p></details>
           <details><summary>What if it says something wrong?</summary><p>You agree the wording before anything goes live, and anything unusual, like prices or discounts, comes to you first. Every message is logged, so you can check it any time.</p></details>
-          <details><summary>Do I own it?</summary><p>Yes. If you stop the monthly support, you keep what we built.</p></details>
-          <details><summary>What does it cost each month?</summary><p>Websites are £39 a month for hosting and care. Automations are £149 a month if you'd like us to look after them, or nothing if you don't. You'll see the monthly cost before you agree to anything.</p></details>
+          <details><summary>Do I own it? What if I stop paying?</summary><p>Yes, you own it. If you stop the monthly care, you keep what we built. The only fixed terms are the Trade Website monthly option and Trade Growth, which are 12 months.</p></details>
+          <details><summary>What does it cost each month?</summary><p>Websites are £39 a month for hosting and care. Missed-call text back is £79 a month. Trade Growth is £249 a month. Looking after an automation is £149 a month, or nothing if you don't want it. You'll see the monthly cost before you agree to anything.</p></details>
+          <details><summary>What about my customers' details?</summary><p>They stay in the tools you already use: your phone, email, calendar and job software. We only use what we need to set things up and fix them. <a href="privacy.html">Read how we handle data.</a></p></details>
         </div>
       </div>
 
       <div class="pricelist" data-sc-in>
-        <h2 class="sc-display">Every price, in one place.</h2>
+        <h2 class="sc-display">Prices, at a glance.</h2>
         <div class="pricelist__wrap">
           <table>
             <thead><tr><th scope="col">What</th><th scope="col">Price</th><th scope="col">Pays for itself when</th></tr></thead>
             <tbody>
               <tr><td><b>The Clockwork Check</b><span>What would make the biggest difference, with one fixed price to do it</span></td><td>£495<span>Comes off the price if you go ahead within 60 days</span></td><td>it finds 5 hours a week to save you. If it doesn't, you get the £495 back.</td></tr>
               <tr><td><b>Missed-call text back</b><span>On its own</span></td><td>£79 a month</td><td>one missed call a month turns into a job worth more than £79.</td></tr>
-              <tr><td><b>Trade Website</b><span>Built from your real photos and reviews</span></td><td>£1,495, or £129 a month for 12 months<span>Then it's yours. Hosting and care £39 a month</span></td><td>the jobs it brings in add up to £1,495. For most trades that's a handful of jobs.</td></tr>
-              <tr><td><b>Trade Growth</b><span>Website, Google profile, review requests and missed-call text back</span></td><td>£249 a month for 12 months<span>Nothing to pay up front</span></td><td>it brings in one extra job a month worth more than £249.</td></tr>
-              <tr><td><b>One job automated</b><span>Quotes, getting paid sooner or the diary</span></td><td>From £1,250<span>Fixed price, agreed before we start</span></td><td>it wins a job you'd have lost, or saves you the hours. At 3 hours a week and £40 an hour, that's about 10 weeks.</td></tr>
-              <tr><td><b>A system that handles a whole job</b><span>Like the 9pm leak above</span></td><td>From £3,500</td><td>it catches the jobs that come in when you can't answer, like a 2am leak.</td></tr>
-              <tr><td><b>We look after it</b><span>Watch it, fix it, tweak it</span></td><td>£149 a month per automation<span>Cancel any month. Bigger systems from £495 a month</span></td><td>it keeps the rest working, so nothing quietly stops and costs you a job.</td></tr>
-              <tr><td><b>Half-day training</b><span>For your team to use AI themselves</span></td><td>£695</td><td>your team saves an hour or two a week each.</td></tr>
+              <tr><td><b>Trade Website, or Trade Growth</b><span>Growth adds your Google profile, review requests and missed-call text back</span></td><td>£1,495, or £249 a month for 12 months</td><td>the jobs it brings in cover it. For most trades that's a handful of jobs.</td></tr>
+              <tr><td><b>Automations</b><span>Quotes, getting paid sooner or the diary. Whole-job systems like the 9pm leak from £3,500</span></td><td>From £1,250<span>Fixed price, agreed before we start</span></td><td>it wins a job you'd have lost, or gives you your evenings back.</td></tr>
             </tbody>
           </table>
         </div>
+        <p style="margin-top:18px"><a class="linkline" href="services.html">Every price, including aftercare and training <span aria-hidden="true">→</span></a></p>
         <p class="founding"><b>Founding clients:</b> the first five clients get 30% off, in return for a case study, a testimonial and permission to show the work.</p>
       </div>
     </div>
@@ -1203,7 +1313,7 @@
       </div>
 
       <div class="close__side">
-        <p>1948: the first stored program ran in Manchester. 2026: yours can.</p>
+        <p>1948: the first stored program ran in Manchester. 2026: yours can run here too.</p>
         <div class="close__alt">
           <a class="btn btn--ghost" href="tel:+447985379605">Call 07985 379605</a>
           <a class="btn btn--ghost" href="https://wa.me/447985379605?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener">WhatsApp</a>
@@ -1219,7 +1329,9 @@
           <a href="clockwork-check.html">The Clockwork Check</a>
           <a href="work.html">Our work</a>
           <a href="about.html">About</a>
+          <a href="missed-calls.html">Missed calls</a>
           <a href="book.html">Book a call</a>
+          <a href="privacy.html">Privacy</a>
         </nav>
       </footer>
     </div>
@@ -1365,9 +1477,10 @@
     return START + (END - START) * clamp((y - y0) / Math.max(1, max - y0), 0, 1);
   };
   // Other pages, each at its own hour. Keep in step with PAGES in pages.js.
-  const PAGES = [['how-it-works.html', 'How it works', '06:30'], ['services.html', 'Services and prices', '09:00'], ['clockwork-check.html', 'The Clockwork Check', '11:00'], ['work.html', 'Our work', '14:00'], ['about.html', 'About', '17:30'], ['book.html', 'Book a call', '08:00']];
+  const PAGES = [['how-it-works.html', 'How it works', '06:30'], ['services.html', 'Services and prices', '09:00'], ['missed-calls.html', 'Missed calls', '10:42'], ['clockwork-check.html', 'The Clockwork Check', '11:00'], ['work.html', 'Our work', '14:00'], ['about.html', 'About', '17:30'], ['book.html', 'Book a call', '08:00']];
   function buildMenu() {
-    menu.innerHTML = '<li><div class="menu__head">Pages</div></li>';
+    const book = $('.dock .btn--primary'), wa = $('.dock a[href^="https://wa.me"]');
+    menu.innerHTML = `<li><div class="menu__cta"><a class="btn btn--primary" href="${book.href}" target="_blank" rel="noopener">Book a free 30-minute call</a><div><a class="btn btn--ghost" href="tel:+447985379605">Call</a><a class="btn btn--ghost" href="${wa.href}" target="_blank" rel="noopener">WhatsApp</a></div></div></li><li><div class="menu__head">Pages</div></li>`;
     PAGES.forEach(([href, name, t]) => {
       const li = document.createElement('li'), a = document.createElement('a');
       a.href = href; a.innerHTML = `<time>${t}</time><span></span>`; a.lastChild.textContent = name;
@@ -1399,6 +1512,7 @@
   const setOpen = open => {
     if (open) subWrap.setAttribute('data-open', ''); else subWrap.removeAttribute('data-open');
     subBtn.setAttribute('aria-expanded', String(open));
+    document.documentElement.classList.toggle('menu-open', open && matchMedia('(max-width: 860px)').matches);
     if (open) menu.querySelector('a')?.focus();
   };
   subBtn.addEventListener('click', () => setOpen(!subWrap.hasAttribute('data-open')));
