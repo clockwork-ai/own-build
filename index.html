@@ -113,6 +113,9 @@
   .subdial__menu a:active { background: color-mix(in oklab, var(--sc-ink) 11%, transparent); }
   .subdial__menu a[aria-current="true"] time { color: var(--sc-accent); }
   .subdial__menu time { font: 400 0.82rem/1 var(--sc-font-mono); color: var(--sc-ink-soft); font-variant-numeric: tabular-nums; }
+  .subdial__menu .menu__head { padding: 10px 12px 4px; font: 500 0.66rem/1 var(--sc-font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--sc-ink-soft); }
+  .subdial__menu .menu__rule { height: 1px; margin: 6px 8px; background: var(--sc-hairline); }
+  .subdial__menu { max-height: calc(100svh - 110px); overflow-y: auto; }
 
   .dock { display: none; }
 
@@ -134,12 +137,12 @@
   }
   .plane { position: absolute; inset: 0; transform-origin: 50% 50%; }
   .plane svg { width: 100%; height: 100%; overflow: visible; }
-  .plane--face  { -webkit-mask-image: linear-gradient(to bottom, #000 58%, rgba(0,0,0,.28) 86%); mask-image: linear-gradient(to bottom, #000 58%, rgba(0,0,0,.28) 86%); transform: scale(calc(1 + var(--sc-p, 0) * 0.5)); opacity: calc(1 - max(0, var(--sc-p, 0) - 0.62) * 2.4); }
-  .plane--hands { transform: scale(calc(1 + var(--sc-p, 0) * 0.78)); opacity: calc(1 - max(0, var(--sc-p, 0) - 0.7) * 3); }
+  .plane--face  { -webkit-mask-image: linear-gradient(to bottom, #000 58%, rgba(0,0,0,.28) 86%); mask-image: linear-gradient(to bottom, #000 58%, rgba(0,0,0,.28) 86%); transform: scale(calc(1 + var(--hx, 0) * 0.5)); opacity: calc(1 - max(0, var(--hx, 0) - 0.4) * 1.7); }
+  .plane--hands { transform: scale(calc(1 + var(--hx, 0) * 0.78)); opacity: calc(1 - max(0, var(--hx, 0) - 0.5) * 2); }
   .plane--glass {
     border-radius: 50%; z-index: 25;
-    transform: scale(calc(1 + var(--sc-p, 0) * 1.5));
-    opacity: calc(0.85 - var(--sc-p, 0) * 1.1);
+    transform: scale(calc(1 + var(--hx, 0) * 1.5));
+    opacity: calc(0.85 - var(--hx, 0) * 1.1);
     background:
       radial-gradient(60% 60% at 30% 22%, color-mix(in oklab, var(--sc-ink) 9%, transparent), transparent 70%),
       conic-gradient(from 300deg, transparent 0deg, color-mix(in oklab, var(--sc-ink) 7%, transparent) 30deg, transparent 70deg);
@@ -149,17 +152,55 @@
     position: absolute; left: 50%; top: 12%; translate: -50% 0; width: 58%;
     text-shadow: 0 0 14px #0B0C0F, 0 0 4px #0B0C0F;
     text-align: center; z-index: 22;
-    transform: scale(calc(1 + var(--sc-p, 0) * 0.5)); transform-origin: 50% 160%;
-    opacity: calc(1 - max(0, var(--sc-p, 0) - 0.68) * 3.2);
+    transform: scale(calc(1 + var(--hx, 0) * 0.5)); transform-origin: 50% 160%;
+    opacity: calc(1 - max(0, var(--hx, 0) - 0.3) * 2);
   }
   .comp__time small { font-size: 0.5em; margin-left: 0.3em; color: var(--sc-accent); letter-spacing: 0.06em; text-transform: uppercase; }
   .comp__time { font: 400 clamp(1.4rem, 1rem + 1.3vw, 2.2rem)/1 var(--sc-font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--sc-ink); }
-  .comp__log { list-style: none; margin: 14px 0 0; padding: 0; position: relative; min-height: 3.2em; }
-  .comp__log li { opacity: 0; transition: opacity 320ms var(--sc-ease-out); }
-  .comp__log li.is-on { opacity: 1; }
-  .comp__log li { position: absolute; inset: 0 0 auto; font-size: clamp(0.86rem, 0.8rem + 0.25vw, 1rem); line-height: 1.4; color: var(--sc-ink); text-wrap: balance; }
-  .comp__log li::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--sc-accent); margin-right: 8px; vertical-align: 0.15em; }
   .comp__label { display: block; font-size: 0.68rem; margin-bottom: 8px; }
+
+  .dialmark { opacity: 0; transition: opacity 360ms var(--sc-ease-out); }
+  .dialmark.is-on { opacity: 1; }
+  .dialmark__t { fill: #CBB892; font: 500 7.5px var(--sc-font-mono); letter-spacing: 0.04em; }
+  .dialmark.is-on .dialmark__ring { transform-box: fill-box; transform-origin: center; animation: ring 1.8s var(--sc-ease-out) infinite; }
+  @keyframes ring { from { transform: scale(1); opacity: 0.9; } to { transform: scale(2.6); opacity: 0; } }
+  .comp__swipe { display: block; margin: 0 auto 10px; max-width: 26ch; font: 500 0.7rem/1.5 var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-accent);
+    animation: swipe 1100ms var(--sc-ease-out) 300ms both; }
+  @keyframes swipe { from { clip-path: inset(0 100% 0 0); transform: translateX(-12px); opacity: 0; } to { clip-path: inset(0 0 0 0); transform: none; opacity: 1; } }
+
+  .story { position: absolute; z-index: 21; right: var(--sc-gutter); top: calc(env(safe-area-inset-top, 0px) + 92px); width: min(370px, 30vw); margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .scard { padding: 14px 16px; border-radius: 16px; background: color-mix(in oklab, #121317 88%, transparent); border: 1px solid var(--sc-hairline); box-shadow: var(--sc-e2), var(--sc-edge);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    opacity: 0; transform: translateX(26px); transition: opacity 420ms var(--sc-ease-out), transform 420ms var(--sc-ease-out); }
+  .scard.is-on { opacity: 1; transform: none; border-color: color-mix(in oklab, var(--sc-accent) 45%, transparent); }
+  .scard.is-past { opacity: 0.62; transform: none; }
+  .scard__head { display: flex; align-items: center; gap: 8px; font: 500 0.68rem/1.2 var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-accent); }
+  .scard__head time { margin-left: auto; color: var(--sc-ink-soft); letter-spacing: 0.04em; }
+  .scard__pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--sc-accent); animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: 0.25; } }
+  .scard p { margin: 8px 0 0; font-size: 0.92rem; line-height: 1.45; color: color-mix(in oklab, var(--sc-ink) 90%, transparent); }
+  .scard__big { font: 400 1.35rem/1.1 var(--sc-font-mono) !important; color: var(--sc-ink) !important; letter-spacing: 0.02em; }
+  .scard__quote { font-style: italic; }
+  .cal { list-style: none; margin: 10px 0 0; padding: 0; border-top: 1px solid var(--sc-hairline); }
+  .cal li { display: grid; grid-template-columns: 3.2rem 1fr; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--sc-hairline); font-size: 0.86rem; }
+  .cal time { font: 400 0.78rem/1.6 var(--sc-font-mono); color: var(--sc-ink-soft); }
+  .cal__slot { border-radius: 8px; transition: background-color 360ms var(--sc-ease-out); }
+  .cal__free { color: var(--sc-accent); }
+  .cal__booked, .cal__note-booked { display: none; }
+  .scard--cal.is-booked .cal__slot { background: color-mix(in oklab, var(--sc-accent) 16%, transparent); padding-left: 6px; }
+  .scard--cal.is-booked .cal__slot time { color: var(--sc-accent); }
+  .scard--cal.is-booked .cal__free, .scard--cal.is-booked .cal__note-free { display: none; }
+  .scard--cal.is-booked .cal__booked, .scard--cal.is-booked .cal__note-booked { display: inline; }
+  .scard--cal.is-booked .cal__booked { color: var(--sc-ink); font-weight: 500; }
+  .scard__note { font-size: 0.82rem !important; color: var(--sc-ink-soft) !important; }
+  .job { display: grid; grid-template-columns: 76px 1fr; gap: 12px; margin-top: 10px; align-items: start; }
+  .job img { width: 76px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid var(--sc-hairline); }
+  .job p { margin: 0 0 4px; font-size: 0.86rem; }
+  .job__title { font-weight: 500; color: var(--sc-ink) !important; }
+  .job__ok { color: var(--sc-accent) !important; }
+  .story__label { justify-self: end; font: 400 0.66rem/1 var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink-soft); opacity: 0; transition: opacity 400ms; }
+  .hero.is-story .story__label { opacity: 1; }
+  .hero__copyin { transition: opacity 360ms var(--sc-ease-out), transform 360ms var(--sc-ease-out); }
 
   .hero__copy { position: absolute; left: var(--sc-gutter); right: var(--sc-gutter); bottom: clamp(2.5rem, 9vh, 6rem); z-index: 20; max-width: 44rem; }
   .hero__copy h1 { font-size: clamp(2.7rem, 1.4rem + 4.6vw, 6.2rem); line-height: 0.98; }
@@ -369,6 +410,38 @@
   .worth__row input:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 4px; border-radius: 6px; }
   .worth__result { margin: 18px 0 0; font: 400 clamp(1.25rem, 1rem + 0.9vw, 1.6rem)/1.3 var(--sc-font-display); letter-spacing: -0.01em; }
   .worth__result b { font-weight: 400; color: var(--sc-accent); }
+  /* 12-month chart. Series colours validated with the dataviz checker (dark, on #161618). */
+  .chart { --v: #B8893A; --c: #5F86C2; margin-top: 18px; }
+  .chart__legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.82rem; color: var(--sc-ink-soft); }
+  .key::before { content: ""; display: inline-block; width: 16px; height: 2px; border-radius: 2px; margin-right: 7px; vertical-align: middle; background: var(--v); }
+  .key--c::before { background: var(--c); }
+  .chart__plot { position: relative; margin-top: 8px; }
+  .chart svg { width: 100%; height: auto; overflow: visible; display: block; border-radius: 8px; }
+  .chart svg:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 4px; }
+  .chart__grid line { stroke: rgba(232,238,214,.08); stroke-width: 1; }
+  .chart__grid text, .chart__axis { fill: var(--sc-ink-soft); font: 400 10px var(--sc-font-mono); }
+  .chart__line { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .chart__line--v { stroke: var(--v); }
+  .chart__line--c { stroke: var(--c); }
+  .chart__pay { stroke: rgba(232,238,214,.28); stroke-width: 1; }
+  .chart__dot { fill: var(--sc-ink); stroke: #161618; stroke-width: 2; }
+  .chart__paytext { fill: var(--sc-ink); font: 500 11px var(--sc-font-text); }
+  .chart__end { fill: var(--sc-ink); font: 500 11px var(--sc-font-text); }
+  .chart__end--soft { fill: var(--sc-ink-soft); }
+  .chart__cross { stroke: rgba(232,238,214,.35); stroke-width: 1; opacity: 0; }
+  .chart__plot.is-hover .chart__cross { opacity: 1; }
+  .chart__tip { position: absolute; top: 0; pointer-events: none; padding: 8px 10px; border-radius: 10px; background: #0B0C0F; border: 1px solid var(--sc-hairline-strong); box-shadow: var(--sc-e2); font-size: 0.8rem; line-height: 1.5; white-space: nowrap; }
+  .chart__tip b { font-weight: 500; }
+  .chart__tip i { display: inline-block; width: 12px; height: 2px; margin-right: 6px; vertical-align: middle; border-radius: 2px; }
+  .chart__table { margin-top: 10px; font-size: 0.85rem; }
+  .chart__table summary { cursor: pointer; color: var(--sc-ink-soft); display: inline-block; padding: 4px 0; border-radius: 4px; }
+  .chart__table summary:hover { color: var(--sc-ink); }
+  .chart__table summary:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+  .chart__tablewrap { max-height: 220px; overflow: auto; margin-top: 8px; border: 1px solid var(--sc-hairline); border-radius: 10px; }
+  .chart__table table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .chart__table th, .chart__table td { padding: 6px 10px; text-align: right; border-bottom: 1px solid var(--sc-hairline); }
+  .chart__table th:first-child, .chart__table td:first-child { text-align: left; }
+  .chart__table th { font: 500 0.68rem var(--sc-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--sc-ink-soft); position: sticky; top: 0; background: #131416; }
   .worth__small { margin: 8px 0 0; font-size: 0.8rem; color: var(--sc-ink-soft); }
   .pick__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 22px; }
 
@@ -413,6 +486,14 @@
   .pricelist td span { display: block; font-size: 0.88rem; color: var(--sc-ink-soft); }
   .pricelist .founding { margin: 14px 0 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
   .pricelist .founding b { color: var(--sc-accent); font-weight: 500; }
+
+  /* -------------------------------------------------------- home on time -- */
+  .home h2 { font-size: var(--sc-t-3xl); }
+  .home .sc-copy p { margin: 12px 0 0; font-size: var(--sc-t-lg); line-height: 1.5; color: color-mix(in oklab, var(--sc-ink) 86%, transparent); max-width: 34ch; }
+  .home .sc-copy .sc-label { color: var(--sc-accent); }
+  .home .sc-copy .home__total { margin-top: 10px; font: 400 clamp(1.9rem, 1.2rem + 2.4vw, 3.2rem)/1.08 var(--sc-font-display); letter-spacing: -0.015em; color: var(--sc-ink); max-width: 24ch; }
+  .home__total b { font-weight: 400; color: var(--sc-accent); }
+  .home .sc-scrim--lead { background: linear-gradient(90deg, color-mix(in oklab, var(--sc-canvas) 93%, transparent) 0%, color-mix(in oklab, var(--sc-canvas) 78%, transparent) 30%, color-mix(in oklab, var(--sc-canvas) 30%, transparent) 52%, transparent 68%), linear-gradient(to top, color-mix(in oklab, var(--sc-canvas) 85%, transparent) 0%, color-mix(in oklab, var(--sc-canvas) 35%, transparent) 38%, transparent 56%); }
 
   /* ------------------------------------------------------------- close -- */
   .close { background: #1a1612; }
@@ -465,6 +546,11 @@
     .hero__copy h1 { font-size: clamp(2.5rem, 11vw, 3.4rem); }
     .hero__copy p { font-size: 1.05rem; margin-top: 12px; }
     .hero__copy .cta-row { display: none; }
+    .story { left: var(--sc-gutter); right: var(--sc-gutter); width: auto; top: auto; bottom: calc(var(--dock-h) + 16px); display: block; min-height: 12rem; }
+    .scard { position: absolute; left: 0; right: 0; bottom: 0; }
+    .scard.is-past { opacity: 0; transform: translateY(-10px); }
+    .story__label { display: none; }
+    .hero.is-story .hero__copyin { opacity: 0; transform: translateY(10px); }
 
     .cost__plate { width: 100%; height: 56vh; opacity: 0.55;
       -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 60%); mask-image: linear-gradient(to top, transparent 0%, #000 60%); }
@@ -503,8 +589,9 @@
 
     .how .sc-scrim--lead { background: linear-gradient(to top, rgba(14,15,18,.96) 0%, rgba(14,15,18,.86) 42%, rgba(14,15,18,.35) 64%, transparent 78%); }
     .how .sc-copy { bottom: calc(var(--dock-h) + 24px); }
-    .hero__comp { width: 64%; top: 11%; }
-    .comp__log li { font-size: 0.84rem; }
+    .home .sc-scrim--lead { background: linear-gradient(to top, rgba(14,15,18,.97) 0%, rgba(14,15,18,.92) 46%, rgba(14,15,18,.55) 64%, transparent 80%); }
+    .home .sc-copy { bottom: calc(var(--dock-h) + 24px); }
+    .hero__comp { width: 64%; top: 17%; }
     .pick { grid-template-columns: 1fr; }
     .pick__list { position: static; }
     .steps { grid-template-columns: 1fr; }
@@ -536,6 +623,8 @@
 
   @media (prefers-reduced-motion: reduce) {
     .hero__plate, .plane, .hero__comp { transform: none !important; }
+    .scard, .dialmark, .hero__copyin { transition: none; }
+    .dialmark__ring, .scard__pulse, .comp__swipe { animation: none !important; }
     .plane--glass { opacity: 0.5 !important; }
     .day__log ol, .day__log li, .wdial__ap img, .wf__rail ol, .wf__rail li, .wf__rail ol::after { transition: none; }
     .silence__dial, .silence__hand { transform: none !important; }
@@ -574,7 +663,7 @@
 <main id="main">
 
   <!-- 02:14 · RECOGNITION. Pinned stage, four planes: night plate, dial face, hands, glass. -->
-  <section id="tonight" class="act" data-title="Tonight" data-sc-act="pin" data-sc-span="2.2">
+  <section id="tonight" class="act" data-title="Tonight" data-sc-act="pin" data-sc-span="3.8">
     <div data-sc-stage class="hero">
       <picture class="hero__plate">
         <source media="(max-width: 860px)" srcset="assets/01-night-p.webp">
@@ -589,6 +678,16 @@
             <g id="heroticks"></g>
             <circle cx="100" cy="100" r="66" fill="none" stroke="rgba(232,238,214,.10)" stroke-width="0.4"/>
             <circle cx="176.2" cy="56" r="2.6" fill="#CBB892"/>
+            <g class="dialmark" id="m214">
+              <path d="M182.1 56.3 A93 93 0 0 1 188.4 71.3" fill="none" stroke="#CBB892" stroke-width="3.2" stroke-linecap="round"/>
+              <circle cx="185.6" cy="63.7" r="4.6" fill="none" stroke="#CBB892" stroke-width="1" class="dialmark__ring"/>
+              <text x="170" y="84" text-anchor="end" class="dialmark__t">02:14</text>
+            </g>
+            <g class="dialmark" id="m900">
+              <path d="M7.35 108.1 A93 93 0 0 1 7.35 91.9" fill="none" stroke="#CBB892" stroke-width="3.2" stroke-linecap="round"/>
+              <circle cx="7" cy="100" r="4.6" fill="none" stroke="#CBB892" stroke-width="1" class="dialmark__ring"/>
+              <text x="20" y="103.5" text-anchor="start" class="dialmark__t">09:00</text>
+            </g>
           </svg>
         </div>
         <div class="plane plane--hands" aria-hidden="true">
@@ -601,23 +700,53 @@
         <div class="plane plane--glass" aria-hidden="true"></div>
 
       <div class="hero__comp">
-        <span class="sc-label comp__label comp__label--top">From a sample day</span>
+        <span class="comp__swipe">A sample day, with automated workflows in your business</span>
         <div class="comp__time" aria-label="2:14 in the morning">02:14<small>am</small></div>
-        <ol class="comp__log" aria-label="From a sample day">
-          <li data-at="0" class="is-on">Leak enquiry, answered straight away</li>
-          <li data-at="0.2">Talked them through turning the water off and making it safe</li>
-          <li data-at="0.4">Photo and postcode in. Marked urgent</li>
-          <li data-at="0.6">9am visit booked. Owner sent a summary</li>
-        </ol>
       </div>
       </div>
 
-      <div class="hero__copy" data-sc-cue="0 0.55 0">
+      <ol class="story" aria-label="What happens at 02:14, a sample">
+        <li class="scard" data-step="1">
+          <div class="scard__head"><span class="scard__pulse" aria-hidden="true"></span>Incoming call<time>02:14</time></div>
+          <p class="scard__big">07700 900123</p>
+          <p class="scard__quote">"Water's coming through my bedroom ceiling."</p>
+        </li>
+        <li class="scard" data-step="2">
+          <div class="scard__head">Your agent answered<time>02:14</time></div>
+          <p>Took the details, then talked them through turning the water off at the stopcock.</p>
+        </li>
+        <li class="scard scard--cal" data-step="3">
+          <div class="scard__head">Your calendar, tomorrow<time>02:15</time></div>
+          <ul class="cal">
+            <li><time>08:00</time><span>Boiler service, Bolton</span></li>
+            <li class="cal__slot"><time>09:00</time><span class="cal__free">Free</span><span class="cal__booked">Leak, back bedroom · BL5 3HB</span></li>
+            <li><time>11:00</time><span>Quote visit, Westhoughton</span></li>
+            <li><time>13:00</time><span>Bathroom refit, Leigh</span></li>
+          </ul>
+          <p class="scard__note"><span class="cal__note-free">9am is free. Offered to the customer.</span><span class="cal__note-booked">Customer said yes. Booked for 9am.</span></p>
+        </li>
+        <li class="scard scard--job" data-step="5">
+          <div class="scard__head">Engineer's job app<time>02:16</time></div>
+          <div class="job">
+            <img src="assets/leak-photo.webp" width="480" height="636" alt="The customer's photo: a stained, bulging bedroom ceiling dripping into a bucket.">
+            <div>
+              <p class="job__title">Urgent leak, back bedroom ceiling</p>
+              <p>BL5 3HB · Tomorrow, 09:00</p>
+              <p class="job__ok">Photo and postcode uploaded. Engineer notified.</p>
+            </div>
+          </div>
+        </li>
+        <li class="story__label" aria-hidden="true">Sample, for a plumber</li>
+      </ol>
+
+      <div class="hero__copy" data-sc-cue="0 0.74 0">
+        <div class="hero__copyin">
         <h1 class="sc-display">Your business, running like <em>clockwork.</em></h1>
         <p>Even at 2am. AI that answers enquiries, chases invoices and books jobs while you sleep.</p>
         <div class="cta-row">
           <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
           <span class="note">Free 30 minute call. Built in Manchester.</span>
+        </div>
         </div>
       </div>
     </div>
@@ -826,7 +955,7 @@
         <div><h3>A written report with it</h3><p>Your old site against the new one, in plain English: what changed and why it matters.</p></div>
         <div><h3>What's next for them</h3><p>An out-of-hours assistant for emergency leak calls, which they asked for. No results to show yet. We'll publish real numbers when there are some.</p></div>
       </div>
-      <a class="linkline" href="https://clockwork-ai.github.io/D-and-P/dandp-roofing/" target="_blank" rel="noopener">See the D &amp; P demo <span aria-hidden="true">↗</span></a>
+      <a class="linkline" href="work.html">Read the full D &amp; P story <span aria-hidden="true">→</span></a>
     </div>
   </section>
 
@@ -846,7 +975,7 @@
             <button class="pick__btn" type="button" aria-pressed="false" data-pick="payment">I'm always chasing payment</button>
             <button class="pick__btn" type="button" aria-pressed="false" data-pick="google">I need more work from Google</button>
           </div>
-          <p class="pick__hint">Not sure, or it's something else? That's what the free call is for.</p>
+          <p class="pick__hint">Not sure, or it's something else? That's what the free call is for. <a href="services.html" style="color:var(--sc-ink)">See every service</a>.</p>
         </div>
 
         <div aria-live="polite">
@@ -931,6 +1060,28 @@
               <input type="range" id="wb" min="100" max="5000" step="50" value="400" aria-describedby="wres">
             </div>
             <p class="worth__result" id="wres" aria-live="polite"></p>
+            <div class="chart" id="wchart">
+              <div class="chart__legend" aria-hidden="true"><span class="key key--v" id="wkeyv">Work kept</span><span class="key key--c">What you pay us</span></div>
+              <div class="chart__plot">
+                <svg viewBox="0 0 600 240" role="img" aria-labelledby="wcap" tabindex="0" id="wsvg">
+                  <title id="wcap">Twelve months at your numbers: what it costs against what it keeps</title>
+                  <g id="wgrid"></g>
+                  <line id="wpayline" x1="0" x2="0" y1="14" y2="214" class="chart__pay"/>
+                  <path id="wcost" class="chart__line chart__line--c"/>
+                  <path id="wvalue" class="chart__line chart__line--v"/>
+                  <circle id="wpaydot" r="5" class="chart__dot"/>
+                  <text id="wpaytext" class="chart__paytext"></text>
+                  <line id="wcross" y1="14" y2="214" class="chart__cross"/>
+                  <text id="wendv" class="chart__end"></text>
+                  <text id="wendc" class="chart__end chart__end--soft"></text>
+                </svg>
+                <div class="chart__tip" id="wtip" hidden></div>
+              </div>
+              <details class="chart__table">
+                <summary>See the numbers</summary>
+                <div class="chart__tablewrap"><table><thead><tr><th scope="col">Month</th><th scope="col" id="wthv">Work kept</th><th scope="col">What you pay us</th></tr></thead><tbody id="wtbody"></tbody></table></div>
+              </details>
+            </div>
             <p class="worth__small">Your numbers, not a promise. Not every call or quote turns into work.</p>
           </div>
 
@@ -986,6 +1137,24 @@
     </div>
   </section>
 
+  <!-- HOME ON TIME · scrub. The second and last clip: what the visitor's numbers buy back. -->
+  <section id="home" class="act home trim" data-title="Home on time" data-sc-act="scrub" data-sc-span="2.4" data-sc-dwell="0.3">
+    <div data-sc-stage>
+      <img class="sc-stage__poster" src="assets/09-home-poster.webp" width="1600" height="900" alt="">
+      <video data-sc-scrub data-sc-src="assets/09-home.mp4" data-sc-src-mobile="assets/09-home-m.mp4" muted playsinline></video>
+      <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
+      <div class="sc-copy sc-copy--lead" data-sc-cue="0.04 0.52">
+        <h2 class="sc-display">Home on time.</h2>
+        <p>The calls, quotes and reminders are handled, so the evening's yours.</p>
+      </div>
+      <div class="sc-copy sc-copy--lead" data-sc-cue="0.48 0.98">
+        <span class="sc-label">At the numbers you put in above</span>
+        <p class="home__total"><b id="hometotal">£9,600 of work</b> kept this year.</p>
+        <p>Change the numbers above and this changes too.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- 07:00 · CLOSE. The appointment sits in the dial. -->
   <section id="book" class="act" data-title="Book" data-sc-act="pin" data-sc-span="1.3">
     <div data-sc-stage class="close">
@@ -1030,9 +1199,12 @@
         <img src="assets/logo-lockup.svg" alt="Clockwork AI" width="100" height="20">
         <span>Manchester and the North West · © 2026 Clockwork AI</span>
         <nav aria-label="Footer">
-          <a href="#how">How it works</a>
-          <a href="#offer">Prices</a>
-          <a href="#work">Our work</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="services.html">Services and prices</a>
+          <a href="clockwork-check.html">The Clockwork Check</a>
+          <a href="work.html">Our work</a>
+          <a href="about.html">About</a>
+          <a href="book.html">Book a call</a>
         </nav>
       </footer>
     </div>
@@ -1097,13 +1269,29 @@
   // The hero clock holds at 02:14. Only the log under it moves on as you scroll.
   heroHour.setAttribute('transform', `rotate(${(134 / 720) * 360} 100 100)`);
   heroMin.setAttribute('transform', `rotate(${14 * 6} 100 100)`);
-  const heroLines = [...document.querySelectorAll('.comp__log li')];
+  // The story at 02:14: each step lights as the reader scrolls; the push into the dial only comes after.
+  const heroStage = $('.hero'), cards = [...document.querySelectorAll('.scard')], calCard = $('.scard--cal');
+  const m214 = $('#m214'), m900 = $('#m900');
+  const STEPS = [0.08, 0.2, 0.32, 0.46, 0.6];
+  let heroStep = -1;
   function drawHero() {
     const p = pOf(hero);
-    let on = heroLines[0];
-    heroLines.forEach(li => { if (p >= +li.dataset.at) on = li; });
-    heroLines.forEach(li => li.classList.toggle('is-on', li === on));
+    hero.style.setProperty('--hx', reduce ? 0 : clamp((p - 0.78) / 0.22, 0, 1).toFixed(4));
+    const step = STEPS.filter(t => p >= t).length;
+    if (step === heroStep) return;
+    heroStep = step;
+    heroStage.classList.toggle('is-story', step >= 1);
+    m214.classList.toggle('is-on', step >= 1);
+    m900.classList.toggle('is-on', step >= 4);
+    calCard.classList.toggle('is-booked', step >= 4);
+    const showing = Math.min(step, 5);
+    cards.forEach(c => {
+      const n = +c.dataset.step, active = n === (showing === 4 ? 3 : showing);
+      c.classList.toggle('is-on', active);
+      c.classList.toggle('is-past', n < (showing === 4 ? 3 : showing));
+    });
   }
+
 
 
   // ---- the wind: one sample day, 06:00 round to 06:00
@@ -1161,8 +1349,10 @@
     const y0 = hero.offsetTop + hero.offsetHeight - innerHeight;
     return START + (END - START) * clamp((y - y0) / Math.max(1, max - y0), 0, 1);
   };
+  // Other pages, each at its own hour. Keep in step with PAGES in pages.js.
+  const PAGES = [['how-it-works.html', 'How it works', '06:30'], ['services.html', 'Services and prices', '09:00'], ['clockwork-check.html', 'The Clockwork Check', '11:00'], ['work.html', 'Our work', '14:00'], ['about.html', 'About', '17:30'], ['book.html', 'Book a call', '08:00']];
   function buildMenu() {
-    menu.innerHTML = '';
+    menu.innerHTML = '<li><div class="menu__head">On this page</div></li>';
     const marks = $('#submarks'); marks.innerHTML = '';
     acts.forEach(sec => {
       const y = sec.id === 'book' ? document.documentElement.scrollHeight : sec.offsetTop;
@@ -1172,6 +1362,12 @@
       menu.appendChild(li);
       const [x, yy] = polar(20, 20, 16.2, ((h % 12) / 12) * 360);
       const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x); c.setAttribute('cy', yy); c.setAttribute('r', 1.1); marks.appendChild(c);
+    });
+    menu.insertAdjacentHTML('beforeend', '<li><div class="menu__rule"></div></li><li><div class="menu__head">Pages</div></li>');
+    PAGES.forEach(([href, name, t]) => {
+      const li = document.createElement('li'), a = document.createElement('a');
+      a.href = href; a.innerHTML = `<time>${t}</time><span></span>`; a.lastChild.textContent = name;
+      li.appendChild(a); menu.appendChild(li);
     });
   }
   const bar = $('.bar');
@@ -1266,13 +1462,83 @@
       out = `${a} job${a > 1 ? 's' : ''} at ${gbp(b)} is <b>${gbp(value)} of work</b> a month, for ${gbp(c.mo)} a month.`;
     }
     $('#wres').innerHTML = out;
+    drawChart(c, value);
+    $('#hometotal').textContent = gbp(value * 12) + (c.kind === 'hours' ? ' of your time' : ' of work');
   }
+
+  // ---- 12-month chart: cumulative cost against cumulative value, at the visitor's numbers
+  const svg = $('#wsvg'), NSS = 'http://www.w3.org/2000/svg';
+  const CX0 = 52, CX1 = 520, CY0 = 14, CY1 = 214;
+  let chartData = null;
+  const cK = n => n >= 1000 ? '£' + (n / 1000).toLocaleString('en-GB', { maximumFractionDigits: 1 }) + 'K' : '£' + Math.round(n);
+  const niceMax = n => { const steps = [500, 1000, 2000, 2500, 5000, 10000, 20000, 25000, 50000, 100000, 200000]; const t = n / 4; const st = steps.find(x => x >= t) || 250000; return { max: st * 4, step: st }; };
+  function drawChart(c, monthly) {
+    const months = [...Array(13).keys()];
+    const val = months.map(m => monthly * m), cost = months.map(m => c.up + c.mo * m);
+    chartData = { months, val, cost, kind: c.kind };
+    const { max, step } = niceMax(Math.max(val[12], cost[12], 1));
+    const x = m => CX0 + (CX1 - CX0) * m / 12, y = v => CY1 - (CY1 - CY0) * v / max;
+    chartData.x = x; chartData.y = y;
+    const grid = $('#wgrid'); grid.innerHTML = ''; grid.setAttribute('class', 'chart__grid');
+    for (let v = 0; v <= max; v += step) {
+      const l = document.createElementNS(NSS, 'line'); l.setAttribute('x1', CX0); l.setAttribute('x2', CX1); l.setAttribute('y1', y(v)); l.setAttribute('y2', y(v)); grid.appendChild(l);
+      const t = document.createElementNS(NSS, 'text'); t.setAttribute('x', CX0 - 8); t.setAttribute('y', y(v) + 3.5); t.setAttribute('text-anchor', 'end'); t.textContent = cK(v); grid.appendChild(t);
+    }
+    [0, 3, 6, 9, 12].forEach(m => { const t = document.createElementNS(NSS, 'text'); t.setAttribute('x', x(m)); t.setAttribute('y', CY1 + 18); t.setAttribute('text-anchor', m === 0 ? 'start' : m === 12 ? 'end' : 'middle'); t.textContent = m === 0 ? 'Now' : m + ' months'; grid.appendChild(t); });
+    const path = arr => arr.map((v, m) => (m ? 'L' : 'M') + x(m).toFixed(1) + ' ' + y(v).toFixed(1)).join(' ');
+    $('#wvalue').setAttribute('d', path(val)); $('#wcost').setAttribute('d', path(cost));
+    const vLabel = c.kind === 'hours' ? 'Your time back' : 'Work kept';
+    $('#wkeyv').textContent = vLabel; $('#wthv').textContent = vLabel;
+    const ev = $('#wendv'), ec = $('#wendc');
+    ev.setAttribute('x', x(12) + 8); ec.setAttribute('x', x(12) + 8);
+    let yv = y(val[12]) + 4, yc = y(cost[12]) + 4;
+    if (Math.abs(yv - yc) < 14) { if (yv <= yc) yv = yc - 14; else yc = yv - 14; }
+    ev.setAttribute('y', yv); ec.setAttribute('y', yc);
+    ev.textContent = gbp(val[12]); ec.textContent = gbp(cost[12]);
+    // payback: first point where value catches cost
+    const pm = monthly > c.mo ? c.up / (monthly - c.mo) : Infinity;
+    const show = pm <= 12, pl = $('#wpayline'), pd = $('#wpaydot'), pt = $('#wpaytext');
+    [pl, pd, pt].forEach(el => el.style.display = show ? '' : 'none');
+    if (show) {
+      const px = x(pm), py = y(monthly * pm);
+      pl.setAttribute('x1', px); pl.setAttribute('x2', px);
+      pd.setAttribute('cx', px); pd.setAttribute('cy', py);
+      pt.textContent = pm < 0.05 ? 'Ahead from day one' : `Paid for itself, month ${Math.max(1, Math.ceil(pm))}`;
+      const right = px < (CX0 + CX1) / 2;
+      pt.setAttribute('x', right ? px + 8 : px - 8); pt.setAttribute('text-anchor', right ? 'start' : 'end'); pt.setAttribute('y', Math.max(CY0 + 10, py - 10));
+    }
+    const tb = $('#wtbody'); tb.textContent = '';
+    months.forEach(m => { const tr = document.createElement('tr'); [m === 0 ? 'Now' : 'Month ' + m, gbp(val[m]), gbp(cost[m])].forEach(t => { const td = document.createElement('td'); td.textContent = t; tr.appendChild(td); }); tb.appendChild(tr); });
+  }
+  // crosshair + tooltip: snaps to the nearest month, on pointer and keyboard
+  const plot = svg.parentElement, tip = $('#wtip'), cross = $('#wcross');
+  let hoverM = 12;
+  function showTip(m) {
+    if (!chartData) return;
+    hoverM = m; const { x, val, cost, kind } = chartData;
+    cross.setAttribute('x1', x(m)); cross.setAttribute('x2', x(m));
+    plot.classList.add('is-hover'); tip.hidden = false;
+    tip.textContent = '';
+    const head = document.createElement('div'); head.textContent = m === 0 ? 'Now' : 'After ' + m + ' month' + (m > 1 ? 's' : ''); head.style.color = 'var(--sc-ink-soft)'; tip.appendChild(head);
+    [[val[m], kind === 'hours' ? 'your time back' : 'work kept', 'var(--v)'], [cost[m], 'paid to us', 'var(--c)']].forEach(([v, label, col]) => {
+      const row = document.createElement('div'); const k = document.createElement('i'); k.style.background = col; const b = document.createElement('b'); b.textContent = gbp(v);
+      row.append(k, b, document.createTextNode(' ' + label)); tip.appendChild(row);
+    });
+    const rect = svg.getBoundingClientRect(), px = x(m) / 600 * rect.width;
+    const w = tip.offsetWidth; tip.style.left = Math.min(Math.max(0, px + 12), rect.width - w) + 'px';
+  }
+  const hideTip = () => { plot.classList.remove('is-hover'); tip.hidden = true; };
+  svg.addEventListener('pointermove', e => { if (!chartData) return; const r = svg.getBoundingClientRect(); const vx = (e.clientX - r.left) / r.width * 600; showTip(Math.round(clamp((vx - CX0) / (CX1 - CX0), 0, 1) * 12)); });
+  svg.addEventListener('pointerleave', hideTip);
+  svg.addEventListener('focus', () => showTip(hoverM));
+  svg.addEventListener('blur', hideTip);
+  svg.addEventListener('keydown', e => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (d) { e.preventDefault(); showTip(clamp(hoverM + d, 0, 12)); } });
+  setWorth('calls');
   [wa, wb].forEach(el => el.addEventListener('input', drawWorth));
   pickBtns.forEach(btn => btn.addEventListener('click', () => setWorth(btn.dataset.pick)));
   pickBtns.forEach(btn => btn.addEventListener('keydown', () => requestAnimationFrame(() => {
     const on = pickBtns.find(b => b.getAttribute('aria-pressed') === 'true'); if (on && on.dataset.pick !== wKey) setWorth(on.dataset.pick);
   })));
-  setWorth('calls');
 
   function frame() { drawHero(); drawDay(); drawFlow(); drawSub(); requestAnimationFrame(frame); }
   const start = () => { buildMenu(); frame(); };

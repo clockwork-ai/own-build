@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How it works · Clockwork AI</title>
+<meta name="description" content="What an agentic workflow is, in plain English: how it handles a job, where it helps, and how you stay in control.">
+<!-- Preview build. Remove noindex at launch. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E0F12">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="pages.css">
+</head>
+<body data-hour="06:30">
+<a class="skip" href="#main">Skip to content</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__logo" href="index.html" aria-label="Clockwork AI, home"><img src="assets/logo-lockup.svg" alt="Clockwork AI" width="200" height="40"></a>
+  <div class="bar__right">
+    <nav class="subdial" aria-label="Site">
+      <button class="subdial__btn" type="button" aria-expanded="false" aria-controls="dialmenu">
+        <svg viewBox="0 0 40 40" aria-hidden="true" id="subdialsvg">
+          <circle cx="20" cy="20" r="18.5" fill="#0E0F12" stroke="rgba(232,238,214,.28)"/>
+          <g id="subticks" stroke="rgba(232,238,214,.55)" stroke-width="1" stroke-linecap="round"></g>
+          <g id="submarks" fill="#CBB892"></g>
+          <line id="subhour" x1="20" y1="20" x2="20" y2="11.5" stroke="#E8EED6" stroke-width="1.8" stroke-linecap="round"/>
+          <line id="submin" x1="20" y1="20" x2="20" y2="6.5" stroke="#E8EED6" stroke-width="1.1" stroke-linecap="round"/>
+          <circle cx="20" cy="20" r="1.8" fill="#CBB892"/>
+        </svg>
+        <span class="subdial__time" id="subtime">06:30</span>
+        <span class="sr">Open the menu</span>
+      </button>
+      <ol class="subdial__menu" id="dialmenu"></ol>
+    </nav>
+    <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="phero" id="top">
+    <div class="phero__plate" aria-hidden="true"><img src="assets/04-movement-poster.webp" alt="" style="object-position:80% 50%"></div>
+    <div class="sc-wrap phero__inner">
+      <div data-sc-in data-sc-stagger="70">
+        <span class="sc-label">How it works</span>
+        <h1 class="sc-display">Automation does a task. An agent does a <em>job.</em></h1>
+        <p class="lede">No jargon. Here's what we actually build, how it behaves, and how you stay in charge of it.</p>
+        <div class="cta-row"><a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a><span class="note">Free 30 minute call. No obligation.</span></div>
+      </div>
+      <div class="pdial" aria-hidden="true">
+        <svg viewBox="0 0 200 200" data-dial="hero" data-hour="06:30">
+          <circle cx="100" cy="100" r="97" fill="rgba(9,10,13,.55)" stroke="rgba(232,238,214,.22)" stroke-width="0.5"/>
+          <circle cx="100" cy="100" r="66" fill="none" stroke="rgba(232,238,214,.08)" stroke-width="0.4"/>
+        </svg>
+        <div class="pdial__read"><b>06:30</b><span>How it works</span></div>
+        <div class="pdial__glass"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kinds" data-title="Two kinds of help" class="block ground-1 trim">
+    <div class="sc-wrap split">
+      <div class="block__head sticky" data-sc-in>
+        <h2 class="sc-display">Two kinds of help.</h2>
+        <p>Most "automation" you've heard of is the first kind. What we build is mostly the second.</p>
+      </div>
+      <div style="display:grid;gap:16px" data-sc-in data-sc-stagger="80">
+        <div class="panel">
+          <span class="sc-label">Normal automation</span>
+          <h3 style="margin-top:8px">A row of dominoes.</h3>
+          <p>When this happens, do that, the same way every time. For example: when someone fills in your contact form, send them an email. It's useful, but it can't cope with anything unexpected.</p>
+        </div>
+        <div class="panel panel--key">
+          <span class="sc-label" style="color:var(--sc-accent)">An agentic workflow</span>
+          <h3 style="margin-top:8px">A capable office assistant.</h3>
+          <p>You give it a goal, not a script, and it works out the steps. It reads what comes in, makes sensible decisions, uses your tools (email, calendar, WhatsApp, your job software) and only comes to you when it really needs you.</p>
+        </div>
+        <p class="big-quote" style="margin-top:12px">Automation does a task. An agentic workflow does a <em>job.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="example" data-title="The 9pm leak" class="block ground-2 trim">
+    <div class="sc-wrap">
+      <div class="block__head" data-sc-in>
+        <h2 class="sc-display">The same message, two ways.</h2>
+        <p>A customer gets in touch at 9pm: "Got a leak over the back bedroom, can someone come and look?"</p>
+      </div>
+      <div class="split" style="margin-top:2rem;grid-template-columns:1fr 1fr">
+        <div data-sc-in>
+          <span class="sc-label">Normal automation</span>
+          <ol class="thread">
+            <li class="msg msg--event">21:04 · New message</li>
+            <li class="msg msg--in"><small>Customer</small>Got a leak over the back bedroom, can someone come and look?</li>
+            <li class="msg msg--out"><small>Auto-reply</small>Thanks for your message, we'll be in touch.</li>
+            <li class="msg msg--note"><small>Then</small>Nothing else happens until you see it in the morning. By then they may have rung someone else.</li>
+          </ol>
+        </div>
+        <div data-sc-in>
+          <span class="sc-label" style="color:var(--sc-accent)">An agentic workflow</span>
+          <ol class="thread">
+            <li class="msg msg--event">21:04 · New message</li>
+            <li class="msg msg--in"><small>Customer</small>Got a leak over the back bedroom, can someone come and look?</li>
+            <li class="msg msg--out"><small>Your business</small>Sorry to hear that. Can you send a photo, and what's your postcode?</li>
+            <li class="msg msg--in"><small>Customer</small>[photo] BL5 3HB</li>
+            <li class="msg msg--out"><small>Your business</small>Thanks. If water's coming through, turn the stopcock off if it's safe to. We can come at 9am or 1pm tomorrow. Which suits?</li>
+            <li class="msg msg--in"><small>Customer</small>9am please.</li>
+            <li class="msg msg--out"><small>Your business</small>Booked for 9am. You'll get a reminder in the morning.</li>
+            <li class="msg msg--note"><small>To you</small>Urgent leak, BL5 3HB, booked 9am. Photo attached.</li>
+          </ol>
+        </div>
+      </div>
+      <p class="note" style="margin-top:14px">Sample conversations. Your assistant uses your wording and your rules.</p>
+    </div>
+  </section>
+
+  <section id="stuck" data-title="Where jobs get stuck" class="block ground-1 trim">
+    <div class="sc-wrap">
+      <div class="block__head" data-sc-in>
+        <h2 class="sc-display">Where jobs usually get stuck.</h2>
+        <p>The most common hold-ups we see in service businesses. Most firms have three or four of these.</p>
+      </div>
+      <div class="table-wrap" data-sc-in>
+        <table class="table">
+          <thead><tr><th scope="col">Where it gets stuck</th><th scope="col">What it costs you</th><th scope="col">What we can set up</th></tr></thead>
+          <tbody>
+            <tr><td><b>Calls missed while you're on a job</b></td><td data-k="Costs you">The customer rings the next firm</td><td data-k="We set up">An instant text or WhatsApp reply that gets the details and books a call-back or a survey</td></tr>
+            <tr><td><b>Quotes take days to go out</b></td><td data-k="Costs you">Jobs go to whoever quotes first</td><td data-k="We set up">Quotes drafted from your survey notes and photos, ready for you to check and send the same day</td></tr>
+            <tr><td><b>Quotes go quiet</b></td><td data-k="Costs you">Work you've already priced never gets booked</td><td data-k="We set up">Polite follow-ups at set times, stopped the moment they reply</td></tr>
+            <tr><td><b>Juggling the diary</b></td><td data-k="Costs you">Rebooking, no-shows, wasted trips</td><td data-k="We set up">Booking, confirmations and reminders, plus easy rescheduling when the weather turns</td></tr>
+            <tr><td><b>Chasing payment</b></td><td data-k="Costs you">Hours on the phone, cash tied up</td><td data-k="We set up">Friendly invoice reminders until it's paid</td></tr>
+            <tr><td><b>Asking for reviews</b></td><td data-k="Costs you">Happy customers never leave one</td><td data-k="We set up">A review request sent automatically when the job is signed off</td></tr>
+            <tr><td><b>The same questions, over and over</b></td><td data-k="Costs you">Time lost to "do you cover...?" and "how much is...?"</td><td data-k="We set up">An assistant that answers common questions on your site and WhatsApp, in your words</td></tr>
+            <tr><td><b>Typing the same thing twice</b></td><td data-k="Costs you">Admin evenings and mistakes</td><td data-k="We set up">Details captured once and passed between your tools automatically</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">Not sure which ones you've got? <a href="clockwork-check.html#selfcheck">Take the two-minute self-check.</a></p>
+    </div>
+  </section>
+
+  <section id="control" data-title="You stay in control" class="block ground-2 trim">
+    <div class="sc-wrap split">
+      <div class="block__head sticky" data-sc-in>
+        <h2 class="sc-display">You stay in control.</h2>
+        <p>It works for you, not instead of you. You decide how much it does on its own.</p>
+      </div>
+      <div data-sc-in>
+        <dl class="facts">
+          <div><dt>Your rules</dt><dd>What it can say, what it can book, and what it must always check with you, like prices, discounts or anything unusual.</dd></div>
+          <div><dt>Your wording</dt><dd>Nothing goes out in your name unless you've approved the wording.</dd></div>
+          <div><dt>Every step logged</dt><dd>Every message and booking is logged, so you can check it any time.</dd></div>
+          <div><dt>Your tools</dt><dd>It works with what you already use where possible: your phone, WhatsApp, email, calendar and job software.</dd></div>
+          <div><dt>You own it</dt><dd>No lock-in. Monthly support is optional, never a condition.</dd></div>
+        </dl>
+        <h3 class="sc-display h2-md" style="margin-top:3rem">How much it does on its own.</h3>
+        <ol class="steps" style="margin-top:1.25rem">
+          <li><h3>Manual wind</h3><p>It drafts, you send. The safest first step.</p></li>
+          <li class="is-key"><h3>Automatic</h3><p>It runs, and you approve the big things.</p></li>
+          <li><h3>Perpetual</h3><p>It runs and reports back. You check in when you want to.</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+  <section class="endband trim" aria-labelledby="end-h">
+    <div class="endband__plate" aria-hidden="true"><img src="assets/07-dawn.webp" alt="" loading="lazy"></div>
+    <div class="sc-wrap endband__inner">
+      <div class="enddisc">
+        <svg viewBox="0 0 200 200" data-dial="end" data-lit="7" aria-hidden="true">
+          <defs>
+            <radialGradient id="slotfill" cx="100" cy="100" r="98" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#CBB892" stop-opacity="0.03"/>
+              <stop offset="0.7" stop-color="#CBB892" stop-opacity="0.12"/>
+              <stop offset="1" stop-color="#CBB892" stop-opacity="0.22"/>
+            </radialGradient>
+          </defs>
+          <path d="M100 100 L100 2 A98 98 0 0 1 100 198 Z" fill="url(#slotfill)"/>
+          <path d="M100 5 A95 95 0 0 1 100 195" fill="none" stroke="#CBB892" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div class="enddisc__inner" data-sc-in>
+          <div class="enddisc__time">Your 30 minutes</div>
+          <h2 class="sc-display" id="end-h">Show us the job that eats your evenings.</h2>
+          <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+          <p class="note">Free 30 minute call. No obligation.</p>
+        </div>
+      </div>
+      <div class="endband__alt">
+        <a class="btn btn--ghost" href="tel:+447985379605">Call 07985 379605</a>
+        <a class="btn btn--ghost" href="https://wa.me/447985379605?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+    <footer class="foot">
+      <img src="assets/logo-lockup.svg" alt="Clockwork AI" width="100" height="20">
+      <span>Manchester and the North West · © 2026 Clockwork AI</span>
+      <nav aria-label="Footer">
+        <a href="how-it-works.html">How it works</a>
+        <a href="services.html">Services and prices</a>
+        <a href="clockwork-check.html">The Clockwork Check</a>
+        <a href="work.html">Our work</a>
+        <a href="about.html">About</a>
+        <a href="book.html">Book a call</a>
+      </nav>
+    </footer>
+  </section>
+</main>
+
+<nav class="dock" aria-label="Contact">
+  <a class="btn btn--ghost" href="tel:+447985379605" aria-label="Call 07985 379605">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call</a>
+  <a class="btn btn--ghost" href="https://wa.me/447985379605?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener" aria-label="WhatsApp Callum">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-1.9-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-1.9z"/></svg>WhatsApp</a>
+  <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Check</a>
+</nav>
+
+<script src="scrollcraft.js"></script>
+<script src="pages.js"></script>
+</body>
+</html>

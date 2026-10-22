@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About · Clockwork AI</title>
+<meta name="description" content="Clockwork AI is Callum's company, building websites and AI systems for tradesmen and local businesses across Manchester and the North West.">
+<!-- Preview build. Remove noindex at launch. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E0F12">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="pages.css">
+<style>
+  .portrait { position: relative; margin: 0; width: min(100%, 420px); aspect-ratio: 1; justify-self: end; }
+  .portrait__ring { position: absolute; inset: 0; }
+  .portrait__ring svg { width: 100%; height: 100%; overflow: visible; }
+  .portrait img { position: absolute; inset: 11%; width: 78%; height: 78%; object-fit: cover; object-position: 30% 20%; border-radius: 50%; max-width: none;
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--sc-accent) 40%, transparent), var(--sc-e3); }
+  .rules { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--sc-hairline); }
+  .rules li { display: grid; gap: 4px; padding: 20px 0; border-bottom: 1px solid var(--sc-hairline); }
+  .rules b { font: 400 var(--sc-t-xl)/1.15 var(--sc-font-display); letter-spacing: -0.01em; }
+  .rules span { color: var(--sc-ink-soft); line-height: 1.55; }
+  @media (max-width: 860px) { .portrait { order: -1; width: min(70vw, 300px); justify-self: start; } }
+</style>
+</head>
+<body data-hour="17:30">
+<a class="skip" href="#main">Skip to content</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__logo" href="index.html" aria-label="Clockwork AI, home"><img src="assets/logo-lockup.svg" alt="Clockwork AI" width="200" height="40"></a>
+  <div class="bar__right">
+    <nav class="subdial" aria-label="Site">
+      <button class="subdial__btn" type="button" aria-expanded="false" aria-controls="dialmenu">
+        <svg viewBox="0 0 40 40" aria-hidden="true" id="subdialsvg">
+          <circle cx="20" cy="20" r="18.5" fill="#0E0F12" stroke="rgba(232,238,214,.28)"/>
+          <g id="subticks" stroke="rgba(232,238,214,.55)" stroke-width="1" stroke-linecap="round"></g>
+          <g id="submarks" fill="#CBB892"></g>
+          <line id="subhour" x1="20" y1="20" x2="20" y2="11.5" stroke="#E8EED6" stroke-width="1.8" stroke-linecap="round"/>
+          <line id="submin" x1="20" y1="20" x2="20" y2="6.5" stroke="#E8EED6" stroke-width="1.1" stroke-linecap="round"/>
+          <circle cx="20" cy="20" r="1.8" fill="#CBB892"/>
+        </svg>
+        <span class="subdial__time" id="subtime">17:30</span>
+        <span class="sr">Open the menu</span>
+      </button>
+      <ol class="subdial__menu" id="dialmenu"></ol>
+    </nav>
+    <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="phero" id="top">
+    <div class="phero__plate" aria-hidden="true"><img src="assets/07-dawn.webp" alt="" style="object-position:40% 50%"></div>
+    <div class="sc-wrap phero__inner">
+      <div data-sc-in data-sc-stagger="70">
+        <span class="sc-label">About</span>
+        <h1 class="sc-display">Made in <em>Manchester.</em></h1>
+        <p class="lede">Clockwork AI is Callum's company. We build websites and AI systems for tradesmen and local businesses across the North West, and we build them properly.</p>
+        <div class="cta-row"><a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a><span class="note">Free 30 minute call. No obligation.</span></div>
+      </div>
+      <figure class="portrait" aria-hidden="false">
+        <div class="portrait__ring" aria-hidden="true"><svg viewBox="0 0 200 200" data-dial="hero" data-lit="5.5"></svg></div>
+        <img src="assets/callum-portrait.jpg" width="594" height="880" alt="Callum, who runs Clockwork AI.">
+      </figure>
+    </div>
+  </section>
+
+  <section id="story" data-title="Why we started" class="block ground-1 trim">
+    <div class="sc-wrap split">
+      <div class="block__head sticky" data-sc-in><h2 class="sc-display">Why we started.</h2></div>
+      <div class="prose" data-sc-in>
+        <span class="placeholder">Callum: two or three sentences in your own words about why you started Clockwork AI, and who you are. Not filled in, so nothing here is made up.</span>
+        <p style="margin-top:20px">What we can say: most small firms aren't short of skill. They're short of time, because the work around the work never stops. We build the systems that take that off them, and the websites that bring the work in.</p>
+        <p>Every build is done in Manchester, by the person you spoke to on the first call.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="manchester" data-title="Why Manchester" class="block ground-2 trim">
+    <div class="sc-wrap split">
+      <p class="big-quote" data-sc-in>1948: the first stored program ran in Manchester. <em>2026: yours can.</em></p>
+      <div class="prose" data-sc-in>
+        <p>On 21 June 1948, a machine at the University of Manchester, nicknamed the Baby, ran the world's first program stored in a computer's own memory.</p>
+        <p>Manchester has been building the machines that do the work ever since. We think the useful ones should be built here too, for the businesses here.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="principles" data-title="How we work" class="block ground-1 trim">
+    <div class="sc-wrap split">
+      <div class="block__head sticky" data-sc-in><h2 class="sc-display">How we work.</h2><p>Five rules, written down so you can hold us to them.</p></div>
+      <ol class="rules" data-sc-in data-sc-stagger="70">
+        <li><b>Measure twice. Build once.</b><span>We look properly before we build anything.</span></li>
+        <li><b>Never leave a job half done.</b><span>It goes live working, and you see it working.</span></li>
+        <li><b>If it needs you at 10pm, it's broken.</b><span>That's the whole point of what we build.</span></li>
+        <li><b>Real numbers, or no numbers.</b><span>We'd rather show nothing than make something up.</span></li>
+        <li><b>Tell people straight.</b><span>If something isn't worth automating, we'll say so.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="promises" data-title="Our promises" class="block ground-2 trim">
+    <div class="sc-wrap">
+      <div class="block__head" data-sc-in><h2 class="sc-display h2-md">What you can count on.</h2></div>
+      <ul class="promises" data-sc-in>
+        <li>Fixed prices, agreed before we start</li><li>Keep your number</li><li>You approve every message</li><li>You own what we build</li><li>Cancel monthly support any time</li><li>Based in Manchester</li>
+      </ul>
+    </div>
+  </section>
+  <section class="endband trim" aria-labelledby="end-h">
+    <div class="endband__plate" aria-hidden="true"><img src="assets/07-dawn.webp" alt="" loading="lazy"></div>
+    <div class="sc-wrap endband__inner">
+      <div class="enddisc">
+        <svg viewBox="0 0 200 200" data-dial="end" data-lit="7" aria-hidden="true">
+          <defs>
+            <radialGradient id="slotfill" cx="100" cy="100" r="98" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#CBB892" stop-opacity="0.03"/>
+              <stop offset="0.7" stop-color="#CBB892" stop-opacity="0.12"/>
+              <stop offset="1" stop-color="#CBB892" stop-opacity="0.22"/>
+            </radialGradient>
+          </defs>
+          <path d="M100 100 L100 2 A98 98 0 0 1 100 198 Z" fill="url(#slotfill)"/>
+          <path d="M100 5 A95 95 0 0 1 100 195" fill="none" stroke="#CBB892" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div class="enddisc__inner" data-sc-in>
+          <div class="enddisc__time">Your 30 minutes</div>
+          <h2 class="sc-display" id="end-h">Let's talk about your week.</h2>
+          <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+          <p class="note">Free 30 minute call. No obligation.</p>
+        </div>
+      </div>
+      <div class="endband__alt">
+        <a class="btn btn--ghost" href="tel:+447985379605">Call 07985 379605</a>
+        <a class="btn btn--ghost" href="https://wa.me/447985379605?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+    <footer class="foot">
+      <img src="assets/logo-lockup.svg" alt="Clockwork AI" width="100" height="20">
+      <span>Manchester and the North West · © 2026 Clockwork AI</span>
+      <nav aria-label="Footer">
+        <a href="how-it-works.html">How it works</a>
+        <a href="services.html">Services and prices</a>
+        <a href="clockwork-check.html">The Clockwork Check</a>
+        <a href="work.html">Our work</a>
+        <a href="about.html">About</a>
+        <a href="book.html">Book a call</a>
+      </nav>
+    </footer>
+  </section>
+</main>
+
+<nav class="dock" aria-label="Contact">
+  <a class="btn btn--ghost" href="tel:+447985379605" aria-label="Call 07985 379605">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call</a>
+  <a class="btn btn--ghost" href="https://wa.me/447985379605?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener" aria-label="WhatsApp Callum">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-1.9-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-1.9z"/></svg>WhatsApp</a>
+  <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Check</a>
+</nav>
+
+<script src="scrollcraft.js"></script>
+<script src="pages.js"></script>
+</body>
+</html>

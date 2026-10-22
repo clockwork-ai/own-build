@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Clockwork Check · Clockwork AI</title>
+<meta name="description" content="A £495 look at how your business runs, ending in one clear recommendation and one fixed price. Money back if we can't find 5 hours a week.">
+<!-- Preview build. Remove noindex at launch. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E0F12">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="pages.css">
+<style>
+  .selfcheck { margin: 0; padding: 0; border: 0; display: grid; gap: 10px; }
+  .selfcheck label { display: flex; align-items: flex-start; gap: 14px; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--sc-hairline); background: var(--sc-surface); cursor: pointer; line-height: 1.45;
+    transition: border-color 160ms var(--sc-ease-out), background-color 160ms var(--sc-ease-out); }
+  .selfcheck label:hover { border-color: var(--lume-45); }
+  .selfcheck input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--sc-accent); cursor: pointer; }
+  .selfcheck input:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+  .selfcheck label:has(input:checked) { border-color: color-mix(in oklab, var(--sc-accent) 60%, transparent); background: color-mix(in oklab, var(--sc-surface) 88%, var(--sc-accent) 8%); }
+</style>
+</head>
+<body data-hour="11:00">
+<a class="skip" href="#main">Skip to content</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__logo" href="index.html" aria-label="Clockwork AI, home"><img src="assets/logo-lockup.svg" alt="Clockwork AI" width="200" height="40"></a>
+  <div class="bar__right">
+    <nav class="subdial" aria-label="Site">
+      <button class="subdial__btn" type="button" aria-expanded="false" aria-controls="dialmenu">
+        <svg viewBox="0 0 40 40" aria-hidden="true" id="subdialsvg">
+          <circle cx="20" cy="20" r="18.5" fill="#0E0F12" stroke="rgba(232,238,214,.28)"/>
+          <g id="subticks" stroke="rgba(232,238,214,.55)" stroke-width="1" stroke-linecap="round"></g>
+          <g id="submarks" fill="#CBB892"></g>
+          <line id="subhour" x1="20" y1="20" x2="20" y2="11.5" stroke="#E8EED6" stroke-width="1.8" stroke-linecap="round"/>
+          <line id="submin" x1="20" y1="20" x2="20" y2="6.5" stroke="#E8EED6" stroke-width="1.1" stroke-linecap="round"/>
+          <circle cx="20" cy="20" r="1.8" fill="#CBB892"/>
+        </svg>
+        <span class="subdial__time" id="subtime">11:00</span>
+        <span class="sr">Open the menu</span>
+      </button>
+      <ol class="subdial__menu" id="dialmenu"></ol>
+    </nav>
+    <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="phero" id="top">
+    <div class="phero__plate" aria-hidden="true"><img src="assets/02-kitchen.webp" alt="" style="object-position:75% 40%"></div>
+    <div class="sc-wrap phero__inner">
+      <div data-sc-in data-sc-stagger="70">
+        <span class="sc-label">The Clockwork Check</span>
+        <h1 class="sc-display">The Clockwork <em>Check.</em></h1>
+        <p class="lede">A look at how your business really runs, from the first enquiry to getting paid. You get one clear recommendation and one fixed price to build it.</p>
+        <div class="cta-row"><a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a><span class="note">£495. Comes off the build if you go ahead within 60 days.</span></div>
+      </div>
+      <div class="pdial" aria-hidden="true">
+        <svg viewBox="0 0 200 200" data-dial="hero" data-hour="11:00">
+          <circle cx="100" cy="100" r="97" fill="rgba(9,10,13,.55)" stroke="rgba(232,238,214,.22)" stroke-width="0.5"/>
+          <circle cx="100" cy="100" r="66" fill="none" stroke="rgba(232,238,214,.08)" stroke-width="0.4"/>
+        </svg>
+        <div class="pdial__read"><b>11:00</b><span>The Clockwork Check</span></div>
+        <div class="pdial__glass"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="what" data-title="What it is" class="block ground-1 trim">
+    <div class="sc-wrap split">
+      <p class="big-quote" data-sc-in>We find where the hours go, then tell you <em>straight</em> what's worth fixing.</p>
+      <div class="prose" data-sc-in>
+        <p>The Clockwork Check is £495. We look at how your business runs, from the first enquiry to getting paid, and work out what would make the biggest difference. That might be a new website, an automation, or both.</p>
+        <p><strong>You get one clear recommendation, with one fixed price to build it and any monthly cost shown up front. Nothing hidden.</strong></p>
+        <p>Go ahead within 60 days and the £495 comes off that price. If we can't find 5 hours a week to save you, you get your money back.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="steps" data-title="What happens" class="block ground-2 trim">
+    <div class="sc-wrap">
+      <div class="block__head" data-sc-in><h2 class="sc-display">What happens.</h2></div>
+      <ol class="steps steps--5" data-sc-in data-sc-stagger="70">
+        <li><h3>Your week</h3><p>We walk through a job from the first enquiry to the paid invoice: who does what, how long it takes, and where things wait.</p></li>
+        <li><h3>The hold-ups</h3><p>Where jobs stall, what gets forgotten, what gets typed twice, and what only happens if someone remembers.</p></li>
+        <li><h3>In order</h3><p>Biggest first, by hours saved and jobs won, not by what's clever.</p></li>
+        <li class="is-key"><h3>One recommendation</h3><p>What we'd build, what it would do and what stays as it is, with one fixed price and any monthly cost up front.</p></li>
+        <li><h3>Top one first</h3><p>If you go ahead, we build the biggest win first. It goes live, you see it working, then we move to the next.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="guarantee" data-title="The guarantee" class="block ground-1 trim">
+    <div class="sc-wrap split">
+      <div class="panel panel--key" data-sc-in>
+        <span class="sc-label" style="color:var(--sc-accent)">The guarantee</span>
+        <h3 style="margin-top:10px;font-size:var(--sc-t-2xl)">5 hours a week, or your money back.</h3>
+        <p>If the Check can't find at least 5 hours a week we could save you, you get the full £495 back.</p>
+      </div>
+      <div class="prose" data-sc-in>
+        <p><strong>And if you go ahead, it's free.</strong> The £495 comes off the price of whatever we build, as long as you go ahead within 60 days.</p>
+        <p>You're under no obligation to buy anything after the Check. Some people take the recommendation and do it themselves, and that's fine.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="selfcheck" data-title="Self-check" class="block ground-2 trim">
+    <div class="sc-wrap split">
+      <div class="block__head sticky" data-sc-in>
+        <h2 class="sc-display">A two-minute self-check.</h2>
+        <p>Answer honestly. Every yes is a hold-up we can usually fix.</p>
+        <p class="big-quote" id="sc-score" aria-live="polite" style="margin-top:1.5rem">0 of 8.</p>
+        <p class="note" id="sc-msg">Tick the ones that sound like you.</p>
+      </div>
+      <fieldset class="selfcheck" data-sc-in>
+        <legend class="sr">Self-check</legend>
+        <label><input type="checkbox">Do you miss calls while you're working?</label>
+        <label><input type="checkbox">Does it take more than a day to get a quote out?</label>
+        <label><input type="checkbox">Do quotes go quiet and never get followed up?</label>
+        <label><input type="checkbox">Do you spend evenings on admin or paperwork?</label>
+        <label><input type="checkbox">Do you chase payments more than once a month?</label>
+        <label><input type="checkbox">Do happy customers rarely leave reviews?</label>
+        <label><input type="checkbox">Do you or your office answer the same questions every week?</label>
+        <label><input type="checkbox">Do you type the same details into more than one place?</label>
+      </fieldset>
+    </div>
+  </section>
+
+  <section id="faq" data-title="Questions" class="block ground-1 trim">
+    <div class="sc-wrap faq">
+      <h2 class="sc-display" data-sc-in>Fair questions.</h2>
+      <div data-sc-in>
+        <details><summary>Is the first call really free?</summary><p>Yes. 30 minutes, no cost and no obligation. We'll tell you whether the Check is worth it for you.</p></details>
+        <details><summary>Do I have to buy anything afterwards?</summary><p>No. The recommendation is yours to keep, whatever you decide.</p></details>
+        <details><summary>What if you don't find 5 hours a week?</summary><p>You get the £495 back.</p></details>
+        <details><summary>Does it work for bigger businesses?</summary><p>Yes. It works the same way for an office, a clinic or a team of twenty. There's just more to map.</p></details>
+      </div>
+    </div>
+  </section>
+  <section class="endband trim" aria-labelledby="end-h">
+    <div class="endband__plate" aria-hidden="true"><img src="assets/07-dawn.webp" alt="" loading="lazy"></div>
+    <div class="sc-wrap endband__inner">
+      <div class="enddisc">
+        <svg viewBox="0 0 200 200" data-dial="end" data-lit="7" aria-hidden="true">
+          <defs>
+            <radialGradient id="slotfill" cx="100" cy="100" r="98" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#CBB892" stop-opacity="0.03"/>
+              <stop offset="0.7" stop-color="#CBB892" stop-opacity="0.12"/>
+              <stop offset="1" stop-color="#CBB892" stop-opacity="0.22"/>
+            </radialGradient>
+          </defs>
+          <path d="M100 100 L100 2 A98 98 0 0 1 100 198 Z" fill="url(#slotfill)"/>
+          <path d="M100 5 A95 95 0 0 1 100 195" fill="none" stroke="#CBB892" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div class="enddisc__inner" data-sc-in>
+          <div class="enddisc__time">Your 30 minutes</div>
+          <h2 class="sc-display" id="end-h">Book your free call, and we'll take it from there.</h2>
+          <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Clockwork Check</a>
+          <p class="note">Free 30 minute call. No obligation.</p>
+        </div>
+      </div>
+      <div class="endband__alt">
+        <a class="btn btn--ghost" href="tel:+447985379605">Call 07985 379605</a>
+        <a class="btn btn--ghost" href="https://wa.me/447985379605?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+    <footer class="foot">
+      <img src="assets/logo-lockup.svg" alt="Clockwork AI" width="100" height="20">
+      <span>Manchester and the North West · © 2026 Clockwork AI</span>
+      <nav aria-label="Footer">
+        <a href="how-it-works.html">How it works</a>
+        <a href="services.html">Services and prices</a>
+        <a href="clockwork-check.html">The Clockwork Check</a>
+        <a href="work.html">Our work</a>
+        <a href="about.html">About</a>
+        <a href="book.html">Book a call</a>
+      </nav>
+    </footer>
+  </section>
+</main>
+
+<nav class="dock" aria-label="Contact">
+  <a class="btn btn--ghost" href="tel:+447985379605" aria-label="Call 07985 379605">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call</a>
+  <a class="btn btn--ghost" href="https://wa.me/447985379605?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener" aria-label="WhatsApp Callum">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-1.9-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-1.9z"/></svg>WhatsApp</a>
+  <a class="btn btn--primary" href="https://calendly.com/cbcoach123/clockwork-check-intro-call" target="_blank" rel="noopener">Book a Check</a>
+</nav>
+
+<script src="scrollcraft.js"></script>
+<script src="pages.js"></script>
+<script>
+(() => {
+  const boxes = [...document.querySelectorAll('.selfcheck input')], score = document.getElementById('sc-score'), msg = document.getElementById('sc-msg');
+  const update = () => {
+    const n = boxes.filter(b => b.checked).length;
+    score.textContent = n + ' of 8.';
+    msg.textContent = n === 0 ? 'Tick the ones that sound like you.' : n < 3 ? 'A couple of quick wins, probably. The free call will tell you if they are worth it.' : n < 6 ? 'That is several hours a week. Worth a free call.' : 'That is a lot of evenings. Book the free call.';
+  };
+  boxes.forEach(b => b.addEventListener('change', update));
+})();
+</script>
+</body>
+</html>
