@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Clockwork AI · AI admin help for trades in Manchester</title>
-<meta name="description" content="AI that answers enquiries, books jobs and gets you paid sooner, even at 2am. Built in Manchester by a former Gas Safe engineer, for trades and local businesses.">
+<title>Clockwork AI · AI for roofers and trades in Manchester</title>
+<meta name="description" content="AI for roofers and other trades across Manchester, Bolton, Stockport and Cheshire. It answers the missed call, books the job and follows the quote up, even at 2am.">
 <link rel="canonical" href="https://clockworkai.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Clockwork AI">
 <meta property="og:title" content="Clockwork AI · Your business, running like clockwork">
-<meta property="og:description" content="AI that answers enquiries, books jobs and gets you paid sooner, even at 2am. Built in Manchester for trades and local businesses.">
+<meta property="og:description" content="AI for roofers and other trades across Manchester, Bolton, Stockport and Cheshire. It answers the missed call, books the job and follows the quote up, even at 2am.">
 <meta property="og:url" content="https://clockworkai.app/">
 <meta property="og:image" content="https://clockworkai.app/assets/og-movement.jpg">
 <meta property="og:image:width" content="1200">
@@ -24,13 +24,19 @@
   "url": "https://clockworkai.app/",
   "logo": "https://clockworkai.app/apple-touch-icon.png",
   "image": "https://clockworkai.app/assets/og-movement.jpg",
-  "description": "Websites, missed-call text back, AI receptionists and admin automation for trades and local businesses.",
+  "description": "Websites and a six-part AI system for trades, starting with roofers, across Manchester, Bolton, Stockport, Cheshire and the North West.",
   "telephone": "+447985379605",
   "email": "callum@clockworkai.app",
   "founder": { "@type": "Person", "name": "Callum Broadfoot" },
   "address": { "@type": "PostalAddress", "addressLocality": "Manchester", "addressRegion": "Greater Manchester", "addressCountry": "GB" },
-  "areaServed": [{ "@type": "City", "name": "Manchester" }, { "@type": "AdministrativeArea", "name": "North West England" }],
-  "priceRange": "££"
+  "areaServed": [
+    { "@type": "City", "name": "Manchester" },
+    { "@type": "AdministrativeArea", "name": "Greater Manchester" },
+    { "@type": "AdministrativeArea", "name": "Cheshire" },
+    { "@type": "City", "name": "Bolton" },
+    { "@type": "City", "name": "Stockport" },
+    { "@type": "AdministrativeArea", "name": "North West England" }
+  ]
 }
 </script>
 <meta name="theme-color" content="#0E0F12">
@@ -510,6 +516,7 @@
   .faq details p { margin: 0 0 18px; max-width: 60ch; line-height: 1.6; color: color-mix(in oklab, var(--sc-ink) 84%, transparent); }
 
   .pricelist { margin-top: clamp(4rem, 10vh, 6rem); }
+  .pricelist .steps { margin-top: 1.25rem; }
   .pricelist__wrap { margin-top: 1.25rem; overflow-x: auto; border-radius: 16px; border: 1px solid var(--sc-hairline); }
   .pricelist table { width: 100%; border-collapse: collapse; min-width: 560px; }
   .pricelist th, .pricelist td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--sc-hairline); vertical-align: top; line-height: 1.5; }
@@ -798,19 +805,19 @@
         <li class="scard" data-step="1">
           <div class="scard__head"><span class="scard__pulse" aria-hidden="true"></span>Incoming call<time>02:14</time></div>
           <p class="scard__big">07700 900123</p>
-          <p class="scard__quote">"Water's coming through my bedroom ceiling."</p>
+          <p class="scard__quote">"The wind's taken the tiles off. Water's coming through the bedroom ceiling."</p>
         </li>
         <li class="scard" data-step="2">
           <div class="scard__head">Your assistant answered<time>02:14</time></div>
-          <p>Said it was your assistant, took the details, then talked them through turning the water off at the stopcock.</p>
+          <p>Said it was your assistant, took the job and the postcode, and told them not to go on the roof. A bucket under the drip if it's safe, and keep clear of any electrics near the water.</p>
         </li>
         <li class="scard scard--cal" data-step="3">
           <div class="scard__head">Your calendar, tomorrow<time>02:15</time></div>
           <ul class="cal">
-            <li><time>08:00</time><span>Boiler service, Bolton</span></li>
-            <li class="cal__slot"><time>09:00</time><span class="cal__free">Free</span><span class="cal__booked">Leak, back bedroom · M41</span></li>
-            <li><time>11:00</time><span>Quote visit, Westhoughton</span></li>
-            <li><time>13:00</time><span>Bathroom refit, Leigh</span></li>
+            <li><time>08:00</time><span>Guttering, Farnworth</span></li>
+            <li class="cal__slot"><time>09:00</time><span class="cal__free">Free</span><span class="cal__booked">Roof leak, bedroom · BL3</span></li>
+            <li><time>11:00</time><span>Re-roof quote, Westhoughton</span></li>
+            <li><time>13:00</time><span>Flat roof, Leigh</span></li>
           </ul>
           <p class="scard__note"><span class="cal__note-free">9am is free. Offered to the customer.</span><span class="cal__note-booked">Customer said yes. Booked for 9am.</span></p>
         </li>
@@ -819,19 +826,19 @@
           <div class="job">
             <img src="assets/leak-photo.webp" width="480" height="636" alt="Sample photo: a stained, bulging bedroom ceiling dripping into a bucket.">
             <div>
-              <p class="job__title">Urgent leak, back bedroom ceiling</p>
-              <p>M41 · Tomorrow, 09:00</p>
+              <p class="job__title">Urgent roof leak, bedroom ceiling</p>
+              <p>BL3 · Tomorrow, 09:00</p>
               <p class="job__ok">Photo and postcode uploaded. Engineer notified.</p>
             </div>
           </div>
         </li>
-        <li class="story__label" aria-hidden="true">Sample, for a plumber</li>
+        <li class="story__label" aria-hidden="true">Sample, for a roofer</li>
       </ol>
 
       <div class="hero__copy" data-sc-cue="0 0.74 0">
         <div class="hero__copyin">
         <h1 class="sc-display">Your business, running like <em>clockwork.</em></h1>
-        <p>For plumbers, roofers, sparks and builders. AI that answers enquiries, books jobs and gets you paid sooner, even at 2am.</p>
+        <p>Built first for roofers. AI that answers the storm call, books the job and follows the quote up, even at 2am. The same systems work for plumbers, sparks and builders.</p>
         <div class="cta-row">
           <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
           <span class="note">No obligation. Built in Manchester.</span>
@@ -841,7 +848,7 @@
     </div>
   </section>
 
-  <!-- WHO AND WHAT · flow. Callum, who it's for, and the three steps with prices, before the long scroll. -->
+  <!-- WHO AND WHAT · flow. Callum, who it's for, and the three steps, before the long scroll. -->
   <section id="callum" class="sc-section intro trim" data-title="Who's behind it">
     <div class="sc-wrap intro__grid">
       <figure class="intro__face" data-sc-in>
@@ -851,19 +858,56 @@
         <span class="sc-label">Built by a tradesman</span>
         <h2 class="sc-display">I've done the quotes at the kitchen table too.</h2>
         <p class="sc-body">I'm Callum. I've been on the tools since I was 16, plumbing and heating mostly, and I was a Gas Safe engineer. I've run vans, a team of lads and an office, so I know where the admin piles up. Now I build the systems that take it off you.</p>
-        <p class="intro__for">For trades across Manchester and the North West. Other businesses welcome.</p>
+        <p class="intro__for">Roofers first, across Manchester, Bolton, Stockport, Cheshire and the North West. Plumbers, sparks, builders and other businesses welcome.</p>
       </div>
     </div>
     <div class="sc-wrap">
       <ol class="offerline" data-sc-in data-sc-stagger="70">
-        <li><span>1</span><h3>A free 30-minute call</h3><p>No cost, no obligation. You talk to Callum.</p></li>
-        <li class="is-key"><span>2</span><h3>The Clockwork Check, £495</h3><p>One recommendation and one fixed price. If I can't find 5 hours a week to save you, you get your money back.</p></li>
-        <li><span>3</span><h3>I build it</h3><p>Fixed price, paid up front, with the £495 taken off. You check it before it goes live.</p></li>
+        <li><span>1</span><h3>A free Business Bottleneck Audit</h3><p>A missed-call, website and reviews check. No cost, no obligation. You talk to me.</p></li>
+        <li class="is-key"><span>2</span><h3>A tier, if it's worth it</h3><p>Foundation, Growth or Autopilot. Fixed setup plus a simple monthly plan, priced on the call.</p></li>
+        <li><span>3</span><h3>I build it</h3><p>You own the website. The AI systems run on the monthly plan. You check it before it goes live.</p></li>
       </ol>
       <div class="cta-row offerline__cta" data-sc-in>
         <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
-        <a class="linkline" href="services.html">See every price <span aria-hidden="true">→</span></a>
+        <a class="linkline" href="services.html#tiers">See the three tiers <span aria-hidden="true">→</span></a>
       </div>
+    </div>
+  </section>
+
+  <!-- PROOF · reveal. The old site wipes away to the new one. -->
+  <section id="work" class="sc-section work trim" data-title="My work" data-sc-act="flow">
+    <div class="sc-wrap">
+      <div class="work__head" data-sc-in data-sc-stagger="70">
+        <h2 class="sc-display">My first job: D&nbsp;&amp;&nbsp;P Roofing.</h2>
+        <p>Roofers and builders near Bolton, with 30 years on the tools and <a href="https://trustedtraders.which.co.uk/businesses/d-p-roofing-building-ltd/" target="_blank" rel="noopener">5.0 from 142 reviews on Which?</a>. Their old site didn't show their Which? score. As my first case study, I researched their local competitors and rebuilt it free to beat them. <a href="roofers.html">This is where I started.</a></p>
+      </div>
+
+      <figure class="compare compare--desk">
+        <img src="assets/dp-old-desktop.webp" width="1200" height="750" alt="D & P's current website: a dark photo of an extension with their name in the middle and a pale quote button." loading="lazy">
+        <span class="compare__tag compare__tag--old">Their current site</span>
+        <div class="compare__new" data-sc-reveal="left" data-sc-reveal-at="0.32 0.62">
+          <img src="assets/dp-new-desktop.webp" width="1200" height="750" alt="The new D & P site: a re-roofed house, the headline 'The price we quote is the price you pay', and their Which? score of 5.0 from 142 reviews." loading="lazy">
+          <span class="compare__tag compare__tag--new">The new site</span>
+        </div>
+      </figure>
+      <figure class="compare compare--phone">
+        <div class="compare__pair">
+          <img src="assets/dp-old-phone.webp" width="585" height="1266" alt="D & P's current website on a phone." loading="lazy">
+          <span class="compare__tag compare__tag--old">Current</span>
+          <div class="compare__new" data-sc-reveal="left" data-sc-reveal-at="0.3 0.58">
+            <img src="assets/dp-new-phone.webp" width="585" height="1266" alt="The new D & P site on a phone, with tap to call and WhatsApp." loading="lazy">
+            <span class="compare__tag compare__tag--new">New</span>
+          </div>
+        </div>
+      </figure>
+
+      <!-- TODO: Dale quote placeholder. Do not publish a quote until Callum has Dale's real words, approved to use. This comment is not shown on the page. -->
+      <div class="work__foot" data-sc-in data-sc-stagger="60">
+        <div><h3>Competitors researched first</h3><p>I check the local firms a customer would compare you with, then build to beat every one of them.</p></div>
+        <div><h3>A written report with it</h3><p>Your old site against the new one, in plain English: what changed and why it matters.</p></div>
+        <div><h3>What's next for them</h3><p>An out-of-hours assistant for emergency leak calls, which they asked for. No results to show yet. I'll publish real numbers when there are some.</p></div>
+      </div>
+      <a class="linkline" href="work.html">Read the full D &amp; P story <span aria-hidden="true">→</span></a>
     </div>
   </section>
 
@@ -960,7 +1004,7 @@
           <li data-t="19.5" data-min="10"><time>19:30</time><p><b class="trade">Builder</b>Answered "do you cover Bolton?" on WhatsApp, in their words.</p><span>about 10 min by hand</span></li>
           <li data-t="21.1667" data-min="10"><time>21:10</time><p><b class="trade">Plumber</b>Sent a second polite reminder on an unpaid invoice.</p><span>about 10 min by hand</span></li>
           <li data-t="23.6667" data-min="20"><time>23:40</time><p><b class="trade">Electrician</b>Chased three unpaid invoices.</p><span>about 20 min by hand</span></li>
-          <li data-t="26.2333" data-min="15"><time>02:14</time><p><b class="trade">Plumber</b>Leak enquiry. Talked them through turning the water off, got a photo and the postcode, marked it urgent, booked a 9am visit and sent the owner a summary.</p><span>about 15 min by hand</span></li>
+          <li data-t="26.2333" data-min="15"><time>02:14</time><p><b class="trade">Roofer</b>Storm leak. Told them not to go on the roof, got a photo and the postcode, marked it urgent, booked a 9am visit and sent the owner a summary.</p><span>about 15 min by hand</span></li>
         </ol>
       </div>
     </div>
@@ -973,7 +1017,7 @@
       <video data-sc-scrub data-sc-src="assets/04-movement.mp4" data-sc-src-mobile="assets/04-movement-m.mp4" muted playsinline></video>
       <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
       <div class="sc-copy sc-copy--lead" data-sc-cue="0.04 0.5">
-        <h2 class="sc-display">Automation does a task. Ours does the whole job.</h2>
+        <h2 class="sc-display">Automation does a task. Mine does the whole job.</h2>
       </div>
       <div class="sc-copy sc-copy--lead" data-sc-cue="0.46 0.98">
         <p>A customer gets in touch at 9pm about a leak. Plain automation replies "thanks, we'll be in touch", and nothing else happens until you see it.</p>
@@ -988,7 +1032,7 @@
       <div class="wf__intro">
         <span class="sc-label">A sample workflow</span>
         <h2 class="sc-display">The 9pm leak, step by step.</h2>
-        <p>Every step is logged. Your rules decide what it can do on its own, and anything unusual comes to you first.</p>
+        <p>Every step is logged. Your rules decide what it can do on its own, and anything unusual comes to you first. This sample is a ceiling leak. For a roofer, the same run books the call-out and tells them not to go on the roof. <a href="roofers.html">See that version.</a></p>
       </div>
       <div class="wf__rail">
         <ol id="wflist">
@@ -1012,15 +1056,15 @@
       <div>
         <div class="sc-stack" data-sc-in data-sc-stagger="70">
           <h2 class="sc-display">Six parts. Each one takes a job off you.</h2>
-          <p class="sc-body">I fit only the parts your business needs, in the tools you already use: your phone, WhatsApp, email, calendar and job software.</p>
+          <p class="sc-body">Sold on top of your website: a fixed setup, then a simple monthly plan. I fit only the parts your tier includes, in the tools you already use: your phone, WhatsApp, email, calendar and job software. Prices on your free call.</p>
         </div>
         <ol class="partlist" data-sc-in data-sc-stagger="60">
-          <li><h3>The catcher</h3><p>Every missed call and message gets a reply straight away. It takes the details and books a call-back.</p><q>Sorry we missed you, we're up on a roof. What's the job and your postcode? We'll ring you back today.</q></li>
-          <li><h3>The quote engine</h3><p>Quotes drafted from your survey notes and photos, ready for you to check and send the same day.</p></li>
-          <li><h3>The chaser</h3><p>Polite follow-ups on quiet quotes and unpaid invoices, stopped the moment they reply.</p></li>
-          <li><h3>The diary</h3><p>Bookings, confirmations and a reminder the night before, so nobody's out when you turn up. Easy rebooking when the weather turns.</p></li>
-          <li><h3>The review asker</h3><p>A review request goes out the day a job is signed off.</p><q>Thanks for having us. If you're happy with the roof, a quick review would mean a lot.</q></li>
-          <li><h3>The front desk</h3><p>Answers "do you cover...?" and "how much is...?" on your site and WhatsApp, in your words. Photos and postcodes from WhatsApp land in one list per customer, not lost in forty chats.</p></li>
+          <li><h3>AI Voice Employee</h3><p>Answers missed and out-of-hours calls, qualifies the job and books it. Confirmations and a reminder the night before, and an easy rebook when the weather turns.</p><q>Sorry we missed you, we're up on a roof. What's the job and your postcode? We'll ring you back today.</q></li>
+          <li><h3>24/7 AI Chatbot</h3><p>Website and messaging enquiries, and the lead captured. Answers "do you cover...?" and "how much is...?" on your site and WhatsApp, in your words. Photos and postcodes land in one list per customer, not lost in forty chats.</p></li>
+          <li><h3>Database Reactivation</h3><p>Wins back old quotes and past customers. Polite follow-ups on quotes that have gone quiet, stopped the moment they reply.</p></li>
+          <li><h3>Review Accelerator</h3><p>More 5-star Google reviews. A request goes out the day a job is signed off. No gating and no incentive: everyone who had the work gets the same honest ask.</p><q>Thanks for having us. If you're happy with the roof, a quick review would mean a lot.</q></li>
+          <li><h3>Referral Flywheel</h3><p>Turns happy customers into referrals, with a simple ask once the job is done and they're pleased.</p></li>
+          <li><h3>Lifetime Value System</h3><p>Servicing reminders, maintenance plans and seasonal check-ins, so last year's roofs and gutters come back before the weather does.</p></li>
         </ol>
         <div class="cta-row" data-sc-in style="margin-top:28px">
           <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
@@ -1033,7 +1077,7 @@
           <li>You set the rules: what it can say, what it can book, and what it must always check with you.</li>
           <li>Nothing goes out in your name unless you've approved the wording.</li>
           <li>Every message and booking is logged, so you can check it any time.</li>
-          <li>You own it. Monthly care is optional, never a condition.</li>
+          <li>You own your website. The AI systems run on a monthly plan.</li>
         </ul>
         <div class="ladder" aria-label="How much it does on its own">
           <div><b>Manual wind</b><span>It drafts, you send.</span></div>
@@ -1044,48 +1088,12 @@
     </div>
   </section>
 
-  <!-- PROOF · reveal. The old site wipes away to the new one. -->
-  <section id="work" class="sc-section work trim" data-title="My work" data-sc-act="flow">
-    <div class="sc-wrap">
-      <div class="work__head" data-sc-in data-sc-stagger="70">
-        <h2 class="sc-display">My first job: D&nbsp;&amp;&nbsp;P Roofing.</h2>
-        <p>Roofers and builders near Bolton, with 30 years on the tools and <a href="https://trustedtraders.which.co.uk/businesses/d-p-roofing-building-ltd/" target="_blank" rel="noopener">5.0 from 142 reviews on Which?</a>. Their old site didn't show their Which? score. As my first case study, I researched their local competitors and rebuilt it free to beat them.</p>
-      </div>
-
-      <figure class="compare compare--desk">
-        <img src="assets/dp-old-desktop.webp" width="1200" height="750" alt="D & P's current website: a dark photo of an extension with their name in the middle and a pale quote button." loading="lazy">
-        <span class="compare__tag compare__tag--old">Their current site</span>
-        <div class="compare__new" data-sc-reveal="left" data-sc-reveal-at="0.32 0.62">
-          <img src="assets/dp-new-desktop.webp" width="1200" height="750" alt="The new D & P site: a re-roofed house, the headline 'The price we quote is the price you pay', and their Which? score of 5.0 from 142 reviews." loading="lazy">
-          <span class="compare__tag compare__tag--new">The new site</span>
-        </div>
-      </figure>
-      <figure class="compare compare--phone">
-        <div class="compare__pair">
-          <img src="assets/dp-old-phone.webp" width="585" height="1266" alt="D & P's current website on a phone." loading="lazy">
-          <span class="compare__tag compare__tag--old">Current</span>
-          <div class="compare__new" data-sc-reveal="left" data-sc-reveal-at="0.3 0.58">
-            <img src="assets/dp-new-phone.webp" width="585" height="1266" alt="The new D & P site on a phone, with tap to call and WhatsApp." loading="lazy">
-            <span class="compare__tag compare__tag--new">New</span>
-          </div>
-        </div>
-      </figure>
-
-      <div class="work__foot" data-sc-in data-sc-stagger="60">
-        <div><h3>Competitors researched first</h3><p>I check the local firms a customer would compare you with, then build to beat every one of them.</p></div>
-        <div><h3>A written report with it</h3><p>Your old site against the new one, in plain English: what changed and why it matters.</p></div>
-        <div><h3>What's next for them</h3><p>An out-of-hours assistant for emergency leak calls, which they asked for. No results to show yet. I'll publish real numbers when there are some.</p></div>
-      </div>
-      <a class="linkline" href="work.html">Read the full D &amp; P story <span aria-hidden="true">→</span></a>
-    </div>
-  </section>
-
-  <!-- WHAT WE DO · interactive. Start from the visitor's problem, show it working, then the steps and prices. -->
+  <!-- WHAT WE DO · interactive. Start from the visitor's problem, show it working, then the tiers. -->
   <section id="offer" class="sc-section offer2 trim" data-title="What I do" data-sc-act="flow">
     <div class="sc-wrap">
       <div class="sc-stack" data-sc-in data-sc-stagger="70">
         <h2 class="sc-display lede-h">What's slowing you down?</h2>
-        <p class="lede-p">Tap the one that sounds like you. I'll show you what I'd set up, what you'd do, and what it costs.</p>
+        <p class="lede-p">Tap the one that sounds like you. I'll show you what I'd set up, what you'd do, and which tier it sits on.</p>
       </div>
 
       <div class="pick">
@@ -1118,7 +1126,7 @@
             <dl class="facts">
               <div><dt>I set up</dt><dd>An instant text to everyone you miss, in your business name. It gets the job and the postcode, and books a call-back.</dd></div>
               <div><dt>You do</dt><dd>Nothing different. You keep your number, and you ring them back already knowing the job.</dd></div>
-              <div><dt>It costs</dt><dd>£49 a month on its own with no setup fee, or it comes with Trade Growth at £249 a month. If one missed call a month turns into a job worth more than £49, it's paid for itself.</dd></div>
+              <div><dt>Where it sits</dt><dd>The AI Voice Employee, on Growth and Autopilot. The chatbot catches the messages. Fixed setup plus a simple monthly plan, priced on your call.</dd></div>
             </dl>
           </article>
 
@@ -1135,7 +1143,7 @@
             <dl class="facts">
               <div><dt>I set up</dt><dd>Send a voice note or your survey photos. It drafts the quote in your format, and chases it politely if it goes quiet.</dd></div>
               <div><dt>You do</dt><dd>Check the price and press send. Nothing goes out without your OK.</dd></div>
-              <div><dt>It costs</dt><dd>From £1,250, a fixed price agreed before I start, and £149 a month if you'd like me to look after it. Win one bigger job you'd have lost by quoting late, and it's paid for itself.</dd></div>
+              <div><dt>Where it sits</dt><dd>Following up a quiet quote is Database Reactivation, on Growth and Autopilot. Fixed setup plus a simple monthly plan, priced on your call.</dd></div>
             </dl>
           </article>
 
@@ -1153,7 +1161,7 @@
               <div><dt>I set up</dt><dd>Deposits and stage payments on bigger jobs, a pay-now link on every invoice and an early-payment discount if you want one, plus friendly reminders that stop the moment they pay.</dd></div>
               <div><dt>Service plans</dt><dd>If you sell monthly maintenance or service plans, they bill themselves every month, and renewals and service reminders go out on time.</dd></div>
               <div><dt>You do</dt><dd>Set your terms once. You get told when money lands, or if someone needs a call from you.</dd></div>
-              <div><dt>It costs</dt><dd>From £1,250, a fixed price agreed before I start, and £149 a month if you'd like me to look after it.</dd></div>
+              <div><dt>Where it sits</dt><dd>Servicing reminders, maintenance plans and seasonal check-ins are the Lifetime Value System, on Autopilot. Deposits and pay-now links can sit alongside it. Fixed setup plus a simple monthly plan, priced on your call.</dd></div>
             </dl>
           </article>
 
@@ -1169,7 +1177,7 @@
             <dl class="facts">
               <div><dt>I set up</dt><dd>A website built from your real job photos and reviews, your Google profile set up properly, and a review request after every job.</dd></div>
               <div><dt>You do</dt><dd>Send me your photos and answer a few questions. About an hour of your time, all in.</dd></div>
-              <div><dt>It costs</dt><dd>Trade Website £1,495, or £129 a month for 12 months, then it's yours. Trade Growth, £249 a month, adds your Google profile, review requests and the missed-call text back. One extra job a month worth more than £249 covers it.</dd></div>
+              <div><dt>Where it sits</dt><dd>The website and the Review Accelerator are Foundation. The Voice Employee is added on Growth. Fixed setup plus a simple monthly plan, priced on your call.</dd></div>
             </dl>
           </article>
 
@@ -1188,10 +1196,10 @@
             </div>
             <p class="worth__result" id="wres" aria-live="polite"></p>
             <div class="chart" id="wchart">
-              <div class="chart__legend" aria-hidden="true"><span class="key key--v" id="wkeyv">Work kept</span><span class="key key--c">What you pay me</span></div>
+              <div class="chart__legend" aria-hidden="true"><span class="key key--v" id="wkeyv">Work kept</span></div>
               <div class="chart__plot">
                 <svg viewBox="0 0 600 240" role="img" aria-labelledby="wcap" tabindex="0" id="wsvg">
-                  <title id="wcap">Twelve months at your numbers: what it costs against what it keeps</title>
+                  <title id="wcap">Twelve months at your numbers: the work those jobs add up to</title>
                   <g id="wgrid"></g>
                   <line id="wpayline" x1="0" x2="0" y1="14" y2="214" class="chart__pay"/>
                   <path id="wcost" class="chart__line chart__line--c"/>
@@ -1206,7 +1214,7 @@
               </div>
               <details class="chart__table">
                 <summary>See the numbers</summary>
-                <div class="chart__tablewrap"><table><thead><tr><th scope="col">Month</th><th scope="col" id="wthv">Work kept</th><th scope="col">What you pay me</th></tr></thead><tbody id="wtbody"></tbody></table></div>
+                <div class="chart__tablewrap"><table><thead><tr><th scope="col">Month</th><th scope="col" id="wthv">Work kept</th></tr></thead><tbody id="wtbody"></tbody></table></div>
               </details>
             </div>
             <p class="worth__small">Your numbers, not a promise. Not every call or quote turns into work.</p>
@@ -1214,7 +1222,7 @@
 
           <div class="pick__cta">
             <a class="btn btn--primary" id="pickcta" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
-            <span class="note">No obligation. The £495 Check only if it's worth it.</span>
+            <span class="note">No obligation. The audit is free.</span>
           </div>
         </div>
       </div>
@@ -1223,12 +1231,12 @@
         <h2 class="sc-display" style="font-size:var(--sc-t-2xl)">How it works.</h2>
       </div>
       <ol class="steps" data-sc-in data-sc-stagger="70">
-        <li><h3>A free 30-minute call</h3><p>Tell me how your week runs and where it hurts. No cost, no obligation.</p></li>
-        <li class="is-key"><h3>The Clockwork Check <span>£495</span></h3><p>I look at how your business runs, from the first enquiry to getting paid, and work out what would make the biggest difference. You get one clear recommendation, with one fixed price to build it and any monthly cost shown up front.</p><p>Go ahead within 60 days and the £495 comes off that price. If I can't find 5 hours a week to save you, you get your money back.</p></li>
-        <li><h3>I build it, you approve it</h3><p>Nothing goes live until you've checked it. You keep your number and the tools you already use, and I look after it afterwards if you want me to.</p></li>
+        <li><h3>A free Business Bottleneck Audit</h3><p>A missed-call, website and reviews check. Tell me how your week runs. No cost, no obligation.</p></li>
+        <li class="is-key"><h3>A tier, if it's worth it</h3><p>Foundation, Growth or Autopilot, or none of them. Fixed setup plus a simple monthly plan, priced on the call and put in writing before I start.</p></li>
+        <li><h3>I build it, you approve it</h3><p>Nothing goes live until you've checked it. You own the website. The AI systems run on the monthly plan. You keep your number and the tools you already use.</p></li>
       </ol>
       <ul class="promises" data-sc-in>
-        <li>Keep your number</li><li>No tech skills needed</li><li>You approve every message</li><li>You own what I build</li><li>Cancel aftercare any month</li><li>You deal with me, start to finish</li>
+        <li>Keep your number</li><li>No tech skills needed</li><li>You approve every message</li><li>You own your website</li><li>AI systems on a monthly plan</li><li>You deal with me, start to finish</li>
       </ul>
 
       <div class="faq">
@@ -1238,28 +1246,23 @@
           <details><summary>Will I keep my phone number?</summary><p>Yes. The number on your van, your cards and Google stays exactly the same.</p></details>
           <details><summary>Will it sound like a robot?</summary><p>It tells customers it's your assistant, not a person, and only says what you've approved. Prices and anything odd come to you first. You try it on your own phone before it goes live.</p></details>
           <details><summary>What if it says something wrong?</summary><p>You agree the wording before anything goes live, and anything unusual, like prices or discounts, comes to you first. Every message is logged, so you can check it any time.</p></details>
-          <details><summary>Do I own it? What if I stop paying?</summary><p>Yes, you own it. If you stop the monthly care, you keep what I built. The only fixed terms are the Trade Website monthly option and Trade Growth, which are 12 months.</p></details>
+          <details><summary>Do I own the website?</summary><p>Yes. You own the website. The AI systems run on a monthly plan. What that covers, and the price, are agreed on your free call and put in writing before I start. I don't set a minimum term on this page.</p></details>
           <details><summary>It's just you. What if you're ill or on holiday?</summary><p>Everything I build runs on its own, with backups in place, so it keeps working whether I'm at my desk or not. My own business runs the same way, so bookings and messages don't stop when I'm away.</p></details>
-          <details><summary>What does it cost each month?</summary><p>Websites are £39 a month for hosting and care. Missed-call text back is £49 a month. Trade Growth is £249 a month. Looking after an automation is £149 a month, or nothing if you don't want it. You'll see the monthly cost before you agree to anything.</p></details>
+          <details><summary>What does it cost?</summary><p>Fixed setup plus a simple monthly plan, priced on your free call. The first conversation is free. I don't publish tier prices on this site.</p></details>
           <details><summary>What about my customers' details?</summary><p>They stay in the tools you already use: your phone, email, calendar and job software. I only use what I need to set things up and fix them. <a href="privacy.html">Read how I handle data.</a></p></details>
         </div>
       </div>
 
-      <div class="pricelist" data-sc-in>
-        <h2 class="sc-display">Prices, at a glance.</h2>
-        <div class="pricelist__wrap">
-          <table>
-            <thead><tr><th scope="col">What</th><th scope="col">Price</th><th scope="col">Pays for itself when</th></tr></thead>
-            <tbody>
-              <tr><td><b>The Clockwork Check</b><span>What would make the biggest difference, with one fixed price to do it</span></td><td>£495<span>Comes off the price if you go ahead within 60 days</span></td><td>it finds 5 hours a week to save you. If it doesn't, you get the £495 back.</td></tr>
-              <tr><td><b>Missed-call text back</b><span>On its own</span></td><td>£49 a month<span>No setup fee</span></td><td>one missed call a month turns into a job worth more than £49.</td></tr>
-              <tr><td><b>Trade Website, or Trade Growth</b><span>Growth adds your Google profile, review requests and missed-call text back</span></td><td>£1,495, or £249 a month for 12 months</td><td>the jobs it brings in cover it. For most trades that's a handful of jobs.</td></tr>
-              <tr><td><b>Automations</b><span>Quotes, getting paid sooner or the diary. Whole-job systems like the 9pm leak from £3,500</span></td><td>From £1,250<span>Fixed price, agreed before I start</span></td><td>it wins a job you'd have lost, or gives you your evenings back.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="margin-top:18px"><a class="linkline" href="services.html">Every price, including aftercare and training <span aria-hidden="true">→</span></a></p>
-        <p class="founding"><b>Founding clients:</b> the first five clients get 30% off, in return for a case study, a testimonial and permission to show the work.</p>
+      <div class="pricelist" id="tiers" data-sc-in>
+        <h2 class="sc-display">Three tiers. No prices on this page.</h2>
+        <p class="founding" style="margin-bottom:1.25rem">Fixed setup plus a simple monthly plan, priced on your call. You own the website. The AI systems run on the monthly plan.</p>
+        <ol class="steps">
+          <li><h3>Foundation</h3><p>The website, the 24/7 chatbot and the Review Accelerator. You get found, enquiries are captured, and happy customers are asked for a Google review.</p></li>
+          <li class="is-key"><h3>Growth</h3><p>Foundation, plus the AI Voice Employee and Database Reactivation. Missed and out-of-hours calls get answered and booked, and old quotes get a follow-up.</p></li>
+          <li><h3>Autopilot</h3><p>Growth, plus the Referral Flywheel, the Lifetime Value System, and a monthly review call with me.</p></li>
+        </ol>
+        <p style="margin-top:18px"><a class="linkline" href="services.html#tiers">The six parts, tier by tier <span aria-hidden="true">→</span></a></p>
+        <p class="founding"><b>Founding clients:</b> the first five clients get 30% off, in return for a case study, a testimonial and permission to show the work. The figure itself is agreed on the call.</p>
       </div>
     </div>
   </section>
@@ -1268,7 +1271,7 @@
   <section id="home" class="act home trim" data-title="Home on time" data-sc-act="scrub" data-sc-span="2.4" data-sc-dwell="0.3">
     <div data-sc-stage>
       <img class="sc-stage__poster" src="assets/09-home-poster.webp" width="1600" height="900" alt="">
-      <video data-sc-scrub data-sc-src="assets/09-home.mp4" data-sc-src-mobile="assets/09-home-m.mp4" muted playsinline></video>
+      <video data-sc-scrub data-sc-lazy-mobile data-sc-src="assets/09-home.mp4" data-sc-src-mobile="assets/09-home-m.mp4" muted playsinline></video>
       <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
       <div class="sc-copy sc-copy--lead" data-sc-cue="0.04 0.52">
         <h2 class="sc-display">Home on time.</h2>
@@ -1327,13 +1330,15 @@
         <span>Manchester and the North West · © 2026 Clockwork AI</span>
         <nav aria-label="Footer">
           <a href="how-it-works.html">How it works</a>
-          <a href="services.html">Services and prices</a>
-          <a href="clockwork-check.html">The Clockwork Check</a>
+          <a href="services.html">Services</a>
+          <a href="roofers.html">Roofers</a>
+          <a href="clockwork-check.html">Free audit</a>
           <a href="work.html">My work</a>
           <a href="about.html">About</a>
           <a href="missed-calls.html">Missed calls</a>
           <a href="book.html">Book a call</a>
           <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
         </nav>
       </footer>
     </div>
@@ -1479,7 +1484,7 @@
     return START + (END - START) * clamp((y - y0) / Math.max(1, max - y0), 0, 1);
   };
   // Other pages, each at its own hour. Keep in step with PAGES in pages.js.
-  const PAGES = [['how-it-works.html', 'How it works', '06:30'], ['services.html', 'Services and prices', '09:00'], ['missed-calls.html', 'Missed calls', '10:42'], ['clockwork-check.html', 'The Clockwork Check', '11:00'], ['work.html', 'My work', '14:00'], ['about.html', 'About', '17:30'], ['book.html', 'Book a call', '08:00']];
+  const PAGES = [['roofers.html', 'Roofers', '07:30'], ['how-it-works.html', 'How it works', '06:30'], ['services.html', 'Services', '09:00'], ['missed-calls.html', 'Missed calls', '10:42'], ['clockwork-check.html', 'Free audit', '11:00'], ['work.html', 'My work', '14:00'], ['about.html', 'About', '17:30'], ['book.html', 'Book a call', '08:00']];
   function buildMenu() {
     const book = $('.dock .btn--primary'), wa = $('.dock a[href^="https://wa.me"]');
     menu.innerHTML = `<li><div class="menu__cta"><a class="btn btn--primary" href="${book.href}" target="_blank" rel="noopener">Book a free 30-minute call</a><div><a class="btn btn--ghost" href="tel:+447985379605">Call</a><a class="btn btn--ghost" href="${wa.href}" target="_blank" rel="noopener">WhatsApp</a></div></div></li><li><div class="menu__head">Pages</div></li>`;
@@ -1562,10 +1567,10 @@
 
   // ---- what's it worth: the visitor's own numbers, worked out live for the chosen problem
   const W = {
-    calls:   { a: ['Missed calls a month that would turn into a job', 0, 10, 1, 2], b: ['Your average job', 100, 5000, 50, 400], up: 0, mo: 49, kind: 'jobs' },
-    quotes:  { a: ['Jobs a month you lose by quoting late', 0, 6, 1, 1], b: ['Your average job', 100, 10000, 100, 1500], up: 1250, mo: 149, kind: 'jobs' },
-    payment: { a: ['Hours a month you spend chasing payment', 0, 30, 1, 6], b: ['Money owed to you right now', 0, 50000, 250, 4000], up: 1250, mo: 149, kind: 'cash' },
-    google:  { a: ['Extra jobs a month from Google', 0, 10, 1, 2], b: ['Your average job', 100, 5000, 50, 400], up: 0, mo: 249, kind: 'jobs' },
+    calls:   { a: ['Missed calls a month that would turn into a job', 0, 10, 1, 2], b: ['Your average job', 100, 5000, 50, 400], kind: 'jobs' },
+    quotes:  { a: ['Jobs a month you lose by quoting late', 0, 6, 1, 1], b: ['Your average job', 100, 10000, 100, 1500], kind: 'jobs' },
+    payment: { a: ['Hours a month you spend chasing payment', 0, 30, 1, 6], b: ['Money owed to you right now', 0, 50000, 250, 4000], kind: 'cash' },
+    google:  { a: ['Extra jobs a month from Google', 0, 10, 1, 2], b: ['Your average job', 100, 5000, 50, 400], kind: 'jobs' },
   };
   const wa = $('#wa'), wb = $('#wb'), gbp = n => '£' + Math.round(n).toLocaleString('en-GB');
   let wKey = 'calls';
@@ -1583,18 +1588,10 @@
     let out;
     if (c.kind === 'cash') {
       out = (a + b === 0) ? 'At these numbers you may not need this one. The free call will tell you straight.'
-        : `<b>${gbp(b)} waiting to be paid</b>, and ${a} hour${a === 1 ? '' : 's'} a month chasing it. Deposits, stage payments and a pay-now link bring more of it in on the day, and the reminders chase the rest, so those hours come back to you.`;
+        : `<b>${gbp(b)} waiting to be paid</b>, and ${a} hour${a === 1 ? '' : 's'} a month chasing it. Your numbers, not a price. The monthly plan is priced on your free call.`;
     } else if (value === 0) out = 'At these numbers you may not need this one. The free call will tell you straight.';
-    else if (c.kind === 'hours') {
-      const m = value > c.mo ? Math.ceil(c.up / (value - c.mo)) : 0;
-      out = `${a} hours at ${gbp(b)} an hour is <b>${gbp(value)} of your time</b> every month. ` +
-        (m ? `The ${gbp(c.up)} build pays for itself in about ${m} month${m > 1 ? 's' : ''}.` : 'At these numbers it would take a long time to pay for itself.');
-    } else if (c.up) {
-      const m = value > c.mo ? Math.ceil(c.up / (value - c.mo)) : 0;
-      out = `${a} job${a > 1 ? 's' : ''} at ${gbp(b)} is <b>${gbp(value)} of work</b> a month you'd keep. ` +
-        (m ? `The ${gbp(c.up)} build pays for itself in about ${m} month${m > 1 ? 's' : ''}.` : 'At these numbers it would take a long time to pay for itself.');
-    } else {
-      out = `${a} job${a > 1 ? 's' : ''} at ${gbp(b)} is <b>${gbp(value)} of work</b> a month, for ${gbp(c.mo)} a month.`;
+    else {
+      out = `${a} job${a > 1 ? 's' : ''} at ${gbp(b)} is <b>${gbp(value)} of work</b> a month, on your numbers. Prices for the setup and the monthly plan are on your free call.`;
     }
     $('#wres').innerHTML = out;
     $('#wchart').hidden = c.kind === 'cash';
@@ -1612,9 +1609,9 @@
   const niceMax = n => { const steps = [500, 1000, 2000, 2500, 5000, 10000, 20000, 25000, 50000, 100000, 200000]; const t = n / 4; const st = steps.find(x => x >= t) || 250000; return { max: st * 4, step: st }; };
   function drawChart(c, monthly) {
     const months = [...Array(13).keys()];
-    const val = months.map(m => monthly * m), cost = months.map(m => c.up + c.mo * m);
-    chartData = { months, val, cost, kind: c.kind };
-    const { max, step } = niceMax(Math.max(val[12], cost[12], 1));
+    const val = months.map(m => monthly * m);
+    chartData = { months, val, kind: c.kind };
+    const { max, step } = niceMax(Math.max(val[12], 1));
     const x = m => CX0 + (CX1 - CX0) * m / 12, y = v => CY1 - (CY1 - CY0) * v / max;
     chartData.x = x; chartData.y = y;
     const grid = $('#wgrid'); grid.innerHTML = ''; grid.setAttribute('class', 'chart__grid');
@@ -1624,41 +1621,30 @@
     }
     [0, 3, 6, 9, 12].forEach(m => { const t = document.createElementNS(NSS, 'text'); t.setAttribute('x', x(m)); t.setAttribute('y', CY1 + 18); t.setAttribute('text-anchor', m === 0 ? 'start' : m === 12 ? 'end' : 'middle'); t.textContent = m === 0 ? 'Now' : m + ' months'; grid.appendChild(t); });
     const path = arr => arr.map((v, m) => (m ? 'L' : 'M') + x(m).toFixed(1) + ' ' + y(v).toFixed(1)).join(' ');
-    $('#wvalue').setAttribute('d', path(val)); $('#wcost').setAttribute('d', path(cost));
-    const vLabel = c.kind === 'hours' ? 'Your time back' : 'Work kept';
+    $('#wvalue').setAttribute('d', path(val));
+    $('#wcost').setAttribute('d', '');
+    const vLabel = 'Work kept';
     $('#wkeyv').textContent = vLabel; $('#wthv').textContent = vLabel;
     const ev = $('#wendv'), ec = $('#wendc');
-    ev.setAttribute('x', x(12) + 8); ec.setAttribute('x', x(12) + 8);
-    let yv = y(val[12]) + 4, yc = y(cost[12]) + 4;
-    if (Math.abs(yv - yc) < 14) { if (yv <= yc) yv = yc - 14; else yc = yv - 14; }
-    ev.setAttribute('y', yv); ec.setAttribute('y', yc);
-    ev.textContent = gbp(val[12]); ec.textContent = gbp(cost[12]);
-    // payback: first point where value catches cost
-    const pm = monthly > c.mo ? c.up / (monthly - c.mo) : Infinity;
-    const show = pm <= 12, pl = $('#wpayline'), pd = $('#wpaydot'), pt = $('#wpaytext');
-    [pl, pd, pt].forEach(el => el.style.display = show ? '' : 'none');
-    if (show) {
-      const px = x(pm), py = y(monthly * pm);
-      pl.setAttribute('x1', px); pl.setAttribute('x2', px);
-      pd.setAttribute('cx', px); pd.setAttribute('cy', py);
-      pt.textContent = pm < 0.05 ? 'Ahead from day one' : `Paid for itself, month ${Math.max(1, Math.ceil(pm))}`;
-      const right = px < (CX0 + CX1) / 2;
-      pt.setAttribute('x', right ? px + 8 : px - 8); pt.setAttribute('text-anchor', right ? 'start' : 'end'); pt.setAttribute('y', Math.max(CY0 + 10, py - 10));
-    }
+    ev.setAttribute('x', x(12) + 8);
+    ev.setAttribute('y', y(val[12]) + 4);
+    ev.textContent = gbp(val[12]);
+    ec.textContent = '';
+    ['#wpayline', '#wpaydot', '#wpaytext'].forEach(sel => { const el = $(sel); if (el) el.style.display = 'none'; });
     const tb = $('#wtbody'); tb.textContent = '';
-    months.forEach(m => { const tr = document.createElement('tr'); [m === 0 ? 'Now' : 'Month ' + m, gbp(val[m]), gbp(cost[m])].forEach(t => { const td = document.createElement('td'); td.textContent = t; tr.appendChild(td); }); tb.appendChild(tr); });
+    months.forEach(m => { const tr = document.createElement('tr'); [m === 0 ? 'Now' : 'Month ' + m, gbp(val[m])].forEach(t => { const td = document.createElement('td'); td.textContent = t; tr.appendChild(td); }); tb.appendChild(tr); });
   }
   // crosshair + tooltip: snaps to the nearest month, on pointer and keyboard
   const plot = svg.parentElement, tip = $('#wtip'), cross = $('#wcross');
   let hoverM = 12;
   function showTip(m) {
     if (!chartData) return;
-    hoverM = m; const { x, val, cost, kind } = chartData;
+    hoverM = m; const { x, val, kind } = chartData;
     cross.setAttribute('x1', x(m)); cross.setAttribute('x2', x(m));
     plot.classList.add('is-hover'); tip.hidden = false;
     tip.textContent = '';
     const head = document.createElement('div'); head.textContent = m === 0 ? 'Now' : 'After ' + m + ' month' + (m > 1 ? 's' : ''); head.style.color = 'var(--sc-ink-soft)'; tip.appendChild(head);
-    [[val[m], kind === 'hours' ? 'your time back' : 'work kept', 'var(--v)'], [cost[m], 'paid to me', 'var(--c)']].forEach(([v, label, col]) => {
+    [[val[m], kind === 'hours' ? 'your time back' : 'work kept', 'var(--v)']].forEach(([v, label, col]) => {
       const row = document.createElement('div'); const k = document.createElement('i'); k.style.background = col; const b = document.createElement('b'); b.textContent = gbp(v);
       row.append(k, b, document.createTextNode(' ' + label)); tip.appendChild(row);
     });
@@ -1684,5 +1670,6 @@
   addEventListener('resize', () => { lastNow = -1; wfLast = -1; buildMenu(); });
 })();
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
