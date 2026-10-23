@@ -12,10 +12,11 @@
   // The site, as hours of a working day. Keep in step with the menu on index.html.
   const PAGES = [
     ['index.html', 'Home', '02:14'],
+    ['roofers.html', 'Roofers', '07:30'],
     ['how-it-works.html', 'How it works', '06:30'],
-    ['services.html', 'Services and prices', '09:00'],
+    ['services.html', 'Services', '09:00'],
     ['missed-calls.html', 'Missed calls', '10:42'],
-    ['clockwork-check.html', 'The Clockwork Check', '11:00'],
+    ['clockwork-check.html', 'Free audit', '11:00'],
     ['work.html', 'My work', '14:00'],
     ['about.html', 'About', '17:30'],
     ['book.html', 'Book a call', '08:00'],

@@ -856,7 +856,12 @@
         // Fetch earlier than we drive. A 1080p clip is megabytes, and a reader
         // who scrolls briskly will otherwise arrive at a stage that is still
         // downloading and see a poster where the camera move should be.
-        var warm = (y > a.top - vh * 3) && (y < a.top + a.height + vh * 1.5);
+        // data-sc-lazy-mobile holds the second home clip until the reader is
+        // close, so a phone is not decoding both videos at once. The poster
+        // stays up until the clip has painted, which is the existing path.
+        var lead = 3;
+        if (a.video && a.video.el && a.video.el.hasAttribute('data-sc-lazy-mobile') && isMobile()) lead = 0.45;
+        var warm = (y > a.top - vh * lead) && (y < a.top + a.height + vh * 1.5);
         if (warm) {
           if (a.video) loadVideo(a);
           if (a.seq) loadSeq(a);
