@@ -328,7 +328,7 @@ function scrubAddressApology(text) {
   return text.replace(
     /I can(?:not|['\u2019]t) give(?: you)? the exact (?:page |web )?address,\s*but you can/gi,
     "You can"
-  ).replace(/I can(?:not|['\u2019]t) paste (?:a |the )?links?\.?\s*/gi, "").replace(/[ \t]{2,}/g, " ");
+  ).replace(/I can(?:not|['\u2019]t) paste (?:a |the )?links?,?\s*but you can/gi, "You can").replace(/I can(?:not|['\u2019]t) paste (?:a |the )?links?\.?\s*/gi, "").replace(/[ \t]{2,}/g, " ");
 }
 function scrubReply(text, allowed, standIn, links) {
   return scrubAddressApology(scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links));
