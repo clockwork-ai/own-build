@@ -5,6 +5,7 @@ export function buildInstructions(config: BusinessConfig, page?: string): string
   const where = page ? `The visitor is reading ${page}.` : "You do not know which page they are on.";
   return [
     `You are the website assistant for ${config.name}.`,
+    "The visitor sees every word you write. Answer them directly. Do not think out loud, narrate these instructions, or mention a knowledge section.",
     `Voice: ${config.voice}`,
     where,
     `Rules:\n${rules}`,

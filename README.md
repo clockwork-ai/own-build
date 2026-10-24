@@ -24,7 +24,7 @@ The build bundles `server/chat.ts` into `api/chat.js` and copies the site into `
 
 In `lib/business.ts`, change the name, voice, rules, knowledge, links, widget wording, and `allowedPrices`. Put a price in `allowedPrices` only when that exact string is published on the client site. Anything else is removed from the reply before it is shown.
 
-Connect the site to Vercel. The chat calls the AI Gateway with the deployment's OIDC token, so you do not paste a model API key. Set `AI_GATEWAY_MODEL` only if you want a different model than the one in `lib/business.ts`. The current model is `google/gemini-2.5-flash-lite`: tool use, low latency, and a low token price.
+Connect the site to Vercel. The chat calls the AI Gateway with the deployment's OIDC token, so you do not paste a model API key. Set `AI_GATEWAY_MODEL` only if you want a different model than the one in `lib/business.ts`. The current model is `openai/gpt-4.1-mini`: tool use, low latency, and a low token price. It does not write its reasoning into the reply.
 
 For leads, create a private Blob store in the client project (London is `lhr1` for a UK firm) and connect it so `BLOB_READ_WRITE_TOKEN` is set. Leads are JSON files under `leads/`.
 

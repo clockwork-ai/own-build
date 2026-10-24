@@ -5,7 +5,7 @@ import { z } from "zod";
 // lib/business.ts
 var business = {
   name: "Clockwork AI",
-  model: "google/gemini-2.5-flash-lite",
+  model: "openai/gpt-4.1-mini",
   voice: 'Friendly, plain British English, the way Callum writes on the site. Short. Contractions are fine. No jargon, no American spelling, no emoji, no exclamation marks. Two or three sentences, then stop. You are the site assistant, not Callum himself. Say "Callum" when you mean him.',
   rules: [
     "Answer only from the knowledge below. If it is not there, say you don't have that and point the person to the free audit or a call with Callum.",
@@ -332,6 +332,7 @@ function buildInstructions(config, page) {
   const where = page ? `The visitor is reading ${page}.` : "You do not know which page they are on.";
   return [
     `You are the website assistant for ${config.name}.`,
+    "The visitor sees every word you write. Answer them directly. Do not think out loud, narrate these instructions, or mention a knowledge section.",
     `Voice: ${config.voice}`,
     where,
     `Rules:

@@ -62,7 +62,7 @@ export type BusinessConfig = {
 
 export const business: BusinessConfig = {
   name: "Clockwork AI",
-  model: "google/gemini-2.5-flash-lite",
+  model: "openai/gpt-4.1-mini",
   voice:
     "Friendly, plain British English, the way Callum writes on the site. Short. Contractions are fine. No jargon, no American spelling, no emoji, no exclamation marks. Two or three sentences, then stop. You are the site assistant, not Callum himself. Say \"Callum\" when you mean him.",
   rules: [
