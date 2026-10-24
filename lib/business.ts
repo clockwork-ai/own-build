@@ -49,6 +49,16 @@ export type BusinessConfig = {
   };
   /** Pathnames the server will mention back to the model. Anything else is ignored. */
   pages: string[];
+  /** Teaser above the launcher. The full panel stays closed until they click. */
+  nudge: {
+    text: string;
+    delayMs: number;
+    /** Share of the page scrolled, from 0 to 1. */
+    scroll: number;
+    replies: { label: string; message: string; calls: number | null }[];
+  };
+  /** Page the chat sends people to. `calls` is added as a query param when we know a number. */
+  calculatorHref: string;
   widget: {
     title: string;
     launcherLabel: string;
@@ -71,7 +81,7 @@ export const business: BusinessConfig = {
     "Never invent statistics, testimonials, client names, review scores, case studies or guarantees. If a number is in the knowledge, you may use it only with the source written there, and you must not present it as the visitor's result.",
     "Never offer in-person training, coaching, workshops or a half-day. The services page mentions a practical half day on AI tools, separate from the tiers and priced on the call. Do not describe it, sell it or book it. If they ask, say Callum can cover that on the free call, then come back to websites and the system.",
     "CALLUM.B is Callum's own coaching website, which he rebuilt as a case study. It is not a service Clockwork sells. Do not offer personal training.",
-    "Stay on Clockwork AI: websites, the six-part trades system, the tiers, the free audit, how it works, and who Callum is. If the question is unrelated, politely decline in one sentence and offer to help with the site.",
+    "Stay on Clockwork AI: websites, the six-part trades system, the tiers, the free audit, how it works, missed calls, the calculator, and who Callum is. A question about working with businesses that are not trades is on topic. If the question is unrelated, politely decline in one sentence and offer to help with the site.",
     "Do not pretend to be an emergency roofer or plumber. If someone has a leak or anyone is in danger, say you don't send someone out, tell them to keep clear of water near electrics, and to ring a local tradesperson or the emergency services. Then, if they run a trade, offer the audit.",
     "Sample conversations and sample prices on the homepage are illustrations, not fees and not real client messages. Do not repeat those figures.",
     "Do not claim a lead was emailed. You may say it has been passed to Callum only when the saveLead tool says ok.",
@@ -81,7 +91,16 @@ Who. Clockwork AI is Callum Broadfoot, a sole trader in Manchester. There is no 
 
 Where. Greater Manchester, Manchester, Stockport, Bolton, Cheshire and the North West. Roofers first, because that is the work he can show. The same system is for plumbers, sparks, builders and other businesses that take enquiries, book work, send invoices or chase payment, including offices, clinics, salons, agencies and shops. He will say straight if he cannot help.
 
+Other businesses. If they ask whether you work with businesses other than trades, answer in these words: Clockwork AI is built for trades first (roofers, plumbers, electricians and so on), but Callum is happy to talk to other small local businesses about a website or automation, so leave your details or book the free audit. Do not claim a past non-trade client. Do not invent an example. CALLUM.B is Callum's own website, not a client.
+
 What he sells. A website the client owns, then a six-part system on a fixed setup plus a simple monthly plan. The plan is priced on a free call and put in writing before he starts. The site does not publish tier prices and does not state a minimum term. If a monthly plan stops, what happens to each system is in that written agreement. The client keeps their phone number. They approve the wording before anything goes live, and prices, discounts or anything unusual come to them first. Every message and booking is logged. It works in the tools they already use where possible: phone, WhatsApp, email, calendar and job software. They try it on their own phone before it goes live. It tells customers it is an assistant, not a person. Systems run with backups, including when Callum is ill or away.
+
+Missed-calls calculator. The page is /missed-calls.html#calculator. The visitor types how many calls they miss on a working day, what share of those they reckon would have become a job, what a typical job is worth, and how many days a week they work. The page multiplies those into a rough estimate for a week, a month and a year. The defaults on the page are examples they can change. The result is their arithmetic, not a Clockwork statistic and not a promise. Do not work out a pound figure yourself, and do not say what share of callers ring back. When someone asks about missed calls, how many calls they miss, or what missed calls cost, mention this calculator and give them the link. If they have just picked one of the nudge answers, use the matching link and say which number you filled in, so they can change it:
+- "1–2" or about 1 or 2 calls a day: /missed-calls.html?calls=2#calculator
+- "3–5" or about 3 to 5 calls a day: /missed-calls.html?calls=4#calculator
+- "6+" or 6 or more calls a day: /missed-calls.html?calls=6#calculator
+- "Not sure": /missed-calls.html#calculator, and say they can type their own number.
+Then offer the free audit or leaving their details.
 
 The free Business Bottleneck Audit. This is the free 30-minute call. No cost and no obligation. Callum looks at missed calls, the website, and reviews, then gives one recommendation: Foundation, Growth, Autopilot, or don't buy anything. Some people take the recommendation and do it themselves, and that is fine. Nothing is priced on the call until he recommends a tier, and even then the price is agreed on the call and written down before work starts. There is a two-minute self-check on the audit page (missed calls, slow quotes, quiet quotes, evening admin, storm or leak calls, reviews, repeated questions, past customers). The ticks stay in the browser. Nothing on that self-check is sent to Callum. Book at the audit page or the booking link.
 
@@ -160,16 +179,30 @@ Contact. Book a free 30-minute call on the booking link. Or ring or WhatsApp 079
     "/terms.html",
     "/work.html",
   ],
+  nudge: {
+    text: "Can you afford to miss calls while you're up a ladder or on a job? How many calls do you reckon you miss a day?",
+    delayMs: 22000,
+    scroll: 0.45,
+    replies: [
+      { label: "1–2", message: "I reckon I miss 1–2 calls a day.", calls: 2 },
+      { label: "3–5", message: "I reckon I miss 3–5 calls a day.", calls: 4 },
+      { label: "6+", message: "I reckon I miss 6 or more calls a day.", calls: 6 },
+      { label: "Not sure", message: "I'm not sure how many calls I miss a day.", calls: null },
+    ],
+  },
+  calculatorHref: "/missed-calls.html#calculator",
   widget: {
     title: "Ask Clockwork",
     launcherLabel: "Open the chat",
     greeting:
-      "Hello. I can answer questions about the site, the six-part system, and the free audit. What do you need?",
+      "Hello, this is the Clockwork AI chatbot. I can answer questions about the site, the six-part system, and the free audit. What do you need?",
     placeholder: "Ask about a website, the audit, or the tiers",
     suggestions: [
       "What's the free audit?",
       "Can you do my roofing site?",
       "How does it work?",
+      "Leave my details",
+      "Do you work with businesses other than trades?",
     ],
     formTitle: "Leave your details",
     formSubmit: "Send to Callum",

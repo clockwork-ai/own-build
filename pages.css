@@ -43,6 +43,16 @@ main a:not(.btn):not(.linkline):hover { color: var(--sc-accent); }
 .btn:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
 .btn svg { width: 18px; height: 18px; flex: none; }
 .note { font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+.calc { display: grid; gap: 14px; margin-top: 28px; max-width: 36rem; }
+.calc label { display: grid; gap: 6px; font-size: 0.98rem; }
+.calc input {
+  width: 100%; min-height: 48px; border-radius: 12px; padding: 8px 12px;
+  border: 1px solid var(--sc-hairline-strong); background: var(--sc-canvas); color: var(--sc-ink);
+  font: 500 1.05rem/1 var(--sc-font-text);
+}
+.calc input:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+.calc__example { margin: 16px 0 0; max-width: 46ch; color: var(--sc-ink-soft); }
+.calc__result { margin: 18px 0 8px; max-width: 28ch; font-family: var(--sc-font-display); font-size: var(--sc-t-2xl); line-height: 1.15; }
 .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 26px; }
 .linkline { display: inline-flex; align-items: center; gap: 8px; color: var(--sc-ink); text-decoration: none; border-bottom: 1px solid var(--lume-45); padding-bottom: 3px; transition: border-color 160ms var(--sc-ease-out), color 160ms var(--sc-ease-out); }
 .linkline:hover { border-color: var(--sc-accent); color: var(--sc-accent); }

@@ -6,7 +6,9 @@ The website for Clockwork AI. Callum Broadfoot builds websites, then AI systems,
 
 A floating chat bubble on every page. The script and stylesheet load after the page is idle, so they stay off the first load. The assistant answers from the site only. The system prompt stays on the server.
 
-Ask it about the services, the six-part trades system, the free Business Bottleneck Audit, how it works, or who Callum is. It will not quote a price for Foundation, Growth or Autopilot. When someone wants to go ahead, it asks for their name, business or trade, phone or email, and what they need.
+Ask it about the services, the six-part trades system, the free Business Bottleneck Audit, how it works, missed calls, or who Callum is. It will not quote a price for Foundation, Growth or Autopilot. When someone wants to go ahead, it asks for their name, business or trade, phone or email, and what they need.
+
+After a scroll or a short wait, a small question appears above the bubble, once per browser session. The wording, the quick replies and the calculator link are in `lib/business.ts`. The calculator itself is the section on `missed-calls.html`. It stays in the browser. A link from the chat can pre-fill missed calls with `?calls=`.
 
 ## Reuse it on a client site
 

@@ -2,6 +2,10 @@
   const root = document.createElement("div");
   root.className = "cw-chat";
   root.innerHTML = `
+    <div class="cw-nudge" hidden>
+      <button class="cw-nudge__dismiss" type="button" aria-label="Dismiss this question">×</button>
+      <button class="cw-nudge__open" type="button"></button>
+    </div>
     <button class="cw-launch" type="button" aria-expanded="false" aria-controls="cw-panel">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
         <circle cx="12" cy="12" r="8.25"></circle>
@@ -40,6 +44,9 @@
   `;
   document.body.appendChild(root);
 
+  const nudge = root.querySelector(".cw-nudge");
+  const nudgeDismiss = root.querySelector(".cw-nudge__dismiss");
+  const nudgeOpen = root.querySelector(".cw-nudge__open");
   const launch = root.querySelector(".cw-launch");
   const panel = root.querySelector(".cw-panel");
   const close = root.querySelector(".cw-close");
@@ -58,6 +65,18 @@
   const messages = [];
   let busy = false;
   let config = null;
+  let nudgeArmed = false;
+  let nudgeMode = false;
+  let engaged = false;
+  const seenKey = "cw-nudge-seen";
+
+  function seenNudge() {
+    try { return sessionStorage.getItem(seenKey) === "1"; } catch { return true; }
+  }
+
+  function markNudge() {
+    try { sessionStorage.setItem(seenKey, "1"); } catch { /* private mode */ }
+  }
 
   function safeHref(href, fallback) {
     try {
@@ -93,19 +112,101 @@
     audit.textContent = next.auditLabel || "Free audit";
     book.href = safeHref(next.bookHref, "https://cal.com/clockwork-ai/30min");
     book.textContent = next.bookLabel || "Book a call";
-    chips.replaceChildren();
-    (next.suggestions || []).forEach((label) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "cw-chip";
-      button.textContent = label;
-      button.addEventListener("click", () => ask(label));
-      chips.appendChild(button);
-    });
+    if (next.nudge && next.nudge.text) nudgeOpen.textContent = next.nudge.text;
+    if (!nudgeMode) renderSuggestions(next.suggestions);
+    if (!nudgeArmed) {
+      nudgeArmed = true;
+      armNudge(next.nudge || { delayMs: 22000, scroll: 0.45 });
+    }
     if (!messages.length && next.greeting) {
       messages.push({ role: "assistant", content: next.greeting });
       add("assistant", next.greeting);
     }
+  }
+
+  function renderSuggestions(list) {
+    chips.replaceChildren();
+    (list || []).forEach((label) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "cw-chip";
+      button.textContent = label;
+      button.addEventListener("click", () => {
+        if (/^leave my details$/i.test(label)) openForm();
+        else ask(label);
+      });
+      chips.appendChild(button);
+    });
+  }
+
+  function calculatorHref(calls) {
+    const base = (config && config.calculatorHref) || "/missed-calls.html#calculator";
+    const url = new URL(base, location.origin);
+    if (calls != null) url.searchParams.set("calls", String(calls));
+    return url.pathname + url.search + url.hash;
+  }
+
+  function replyFor(text) {
+    const replies = (config && config.nudge && config.nudge.replies) || [];
+    return replies.find((reply) => reply.message === text || reply.label === text);
+  }
+
+  function showNudgeReplies() {
+    nudgeMode = true;
+    chips.replaceChildren();
+    const replies = (config && config.nudge && config.nudge.replies) || [];
+    replies.forEach((reply) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "cw-chip";
+      button.textContent = reply.label;
+      button.addEventListener("click", () => ask(reply.message));
+      chips.appendChild(button);
+    });
+  }
+
+  function hideNudge() {
+    nudge.hidden = true;
+  }
+
+  function scrolledFar(amount) {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (max <= 80) return false;
+    return window.scrollY / max >= amount;
+  }
+
+  function armNudge(settings) {
+    if (seenNudge()) return;
+    const delay = Number(settings.delayMs) || 22000;
+    const amount = Number(settings.scroll) || 0.45;
+    let timer = 0;
+    const stop = () => {
+      clearTimeout(timer);
+      removeEventListener("scroll", onScroll);
+    };
+    const tryShow = () => {
+      if (seenNudge() || engaged || root.classList.contains("is-open") || !nudgeOpen.textContent) return;
+      nudge.hidden = false;
+      markNudge();
+      stop();
+    };
+    const onScroll = () => { if (scrolledFar(amount)) tryShow(); };
+    timer = setTimeout(tryShow, delay);
+    addEventListener("scroll", onScroll, { passive: true });
+    if (scrolledFar(amount)) tryShow();
+  }
+
+  function openFromNudge() {
+    engaged = true;
+    hideNudge();
+    markNudge();
+    const question = nudgeOpen.textContent;
+    setOpen(true);
+    if (question && !messages.some((message) => message.content === question)) {
+      messages.push({ role: "assistant", content: question });
+      add("assistant", question);
+    }
+    showNudgeReplies();
   }
 
   function openForm() {
@@ -131,9 +232,21 @@
       applyConfig({
         title: "Ask Clockwork",
         launcherLabel: "Open the chat",
-        greeting: "Hello. I can answer questions about the site and the free audit. What do you need?",
+        greeting: "Hello, this is the Clockwork AI chatbot. I can answer questions about the site and the free audit. What do you need?",
         placeholder: "Ask about a website, the audit, or the tiers",
-        suggestions: ["What's the free audit?", "Can you do my roofing site?"],
+        suggestions: ["What's the free audit?", "Can you do my roofing site?", "How does it work?", "Leave my details"],
+        nudge: {
+          text: "Can you afford to miss calls while you're up a ladder or on a job? How many calls do you reckon you miss a day?",
+          delayMs: 22000,
+          scroll: 0.45,
+          replies: [
+            { label: "1–2", message: "I reckon I miss 1–2 calls a day.", calls: 2 },
+            { label: "3–5", message: "I reckon I miss 3–5 calls a day.", calls: 4 },
+            { label: "6+", message: "I reckon I miss 6 or more calls a day.", calls: 6 },
+            { label: "Not sure", message: "I'm not sure how many calls I miss a day.", calls: null },
+          ],
+        },
+        calculatorHref: "/missed-calls.html#calculator",
         formTitle: "Leave your details",
         formSubmit: "Send to Callum",
         auditHref: "/clockwork-check.html",
@@ -183,8 +296,33 @@
         acc = await response.text();
       }
       bubble.textContent = acc || "Sorry, I missed that.";
+      const picked = replyFor(content);
+      if (picked) {
+        const href = calculatorHref(picked.calls);
+        const note = document.createElement("p");
+        note.className = "cw-msg cw-msg--bot";
+        const link = document.createElement("a");
+        link.href = href;
+        if (bubble.textContent.includes("missed-calls.html")) {
+          link.textContent = "Open the calculator";
+          note.append(link);
+        } else {
+          link.textContent = href;
+          note.append(
+            picked.calls == null
+              ? "The calculator is here, so you can type your own number. It's a rough estimate. "
+              : `The calculator is here with ${picked.calls} missed calls a day filled in. It's a rough estimate you can change. `,
+            link,
+            " The free audit is linked below, or leave your details.",
+          );
+        }
+        log.appendChild(note);
+        log.scrollTop = log.scrollHeight;
+        bubble.textContent += " " + note.textContent;
+      }
+      nudgeMode = false;
       messages.push({ role: "assistant", content: bubble.textContent });
-      if (/your name|phone or email|leave your details/i.test(bubble.textContent)) openForm();
+      if (/your name|phone or email|leave your details|leave my details/i.test(bubble.textContent)) openForm();
     } catch {
       bubble.className = "cw-msg cw-msg--note";
       bubble.textContent = "Sorry, the chat didn't connect. You can still book the free audit below.";
@@ -196,7 +334,18 @@
     }
   }
 
-  launch.addEventListener("click", () => setOpen(true));
+  launch.addEventListener("click", () => {
+    engaged = true;
+    hideNudge();
+    markNudge();
+    setOpen(true);
+  });
+  nudgeDismiss.addEventListener("click", (event) => {
+    event.stopPropagation();
+    hideNudge();
+    markNudge();
+  });
+  nudgeOpen.addEventListener("click", openFromNudge);
   close.addEventListener("click", () => setOpen(false));
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && root.classList.contains("is-open")) setOpen(false);

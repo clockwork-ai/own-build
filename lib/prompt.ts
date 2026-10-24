@@ -18,9 +18,30 @@ export function buildInstructions(config: BusinessConfig, page?: string): string
       `Audit: ${config.links.audit}. Book: ${config.links.book}. Phone: ${config.links.phone}. WhatsApp: ${config.links.whatsapp}.`,
       "If saveLead fails, do not say the details were saved. Give them the phone, WhatsApp and booking link.",
       "If they are only asking a question, answer it. Do not demand their details first.",
+      "If they have just said how many calls they miss, follow the missed-call instructions and give the calculator link before you ask for details.",
     ].join(" "),
     `If a price slips out, it will be replaced with: "${config.priceStandIn}". Prefer to say that yourself, with no number.`,
+    missedCallInstructions(config),
   ].join("\n\n");
+}
+
+function calculatorLink(href: string, calls: number | null): string {
+  const url = new URL(href, "https://clockworkai.app");
+  if (calls != null) url.searchParams.set("calls", String(calls));
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
+function missedCallInstructions(config: BusinessConfig): string {
+  const lines = config.nudge.replies
+    .map((reply) => `- ${reply.label}: ${calculatorLink(config.calculatorHref, reply.calls)}`)
+    .join("\n");
+  return [
+    "Missed-call answers.",
+    "If they tell you how many calls they miss, do not calculate a pound amount.",
+    "Acknowledge the answer in one sentence, give the matching calculator link, say it is a rough estimate they can edit, then offer the free audit or leaving their details.",
+    lines,
+    `If they did not give a number, use ${calculatorLink(config.calculatorHref, null)}.`,
+  ].join("\n");
 }
 
 export function publicWidget(config: BusinessConfig) {
@@ -39,5 +60,7 @@ export function publicWidget(config: BusinessConfig) {
     phoneHref: config.links.phoneHref,
     phone: config.links.phone,
     whatsappHref: config.links.whatsapp,
+    nudge: config.nudge,
+    calculatorHref: config.calculatorHref,
   };
 }
