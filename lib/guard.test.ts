@@ -155,6 +155,10 @@ test("drops the apology for not pasting an address", () => {
   const all = stream.push(text) + stream.flush();
   assert.equal(all.includes("can't give"), false);
   assert.match(all, /^You can find the free audit/);
+  const pasted = createPriceStream(allowed, standIn);
+  const second = pasted.push("I can't paste links. The free audit is a 30 minute call.") + pasted.flush();
+  assert.equal(second.includes("paste"), false);
+  assert.match(second, /^The free audit/);
 });
 
 test("streams a path that arrives in pieces", () => {
