@@ -20,7 +20,7 @@ Copy these files into the other site:
 - the short loader at the bottom of each HTML page
 - `package.json` dependencies (`ai`, `zod`, `@vercel/blob`, and `esbuild` for the build) and `vercel.json`
 
-The build bundles `server/chat.ts` into one function and copies the site into `public/`. `lib/` is not part of that copy, so the system prompt is not a public file.
+The build bundles `server/chat.ts` into `api/chat.js` and copies the site into `public/`. `lib/` is not part of that copy, so the system prompt is not a public file. `api/chat.js` is committed as well: Vercel checks that the function file exists before the build runs. The build rewrites it from `server/chat.ts` on each deploy.
 
 In `lib/business.ts`, change the name, voice, rules, knowledge, links, widget wording, and `allowedPrices`. Put a price in `allowedPrices` only when that exact string is published on the client site. Anything else is removed from the reply before it is shown.
 
