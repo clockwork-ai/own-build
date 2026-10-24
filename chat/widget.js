@@ -132,7 +132,7 @@
     if (/free audit|bottleneck audit/i.test(text)) push("Free audit", audit.href, false);
     if (/book(?:ing)? a call/i.test(text)) push("Book a call", book.href, true);
     if (/calculator/i.test(text)) {
-      const filled = String(text).match(/with (\d+) a day filled in/i);
+      const filled = String(text).match(/(\d+) a day filled in/i);
       const count = calls != null ? calls : filled ? Number(filled[1]) : null;
       push("Missed-call calculator", calculatorHref(count), false);
     }
