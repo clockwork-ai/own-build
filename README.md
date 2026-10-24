@@ -14,10 +14,13 @@ Copy these files into the other site:
 
 - `lib/business.ts` — edit this, and only this, for the new business
 - `lib/prompt.ts`, `lib/guard.ts`, `lib/leads.ts`
-- `api/chat.ts`
+- `server/chat.ts`
 - `chat/widget.js`, `chat/widget.css`
+- `scripts/build.mjs`
 - the short loader at the bottom of each HTML page
-- `package.json` dependencies (`ai`, `zod`, `@vercel/blob`) and `vercel.json`
+- `package.json` dependencies (`ai`, `zod`, `@vercel/blob`, and `esbuild` for the build) and `vercel.json`
+
+The build bundles `server/chat.ts` into one function and copies the site into `public/`. `lib/` is not part of that copy, so the system prompt is not a public file.
 
 In `lib/business.ts`, change the name, voice, rules, knowledge, links, widget wording, and `allowedPrices`. Put a price in `allowedPrices` only when that exact string is published on the client site. Anything else is removed from the reply before it is shown.
 
