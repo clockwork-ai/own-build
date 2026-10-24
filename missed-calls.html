@@ -63,7 +63,7 @@
         <span class="sc-label">Missed calls</span>
         <h1 class="sc-display">Never lose a job to a missed <em>call.</em></h1>
         <p class="lede">You're up a ladder or on a roof, the phone rings, and the customer rings the next firm. The AI Voice Employee answers, qualifies the job and books it. The chatbot catches the ones who message instead.</p>
-        <div class="cta-row"><a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a><span class="note">No obligation. You talk to Callum.</span></div>
+        <div class="cta-row"><a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a><a class="btn btn--ghost" href="#calculator">Estimate missed calls</a></div>
       </div>
       <div class="pdial" aria-hidden="true">
         <svg viewBox="0 0 200 200" data-dial="hero" data-hour="10:42">
@@ -86,7 +86,37 @@
     </div>
   </section>
 
-  <section id="voice" data-title="AI Voice Employee" class="block ground-2 trim">
+  <section id="calculator" data-title="Calculator" class="block ground-2 trim">
+    <div class="sc-wrap">
+      <div class="block__head" data-sc-in>
+        <span class="sc-label">Your numbers</span>
+        <h2 class="sc-display">What might those missed calls be worth?</h2>
+        <p>I can't tell you that from here. You can. Type how many calls you miss on a working day, what share of those you reckon would have turned into a job, what a typical job is worth to you, and how many days a week you work. I'll multiply them. It's a rough estimate, not a quote and not a fact about your trade.</p>
+      </div>
+      <form class="calc" id="missed-calc">
+        <label>Missed calls on a working day
+          <input id="calc-calls" type="number" inputmode="decimal" min="0" max="50" step="1" value="2">
+        </label>
+        <label>Share of those that would have been a job (%)
+          <input id="calc-share" type="number" inputmode="decimal" min="0" max="100" step="1" value="20">
+        </label>
+        <label>Average job value (£)
+          <input id="calc-job" type="number" inputmode="decimal" min="0" max="100000" step="1" value="400">
+        </label>
+        <label>Working days a week
+          <input id="calc-days" type="number" inputmode="decimal" min="1" max="7" step="1" value="5">
+        </label>
+      </form>
+      <p class="calc__example">Example numbers. Change any of them. Nothing on this calculator is sent to me.</p>
+      <p class="calc__result" id="calc-out" aria-live="polite"></p>
+      <p class="note">A rough estimate from the numbers you typed.</p>
+      <div class="cta-row">
+        <a class="btn btn--primary" href="clockwork-check.html">Book the free Business Bottleneck Audit</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="voice" data-title="AI Voice Employee" class="block ground-1 trim">
     <div class="sc-wrap">
       <div class="block__head" data-sc-in><h2 class="sc-display">The AI Voice Employee answers the call.</h2><p>Missed calls and out-of-hours calls. It qualifies the job and books it. On Growth and Autopilot.</p></div>
       <article class="svc">
@@ -103,7 +133,7 @@
     </div>
   </section>
 
-  <section id="chat" data-title="Messages" class="block ground-1 trim">
+  <section id="chat" data-title="Messages" class="block ground-2 trim">
     <div class="sc-wrap">
       <div class="block__head" data-sc-in><h2 class="sc-display">If they message instead of ringing.</h2><p>The 24/7 chatbot takes website and WhatsApp enquiries. It's on every tier, with the website.</p></div>
       <article class="svc">
@@ -125,7 +155,7 @@
     </div>
   </section>
 
-  <section id="which" data-title="Which one?" class="block ground-2 trim">
+  <section id="which" data-title="Which one?" class="block ground-1 trim">
     <div class="sc-wrap">
       <div class="block__head" data-sc-in><h2 class="sc-display">Which one is for you?</h2><p>Not sure? That's what the free audit is for. No prices on this page.</p></div>
       <div class="table-wrap" data-sc-in>
@@ -143,7 +173,7 @@
     </div>
   </section>
 
-  <section id="faq" data-title="Questions" class="block ground-1 trim">
+  <section id="faq" data-title="Questions" class="block ground-2 trim">
     <div class="sc-wrap faq">
       <h2 class="sc-display" data-sc-in>Fair questions.</h2>
       <div data-sc-in>
@@ -208,8 +238,42 @@
   <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free call</a>
 </nav>
 
+<script>
+(function () {
+  var calls = document.getElementById("calc-calls");
+  var share = document.getElementById("calc-share");
+  var job = document.getElementById("calc-job");
+  var days = document.getElementById("calc-days");
+  var out = document.getElementById("calc-out");
+  var preset = Number(new URLSearchParams(location.search).get("calls"));
+  if (Number.isFinite(preset) && preset >= 0 && preset <= 50) calls.value = String(preset);
+  function money(n) {
+    return new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 }).format(Math.round(n));
+  }
+  function draw() {
+    var perDay = Number(calls.value);
+    var portion = Number(share.value);
+    var value = Number(job.value);
+    var weekDays = Number(days.value);
+    var ok = [perDay, portion, value, weekDays].every(function (n) { return Number.isFinite(n) && n >= 0; });
+    if (!ok || portion > 100 || weekDays > 7 || perDay > 50) {
+      out.textContent = "Type a number in each box.";
+      return;
+    }
+    var week = perDay * (portion / 100) * value * weekDays;
+    var year = week * 52;
+    var month = year / 12;
+    out.textContent = "On these numbers, that's about " + money(week) + " a week, " + money(month) + " a month and " + money(year) + " a year.";
+  }
+  document.getElementById("missed-calc").addEventListener("input", draw);
+  draw();
+})();
+</script>
 <script src="scrollcraft.js"></script>
 <script src="pages.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>
+addEventListener("load",function(){var n=0;function l(){if(n)return;n=1;var c=document.createElement("link");c.rel="stylesheet";c.href="/chat/widget.css";document.head.appendChild(c);var s=document.createElement("script");s.src="/chat/widget.js";document.body.appendChild(s);}(window.requestIdleCallback?requestIdleCallback(l,{timeout:2200}):setTimeout(l,1400));});
+</script>
 </body>
 </html>

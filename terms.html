@@ -93,6 +93,7 @@
       <div class="prose" data-sc-in>
         <p>You can read these pages, book a call, ring me or message me on WhatsApp. Please don't misuse the site, try to break it, or scrape it in a way that gets in the way of other people using it.</p>
         <p>The pages are general information about what I do. They are not a quote, and they are not advice for your particular business until we've talked and agreed something in writing. Sample conversations on the site are samples. Where I give a number, I say where it came from. I don't invent results.</p>
+        <p>The chat assistant answers from these pages. It is not a quote, and it cannot agree a price. Please don't use it to hammer the site.</p>
         <p>How I handle personal details is on the <a href="privacy.html">privacy page</a>, including cookie-free visit statistics from Vercel.</p>
       </div>
     </div>
@@ -176,5 +177,8 @@
 <script src="scrollcraft.js"></script>
 <script src="pages.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>
+addEventListener("load",function(){var n=0;function l(){if(n)return;n=1;var c=document.createElement("link");c.rel="stylesheet";c.href="/chat/widget.css";document.head.appendChild(c);var s=document.createElement("script");s.src="/chat/widget.js";document.body.appendChild(s);}(window.requestIdleCallback?requestIdleCallback(l,{timeout:2200}):setTimeout(l,1400));});
+</script>
 </body>
 </html>

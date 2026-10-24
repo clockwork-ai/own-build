@@ -102,7 +102,7 @@
       <ol class="steps steps--5" data-sc-in data-sc-stagger="70">
         <li><h3>Missed calls</h3><p>What happens when you're on a job, on a roof, or off the clock. Storm and leak call-outs included.</p></li>
         <li><h3>The website</h3><p>Whether someone can call, message, and see the real work and the real reviews.</p></li>
-        <li><h3>Reviews</h3><p>Whether happy customers are asked, with the same honest ask for everyone. No gating and no incentives.</p></li>
+        <li><h3>Reviews</h3><p>Whether every customer is asked, with the same link for everyone. No gating and no incentives. A problem is flagged to you as well as the link, never instead of it.</p></li>
         <li class="is-key"><h3>One recommendation</h3><p>Which tier, if any. What I'd build, what it would do, and what stays as it is.</p></li>
         <li><h3>You decide</h3><p>Nothing to buy on the call. If you go ahead, you own the website and the AI systems run on a monthly plan. You check it before it goes live.</p></li>
       </ol>
@@ -125,7 +125,7 @@
           <label><input type="checkbox">Do quotes go quiet and never get followed up?</label>
           <label><input type="checkbox">Do you spend evenings on admin or paperwork?</label>
           <label><input type="checkbox">Do storm or leak calls come in while you're on a job, or after hours?</label>
-          <label><input type="checkbox">Do happy customers rarely leave reviews?</label>
+          <label><input type="checkbox">Do reviews rarely get asked for?</label>
           <label><input type="checkbox">Do you or your office answer the same questions every week?</label>
           <label><input type="checkbox">Do past customers only hear from you when they ring again?</label>
         </fieldset>
@@ -217,5 +217,8 @@
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>
+addEventListener("load",function(){var n=0;function l(){if(n)return;n=1;var c=document.createElement("link");c.rel="stylesheet";c.href="/chat/widget.css";document.head.appendChild(c);var s=document.createElement("script");s.src="/chat/widget.js";document.body.appendChild(s);}(window.requestIdleCallback?requestIdleCallback(l,{timeout:2200}):setTimeout(l,1400));});
+</script>
 </body>
 </html>
