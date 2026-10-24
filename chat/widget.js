@@ -234,7 +234,7 @@
         launcherLabel: "Open the chat",
         greeting: "Hello, this is the Clockwork AI chatbot. I can answer questions about the site and the free audit. What do you need?",
         placeholder: "Ask about a website, the audit, or the tiers",
-        suggestions: ["What's the free audit?", "Can you do my roofing site?", "How does it work?", "Leave my details"],
+        suggestions: ["What's the free audit?", "Can you do my roofing site?", "How does it work?", "How do you help me get more reviews?", "Leave my details"],
         nudge: {
           text: "Can you afford to miss calls while you're up a ladder or on a job? How many calls do you reckon you miss a day?",
           delayMs: 22000,
