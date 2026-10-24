@@ -163,6 +163,13 @@ test("drops the apology for not pasting an address", () => {
   const third = joined.push("I can't paste links, but you can find the free audit on the site.") + joined.flush();
   assert.equal(third.includes("paste"), false);
   assert.match(third, /^You can find the free audit/);
+  const pieces = createPriceStream(allowed, standIn);
+  const live = "I can't paste links, but you can find the free audit on the site.";
+  let streamed = "";
+  for (let i = 0; i < live.length; i += 5) streamed += pieces.push(live.slice(i, i + 5));
+  streamed += pieces.flush();
+  assert.equal(streamed.includes("paste"), false);
+  assert.match(streamed, /You can find the free audit/);
 });
 
 test("streams a path that arrives in pieces", () => {

@@ -214,9 +214,25 @@ function holdCut(held: string): number {
     const at = file.index;
     return held[at] === " " || held[at] === "\n" ? at + 1 : at;
   }
+  const apology = apologyCut(held);
+  if (apology != null) return apology;
   const digits = held.match(/\d[\d,]{0,8}$/);
   if (digits?.index != null) return digits.index;
   return held.length;
+}
+
+const APOLOGY_TARGETS = [
+  "i can't paste links, but you can",
+  "i can't give the exact page address, but you can",
+];
+
+function apologyCut(held: string): number | null {
+  const lower = held.toLowerCase().replace(/\u2019/g, "'");
+  const at = lower.lastIndexOf("i can");
+  if (at < 0) return null;
+  const tail = lower.slice(at);
+  if (APOLOGY_TARGETS.some((target) => target.startsWith(tail) && tail.length < target.length)) return at;
+  return null;
 }
 
 export function scrubPrices(text: string, allowed: readonly string[], standIn: string): string {
