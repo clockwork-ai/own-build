@@ -317,6 +317,10 @@ var APOLOGY_TARGETS = [
 ];
 function apologyCut(held) {
   const lower = held.toLowerCase().replace(/\u2019/g, "'");
+  const lone = lower.match(/(?:^|\s)(i'?)$/);
+  if (lone?.index != null) {
+    return lone.index + (lower[lone.index] === " " || lower[lone.index] === "\n" ? 1 : 0);
+  }
   const at = lower.lastIndexOf("i can");
   if (at < 0) return null;
   const tail = lower.slice(at);
