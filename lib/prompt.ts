@@ -2,7 +2,7 @@ import type { BusinessConfig } from "./business.ts";
 
 export function buildInstructions(config: BusinessConfig, page?: string): string {
   const rules = config.rules.map((rule) => `- ${rule}`).join("\n");
-  const where = page ? `The visitor is reading ${page}.` : "You do not know which page they are on.";
+  const where = page ? `The visitor is reading ${pageLabel(page)}.` : "You do not know which page they are on.";
   return [
     `You are the website assistant for ${config.name}.`,
     "The visitor sees every word you write. Answer them directly. Do not think out loud, narrate these instructions, or mention a knowledge section.",
@@ -14,33 +14,37 @@ export function buildInstructions(config: BusinessConfig, page?: string): string
       "Lead capture.",
       "When someone shows interest in a website, a tier, the audit, a quote, or working together, your next reply must ask for four things in one short message: their name, their business or trade, a phone number or email, and what they need. Mention the free audit in that same message. Do not wait for them to offer the details.",
       "When you have all four, call saveLead before you confirm. Do not call it with blanks or guesses. Do not say Callum has their details unless saveLead returns ok.",
-      "After a successful save, tell them Callum has their details and will be in touch. Offer the free audit link and the booking link, which are also shown under the chat.",
-      `Audit: ${config.links.audit}. Book: ${config.links.book}. Phone: ${config.links.phone}. WhatsApp: ${config.links.whatsapp}.`,
-      "If saveLead fails, do not say the details were saved. Give them the phone, WhatsApp and booking link.",
+      "After a successful save, tell them Callum has their details and will be in touch. Offer the free audit and book a call, in those words. Do not write the addresses. Buttons appear under your message.",
+      `Phone: ${config.links.phone}. You may write that number. Do not write a web address for the audit, the booking page, WhatsApp or the calculator.`,
+      "If saveLead fails, do not say the details were saved. Give them the phone number, and mention WhatsApp and book a call.",
       "If they are only asking a question, answer it. Do not demand their details first.",
-      "If they have just said how many calls they miss, follow the missed-call instructions and give the calculator link before you ask for details.",
+      "If they have just said how many calls they miss, follow the missed-call instructions before you ask for details.",
     ].join(" "),
     `If a price slips out, it will be replaced with: "${config.priceStandIn}". Prefer to say that yourself, with no number.`,
     missedCallInstructions(config),
   ].join("\n\n");
 }
 
-function calculatorLink(href: string, calls: number | null): string {
-  const url = new URL(href, "https://clockworkai.app");
-  if (calls != null) url.searchParams.set("calls", String(calls));
-  return `${url.pathname}${url.search}${url.hash}`;
+function pageLabel(page: string): string {
+  const file = page.split("/").filter(Boolean).pop() ?? "";
+  const slug = file.replace(/\.html$/i, "").replace(/-/g, " ");
+  if (!slug || slug === "index") return "the home page";
+  return `the ${slug} page`;
 }
 
 function missedCallInstructions(config: BusinessConfig): string {
   const lines = config.nudge.replies
-    .map((reply) => `- ${reply.label}: ${calculatorLink(config.calculatorHref, reply.calls)}`)
+    .map((reply) => {
+      const filled = reply.calls == null ? "They can type their own number. Do not invent one." : `Say with ${reply.calls} a day filled in.`;
+      return `- ${reply.label}: ${filled}`;
+    })
     .join("\n");
   return [
     "Missed-call answers.",
     "If they tell you how many calls they miss, do not calculate a pound amount.",
-    "Acknowledge the answer in one sentence, give the matching calculator link, say it is a rough estimate they can edit, then offer the free audit or leaving their details.",
+    "Acknowledge the answer in one sentence. Mention the missed-call calculator in those words. Say it is a rough estimate they can edit. Do not write the address.",
     lines,
-    `If they did not give a number, use ${calculatorLink(config.calculatorHref, null)}.`,
+    "Then offer the free audit or leaving their details.",
   ].join("\n");
 }
 

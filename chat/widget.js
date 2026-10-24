@@ -23,7 +23,6 @@
       </header>
       <div class="cw-log" aria-live="polite"></div>
       <div class="cw-chips"></div>
-      <button class="cw-form-toggle" type="button" aria-expanded="false">Leave your details</button>
       <form class="cw-form" hidden>
         <input class="cw-field" name="name" autocomplete="name" maxlength="80" required placeholder="Your name">
         <input class="cw-field" name="business" maxlength="80" required placeholder="Business or trade">
@@ -36,10 +35,11 @@
         <textarea class="cw-input" id="cw-input" rows="1" maxlength="600" placeholder="Ask about a website, the audit, or the tiers"></textarea>
         <button class="cw-send" type="submit">Send</button>
       </form>
-      <nav class="cw-links" aria-label="Next steps">
+      <div class="cw-more">
+        <button class="cw-details" type="button" aria-expanded="false">Leave your details</button>
         <a class="cw-audit" href="/clockwork-check.html">Free audit</a>
         <a class="cw-book" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a call</a>
-      </nav>
+      </div>
     </section>
   `;
   document.body.appendChild(root);
@@ -52,7 +52,7 @@
   const close = root.querySelector(".cw-close");
   const log = root.querySelector(".cw-log");
   const chips = root.querySelector(".cw-chips");
-  const formToggle = root.querySelector(".cw-form-toggle");
+  const details = root.querySelector(".cw-details");
   const form = root.querySelector(".cw-form");
   const composer = root.querySelector(".cw-composer");
   const input = root.querySelector(".cw-input");
@@ -81,9 +81,95 @@
   function safeHref(href, fallback) {
     try {
       const url = new URL(href, location.origin);
-      if (url.origin === location.origin || url.protocol === "https:") return url.href;
+      if (url.protocol === "tel:" || url.protocol === "mailto:" || url.origin === location.origin || url.protocol === "https:") return url.href;
     } catch { /* keep fallback */ }
     return fallback;
+  }
+
+  function keyboardFrame(innerHeight, vvHeight, vvOffsetTop) {
+    if (innerHeight - vvHeight - vvOffsetTop <= 80) return null;
+    const top = Math.max(0, vvOffsetTop) + 8;
+    const height = Math.max(96, Math.round(vvHeight - 16));
+    return { top, height: Math.min(height, Math.round(vvHeight - 8)) };
+  }
+
+  function clearPanelFit() {
+    root.classList.remove("is-keyboard");
+    panel.style.top = "";
+    panel.style.bottom = "";
+    panel.style.height = "";
+    panel.style.maxHeight = "";
+  }
+
+  function fitPanel() {
+    const vv = window.visualViewport;
+    const narrow = window.matchMedia("(max-width: 860px)").matches;
+    if (!vv || !narrow || panel.hidden) {
+      clearPanelFit();
+      return;
+    }
+    const frame = keyboardFrame(window.innerHeight, vv.height, vv.offsetTop || 0);
+    if (!frame) {
+      clearPanelFit();
+      return;
+    }
+    root.classList.add("is-keyboard");
+    panel.style.top = frame.top + "px";
+    panel.style.bottom = "auto";
+    panel.style.height = frame.height + "px";
+    panel.style.maxHeight = frame.height + "px";
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function actionsFor(text, calls) {
+    const actions = [];
+    const seen = new Set();
+    const push = (label, href, external) => {
+      if (!href || seen.has(label)) return;
+      seen.add(label);
+      actions.push({ label, href, external });
+    };
+    if (/free audit|bottleneck audit/i.test(text)) push("Free audit", audit.href, false);
+    if (/book(?:ing)? a call/i.test(text)) push("Book a call", book.href, true);
+    if (/calculator/i.test(text)) {
+      const filled = String(text).match(/with (\d+) a day filled in/i);
+      const count = calls != null ? calls : filled ? Number(filled[1]) : null;
+      push("Missed-call calculator", calculatorHref(count), false);
+    }
+    if (/whatsapp/i.test(text)) push("WhatsApp", (config && config.whatsappHref) || "https://wa.me/447985379605", true);
+    if (/07985\s*379605|\+44\s*7985\s*379605/.test(text)) push("Call", (config && config.phoneHref) || "tel:+447985379605", false);
+    return actions;
+  }
+
+  function attachActions(bubble, text, calls) {
+    const next = bubble.nextElementSibling;
+    const existing = next && next.classList.contains("cw-actions") ? next : null;
+    const first = log.querySelector(".cw-msg");
+    if (bubble === first && !hasUserMessage()) {
+      if (existing) existing.remove();
+      return;
+    }
+    const actions = actionsFor(text, calls);
+    if (!actions.length) {
+      if (existing) existing.remove();
+      return;
+    }
+    const row = existing || document.createElement("div");
+    row.className = "cw-actions";
+    row.replaceChildren();
+    actions.forEach((action) => {
+      const link = document.createElement("a");
+      link.className = "cw-action";
+      link.href = safeHref(action.href, "/clockwork-check.html");
+      link.textContent = action.label;
+      if (action.external) {
+        link.target = "_blank";
+        link.rel = "noopener";
+      }
+      row.appendChild(link);
+    });
+    if (!existing) bubble.after(row);
+    log.scrollTop = log.scrollHeight;
   }
 
   function add(role, text) {
@@ -91,6 +177,7 @@
     p.className = role === "user" ? "cw-msg cw-msg--user" : role === "note" ? "cw-msg cw-msg--note" : "cw-msg cw-msg--bot";
     p.textContent = text;
     log.appendChild(p);
+    if (role === "assistant" || role === "note") attachActions(p, text);
     log.scrollTop = log.scrollHeight;
     return p;
   }
@@ -106,12 +193,9 @@
     sr.textContent = next.launcherLabel || sr.textContent;
     launch.setAttribute("aria-label", next.launcherLabel || "Open the chat");
     input.placeholder = next.placeholder || input.placeholder;
-    formToggle.textContent = next.formTitle || formToggle.textContent;
     form.querySelector("button").textContent = next.formSubmit || "Send";
     audit.href = safeHref(next.auditHref, "/clockwork-check.html");
-    audit.textContent = next.auditLabel || "Free audit";
     book.href = safeHref(next.bookHref, "https://cal.com/clockwork-ai/30min");
-    book.textContent = next.bookLabel || "Book a call";
     if (next.nudge && next.nudge.text) nudgeOpen.textContent = next.nudge.text;
     if (!nudgeMode) renderSuggestions(next.suggestions);
     if (!nudgeArmed) {
@@ -124,17 +208,19 @@
     }
   }
 
+  function hasUserMessage() {
+    return messages.some((message) => message.role === "user");
+  }
+
   function renderSuggestions(list) {
     chips.replaceChildren();
-    (list || []).forEach((label) => {
+    if (hasUserMessage() || nudgeMode) return;
+    (list || []).slice(0, 3).forEach((label) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "cw-chip";
       button.textContent = label;
-      button.addEventListener("click", () => {
-        if (/^leave my details$/i.test(label)) openForm();
-        else ask(label);
-      });
+      button.addEventListener("click", () => ask(label));
       chips.appendChild(button);
     });
   }
@@ -212,15 +298,20 @@
   function openForm() {
     form.hidden = false;
     form.classList.add("is-open");
-    formToggle.setAttribute("aria-expanded", "true");
+    details.setAttribute("aria-expanded", "true");
   }
 
   function setOpen(open) {
     root.classList.toggle("is-open", open);
     panel.hidden = !open;
     launch.setAttribute("aria-expanded", open ? "true" : "false");
-    if (open) input.focus();
-    else launch.focus();
+    if (open) {
+      input.focus({ preventScroll: true });
+      fitPanel();
+    } else {
+      clearPanelFit();
+      launch.focus();
+    }
   }
 
   async function loadConfig() {
@@ -234,14 +325,14 @@
         launcherLabel: "Open the chat",
         greeting: "Hello, this is the Clockwork AI chatbot. I can answer questions about the site and the free audit. What do you need?",
         placeholder: "Ask about a website, the audit, or the tiers",
-        suggestions: ["What's the free audit?", "Can you do my roofing site?", "How does it work?", "How do you help me get more reviews?", "Leave my details"],
+        suggestions: ["What's the free audit?", "Can you do my roofing site?", "How do you help me get more reviews?"],
         nudge: {
           text: "Can you afford to miss calls while you're up a ladder or on a job? How many calls do you reckon you miss a day?",
           delayMs: 22000,
           scroll: 0.45,
           replies: [
-            { label: "1–2", message: "I reckon I miss 1–2 calls a day.", calls: 2 },
-            { label: "3–5", message: "I reckon I miss 3–5 calls a day.", calls: 4 },
+            { label: "1 to 2", message: "I reckon I miss 1 to 2 calls a day.", calls: 2 },
+            { label: "3 to 5", message: "I reckon I miss 3 to 5 calls a day.", calls: 4 },
             { label: "6+", message: "I reckon I miss 6 or more calls a day.", calls: 6 },
             { label: "Not sure", message: "I'm not sure how many calls I miss a day.", calls: null },
           ],
@@ -253,6 +344,8 @@
         auditLabel: "Free Business Bottleneck Audit",
         bookHref: "https://cal.com/clockwork-ai/30min",
         bookLabel: "Book a free 30-minute call",
+        phoneHref: "tel:+447985379605",
+        whatsappHref: "https://wa.me/447985379605",
       });
     }
   }
@@ -260,8 +353,10 @@
   async function ask(text) {
     const content = text.replace(/\s+/g, " ").trim();
     if (!content || busy) return;
+    const wasNudge = nudgeMode;
     busy = true;
     send.disabled = true;
+    nudgeMode = false;
     chips.replaceChildren();
     messages.push({ role: "user", content });
     add("user", content);
@@ -277,7 +372,12 @@
         const data = await response.json().catch(() => ({}));
         bubble.className = "cw-msg cw-msg--note";
         bubble.textContent = data.error || "Sorry, try again in a moment.";
+        attachActions(bubble, bubble.textContent);
         messages.pop();
+        if (!hasUserMessage()) {
+          if (wasNudge) showNudgeReplies();
+          else renderSuggestions(config && config.suggestions);
+        }
         return;
       }
       const reader = response.body && response.body.getReader();
@@ -289,6 +389,7 @@
           if (step.done) break;
           acc += decoder.decode(step.value, { stream: true });
           bubble.textContent = acc;
+          attachActions(bubble, acc);
           log.scrollTop = log.scrollHeight;
         }
         acc += decoder.decode();
@@ -297,40 +398,28 @@
       }
       bubble.textContent = acc || "Sorry, I missed that.";
       const picked = replyFor(content);
-      if (picked) {
-        const href = calculatorHref(picked.calls);
-        const note = document.createElement("p");
-        note.className = "cw-msg cw-msg--bot";
-        const link = document.createElement("a");
-        link.href = href;
-        if (bubble.textContent.includes("missed-calls.html")) {
-          link.textContent = "Open the calculator";
-          note.append(link);
-        } else {
-          link.textContent = href;
-          note.append(
-            picked.calls == null
-              ? "The calculator is here, so you can type your own number. It's a rough estimate. "
-              : `The calculator is here with ${picked.calls} missed calls a day filled in. It's a rough estimate you can change. `,
-            link,
-            " The free audit is linked below, or leave your details.",
-          );
-        }
-        log.appendChild(note);
-        log.scrollTop = log.scrollHeight;
-        bubble.textContent += " " + note.textContent;
+      if (picked && !/calculator/i.test(bubble.textContent)) {
+        bubble.textContent += picked.calls == null
+          ? " The missed-call calculator is there so you can type your own number. It's a rough estimate."
+          : ` The missed-call calculator is ready, with ${picked.calls} a day filled in. It's a rough estimate you can change.`;
       }
-      nudgeMode = false;
+      attachActions(bubble, bubble.textContent, picked ? picked.calls : null);
       messages.push({ role: "assistant", content: bubble.textContent });
       if (/your name|phone or email|leave your details|leave my details/i.test(bubble.textContent)) openForm();
     } catch {
       bubble.className = "cw-msg cw-msg--note";
       bubble.textContent = "Sorry, the chat didn't connect. You can still book the free audit below.";
+      attachActions(bubble, bubble.textContent);
       messages.pop();
+      if (!hasUserMessage()) {
+        if (wasNudge) showNudgeReplies();
+        else renderSuggestions(config && config.suggestions);
+      }
     } finally {
       busy = false;
       send.disabled = false;
-      input.focus();
+      input.focus({ preventScroll: true });
+      fitPanel();
     }
   }
 
@@ -350,12 +439,17 @@
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && root.classList.contains("is-open")) setOpen(false);
   });
-  formToggle.addEventListener("click", () => {
+  form.addEventListener("focusin", (event) => {
+    const field = event.target;
+    if (field && field.scrollIntoView) field.scrollIntoView({ block: "nearest" });
+    fitPanel();
+  });
+  details.addEventListener("click", () => {
     const open = form.hidden;
     form.hidden = !open;
     form.classList.toggle("is-open", open);
-    formToggle.setAttribute("aria-expanded", open ? "true" : "false");
-    if (open) form.querySelector("input").focus();
+    details.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) form.querySelector("input").focus({ preventScroll: true });
   });
   composer.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -388,6 +482,18 @@
     }
   });
 
+  if (window.visualViewport) {
+    visualViewport.addEventListener("resize", fitPanel);
+    visualViewport.addEventListener("scroll", fitPanel);
+  }
+  window.addEventListener("resize", fitPanel);
+  input.addEventListener("focus", () => {
+    fitPanel();
+    setTimeout(fitPanel, 50);
+    setTimeout(fitPanel, 300);
+    setTimeout(fitPanel, 700);
+  });
+
   const ready = loadConfig();
-  launch.addEventListener("click", () => { ready.then(() => input.focus()); }, { once: true });
+  launch.addEventListener("click", () => { ready.then(() => input.focus({ preventScroll: true })); }, { once: true });
 })();

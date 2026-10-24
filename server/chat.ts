@@ -132,7 +132,13 @@ export async function POST(request: Request): Promise<Response> {
     },
   });
 
-  const guard = createPriceStream(business.allowedPrices, business.priceStandIn);
+  const guard = createPriceStream(business.allowedPrices, business.priceStandIn, {
+    audit: business.links.audit,
+    book: business.links.book,
+    whatsapp: business.links.whatsapp,
+    phone: business.links.phone,
+    calculator: business.calculatorHref,
+  });
   const encoder = new TextEncoder();
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {

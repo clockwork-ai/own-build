@@ -107,6 +107,118 @@ const WORD_PRICE =
 const MONEY =
   /£\s?\d[\d,]*(?:\.\d+)?(?:\s*billion|\s*(?:\/|a |per )(?:month|mo))?|[$€]\s?\d[\d,]*(?:\.\d+)?(?:\s*(?:\/|a |per )(?:month|mo))?|\bgbp\s?\d[\d,]*(?:\.\d+)?|\b\d[\d,]*(?:\.\d+)?\s*(?:pounds?|quid)\b|\b\d[\d,]*(?:\.\d+)?\s*(?:\/|a |per )(?:month|mo)\b/gi;
 
+/** Turns em and en dashes into plain punctuation. Number ranges become "3 to 5". */
+export function scrubDashes(text: string): string {
+  return text
+    .replace(/(\d)\s*[\u2013\u2014]\s*(\d)/g, "$1 to $2")
+    .replace(/\s*[\u2013\u2014]\s*/g, ", ")
+    .replace(/,\s*,/g, ",")
+    .replace(/[ \t]{2,}/g, " ");
+}
+
+export type PathLinks = {
+  audit: string;
+  book: string;
+  whatsapp: string;
+  phone: string;
+  calculator: string;
+};
+
+const DEFAULT_LINKS: PathLinks = {
+  audit: "/clockwork-check.html",
+  book: "https://cal.com/clockwork-ai/30min",
+  whatsapp: "https://wa.me/447985379605",
+  phone: "07985 379605",
+  calculator: "/missed-calls.html#calculator",
+};
+
+function wordsFor(raw: string, links: PathLinks): string {
+  const trimmed = raw.replace(/[.,;:!?]+$/g, "");
+  const trailing = raw.slice(trimmed.length);
+  let href = trimmed;
+  if (/^www\./i.test(href)) href = `https://${href.slice(4)}`;
+  else if (!/^https?:\/\//i.test(href) && !href.startsWith("/") && !href.endsWith(".html") && href.includes(".")) {
+    href = `https://${href}`;
+  }
+  let url: URL;
+  try {
+    url = new URL(href, "https://clockworkai.app");
+  } catch {
+    return `the page${trailing}`;
+  }
+  const host = url.hostname.replace(/^www\./, "");
+  const path = url.pathname;
+  if (path === links.audit || /clockwork-check\.html$/i.test(path)) return `the free audit${trailing}`;
+  if (host === "cal.com" || host === "wa.me") {
+    return host === "wa.me" ? `WhatsApp${trailing}` : `book a call${trailing}`;
+  }
+  if (/missed-calls\.html$/i.test(path)) {
+    const calls = url.searchParams.get("calls");
+    if (calls && /^\d{1,2}$/.test(calls)) return `the missed-call calculator, with ${calls} a day filled in${trailing}`;
+    return `the missed-call calculator${trailing}`;
+  }
+  if (/\.html$/i.test(path)) {
+    const slug = path.split("/").pop()?.replace(/\.html$/i, "").replace(/-/g, " ");
+    if (slug && slug !== "index") return `the ${slug} page${trailing}`;
+    return `the page${trailing}`;
+  }
+  if (host === "clockworkai.app") return `this site${trailing}`;
+  return `the link${trailing}`;
+}
+
+/** Replaces a raw URL or page path with words. Phone numbers and ordinary sentences stay. */
+export function scrubPaths(text: string, links: PathLinks = DEFAULT_LINKS): string {
+  const link =
+    /\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)|(https?:\/\/[^\s<>)\]]+)|(?<!@)\b(?:www\.)?(?:clockworkai\.app|cal\.com|wa\.me)(?:\/[^\s<>)\]]*)?|(^|[\s(])(\/?[a-z0-9-]+(?:\/[a-z0-9-]+)*\.html(?:\?[^\s<>)\]]*)?(?:#[a-z0-9-]+)?)/gi;
+  return text
+    .replace(link, (match, label: string | undefined, href: string | undefined, http: string | undefined, lead: string | undefined, path: string | undefined) => {
+      if (match.startsWith("[") && label != null && href != null) {
+        return /https?:|www\.|\.html|\.com|wa\.me|\//i.test(label) ? wordsFor(href, links) : label;
+      }
+      if (http) return wordsFor(http, links);
+      if (path) return `${lead ?? ""}${wordsFor(path, links)}`;
+      return wordsFor(match, links);
+    })
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\s+([.,;:!?])/g, "$1");
+}
+
+function incompleteMoney(tail: string): boolean {
+  if (/(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?$/i.test(tail)) return true;
+  if (/(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+$/i.test(tail)) return true;
+  if (/(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)$/i.test(tail)) return true;
+  if (/(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)\s+$/i.test(tail)) return true;
+  if (/(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)\s+m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(tail)) return !/month$/i.test(tail);
+  if (/(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+b(?:i(?:l(?:l(?:i(?:o(?:n)?)?)?)?)?)?$/i.test(tail)) return !/billion$/i.test(tail);
+  if (/(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s*\/\s*m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(tail)) return !/month$/i.test(tail);
+  return false;
+}
+
+function holdCut(held: string): number {
+  const symbol = held.match(/(?:£|\$|€)$/);
+  if (symbol?.index != null) return symbol.index;
+  const money = held.match(/(?:£|\$|€|\bgbp\s?)\d[\d,]*(?:\.\d*)?(?:\s+\S+){0,3}$/i);
+  if (money?.index != null && incompleteMoney(money[0])) return money.index;
+  const slashPrice = held.match(/\d[\d,]*\/$/);
+  if (slashPrice?.index != null) return slashPrice.index;
+  const range = held.match(/\d\s*[\u2013\u2014]\s*\d*$/);
+  if (range?.index != null) return range.index;
+  const url = held.match(/https?:\/\/\S*$/i) ?? held.match(/https?:?\/?$/i);
+  if (url?.index != null) return url.index;
+  const bare = held.match(/(?<!@)(?:www\.)?(?:clockworkai\.app|cal\.com|wa\.me)(?:\/\S*)?$/i);
+  if (bare?.index != null) return bare.index;
+  const path = held.match(/\/[a-z0-9][\w./?#=&%-]*$/i);
+  if (path?.index != null && !/^\/(?:month|mo)$/i.test(path[0])) return path.index;
+  const file = held.match(/(?:^|\s)([a-z0-9-]+\.h(?:t(?:m(?:l)?)?)?)$/i);
+  if (file?.index != null) {
+    const at = file.index;
+    return held[at] === " " || held[at] === "\n" ? at + 1 : at;
+  }
+  const digits = held.match(/\d[\d,]{0,8}$/);
+  if (digits?.index != null) return digits.index;
+  return held.length;
+}
+
 export function scrubPrices(text: string, allowed: readonly string[], standIn: string): string {
   const slots: string[] = [];
   let safe = text;
@@ -123,22 +235,22 @@ export function scrubPrices(text: string, allowed: readonly string[], standIn: s
   return safe.replace(/\u0000(\d+)\u0000/g, (_match, index: string) => slots[Number(index)] ?? "");
 }
 
-/** Holds back a trailing fragment that might still be a price. */
-export function createPriceStream(allowed: readonly string[], standIn: string) {
+function scrubReply(text: string, allowed: readonly string[], standIn: string, links?: PathLinks): string {
+  return scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links);
+}
+
+/** Holds back a trailing fragment that might still be a price, a dash range, or a path. */
+export function createPriceStream(allowed: readonly string[], standIn: string, links?: PathLinks) {
   let held = "";
   const push = (chunk: string) => {
     held += chunk;
-    const partial =
-      held.match(/(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?$/i) ??
-      held.match(/(?:£|\$|€)$/) ??
-      held.match(/\d[\d,]{0,8}$/);
-    const cut = partial?.index ?? held.length;
+    const cut = holdCut(held);
     const ready = held.slice(0, cut);
     held = held.slice(cut);
-    return scrubPrices(ready, allowed, standIn);
+    return scrubReply(ready, allowed, standIn, links);
   };
   const flush = () => {
-    const rest = scrubPrices(held, allowed, standIn);
+    const rest = scrubReply(held, allowed, standIn, links);
     held = "";
     return rest;
   };

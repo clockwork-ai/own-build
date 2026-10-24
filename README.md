@@ -8,13 +8,15 @@ A floating chat bubble on every page. The script and stylesheet load after the p
 
 Ask it about the services, the six-part trades system, the free Business Bottleneck Audit, how it works, missed calls, or who Callum is. It will not quote a price for Foundation, Growth or Autopilot. When someone wants to go ahead, it asks for their name, business or trade, phone or email, and what they need.
 
-After a scroll or a short wait, a small question appears above the bubble, once per browser session. The wording, the quick replies and the calculator link are in `lib/business.ts`. The calculator itself is the section on `missed-calls.html`. It stays in the browser. A link from the chat can pre-fill missed calls with `?calls=`.
+After a scroll or a short wait, a small question appears above the bubble, once per browser session. The wording and the quick replies are in `lib/business.ts`. The calculator itself is the section on `missed-calls.html`. It stays in the browser. The chat names it in words, and the widget adds a button. That button can pre-fill missed calls with `?calls=`.
+
+The assistant never writes a web address or a page path. If a reply still contains one, the server turns it into words before it is shown. The widget then puts a button under the message, such as Free audit, Book a call, Missed-call calculator or WhatsApp. On a phone, the panel follows the visible viewport, so the close button and the input stay on screen when the keyboard is open.
 
 ## Reuse it on a client site
 
 Copy these files into the other site:
 
-- `lib/business.ts` — edit this, and only this, for the new business
+- `lib/business.ts`: edit this, and only this, for the new business
 - `lib/prompt.ts`, `lib/guard.ts`, `lib/leads.ts`
 - `server/chat.ts`
 - `chat/widget.js`, `chat/widget.css`

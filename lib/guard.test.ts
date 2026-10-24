@@ -5,6 +5,8 @@ import {
   isValidContact,
   normaliseMessages,
   resetRateLimits,
+  scrubDashes,
+  scrubPaths,
   scrubPrices,
   takeRateLimit,
 } from "./guard.ts";
@@ -88,6 +90,75 @@ test("rate limit is per key", () => {
   const blocked = takeRateLimit("1.2.3.4", 20, 1000, 2);
   assert.equal(blocked.ok, false);
   assert.equal(takeRateLimit("5.6.7.8", 20, 1000, 2).ok, true);
+});
+
+test("turns em and en dashes into plain punctuation", () => {
+  assert.equal(
+    scrubDashes("Built for trades first\u2014roofers, plumbers and so on."),
+    "Built for trades first, roofers, plumbers and so on.",
+  );
+  assert.equal(scrubDashes("about 3\u20135 calls"), "about 3 to 5 calls");
+  assert.equal(scrubDashes("pages 10\u201412"), "pages 10 to 12");
+  assert.equal(scrubDashes("a pause \u2013 then more"), "a pause, then more");
+  assert.equal(scrubDashes("Ring 07985 379605."), "Ring 07985 379605.");
+});
+
+test("streams a number range that arrives in pieces", () => {
+  const stream = createPriceStream(allowed, standIn);
+  const head = stream.push("I miss 3");
+  const mid = stream.push("\u2013");
+  const tail = stream.push("5 calls a day. The figure \u00a311 billion stays.");
+  const end = stream.flush();
+  const all = head + mid + tail + end;
+  assert.equal(all.includes("\u2013"), false);
+  assert.equal(all.includes("\u2014"), false);
+  assert.match(all, /3 to 5 calls/);
+  assert.match(all, /£11 billion/);
+  assert.equal(all.includes("149"), false);
+});
+
+test("turns raw paths and web addresses into words", () => {
+  const audit = scrubPaths("The next step is /clockwork-check.html.");
+  assert.equal(audit, "The next step is the free audit.");
+  assert.equal(audit.includes(".html"), false);
+  const book = scrubPaths("Use https://cal.com/clockwork-ai/30min today.");
+  assert.equal(book, "Use book a call today.");
+  assert.equal(book.includes("cal.com"), false);
+  const calc = scrubPaths("Open /missed-calls.html?calls=4#calculator now.");
+  assert.equal(calc, "Open the missed-call calculator, with 4 a day filled in now.");
+  assert.equal(calc.includes("missed-calls"), false);
+  const markdown = scrubPaths("Here is [Free audit](/clockwork-check.html) for you.");
+  assert.equal(markdown, "Here is Free audit for you.");
+  assert.equal(scrubPaths("Email callum@clockworkai.app or ring 07985 379605."), "Email callum@clockworkai.app or ring 07985 379605.");
+  assert.equal(scrubPaths("Bring a brush and/or a ladder."), "Bring a brush and/or a ladder.");
+});
+
+test("streams a price and a web address that arrive in small pieces", () => {
+  const stream = createPriceStream(allowed, standIn);
+  const text = "Autopilot is £149 a month. See /clockwork-check.html or https://cal.com/clockwork-ai/30min.";
+  let all = "";
+  for (let i = 0; i < text.length; i += 7) all += stream.push(text.slice(i, i + 7));
+  all += stream.flush();
+  assert.equal(all.includes("£"), false);
+  assert.equal(all.includes("149"), false);
+  assert.equal(all.includes("a month"), false);
+  assert.equal(all.includes(".html"), false);
+  assert.equal(all.includes("https"), false);
+  assert.equal(all.includes("cal.com"), false);
+  assert.match(all, /the free audit/);
+  assert.match(all, /book a call/);
+});
+
+test("streams a path that arrives in pieces", () => {
+  const stream = createPriceStream(allowed, standIn);
+  const head = stream.push("Start at /clockwork-");
+  const mid = stream.push("check.html and £11 billion stays.");
+  const end = stream.flush();
+  const all = head + mid + end;
+  assert.equal(all.includes(".html"), false);
+  assert.equal(all.includes("/clock"), false);
+  assert.match(all, /the free audit/);
+  assert.match(all, /£11 billion/);
 });
 
 test("contact must be an email or a phone number", () => {
