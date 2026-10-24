@@ -324,8 +324,14 @@ function scrubPrices(text, allowed, standIn) {
   safe = safe.replace(MONEY, standIn).replace(WORD_PRICE, standIn);
   return safe.replace(/\u0000(\d+)\u0000/g, (_match, index) => slots[Number(index)] ?? "");
 }
+function scrubAddressApology(text) {
+  return text.replace(
+    /I can(?:not|['\u2019]t) give(?: you)? the exact (?:page |web )?address,\s*but you can/gi,
+    "You can"
+  ).replace(/[ \t]{2,}/g, " ");
+}
 function scrubReply(text, allowed, standIn, links) {
-  return scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links);
+  return scrubAddressApology(scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links));
 }
 function createPriceStream(allowed, standIn, links) {
   let held = "";

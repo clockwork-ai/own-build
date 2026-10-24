@@ -149,6 +149,14 @@ test("streams a price and a web address that arrive in small pieces", () => {
   assert.match(all, /book a call/);
 });
 
+test("drops the apology for not pasting an address", () => {
+  const text = "I can't give the exact page address, but you can find the free audit on the site.";
+  const stream = createPriceStream(allowed, standIn);
+  const all = stream.push(text) + stream.flush();
+  assert.equal(all.includes("can't give"), false);
+  assert.match(all, /^You can find the free audit/);
+});
+
 test("streams a path that arrives in pieces", () => {
   const stream = createPriceStream(allowed, standIn);
   const head = stream.push("Start at /clockwork-");

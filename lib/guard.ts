@@ -235,8 +235,17 @@ export function scrubPrices(text: string, allowed: readonly string[], standIn: s
   return safe.replace(/\u0000(\d+)\u0000/g, (_match, index: string) => slots[Number(index)] ?? "");
 }
 
+function scrubAddressApology(text: string): string {
+  return text
+    .replace(
+      /I can(?:not|['\u2019]t) give(?: you)? the exact (?:page |web )?address,\s*but you can/gi,
+      "You can",
+    )
+    .replace(/[ \t]{2,}/g, " ");
+}
+
 function scrubReply(text: string, allowed: readonly string[], standIn: string, links?: PathLinks): string {
-  return scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links);
+  return scrubAddressApology(scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links));
 }
 
 /** Holds back a trailing fragment that might still be a price, a dash range, or a path. */
