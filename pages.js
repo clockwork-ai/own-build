@@ -11,15 +11,15 @@
 
   // The site, as hours of a working day. Keep in step with the menu on index.html.
   const PAGES = [
-    ['index.html', 'Home', '02:14'],
-    ['roofers.html', 'Roofers', '07:30'],
-    ['how-it-works.html', 'How it works', '06:30'],
-    ['services.html', 'Services', '09:00'],
-    ['missed-calls.html', 'Missed calls', '10:42'],
-    ['clockwork-check.html', 'Free audit', '11:00'],
-    ['work.html', 'My work', '14:00'],
-    ['about.html', 'About', '17:30'],
-    ['book.html', 'Book a call', '08:00'],
+    ['/', 'Home', '02:14'],
+    ['/roofers', 'Roofers', '07:30'],
+    ['/how-it-works', 'How it works', '06:30'],
+    ['/services', 'Services', '09:00'],
+    ['/missed-calls', 'Missed calls', '10:42'],
+    ['/clockwork-check', 'Free audit', '11:00'],
+    ['/work', 'My work', '14:00'],
+    ['/about', 'About', '17:30'],
+    ['/book', 'Book a call', '08:00'],
   ];
 
   function ticks(g, c, n, rOut, rIn, every, rBig, attrs, bigAttrs, skip = -1) {
@@ -64,7 +64,9 @@
   });
 
   // Corner subdial: this page's hour, and the menu.
-  const here = location.pathname.split('/').pop() || 'index.html';
+  // Clean URLs: /services, and / for the home page. Strip a trailing slash or
+  // a leftover .html so the current item still highlights if a redirect is mid-flight.
+  const here = location.pathname.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/\/+$/, '') || '/';
   const pageHour = document.body.dataset.hour || '09:00';
   const sub = $('#subdialsvg');
   if (sub) {
