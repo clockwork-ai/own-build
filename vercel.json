@@ -4,6 +4,7 @@
   "buildCommand": "node scripts/build.mjs",
   "outputDirectory": "public",
   "cleanUrls": true,
+  "trailingSlash": false,
   "functions": {
     "api/chat.js": {
       "maxDuration": 30
