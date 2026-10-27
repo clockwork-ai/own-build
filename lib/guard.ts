@@ -127,8 +127,8 @@ export type PathLinks = {
 const DEFAULT_LINKS: PathLinks = {
   audit: "/clockwork-check.html",
   book: "https://cal.com/clockwork-ai/30min",
-  whatsapp: "https://wa.me/447985379605",
-  phone: "07985 379605",
+  whatsapp: "https://wa.me/447460038202",
+  phone: "07460 038202",
   calculator: "/missed-calls.html#calculator",
 };
 

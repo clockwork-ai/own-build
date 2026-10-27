@@ -34,7 +34,7 @@ test("scrubs tier prices and keeps the cited government figure", () => {
 });
 
 test("does not touch the phone number, the discount or the audit", () => {
-  const text = "Ring 07985 379605. The first five clients get 30% off. The audit is free and takes 30 minutes.";
+  const text = "Ring 07460 038202. The first five clients get 30% off. The audit is free and takes 30 minutes.";
   assert.equal(scrubPrices(text, allowed, standIn), text);
 });
 
@@ -100,7 +100,7 @@ test("turns em and en dashes into plain punctuation", () => {
   assert.equal(scrubDashes("about 3\u20135 calls"), "about 3 to 5 calls");
   assert.equal(scrubDashes("pages 10\u201412"), "pages 10 to 12");
   assert.equal(scrubDashes("a pause \u2013 then more"), "a pause, then more");
-  assert.equal(scrubDashes("Ring 07985 379605."), "Ring 07985 379605.");
+  assert.equal(scrubDashes("Ring 07460 038202."), "Ring 07460 038202.");
 });
 
 test("streams a number range that arrives in pieces", () => {
@@ -129,7 +129,7 @@ test("turns raw paths and web addresses into words", () => {
   assert.equal(calc.includes("missed-calls"), false);
   const markdown = scrubPaths("Here is [Free audit](/clockwork-check.html) for you.");
   assert.equal(markdown, "Here is Free audit for you.");
-  assert.equal(scrubPaths("Email callum@clockworkai.app or ring 07985 379605."), "Email callum@clockworkai.app or ring 07985 379605.");
+  assert.equal(scrubPaths("Email callum@clockworkai.app or ring 07460 038202."), "Email callum@clockworkai.app or ring 07460 038202.");
   assert.equal(scrubPaths("Bring a brush and/or a ladder."), "Bring a brush and/or a ladder.");
 });
 
@@ -191,8 +191,8 @@ test("streams a path that arrives in pieces", () => {
 
 test("contact must be an email or a phone number", () => {
   assert.equal(isValidContact("callum@clockworkai.app"), true);
-  assert.equal(isValidContact("07985 379605"), true);
-  assert.equal(isValidContact("+44 7985 379605"), true);
+  assert.equal(isValidContact("07460 038202"), true);
+  assert.equal(isValidContact("+44 7460 038202"), true);
   assert.equal(isValidContact("not an email"), false);
   assert.equal(isValidContact("12345"), false);
 });

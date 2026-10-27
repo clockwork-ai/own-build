@@ -136,8 +136,8 @@
       const count = calls != null ? calls : filled ? Number(filled[1]) : null;
       push("Missed-call calculator", calculatorHref(count), false);
     }
-    if (/whatsapp/i.test(text)) push("WhatsApp", (config && config.whatsappHref) || "https://wa.me/447985379605", true);
-    if (/07985\s*379605|\+44\s*7985\s*379605/.test(text)) push("Call", (config && config.phoneHref) || "tel:+447985379605", false);
+    if (/whatsapp/i.test(text)) push("WhatsApp", (config && config.whatsappHref) || "https://wa.me/447460038202", true);
+    if (/07460\s*038202|\+44\s*7460\s*038202/.test(text)) push("Call", (config && config.phoneHref) || "tel:+447460038202", false);
     return actions;
   }
 
@@ -344,8 +344,8 @@
         auditLabel: "Free Business Bottleneck Audit",
         bookHref: "https://cal.com/clockwork-ai/30min",
         bookLabel: "Book a free 30-minute call",
-        phoneHref: "tel:+447985379605",
-        whatsappHref: "https://wa.me/447985379605",
+        phoneHref: "tel:+447460038202",
+        whatsappHref: "https://wa.me/447460038202",
       });
     }
   }
