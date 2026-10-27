@@ -38,7 +38,16 @@ There is no contact form on this site, and the audit self-check never leaves the
 
 Chat leads are stored as private JSON in the Vercel Blob store `clockwork-leads` (London, `lhr1`), connected to the `own-build` project for production, preview and development. Open the store in the Vercel dashboard under Storage. The files are not public.
 
-An email is not sent. ImprovMX only forwards mail that people send to clockworkai.app. It cannot send a notification from the chat. To get an email or a Slack message, set `LEAD_NOTIFY_URL` on `own-build` to an `https` webhook that delivers to callum@clockworkai.app, then redeploy. The chat already POSTs the lead there when that variable is present. Until then, the dashboard store is the inbox.
+Each saved lead is also emailed to callum@getclockworkai.com when Gmail SMTP is configured. The message subject is "New chat lead: <name>". The body has the name, business, contact, what they need, the page, and a short transcript. The lead is stored first. If the email fails, or the password is missing, the chat still confirms the save and the JSON stays in the Blob store.
+
+Set these on `own-build` for Production, Preview, and Development, then redeploy:
+
+- `LEAD_SMTP_USER`: the Google Workspace mailbox that sends, `callum@getclockworkai.com`
+- `LEAD_SMTP_PASSWORD`: a Google app password for that mailbox (16 letters; spaces are ignored)
+
+The server connects to smtp.gmail.com on port 465. Create the app password in the Google account after 2-Step Verification is on. If the Workspace admin has turned app passwords off, an admin has to allow them first. Do not commit the password.
+
+`LEAD_NOTIFY_URL` is still optional. If it is an `https` URL, the same lead is POSTed there as well. ImprovMX only forwards mail that people send to clockworkai.app. It cannot send this notification.
 
 ## What is already in place
 

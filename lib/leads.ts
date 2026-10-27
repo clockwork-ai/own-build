@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { put } from "@vercel/blob";
 import type { BusinessConfig } from "./business.ts";
 import { cleanLine, isValidContact } from "./guard.ts";
+import { emailLead, summariseTranscript } from "./mail.ts";
 
 export type LeadInput = {
   name: string;
@@ -10,6 +11,7 @@ export type LeadInput = {
   need: string;
   page?: string;
   source: "chat-tool" | "chat-form";
+  summary?: string;
 };
 
 export type LeadResult =
@@ -51,6 +53,13 @@ function pathname(prefix: string, lead: LeadInput): string {
 }
 
 async function notify(config: BusinessConfig, lead: LeadInput): Promise<boolean> {
+  const emailed = await emailLead(config.lead.notifyEmail, lead, lead.summary || "No transcript was included.");
+  const hooked = await notifyWebhook(config, lead);
+  console.info(`lead notice emailed=${emailed} webhook=${hooked}`);
+  return emailed || hooked;
+}
+
+async function notifyWebhook(config: BusinessConfig, lead: LeadInput): Promise<boolean> {
   const url = process.env[config.lead.webhookEnv];
   if (!url) return false;
   let target: URL;
@@ -94,6 +103,7 @@ export async function saveLead(config: BusinessConfig, lead: LeadInput): Promise
   }
   const record = {
     ...lead,
+    summary: lead.summary || "No transcript was included.",
     notifyName: config.lead.notifyName,
     savedAt: new Date().toISOString(),
   };

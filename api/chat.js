@@ -91,6 +91,7 @@ Contact. Book a free 30-minute call on the booking link. Or ring or WhatsApp 074
   },
   lead: {
     notifyName: "Callum Broadfoot",
+    notifyEmail: "callum@getclockworkai.com",
     storagePrefix: "leads",
     webhookEnv: "LEAD_NOTIFY_URL"
   },
@@ -383,6 +384,216 @@ function cleanLine(value, max) {
 // lib/leads.ts
 import { createHash } from "node:crypto";
 import { put } from "@vercel/blob";
+
+// lib/mail.ts
+import { connect as connectTls } from "node:tls";
+var SMTP_HOST = "smtp.gmail.com";
+var SMTP_PORT = 465;
+function summariseTranscript(input) {
+  if (!Array.isArray(input)) return "No transcript was included.";
+  const lines = [];
+  for (const item of input.slice(-8)) {
+    if (!item || typeof item !== "object") continue;
+    const role = item.role;
+    const content = item.content;
+    if (role !== "user" && role !== "assistant" || typeof content !== "string") continue;
+    const text = content.replace(/[\u0000-\u001f]+/g, " ").replace(/\s+/g, " ").trim().slice(0, 280);
+    if (!text) continue;
+    lines.push(`${role === "user" ? "Visitor" : "Assistant"}: ${text}`);
+  }
+  if (!lines.length) return "No transcript was included.";
+  return lines.join("\n");
+}
+function readSmtpSettings(env = process.env) {
+  const user = env.LEAD_SMTP_USER?.trim() ?? "";
+  const pass = env.LEAD_SMTP_PASSWORD?.replace(/\s+/g, "") ?? "";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user) || pass.length < 8) return null;
+  return { host: SMTP_HOST, port: SMTP_PORT, user, pass };
+}
+function oneLine(value, max) {
+  return value.replace(/[\u0000-\u001f]+/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
+}
+function plainBlock(value, max) {
+  return value.replace(/[\u0000-\u0009\u000b-\u001f]+/g, " ").trim().slice(0, max);
+}
+function encodeSubject(subject) {
+  const clean = oneLine(subject, 180);
+  if (/^[\x20-\x7e]*$/.test(clean)) return clean;
+  return `=?UTF-8?B?${Buffer.from(clean, "utf8").toString("base64")}?=`;
+}
+function replyAddress(contact) {
+  const clean = oneLine(contact, 120);
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean) ? clean : void 0;
+}
+function buildLeadEmail(to, from, lead, summary) {
+  const name = oneLine(lead.name, 80) || "Unknown";
+  const business2 = oneLine(lead.business, 80) || "Not given";
+  const contact = oneLine(lead.contact, 120) || "Not given";
+  const need = oneLine(lead.need, 400) || "Not given";
+  const page = oneLine(lead.page ?? "", 80) || "Not recorded";
+  const arrived = lead.source === "chat-form" ? "Details form" : "Chat";
+  const recent = plainBlock(summary, 1800) || "No transcript was included.";
+  const subject = scrubDashes(`New chat lead: ${name}`);
+  const text = scrubDashes(
+    [
+      "New chat lead",
+      "",
+      `Name: ${name}`,
+      `Business: ${business2}`,
+      `Contact: ${contact}`,
+      `What they need: ${need}`,
+      `Page: ${page}`,
+      `How it arrived: ${arrived}`,
+      "",
+      "Recent messages:",
+      recent
+    ].join("\n")
+  );
+  return {
+    from: oneLine(from, 120),
+    to: oneLine(to, 120),
+    subject,
+    text,
+    replyTo: replyAddress(contact)
+  };
+}
+function leadEmailSource(mail) {
+  const headers = [
+    `From: Clockwork chat <${mail.from}>`,
+    `To: ${mail.to}`,
+    `Subject: ${encodeSubject(mail.subject)}`,
+    "MIME-Version: 1.0",
+    "Content-Type: text/plain; charset=utf-8",
+    "Content-Transfer-Encoding: 8bit"
+  ];
+  if (mail.replyTo) headers.push(`Reply-To: ${mail.replyTo}`);
+  const body = mail.text.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n").split("\r\n").map((line) => line.startsWith(".") ? `.${line}` : line).join("\r\n");
+  return `${headers.join("\r\n")}\r
+\r
+${body}\r
+`;
+}
+var SmtpReader = class {
+  buffer = "";
+  waiters = [];
+  constructor(socket) {
+    socket.on("data", (chunk) => {
+      this.buffer += chunk.toString("utf8");
+      this.drain();
+    });
+  }
+  drain() {
+    while (this.waiters.length) {
+      const nl = this.buffer.indexOf("\n");
+      if (nl < 0) return;
+      const line = this.buffer.slice(0, nl).replace(/\r$/, "");
+      this.buffer = this.buffer.slice(nl + 1);
+      this.waiters.shift()?.(line);
+    }
+  }
+  line() {
+    const nl = this.buffer.indexOf("\n");
+    if (nl >= 0) {
+      const line = this.buffer.slice(0, nl).replace(/\r$/, "");
+      this.buffer = this.buffer.slice(nl + 1);
+      return Promise.resolve(line);
+    }
+    return new Promise((resolve) => this.waiters.push(resolve));
+  }
+  async reply() {
+    const lines = [];
+    for (; ; ) {
+      const line = await this.line();
+      lines.push(line);
+      if (/^\d{3} /.test(line) || lines.length === 1 && /^\d{3}$/.test(line)) {
+        return { code: Number(line.slice(0, 3)), text: lines.join("\n") };
+      }
+      if (!/^\d{3}-/.test(line)) {
+        return { code: Number(line.slice(0, 3)) || 0, text: lines.join("\n") };
+      }
+    }
+  }
+};
+async function expectCode(reply, code) {
+  if (reply.code !== code) throw new Error(`smtp ${reply.code}`);
+}
+async function submitSmtp(reply, write, settings, mail) {
+  await expectCode(await reply(), 220);
+  write("EHLO clockworkai.app");
+  await expectCode(await reply(), 250);
+  const token = Buffer.from(`\0${settings.user}\0${settings.pass}`, "utf8").toString("base64");
+  write(`AUTH PLAIN ${token}`);
+  await expectCode(await reply(), 235);
+  write(`MAIL FROM:<${settings.user}>`);
+  await expectCode(await reply(), 250);
+  write(`RCPT TO:<${mail.to}>`);
+  await expectCode(await reply(), 250);
+  write("DATA");
+  await expectCode(await reply(), 354);
+  write(`${leadEmailSource(mail)}.`);
+  await expectCode(await reply(), 250);
+  write("QUIT");
+}
+function withTimeout(work, ms) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error("smtp-timeout")), ms);
+    work.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (error) => {
+        clearTimeout(timer);
+        reject(error);
+      }
+    );
+  });
+}
+async function sendSmtpMail(settings, mail, tlsOptions = {}) {
+  const socket = connectTls({
+    host: settings.host,
+    port: settings.port,
+    servername: /[a-z]/i.test(settings.host) ? settings.host : void 0,
+    timeout: 8e3,
+    rejectUnauthorized: tlsOptions.rejectUnauthorized !== false
+  });
+  const reader = new SmtpReader(socket);
+  const write = (command) => {
+    socket.write(`${command}\r
+`);
+  };
+  try {
+    await withTimeout(
+      new Promise((resolve, reject) => {
+        socket.once("secureConnect", () => resolve());
+        socket.once("error", reject);
+      }),
+      8e3
+    );
+    await withTimeout(submitSmtp(() => reader.reply(), write, settings, mail), 8e3);
+  } finally {
+    socket.end();
+    socket.destroy();
+  }
+}
+async function emailLead(to, lead, summary, deps = {}) {
+  const settings = deps.settings === void 0 ? readSmtpSettings() : deps.settings;
+  if (!settings) {
+    console.info("lead email: SMTP is not configured");
+    return false;
+  }
+  const mail = buildLeadEmail(to, settings.user, lead, summary);
+  try {
+    await (deps.send ?? sendSmtpMail)(settings, mail);
+    return true;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "error";
+    console.error("lead email failed", message.split(settings.pass).join("[redacted]"));
+    return false;
+  }
+}
+
+// lib/leads.ts
 function validateLead(input, source, knownPage2) {
   const name = cleanLine(typeof input.name === "string" ? input.name : "", 80);
   const trade = cleanLine(typeof input.business === "string" ? input.business : "", 80);
@@ -404,6 +615,12 @@ ${lead.need.toLowerCase()}`).digest("hex").slice(0, 16);
   return `${prefix}/${day}/${hash}.json`;
 }
 async function notify(config, lead) {
+  const emailed = await emailLead(config.lead.notifyEmail, lead, lead.summary || "No transcript was included.");
+  const hooked = await notifyWebhook(config, lead);
+  console.info(`lead notice emailed=${emailed} webhook=${hooked}`);
+  return emailed || hooked;
+}
+async function notifyWebhook(config, lead) {
   const url = process.env[config.lead.webhookEnv];
   if (!url) return false;
   let target;
@@ -446,6 +663,7 @@ async function saveLead(config, lead) {
   }
   const record = {
     ...lead,
+    summary: lead.summary || "No transcript was included.",
     notifyName: config.lead.notifyName,
     savedAt: (/* @__PURE__ */ new Date()).toISOString()
   };
@@ -588,7 +806,10 @@ async function POST(request) {
   if (leadBody && typeof leadBody === "object") {
     const parsed = validateLead(leadBody, "chat-form", page);
     if (!parsed.ok) return json({ error: parsed.error }, 400);
-    const saved = await saveLead(business, parsed.lead);
+    const saved = await saveLead(business, {
+      ...parsed.lead,
+      summary: summariseTranscript(body.messages)
+    });
     if (!saved.ok) {
       return json(
         {
@@ -622,7 +843,10 @@ async function POST(request) {
         execute: async (input) => {
           const parsed = validateLead(input, "chat-tool", page);
           if (!parsed.ok) return { ok: false, error: parsed.error };
-          const saved = await saveLead(business, parsed.lead);
+          const saved = await saveLead(business, {
+            ...parsed.lead,
+            summary: summariseTranscript(messages.messages)
+          });
           savedLead = saved.ok;
           if (!saved.ok) {
             return {

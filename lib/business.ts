@@ -36,6 +36,8 @@ export type BusinessConfig = {
   lead: {
     /** Shown in the stored record and in an optional webhook payload. */
     notifyName: string;
+    /** Inbox that receives a copy of each saved lead. */
+    notifyEmail: string;
     storagePrefix: string;
     /** If this env var is an https URL, each lead is POSTed there after it is stored. */
     webhookEnv: "LEAD_NOTIFY_URL";
@@ -160,6 +162,7 @@ Contact. Book a free 30-minute call on the booking link. Or ring or WhatsApp 074
   },
   lead: {
     notifyName: "Callum Broadfoot",
+    notifyEmail: "callum@getclockworkai.com",
     storagePrefix: "leads",
     webhookEnv: "LEAD_NOTIFY_URL",
   },

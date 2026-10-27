@@ -10,6 +10,7 @@ import {
   takeRateLimit,
 } from "../lib/guard.ts";
 import { saveLead, validateLead } from "../lib/leads.ts";
+import { summariseTranscript } from "../lib/mail.ts";
 import { buildInstructions, publicWidget } from "../lib/prompt.ts";
 
 export const maxDuration = 30;
@@ -74,7 +75,10 @@ export async function POST(request: Request): Promise<Response> {
   if (leadBody && typeof leadBody === "object") {
     const parsed = validateLead(leadBody, "chat-form", page);
     if (!parsed.ok) return json({ error: parsed.error }, 400);
-    const saved = await saveLead(business, parsed.lead);
+    const saved = await saveLead(business, {
+      ...parsed.lead,
+      summary: summariseTranscript((body as { messages?: unknown }).messages),
+    });
     if (!saved.ok) {
       return json(
         {
@@ -111,7 +115,10 @@ export async function POST(request: Request): Promise<Response> {
         execute: async (input) => {
           const parsed = validateLead(input, "chat-tool", page);
           if (!parsed.ok) return { ok: false, error: parsed.error };
-          const saved = await saveLead(business, parsed.lead);
+          const saved = await saveLead(business, {
+            ...parsed.lead,
+            summary: summariseTranscript(messages.messages),
+          });
           savedLead = saved.ok;
           if (!saved.ok) {
             return {

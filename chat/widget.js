@@ -470,7 +470,14 @@
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ lead: data, page: pagePath() }),
+        body: JSON.stringify({
+          lead: data,
+          page: pagePath(),
+          messages: messages.slice(-8).map((item) => ({
+            role: item.role,
+            content: String(item.content).slice(0, 280),
+          })),
+        }),
       });
       const payload = await response.json().catch(() => ({}));
       add(response.ok ? "assistant" : "note", payload.message || payload.error || "Sorry, that didn't send.");
