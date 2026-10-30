@@ -206,6 +206,13 @@ test("scrubs AI, bot, assistant and named tools, and keeps the brand", () => {
   const kept = brandStream.push("I answer questions on the Clockwork") + brandStream.push(" AI site.") + brandStream.flush();
   assert.match(kept, /Clockwork AI/);
   assert.equal(kept.includes("the system"), false);
+  const tiny = createPriceStream(allowed, standIn);
+  const sentence = "I answer questions on the Clockwork AI site.";
+  let pieced = "";
+  for (let i = 0; i < sentence.length; i += 2) pieced += tiny.push(sentence.slice(i, i + 2));
+  pieced += tiny.flush();
+  assert.match(pieced, /Clockwork AI/);
+  assert.equal(pieced.includes("the system"), false);
 });
 
 test("contact must be an email or a phone number", () => {

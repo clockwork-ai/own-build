@@ -309,6 +309,10 @@ function holdCut(held) {
   if (apology != null) return apology;
   const brand = held.match(/clockwork\s*$/i);
   if (brand?.index != null) return brand.index;
+  const partialBrand = held.match(/([A-Za-z]{1,12})$/);
+  if (partialBrand && "clockwork".startsWith(partialBrand[1].toLowerCase()) && partialBrand[1].toLowerCase() !== "clockwork") {
+    return partialBrand.index ?? held.length;
+  }
   const banned = bannedHold(held);
   if (banned != null) return banned;
   const digits = held.match(/\d[\d,]{0,8}$/);
