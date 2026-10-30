@@ -30,7 +30,7 @@ Where. Greater Manchester, Manchester, Stockport, Bolton, Cheshire and the North
 
 Other businesses. If they ask whether you work with businesses other than trades, answer in these words: Clockwork AI is built for trades first (roofers, plumbers, electricians and so on), but Callum is happy to talk to other small local businesses about a website or the system, so leave your details or book the free audit. Do not claim a past non-trade client. Do not invent an example.
 
-What he sells. The full package is the website, an on-site content day, then a six-part system. Fixed setup plus a simple monthly plan, priced on a free call and put in writing before he starts. The website is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name. Do not say they own it. If the monthly payments stop before the 12th, the site comes offline. The domain name stays in the client's name either way. Hosting and care is a separate monthly service you can cancel any month. Missed calls answered, the chat box and review requests run on a monthly plan. If that plan stops, what happens to each system is in the written agreement. The site does not publish tier prices and does not state a minimum term. The client keeps their phone number. They approve the wording before anything goes live, and prices, discounts or anything unusual come to them first. Every message and booking is logged. It works in the tools they already use where possible: phone, WhatsApp, email, calendar and job software. They try it on their own phone before it goes live. It is upfront that it is not the tradesperson. Systems run with backups, including when Callum is ill or away.
+What he sells. The full package is the website, an on-site content day, then a six-part system. Fixed setup plus a simple monthly plan, priced on a free call and put in writing before he starts. The website is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name. Do not say they own it. If the monthly payments stop before the 12th, the site comes offline. The domain name stays in the client's name either way. Hosting and care is a separate monthly service you can cancel any month. Missed calls answered, the chat box and review requests run on a monthly plan. If that plan stops, what happens to each system is in the written agreement. The site does not publish tier prices and does not state a minimum term. The client keeps their phone number. They approve the wording before anything goes live, and prices, discounts or anything unusual come to them first. Every message and booking is logged. It works in the apps they already use where possible: phone, WhatsApp, email, calendar and job software. They try it on their own phone before it goes live. It is upfront that it is not the tradesperson. Systems run with backups, including when Callum is ill or away.
 
 Missed-calls calculator. Mention it as the missed-call calculator. Do not write the page address. The visitor types how many calls they miss on a working day, how many minutes each one would take them, and how many days a week they work. The page turns those into hours for a week, a month and a year. The defaults on the page are examples they can change. The result is their arithmetic, not a Clockwork statistic and not a promise. Do not work out a pound figure yourself, and do not say what share of callers ring back. When someone asks about missed calls, how many calls they miss, or what missed calls cost, mention the missed-call calculator. If they have just picked one of the nudge answers, say which number is filled in, in these words, so they can change it:
 - "1 to 2" or about 1 or 2 calls a day: with 2 a day filled in
@@ -220,7 +220,11 @@ function normaliseMessages(input, limits) {
   return { ok: true, messages };
 }
 var WORD_PRICE = /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)(?:[\s-](?:and|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred))*\s+pounds?\b/gi;
-var MONEY = /£\s?\d[\d,]*(?:\.\d+)?(?:\s*billion|\s*(?:\/|a |per )(?:month|mo))?|[$€]\s?\d[\d,]*(?:\.\d+)?(?:\s*(?:\/|a |per )(?:month|mo))?|\bgbp\s?\d[\d,]*(?:\.\d+)?|\b\d[\d,]*(?:\.\d+)?\s*(?:pounds?|quid)\b|\b\d[\d,]*(?:\.\d+)?\s*(?:\/|a |per )(?:month|mo)\b/gi;
+var MONTH = "(?:months?|mo(?!nth))";
+var MONEY = new RegExp(
+  `\xA3\\s?\\d[\\d,]*(?:\\.\\d+)?(?:\\s*billion|\\s*million|\\s*(?:\\/|a |per )${MONTH})?|[$\u20AC]\\s?\\d[\\d,]*(?:\\.\\d+)?(?:\\s*(?:\\/|a |per )${MONTH})?|\\bgbp\\s?\\d[\\d,]*(?:\\.\\d+)?|\\b\\d[\\d,]*(?:\\.\\d+)?\\s*(?:pounds?|quid)\\b|\\b\\d[\\d,]*(?:\\.\\d+)?\\s*(?:\\/|a |per )${MONTH}\\b`,
+  "gi"
+);
 function scrubDashes(text) {
   return text.replace(/(\d)\s*[\u2013\u2014]\s*(\d)/g, "$1 to $2").replace(/\s*[\u2013\u2014]\s*/g, ", ").replace(/,\s*,/g, ",").replace(/[ \t]{2,}/g, " ");
 }
@@ -286,12 +290,38 @@ function incompleteMoney(tail) {
 }
 function holdCut(held) {
   let out = held.length;
-  for (const index of [trailingCut(held), selfRefHold(held), articleHold(held)]) {
-    if (index == null) continue;
-    const at = includeArticle(held, index);
-    if (at < out) out = at;
+  for (const index of [
+    trailingCut(held),
+    bannedHold(held),
+    selfRefHold(held),
+    articleHold(held),
+    priceHold(held),
+    completeTermHold(held)
+  ]) {
+    if (index == null || index >= held.length) continue;
+    if (index < out) out = index;
   }
-  return extendBrand(held, out);
+  return widenHold(held, out);
+}
+function widenHold(held, at) {
+  if (at >= held.length) return held.length;
+  let cur = at;
+  for (let pass = 0; pass < 3; pass++) {
+    const article = includeArticle(held, cur);
+    const open = extendOpen(held, article);
+    const brand = extendBrand(held, open);
+    const next = Math.min(article, open, brand);
+    if (next >= cur) break;
+    cur = next;
+  }
+  return cur;
+}
+function extendOpen(held, at) {
+  if (at <= 0 || at > held.length) return at;
+  const open = held.slice(0, at).match(/open\s+$/i);
+  if (!open) return at;
+  if (/^a(?:i\b|\b)/i.test(held.slice(at))) return at - open[0].length;
+  return at;
 }
 function includeArticle(held, at) {
   if (at <= 0) return at;
@@ -320,7 +350,7 @@ function trailingCut(held) {
   const bare = held.match(/(?<!@)(?:www\.)?(?:clockworkai\.app|cal\.com|wa\.me)(?:\/\S*)?$/i);
   if (bare?.index != null) return bare.index;
   const path = held.match(/\/[a-z0-9][\w./?#=&%-]*$/i);
-  if (path?.index != null && !/^\/(?:month|mo)$/i.test(path[0])) return path.index;
+  if (path?.index != null && !/^\/(?:months?|mo)(?:[.,;:!?]*)?$/i.test(path[0])) return path.index;
   const file = held.match(/(?:^|\s)([a-z0-9-]+\.h(?:t(?:m(?:l)?)?)?)$/i);
   if (file?.index != null) {
     const at = file.index;
@@ -403,9 +433,11 @@ var AI_COMPOUND = /\bai\s+(?:agents?|bots?|assistants?|tools?|chatbots?)\b/gi;
 function escapeTerm(term) {
   return term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
+function termTail(term) {
+  return `${escapeTerm(term)}(?![\\w-])`;
+}
 function termSource(term) {
-  const body = escapeTerm(term);
-  return /\W$/.test(term) ? `\\b${body}(?!\\w)` : `\\b${body}\\b`;
+  return `\\b${termTail(term)}`;
 }
 function scrubBanned(text) {
   const slots = [];
@@ -416,10 +448,7 @@ function scrubBanned(text) {
   safe = safe.replace(SELF_REFERENCE, (match) => /^as\s/i.test(match) ? "on this site" : "I answer questions on this site");
   safe = safe.replace(AI_COMPOUND, "the system");
   const ordered = [...BANNED_TERMS].sort((a, b) => b.length - a.length);
-  const phraseBody = ordered.map((term) => {
-    const body = escapeTerm(term);
-    return /\W$/.test(term) ? `${body}(?!\\w)` : `${body}\\b`;
-  }).join("|");
+  const phraseBody = ordered.map((term) => termTail(term)).join("|");
   const phrase = new RegExp(`\\b(?:an?|the)\\s+(?:${phraseBody})`, "gi");
   const token = new RegExp(ordered.map(termSource).join("|"), "gi");
   safe = safe.replace(phrase, "the system").replace(token, "the system");
@@ -492,12 +521,128 @@ function bannedHold(held) {
 function articleHold(held) {
   const match = held.match(/(^|[\s([{"'])((?:this|an|the|a))\b(\s*)([A-Za-z][A-Za-z0-9.]*)?$/i);
   if (!match || match.index == null) return null;
+  const before = held.slice(0, match.index + (match[1]?.length ?? 0));
+  if (/open\s+$/i.test(before)) return null;
   const rest = (match[4] ?? "").toLowerCase();
   if (rest) {
     const waiting = HOLD_TERMS.some((term) => term.startsWith(rest) && term !== rest);
     if (!waiting) return null;
   }
   return match.index + (match[1]?.length ?? 0);
+}
+var NUMBER_WORDS = [
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+  "eleven",
+  "twelve",
+  "fifteen",
+  "twenty",
+  "thirty",
+  "forty",
+  "fifty",
+  "sixty",
+  "seventy",
+  "eighty",
+  "ninety",
+  "hundred",
+  "thousand",
+  "and"
+];
+function openNumberChain(words, spaced, hyphen) {
+  if (words.length === 0) return false;
+  const last = words[words.length - 1]?.toLowerCase() ?? "";
+  const prev = words.slice(0, -1).map((word) => word.toLowerCase());
+  if (!prev.every((word) => NUMBER_WORDS.includes(word))) return false;
+  if (hyphen && NUMBER_WORDS.includes(last)) return true;
+  if (last === "pounds") return false;
+  if (last === "pound") return !spaced;
+  const complete = NUMBER_WORDS.includes(last);
+  const proper = NUMBER_WORDS.some((word) => word.startsWith(last) && word !== last);
+  const pounds = prev.length > 0 && "pounds".startsWith(last) && !complete;
+  if (spaced && !complete) return false;
+  return complete || !spaced && (proper || pounds);
+}
+function wordPriceHold(held) {
+  const tail = held.match(/([A-Za-z]+(?:[-\s]+[A-Za-z]+)*)([-\s]*)$/);
+  if (!tail || tail.index == null || !tail[1]) return null;
+  const words = tail[1].split(/[-\s]+/).filter(Boolean);
+  const end = tail[2] ?? "";
+  const hyphen = end.endsWith("-");
+  const spaced = /\s/.test(end) && !hyphen;
+  for (let i = 0; i < words.length; i++) {
+    if (!openNumberChain(words.slice(i), spaced, hyphen)) continue;
+    let from = 0;
+    for (let w = 0; w < i; w++) {
+      const at2 = tail[1].indexOf(words[w] ?? "", from);
+      from = at2 + (words[w]?.length ?? 0);
+    }
+    const at = tail[1].indexOf(words[i] ?? "", from);
+    return tail.index + at;
+  }
+  return null;
+}
+function slashHold(held) {
+  const match = held.match(/(?:^|[^\d])(\d[\d,]*\s*\/\s*(?:m(?:o(?:n(?:t(?:h)?)?)?)?)?)$/i);
+  if (!match || match.index == null || match[1] == null) return null;
+  if (/\/\s*month$/i.test(match[1])) return null;
+  return match.index + (match[0].length - match[1].length);
+}
+function currencyIncomplete(tail) {
+  if (/^(?:£|\$|€|gbp\s*)$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s*\/\s*$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s*\/\s*m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(tail)) return !/month$/i.test(tail);
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)\s+$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)\s+m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(tail)) return !/month$/i.test(tail);
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+b(?:i(?:l(?:l(?:i(?:o(?:n)?)?)?)?)?)?$/i.test(tail)) return !/billion$/i.test(tail);
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+m(?:i(?:l(?:l(?:i(?:o(?:n)?)?)?)?)?)?$/i.test(tail)) return !/million$/i.test(tail);
+  return false;
+}
+function currencyHold(held) {
+  const match = held.match(/(?:£|\$|€|\bgbp\s?)\d[\d,]*(?:\.\d*)?[^£$€]*$/i) ?? held.match(/(?:£|\$|€|\bgbp\s*)$/i);
+  if (!match || match.index == null) return null;
+  return currencyIncomplete(held.slice(match.index)) ? match.index : null;
+}
+function priceHold(held) {
+  let best = null;
+  for (const at of [wordPriceHold(held), slashHold(held), currencyHold(held)]) {
+    if (at != null && (best == null || at < best)) best = at;
+  }
+  return best;
+}
+function completeTermHold(held) {
+  const lower = held.toLowerCase().replace(/\u2019/g, "'");
+  const terms = [
+    ...BANNED_TERMS,
+    "ai agent",
+    "ai agents",
+    "ai bot",
+    "ai bots",
+    "ai assistant",
+    "ai assistants",
+    "ai tool",
+    "ai tools",
+    "ai chatbot",
+    "ai chatbots"
+  ];
+  let best = null;
+  for (const term of terms) {
+    if (!lower.endsWith(term)) continue;
+    const at = lower.length - term.length;
+    if (!boundaryBefore(lower, at)) continue;
+    if (best == null || at < best) best = at;
+  }
+  return best;
 }
 function scrubReply(text, allowed, standIn, links) {
   return scrubBanned(scrubAddressApology(scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links)));

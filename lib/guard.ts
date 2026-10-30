@@ -104,8 +104,11 @@ export function normaliseMessages(
 const WORD_PRICE =
   /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)(?:[\s-](?:and|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred))*\s+pounds?\b/gi;
 
-const MONEY =
-  /£\s?\d[\d,]*(?:\.\d+)?(?:\s*billion|\s*(?:\/|a |per )(?:month|mo))?|[$€]\s?\d[\d,]*(?:\.\d+)?(?:\s*(?:\/|a |per )(?:month|mo))?|\bgbp\s?\d[\d,]*(?:\.\d+)?|\b\d[\d,]*(?:\.\d+)?\s*(?:pounds?|quid)\b|\b\d[\d,]*(?:\.\d+)?\s*(?:\/|a |per )(?:month|mo)\b/gi;
+const MONTH = "(?:months?|mo(?!nth))";
+const MONEY = new RegExp(
+  `£\\s?\\d[\\d,]*(?:\\.\\d+)?(?:\\s*billion|\\s*million|\\s*(?:\\/|a |per )${MONTH})?|[$€]\\s?\\d[\\d,]*(?:\\.\\d+)?(?:\\s*(?:\\/|a |per )${MONTH})?|\\bgbp\\s?\\d[\\d,]*(?:\\.\\d+)?|\\b\\d[\\d,]*(?:\\.\\d+)?\\s*(?:pounds?|quid)\\b|\\b\\d[\\d,]*(?:\\.\\d+)?\\s*(?:\\/|a |per )${MONTH}\\b`,
+  "gi",
+);
 
 /** Turns em and en dashes into plain punctuation. Number ranges become "3 to 5". */
 export function scrubDashes(text: string): string {
@@ -195,12 +198,44 @@ function incompleteMoney(tail: string): boolean {
 
 function holdCut(held: string): number {
   let out = held.length;
-  for (const index of [trailingCut(held), selfRefHold(held), articleHold(held)]) {
-    if (index == null) continue;
-    const at = includeArticle(held, index);
-    if (at < out) out = at;
+  // trailingCut can return on the first tail it sees. The later checks still
+  // run, and the earliest cut wins, so a brand letter or an article cannot
+  // release "open " or "AI " before the real term has finished.
+  for (const index of [
+    trailingCut(held),
+    bannedHold(held),
+    selfRefHold(held),
+    articleHold(held),
+    priceHold(held),
+    completeTermHold(held),
+  ]) {
+    if (index == null || index >= held.length) continue;
+    if (index < out) out = index;
   }
-  return extendBrand(held, out);
+  return widenHold(held, out);
+}
+
+function widenHold(held: string, at: number): number {
+  if (at >= held.length) return held.length;
+  let cur = at;
+  for (let pass = 0; pass < 3; pass++) {
+    const article = includeArticle(held, cur);
+    const open = extendOpen(held, article);
+    const brand = extendBrand(held, open);
+    const next = Math.min(article, open, brand);
+    if (next >= cur) break;
+    cur = next;
+  }
+  return cur;
+}
+
+/** "open " plus a or ai is one term. An article hold must not release "open". */
+function extendOpen(held: string, at: number): number {
+  if (at <= 0 || at > held.length) return at;
+  const open = held.slice(0, at).match(/open\s+$/i);
+  if (!open) return at;
+  if (/^a(?:i\b|\b)/i.test(held.slice(at))) return at - open[0].length;
+  return at;
 }
 
 /** Pulls a hold back over a preceding a, an or the, so the article is scrubbed with the word. */
@@ -234,7 +269,7 @@ function trailingCut(held: string): number {
   const bare = held.match(/(?<!@)(?:www\.)?(?:clockworkai\.app|cal\.com|wa\.me)(?:\/\S*)?$/i);
   if (bare?.index != null) return bare.index;
   const path = held.match(/\/[a-z0-9][\w./?#=&%-]*$/i);
-  if (path?.index != null && !/^\/(?:month|mo)$/i.test(path[0])) return path.index;
+  if (path?.index != null && !/^\/(?:months?|mo)(?:[.,;:!?]*)?$/i.test(path[0])) return path.index;
   const file = held.match(/(?:^|\s)([a-z0-9-]+\.h(?:t(?:m(?:l)?)?)?)$/i);
   if (file?.index != null) {
     const at = file.index;
@@ -331,9 +366,12 @@ function escapeTerm(term: string): string {
   return term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function termTail(term: string): string {
+  return `${escapeTerm(term)}(?![\\w-])`;
+}
+
 function termSource(term: string): string {
-  const body = escapeTerm(term);
-  return /\W$/.test(term) ? `\\b${body}(?!\\w)` : `\\b${body}\\b`;
+  return `\\b${termTail(term)}`;
 }
 
 /** Replaces self-reference, chatbot, automation and named tools. Ordinary words stay. Clockwork AI stays. */
@@ -346,12 +384,7 @@ export function scrubBanned(text: string): string {
   safe = safe.replace(SELF_REFERENCE, (match) => (/^as\s/i.test(match) ? "on this site" : "I answer questions on this site"));
   safe = safe.replace(AI_COMPOUND, "the system");
   const ordered = [...BANNED_TERMS].sort((a, b) => b.length - a.length);
-  const phraseBody = ordered
-    .map((term) => {
-      const body = escapeTerm(term);
-      return /\W$/.test(term) ? `${body}(?!\\w)` : `${body}\\b`;
-    })
-    .join("|");
+  const phraseBody = ordered.map((term) => termTail(term)).join("|");
   const phrase = new RegExp(`\\b(?:an?|the)\\s+(?:${phraseBody})`, "gi");
   const token = new RegExp(ordered.map(termSource).join("|"), "gi");
   safe = safe.replace(phrase, "the system").replace(token, "the system");
@@ -434,12 +467,120 @@ function bannedHold(held: string): number | null {
 function articleHold(held: string): number | null {
   const match = held.match(/(^|[\s([{"'])((?:this|an|the|a))\b(\s*)([A-Za-z][A-Za-z0-9.]*)?$/i);
   if (!match || match.index == null) return null;
+  // "open a" is the start of "open ai", not an article plus a word.
+  const before = held.slice(0, match.index + (match[1]?.length ?? 0));
+  if (/open\s+$/i.test(before)) return null;
   const rest = (match[4] ?? "").toLowerCase();
   if (rest) {
     const waiting = HOLD_TERMS.some((term) => term.startsWith(rest) && term !== rest);
     if (!waiting) return null;
   }
   return match.index + (match[1]?.length ?? 0);
+}
+
+const NUMBER_WORDS = [
+  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
+  "fifteen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "hundred",
+  "thousand", "and",
+];
+
+function openNumberChain(words: string[], spaced: boolean, hyphen: boolean): boolean {
+  if (words.length === 0) return false;
+  const last = words[words.length - 1]?.toLowerCase() ?? "";
+  const prev = words.slice(0, -1).map((word) => word.toLowerCase());
+  if (!prev.every((word) => NUMBER_WORDS.includes(word))) return false;
+  if (hyphen && NUMBER_WORDS.includes(last)) return true;
+  // "pound" can still grow into "pounds". A space means the word has ended.
+  if (last === "pounds") return false;
+  if (last === "pound") return !spaced;
+  const complete = NUMBER_WORDS.includes(last);
+  const proper = NUMBER_WORDS.some((word) => word.startsWith(last) && word !== last);
+  const pounds = prev.length > 0 && "pounds".startsWith(last) && !complete;
+  if (spaced && !complete) return false;
+  return complete || (!spaced && (proper || pounds));
+}
+
+/** Spelled-out prices stay together until "pounds" arrives, or the next word shows it is not a price. */
+function wordPriceHold(held: string): number | null {
+  const tail = held.match(/([A-Za-z]+(?:[-\s]+[A-Za-z]+)*)([-\s]*)$/);
+  if (!tail || tail.index == null || !tail[1]) return null;
+  const words = tail[1].split(/[-\s]+/).filter(Boolean);
+  const end = tail[2] ?? "";
+  const hyphen = end.endsWith("-");
+  const spaced = /\s/.test(end) && !hyphen;
+  for (let i = 0; i < words.length; i++) {
+    if (!openNumberChain(words.slice(i), spaced, hyphen)) continue;
+    let from = 0;
+    for (let w = 0; w < i; w++) {
+      const at = tail[1].indexOf(words[w] ?? "", from);
+      from = at + (words[w]?.length ?? 0);
+    }
+    const at = tail[1].indexOf(words[i] ?? "", from);
+    return tail.index + at;
+  }
+  return null;
+}
+
+/** "99/mo" is not finished: it may still grow into "99/month". */
+function slashHold(held: string): number | null {
+  const match = held.match(/(?:^|[^\d])(\d[\d,]*\s*\/\s*(?:m(?:o(?:n(?:t(?:h)?)?)?)?)?)$/i);
+  if (!match || match.index == null || match[1] == null) return null;
+  if (/\/\s*month$/i.test(match[1])) return null;
+  return match.index + (match[0].length - match[1].length);
+}
+
+function currencyIncomplete(tail: string): boolean {
+  if (/^(?:£|\$|€|gbp\s*)$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s*\/\s*$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s*\/\s*m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(tail)) return !/month$/i.test(tail);
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)\s+$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)\s+m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(tail)) return !/month$/i.test(tail);
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+b(?:i(?:l(?:l(?:i(?:o(?:n)?)?)?)?)?)?$/i.test(tail)) return !/billion$/i.test(tail);
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+m(?:i(?:l(?:l(?:i(?:o(?:n)?)?)?)?)?)?$/i.test(tail)) return !/million$/i.test(tail);
+  return false;
+}
+
+function currencyHold(held: string): number | null {
+  const match = held.match(/(?:£|\$|€|\bgbp\s?)\d[\d,]*(?:\.\d*)?[^£$€]*$/i) ?? held.match(/(?:£|\$|€|\bgbp\s*)$/i);
+  if (!match || match.index == null) return null;
+  return currencyIncomplete(held.slice(match.index)) ? match.index : null;
+}
+
+function priceHold(held: string): number | null {
+  let best: number | null = null;
+  for (const at of [wordPriceHold(held), slashHold(held), currencyHold(held)]) {
+    if (at != null && (best == null || at < best)) best = at;
+  }
+  return best;
+}
+
+/** A finished banned word stays buffered for one more character, so "open ai-free" is not cut in half. */
+function completeTermHold(held: string): number | null {
+  const lower = held.toLowerCase().replace(/\u2019/g, "'");
+  const terms = [
+    ...BANNED_TERMS,
+    "ai agent",
+    "ai agents",
+    "ai bot",
+    "ai bots",
+    "ai assistant",
+    "ai assistants",
+    "ai tool",
+    "ai tools",
+    "ai chatbot",
+    "ai chatbots",
+  ];
+  let best: number | null = null;
+  for (const term of terms) {
+    if (!lower.endsWith(term)) continue;
+    const at = lower.length - term.length;
+    if (!boundaryBefore(lower, at)) continue;
+    if (best == null || at < best) best = at;
+  }
+  return best;
 }
 
 function scrubReply(text: string, allowed: readonly string[], standIn: string, links?: PathLinks): string {

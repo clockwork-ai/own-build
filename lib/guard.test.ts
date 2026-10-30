@@ -278,6 +278,38 @@ test("named tools and self-reference survive small chunks", () => {
   assert.equal(streamOf("A", 1), "A");
 });
 
+test("split prices and combined terms match the whole reply", () => {
+  const pieces = (text: string, size: number) => {
+    const stream = createPriceStream(allowed, standIn);
+    let out = "";
+    const chunks = text.match(new RegExp(`[\\s\\S]{1,${size}}`, "g")) ?? [];
+    for (const chunk of chunks) out += stream.push(chunk);
+    return out + stream.flush();
+  };
+  const same = (text: string) => {
+    const whole = pieces(text, text.length);
+    for (const size of [1, 2, 3]) assert.equal(pieces(text, size), whole, `${size} ${text}`);
+  };
+  same("We use AI chatbot today.");
+  assert.equal(pieces("We use AI chatbot today.", 1).includes("the system the system"), false);
+  same("We use Open AI today.");
+  same("We use open ai today.");
+  same("one hundred pounds");
+  same("fifty pounds");
+  same("Foundation 99/month.");
+  same("It costs £11 billion a year.");
+  const cited = "Late payments cost almost 11 billion pounds a year, UK Government, July 2026.";
+  for (const size of [1, 2, 3]) assert.equal(pieces(cited, size), cited);
+  const priced = "Autopilot is £149 a month. Foundation 99/month. Sample £2,840. one hundred pounds. £11 billion a year. 30% off. Ring 07460 038202.";
+  for (const size of [1, 2, 3]) {
+    const out = pieces(priced, size);
+    assert.equal(/£|149|99\/month|2,840|hundred pounds|11 billion/.test(out), false, out);
+    assert.equal(/30% off/.test(out) && /07460 038202/.test(out), true, out);
+    assert.equal(out.includes("auditnth"), false, out);
+    assert.equal(out.includes(" billion"), false, out);
+  }
+});
+
 test("contact must be an email or a phone number", () => {
   assert.equal(isValidContact("callum@clockworkai.app"), true);
   assert.equal(isValidContact("07460 038202"), true);
