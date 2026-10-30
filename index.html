@@ -412,7 +412,7 @@
   .partlist p { margin: 0; color: color-mix(in oklab, var(--sc-ink) 84%, transparent); line-height: 1.55; }
   .partlist q { display: block; grid-column: 2; margin-top: 4px; font: 400 0.8rem/1.5 var(--sc-font-mono); color: var(--sc-ink-soft); quotes: none; }
   .partlist q::before { content: "Sample message: "; color: var(--sc-accent); }
-  .control { position: sticky; top: 110px; padding: clamp(1.5rem, 3vw, 2.4rem); border-radius: 20px;
+  .control { padding: clamp(1.5rem, 3vw, 2.4rem); border-radius: 20px;
     background: linear-gradient(180deg, color-mix(in oklab, var(--sc-surface) 92%, #fff 2%), var(--sc-surface));
     box-shadow: var(--sc-e2), var(--sc-edge); border: 1px solid var(--sc-hairline); }
   .control h3 { margin: 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); }
@@ -462,7 +462,7 @@
   .offer2 .lede-p { margin: 18px 0 0; max-width: 46ch; font-size: var(--sc-t-lg); line-height: 1.5; color: color-mix(in oklab, var(--sc-ink) 82%, transparent); }
 
   .pick { display: grid; grid-template-columns: minmax(17rem, 0.85fr) 1.15fr; gap: clamp(1.5rem, 4vw, 4.5rem); margin-top: clamp(2.5rem, 6vh, 4rem); align-items: start; }
-  .pick__list { display: grid; gap: 10px; position: sticky; top: 110px; }
+  .pick__list { display: grid; gap: 10px; }
   .pick__btn {
     display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%;
     min-height: 64px; padding: 16px 20px; border-radius: 16px; cursor: pointer; text-align: left;
