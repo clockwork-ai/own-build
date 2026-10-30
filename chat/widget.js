@@ -323,7 +323,7 @@
       applyConfig({
         title: "Ask Clockwork",
         launcherLabel: "Open the chat",
-        greeting: "Hello, this is the Clockwork AI chatbot. I can answer questions about the site and the free audit. What do you need?",
+        greeting: "Hello, this is Clockwork AI. I can answer questions about the site and the free audit. What do you need?",
         placeholder: "Ask about a website, the audit, or the tiers",
         suggestions: ["What's the free audit?", "Can you do my roofing site?", "How do you help me get more reviews?"],
         nudge: {
