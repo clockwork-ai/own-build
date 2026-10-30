@@ -13,7 +13,7 @@ import {
 } from "./guard.ts";
 
 const standIn = "something Callum prices on a quick call or in the free audit";
-const allowed = ["£11 billion"];
+const allowed: string[] = [];
 const limits = {
   windowMs: 60_000,
   maxRequests: 2,
@@ -22,7 +22,7 @@ const limits = {
   maxAssistantChars: 20,
 };
 
-test("scrubs tier prices and keeps the cited government figure", () => {
+test("scrubs tier prices, including the old government figure", () => {
   const text =
     "Autopilot is £149 a month. Foundation is 99/month. Late payments cost almost £11 billion a year. A sample quote of £2,840 is not our fee. one hundred and forty-nine pounds is still a no.";
   const out = scrubPrices(text, allowed, standIn);
@@ -30,7 +30,8 @@ test("scrubs tier prices and keeps the cited government figure", () => {
   assert.equal(out.includes("99/month"), false);
   assert.equal(out.includes("£2,840"), false);
   assert.equal(out.includes("pounds"), false);
-  assert.equal(out.includes("£11 billion"), true);
+  assert.equal(out.includes("£11 billion"), false);
+  assert.equal(out.includes("£"), false);
   assert.equal(out.includes(standIn), true);
 });
 
@@ -114,7 +115,8 @@ test("streams a number range that arrives in pieces", () => {
   assert.equal(all.includes("\u2013"), false);
   assert.equal(all.includes("\u2014"), false);
   assert.match(all, /3 to 5 calls/);
-  assert.match(all, /£11 billion/);
+  assert.equal(all.includes("£11 billion"), false);
+  assert.equal(all.includes("£"), false);
   assert.equal(all.includes("149"), false);
 });
 
@@ -187,7 +189,8 @@ test("streams a path that arrives in pieces", () => {
   assert.equal(all.includes(".html"), false);
   assert.equal(all.includes("/clock"), false);
   assert.match(all, /the free audit/);
-  assert.match(all, /£11 billion/);
+  assert.equal(all.includes("£11 billion"), false);
+  assert.equal(all.includes("£"), false);
 });
 
 test("scrubs self-reference and named tools, and leaves ordinary words", () => {
@@ -241,6 +244,38 @@ test("scrubs self-reference and named tools, and leaves ordinary words", () => {
     assert.match(pieced, /Clockwork AI/);
     assert.equal(pieced.includes("the system"), false);
   }
+});
+
+test("named tools and self-reference survive small chunks", () => {
+  const streamOf = (text: string, size: number) => {
+    const stream = createPriceStream(allowed, standIn);
+    let out = "";
+    for (let i = 0; i < text.length; i += size) out += stream.push(text.slice(i, i + size));
+    return out + stream.flush();
+  };
+  for (const size of [1, 2]) {
+    for (const word of ["Vercel", "Twilio", "ElevenLabs", "n8n", "OpenAI", "ChatGPT"]) {
+      const out = streamOf(`We use ${word} today.`, size);
+      assert.equal(new RegExp(word, "i").test(out), false, `${word} at ${size}`);
+      assert.equal(/openthe|the the system|an the system|a the system/i.test(out), false, out);
+    }
+  }
+  assert.equal(/assistant/i.test(streamOf("Hello. as an AI assistant. Bye.", 1)), false);
+  assert.equal(/\bAI\b/.test(streamOf("Hello. an AI agent. Bye.", 1)), false);
+  assert.equal(/\bAI\b/.test(streamOf("Hello. AI bot. Bye.", 1)), false);
+  for (const sample of [
+    "Hello. a chatbot. Bye.",
+    "Hello. an AI agent. Bye.",
+    "Hello. an AI assistant. Bye.",
+    "Hello. the AI. Bye.",
+    "Hello. The chatbots are here. Bye.",
+    "Hello. the chatbot. Bye.",
+  ]) {
+    const out = streamOf(sample, 1);
+    assert.equal(/the the system|an the system|a the system/i.test(out), false, out);
+  }
+  assert.equal(streamOf("Pick plan A", 1), "Pick plan A");
+  assert.equal(streamOf("A", 1), "A");
 });
 
 test("contact must be an email or a phone number", () => {

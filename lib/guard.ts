@@ -194,13 +194,30 @@ function incompleteMoney(tail: string): boolean {
 }
 
 function holdCut(held: string): number {
-  const cut = trailingCut(held);
-  const phrase = selfRefHold(held);
-  const brandTail = held.match(/clockwork\s+a$/i);
-  let out = cut;
-  if (phrase != null && phrase < out) out = phrase;
-  if (brandTail?.index != null && brandTail.index < out) out = brandTail.index;
-  return out;
+  let out = held.length;
+  for (const index of [trailingCut(held), selfRefHold(held), articleHold(held)]) {
+    if (index == null) continue;
+    const at = includeArticle(held, index);
+    if (at < out) out = at;
+  }
+  return extendBrand(held, out);
+}
+
+/** Pulls a hold back over a preceding a, an or the, so the article is scrubbed with the word. */
+function includeArticle(held: string, at: number): number {
+  if (at <= 0) return at;
+  const match = held.slice(0, at).match(/(^|\s)((?:an|the|a|this))\s+$/i);
+  if (!match || match.index == null) return at;
+  return match.index + (match[1]?.length ?? 0);
+}
+
+/** Keeps "Clockwork" with a following A or AI so the brand is scrubbed as one phrase. */
+function extendBrand(held: string, at: number): number {
+  if (at <= 0 || at > held.length) return at;
+  const brand = held.slice(0, at).match(/clockwork\s+$/i);
+  if (!brand) return at;
+  if (/^a(?:i\b|\b)/i.test(held.slice(at))) return at - brand[0].length;
+  return at;
 }
 
 function trailingCut(held: string): number {
@@ -303,8 +320,21 @@ const BANNED_TERMS = [
 /** Held only so a self-reference can finish across a chunk. Not blanket-replaced. */
 const PHRASE_HOLD = ["assistants", "assistant", "bots", "bot"];
 
-const SELF_REFERENCE =
-  /\b(?:i['\u2019]m|i am)\s+an\s+assistant\b|\b(?:i['\u2019]m|i am)\s+a\s+bot\b|\b(?:i['\u2019]m|i am)\s+an\s+ai\b|\bi am\s+ai\b|\bas\s+an\s+ai\b/gi;
+const ROLE = "assistant|bot|agent|chatbot";
+const SELF_REFERENCE = new RegExp(
+  `\\b(?:i['\\u2019]m|i am)\\s+an\\s+assistant(?:\\s+(?:${ROLE}))?\\b|\\b(?:i['\\u2019]m|i am)\\s+a\\s+bot(?:\\s+(?:${ROLE}))?\\b|\\b(?:i['\\u2019]m|i am)\\s+an\\s+ai(?:\\s+(?:${ROLE}))?\\b|\\bi am\\s+ai(?:\\s+(?:${ROLE}))?\\b|\\bas\\s+an\\s+ai(?:\\s+(?:${ROLE}))?\\b`,
+  "gi",
+);
+const AI_COMPOUND = /\bai\s+(?:agents?|bots?|assistants?|tools?|chatbots?)\b/gi;
+
+function escapeTerm(term: string): string {
+  return term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function termSource(term: string): string {
+  const body = escapeTerm(term);
+  return /\W$/.test(term) ? `\\b${body}(?!\\w)` : `\\b${body}\\b`;
+}
 
 /** Replaces self-reference, chatbot, automation and named tools. Ordinary words stay. Clockwork AI stays. */
 export function scrubBanned(text: string): string {
@@ -314,16 +344,23 @@ export function scrubBanned(text: string): string {
     return `\u0001${index}\u0001`;
   });
   safe = safe.replace(SELF_REFERENCE, (match) => (/^as\s/i.test(match) ? "on this site" : "I answer questions on this site"));
-  const word = BANNED_TERMS.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
-  const phrase = new RegExp(`\\b(?:an?|the)\\s+(?:${word})\\b`, "gi");
-  const token = new RegExp(`\\b(?:${word})\\b`, "gi");
+  safe = safe.replace(AI_COMPOUND, "the system");
+  const ordered = [...BANNED_TERMS].sort((a, b) => b.length - a.length);
+  const phraseBody = ordered
+    .map((term) => {
+      const body = escapeTerm(term);
+      return /\W$/.test(term) ? `${body}(?!\\w)` : `${body}\\b`;
+    })
+    .join("|");
+  const phrase = new RegExp(`\\b(?:an?|the)\\s+(?:${phraseBody})`, "gi");
+  const token = new RegExp(ordered.map(termSource).join("|"), "gi");
   safe = safe.replace(phrase, "the system").replace(token, "the system");
-  safe = safe.replace(/\b(?:a|an|the)\s+the system\b/gi, "the system");
+  safe = safe.replace(/\b(?:a|an|the|this)\s+(?=the system\b)/gi, "");
   safe = safe.replace(/(?:\bthe system\b\s*){2,}/gi, "the system ");
   return safe.replace(/\u0001(\d+)\u0001/g, (_match, index: string) => slots[Number(index)] ?? "");
 }
 
-const SELF_TARGETS = [
+const SELF_CORES = [
   "i'm an assistant",
   "i am an assistant",
   "i'm a bot",
@@ -333,6 +370,24 @@ const SELF_TARGETS = [
   "i am ai",
   "as an ai",
 ];
+const SELF_TAILS = ["", " assistant", " bot", " agent", " chatbot"];
+const SELF_TARGETS = SELF_CORES.flatMap((core) => SELF_TAILS.map((tail) => core + tail));
+const HOLD_TERMS = [
+  ...BANNED_TERMS,
+  ...PHRASE_HOLD,
+  "ai agent",
+  "ai agents",
+  "ai bot",
+  "ai bots",
+  "ai assistant",
+  "ai assistants",
+  "ai tool",
+  "ai tools",
+  "ai chatbot",
+  "ai chatbots",
+].map((term) => term.toLowerCase());
+/** Proper prefixes of these stay buffered. "the" and "an" stop "th" + "e" splitting the article. */
+const PREFIX_TERMS = [...HOLD_TERMS, "the", "an", "this"];
 
 /** Holds a trailing fragment that could still grow into a self-reference. */
 function selfRefHold(held: string): number | null {
@@ -350,19 +405,41 @@ function selfRefHold(held: string): number | null {
   return best;
 }
 
-function bannedHold(held: string): number | null {
-  const loneA = held.match(/(?:^|\s)A$/);
-  if (loneA?.index != null) {
-    const at = loneA.index;
-    return held[at] === " " || held[at] === "\n" ? at + 1 : at;
+function boundaryBefore(text: string, at: number): boolean {
+  if (at <= 0) return true;
+  return !/[a-z0-9]/i.test(text[at - 1] ?? "");
+}
+
+/** Holds a proper prefix of a banned term, including a single letter, and a spaced term such as "open ai". */
+function prefixHold(held: string, terms: readonly string[]): number | null {
+  const lower = held.toLowerCase().replace(/\u2019/g, "'");
+  let best: number | null = null;
+  for (const term of terms) {
+    const max = Math.min(lower.length, term.length - 1);
+    for (let len = 1; len <= max; len++) {
+      if (lower.slice(-len) !== term.slice(0, len)) continue;
+      const at = lower.length - len;
+      if (!boundaryBefore(lower, at)) continue;
+      if (best == null || at < best) best = at;
+    }
   }
-  const match = held.match(/(?:^|\s)([A-Za-z][A-Za-z0-9.]{1,20})$/);
-  if (!match || match.index == null || match[1].length < 2) return null;
-  const word = match[1].toLowerCase();
-  const waiting = [...BANNED_TERMS, ...PHRASE_HOLD].some((term) => term.startsWith(word) && term !== word);
-  if (!waiting) return null;
-  const at = match.index;
-  return held[at] === " " || held[at] === "\n" ? at + 1 : at;
+  return best;
+}
+
+function bannedHold(held: string): number | null {
+  return prefixHold(held, PREFIX_TERMS);
+}
+
+/** Holds a trailing a, an or the until the next word shows whether it belongs to a banned phrase. */
+function articleHold(held: string): number | null {
+  const match = held.match(/(^|[\s([{"'])((?:this|an|the|a))\b(\s*)([A-Za-z][A-Za-z0-9.]*)?$/i);
+  if (!match || match.index == null) return null;
+  const rest = (match[4] ?? "").toLowerCase();
+  if (rest) {
+    const waiting = HOLD_TERMS.some((term) => term.startsWith(rest) && term !== rest);
+    if (!waiting) return null;
+  }
+  return match.index + (match[1]?.length ?? 0);
 }
 
 function scrubReply(text: string, allowed: readonly string[], standIn: string, links?: PathLinks): string {
