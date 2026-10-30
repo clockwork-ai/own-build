@@ -125,11 +125,11 @@ export type PathLinks = {
 };
 
 const DEFAULT_LINKS: PathLinks = {
-  audit: "/clockwork-check.html",
+  audit: "/clockwork-check",
   book: "https://cal.com/clockwork-ai/30min",
   whatsapp: "https://wa.me/447460038202",
   phone: "07460 038202",
-  calculator: "/missed-calls.html#calculator",
+  calculator: "/missed-calls#calculator",
 };
 
 function wordsFor(raw: string, links: PathLinks): string {
@@ -147,20 +147,19 @@ function wordsFor(raw: string, links: PathLinks): string {
     return `the page${trailing}`;
   }
   const host = url.hostname.replace(/^www\./, "");
-  const path = url.pathname;
-  if (path === links.audit || /clockwork-check\.html$/i.test(path)) return `the free audit${trailing}`;
+  const path = url.pathname.replace(/\.html$/i, "");
+  if (path === links.audit.replace(/\.html$/i, "") || path === "/clockwork-check") return `the free audit${trailing}`;
   if (host === "cal.com" || host === "wa.me") {
     return host === "wa.me" ? `WhatsApp${trailing}` : `book a call${trailing}`;
   }
-  if (/missed-calls\.html$/i.test(path)) {
+  if (path === "/missed-calls") {
     const calls = url.searchParams.get("calls");
     if (calls && /^\d{1,2}$/.test(calls)) return `the missed-call calculator, with ${calls} a day filled in${trailing}`;
     return `the missed-call calculator${trailing}`;
   }
-  if (/\.html$/i.test(path)) {
-    const slug = path.split("/").pop()?.replace(/\.html$/i, "").replace(/-/g, " ");
-    if (slug && slug !== "index") return `the ${slug} page${trailing}`;
-    return `the page${trailing}`;
+  const slug = path.split("/").filter(Boolean).pop()?.replace(/-/g, " ");
+  if (slug && slug !== "index" && (host === "clockworkai.app" || raw.startsWith("/"))) {
+    return `the ${slug} page${trailing}`;
   }
   if (host === "clockworkai.app") return `this site${trailing}`;
   return `the link${trailing}`;
@@ -169,7 +168,7 @@ function wordsFor(raw: string, links: PathLinks): string {
 /** Replaces a raw URL or page path with words. Phone numbers and ordinary sentences stay. */
 export function scrubPaths(text: string, links: PathLinks = DEFAULT_LINKS): string {
   const link =
-    /\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)|(https?:\/\/[^\s<>)\]]+)|(?<!@)\b(?:www\.)?(?:clockworkai\.app|cal\.com|wa\.me)(?:\/[^\s<>)\]]*)?|(^|[\s(])(\/?[a-z0-9-]+(?:\/[a-z0-9-]+)*\.html(?:\?[^\s<>)\]]*)?(?:#[a-z0-9-]+)?)/gi;
+    /\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)|(https?:\/\/[^\s<>)\]]+)|(?<!@)\b(?:www\.)?(?:clockworkai\.app|cal\.com|wa\.me)(?:\/[^\s<>)\]]*)?|(^|[\s(])(\/(?:about|book|clockwork-check|how-it-works|missed-calls|privacy|roofers|services|terms|work)(?:\.html)?(?:\?[^\s<>)\]]*)?(?:#[a-z0-9-]+)?|\/?[a-z0-9-]+(?:\/[a-z0-9-]+)*\.html(?:\?[^\s<>)\]]*)?(?:#[a-z0-9-]+)?)/gi;
   return text
     .replace(link, (match, label: string | undefined, href: string | undefined, http: string | undefined, lead: string | undefined, path: string | undefined) => {
       if (match.startsWith("[") && label != null && href != null) {
@@ -216,6 +215,8 @@ function holdCut(held: string): number {
   }
   const apology = apologyCut(held);
   if (apology != null) return apology;
+  const banned = bannedHold(held);
+  if (banned != null) return banned;
   const digits = held.match(/\d[\d,]{0,8}$/);
   if (digits?.index != null) return digits.index;
   return held.length;
@@ -266,8 +267,57 @@ function scrubAddressApology(text: string): string {
     .replace(/[ \t]{2,}/g, " ");
 }
 
+const BANNED_TERMS = [
+  "assistants",
+  "assistant",
+  "chatbots",
+  "chatbot",
+  "automation",
+  "chatgpt",
+  "openai",
+  "open ai",
+  "twilio",
+  "elevenlabs",
+  "eleven labs",
+  "vercel",
+  "zapier",
+  "agents",
+  "agent",
+  "bots",
+  "bot",
+  "a.i.",
+  "ai",
+  "n8n",
+];
+
+/** Replaces AI, bot, assistant, agent, automation and named-tool words. Clockwork AI stays. */
+export function scrubBanned(text: string): string {
+  const slots: string[] = [];
+  let safe = text.replace(/clockwork ai/gi, (match) => {
+    const index = slots.push(match) - 1;
+    return `\u0001${index}\u0001`;
+  });
+  const word = BANNED_TERMS.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+  const phrase = new RegExp(`\\b(?:an?|the)\\s+(?:${word})\\b`, "gi");
+  const token = new RegExp(`\\b(?:${word})\\b`, "gi");
+  safe = safe.replace(phrase, "the system").replace(token, "the system");
+  safe = safe.replace(/\b(?:a|an|the)\s+the system\b/gi, "the system");
+  safe = safe.replace(/(?:\bthe system\b\s*){2,}/gi, "the system ");
+  return safe.replace(/\u0001(\d+)\u0001/g, (_match, index: string) => slots[Number(index)] ?? "");
+}
+
+function bannedHold(held: string): number | null {
+  const match = held.match(/(?:^|\s)([A-Za-z][A-Za-z0-9.]{1,20})$/);
+  if (!match || match.index == null || match[1].length < 2) return null;
+  const word = match[1].toLowerCase();
+  const waiting = BANNED_TERMS.some((term) => term.startsWith(word) && term !== word);
+  if (!waiting) return null;
+  const at = match.index;
+  return held[at] === " " || held[at] === "\n" ? at + 1 : at;
+}
+
 function scrubReply(text: string, allowed: readonly string[], standIn: string, links?: PathLinks): string {
-  return scrubAddressApology(scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links));
+  return scrubBanned(scrubAddressApology(scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links)));
 }
 
 /** Holds back a trailing fragment that might still be a price, a dash range, or a path. */

@@ -6,6 +6,7 @@ import {
   normaliseMessages,
   resetRateLimits,
   scrubDashes,
+  scrubBanned,
   scrubPaths,
   scrubPrices,
   takeRateLimit,
@@ -187,6 +188,20 @@ test("streams a path that arrives in pieces", () => {
   assert.equal(all.includes("/clock"), false);
   assert.match(all, /the free audit/);
   assert.match(all, /£11 billion/);
+});
+
+test("scrubs AI, bot, assistant and named tools, and keeps the brand", () => {
+  const spoken = scrubBanned("I am an assistant, a bot and an AI agent. We use Vercel, OpenAI and ChatGPT. automation runs it.");
+  assert.equal(/assistant|chatbot|\bbot\b|\bagent\b|\bAI\b|Vercel|OpenAI|ChatGPT|automation/i.test(spoken), false);
+  assert.match(spoken, /the system/);
+  const brand = scrubBanned("Clockwork AI answers questions on the site.");
+  assert.match(brand, /Clockwork AI/);
+  assert.equal(brand.includes("the system"), false);
+  assert.equal(scrubBanned("both of the bottom rows"), "both of the bottom rows");
+  const stream = createPriceStream(allowed, standIn);
+  const all = stream.push("I am an assist") + stream.push("ant on the site.") + stream.flush();
+  assert.equal(/assistant/i.test(all), false);
+  assert.match(all, /the system/);
 });
 
 test("contact must be an email or a phone number", () => {

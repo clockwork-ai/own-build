@@ -9,17 +9,17 @@
   const polar = (c, r, deg) => [c + r * Math.sin(deg * Math.PI / 180), c - r * Math.cos(deg * Math.PI / 180)];
   const parse = t => { const [h, m] = t.split(':').map(Number); return h + m / 60; };
 
-  // The site, as hours of a working day. Keep in step with the menu on index.html.
+  // The site, as hours of a working day. Keep in step with the menu on the home page.
   const PAGES = [
-    ['index.html', 'Home', '02:14'],
-    ['roofers.html', 'Roofers', '07:30'],
-    ['how-it-works.html', 'How it works', '06:30'],
-    ['services.html', 'Services', '09:00'],
-    ['missed-calls.html', 'Missed calls', '10:42'],
-    ['clockwork-check.html', 'Free audit', '11:00'],
-    ['work.html', 'My work', '14:00'],
-    ['about.html', 'About', '17:30'],
-    ['book.html', 'Book a call', '08:00'],
+    ['/', 'Home', '02:14'],
+    ['/roofers', 'Roofers', '07:30'],
+    ['/how-it-works', 'How it works', '06:30'],
+    ['/services', 'Services', '09:00'],
+    ['/missed-calls', 'Missed calls', '10:42'],
+    ['/clockwork-check', 'Free audit', '11:00'],
+    ['/work', 'My work', '14:00'],
+    ['/about', 'About', '17:30'],
+    ['/book', 'Book a call', '08:00'],
   ];
 
   function ticks(g, c, n, rOut, rIn, every, rBig, attrs, bigAttrs, skip = -1) {
@@ -64,7 +64,9 @@
   });
 
   // Corner subdial: this page's hour, and the menu.
-  const here = location.pathname.split('/').pop() || 'index.html';
+  let here = location.pathname.replace(/\.html$/i, "");
+  if (here.length > 1 && here.endsWith("/")) here = here.slice(0, -1);
+  if (here === "/index" || here === "") here = "/";
   const pageHour = document.body.dataset.hour || '09:00';
   const sub = $('#subdialsvg');
   if (sub) {

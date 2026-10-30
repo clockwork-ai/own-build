@@ -15,14 +15,14 @@ test("the model is not handed a web address or a page path", () => {
   assert.match(text, /with 4 a day filled in/);
   assert.match(text, /07460 038202/);
   assert.match(text, /content day/);
-  assert.match(text, /12th payment/);
+  assert.match(text, /12th monthly payment/);
   assert.doesNotMatch(text, /8-Week/);
   assert.doesNotMatch(text, /[\u2013\u2014]/);
 });
 
 test("the public widget config still has the button destinations", () => {
   const widget = publicWidget(business);
-  assert.equal(widget.auditHref, "/clockwork-check.html");
+  assert.equal(widget.auditHref, "/clockwork-check");
   assert.equal(widget.suggestions.length, 3);
   assert.equal("rules" in widget, false);
   assert.equal("knowledge" in widget, false);

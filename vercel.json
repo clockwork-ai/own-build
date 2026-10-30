@@ -3,6 +3,7 @@
   "framework": null,
   "buildCommand": "node scripts/build.mjs",
   "outputDirectory": "public",
+  "cleanUrls": true,
   "functions": {
     "api/chat.js": {
       "maxDuration": 30

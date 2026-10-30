@@ -16,7 +16,7 @@
     <section class="cw-panel" id="cw-panel" role="dialog" aria-labelledby="cw-title" hidden>
       <header class="cw-head">
         <div>
-          <span class="cw-kicker">Assistant</span>
+          <span class="cw-kicker">Clockwork</span>
           <h2 id="cw-title">Ask Clockwork</h2>
         </div>
         <button class="cw-close" type="button" aria-label="Close chat">×</button>
@@ -37,7 +37,7 @@
       </form>
       <div class="cw-more">
         <button class="cw-details" type="button" aria-expanded="false">Leave your details</button>
-        <a class="cw-audit" href="/clockwork-check.html">Free audit</a>
+        <a class="cw-audit" href="/clockwork-check">Free audit</a>
         <a class="cw-book" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a call</a>
       </div>
     </section>
@@ -160,7 +160,7 @@
     actions.forEach((action) => {
       const link = document.createElement("a");
       link.className = "cw-action";
-      link.href = safeHref(action.href, "/clockwork-check.html");
+      link.href = safeHref(action.href, "/clockwork-check");
       link.textContent = action.label;
       if (action.external) {
         link.target = "_blank";
@@ -194,7 +194,7 @@
     launch.setAttribute("aria-label", next.launcherLabel || "Open the chat");
     input.placeholder = next.placeholder || input.placeholder;
     form.querySelector("button").textContent = next.formSubmit || "Send";
-    audit.href = safeHref(next.auditHref, "/clockwork-check.html");
+    audit.href = safeHref(next.auditHref, "/clockwork-check");
     book.href = safeHref(next.bookHref, "https://cal.com/clockwork-ai/30min");
     if (next.nudge && next.nudge.text) nudgeOpen.textContent = next.nudge.text;
     if (!nudgeMode) renderSuggestions(next.suggestions);
@@ -226,7 +226,7 @@
   }
 
   function calculatorHref(calls) {
-    const base = (config && config.calculatorHref) || "/missed-calls.html#calculator";
+    const base = (config && config.calculatorHref) || "/missed-calls#calculator";
     const url = new URL(base, location.origin);
     if (calls != null) url.searchParams.set("calls", String(calls));
     return url.pathname + url.search + url.hash;
@@ -337,10 +337,10 @@
             { label: "Not sure", message: "I'm not sure how many calls I miss a day.", calls: null },
           ],
         },
-        calculatorHref: "/missed-calls.html#calculator",
+        calculatorHref: "/missed-calls#calculator",
         formTitle: "Leave your details",
         formSubmit: "Send to Callum",
-        auditHref: "/clockwork-check.html",
+        auditHref: "/clockwork-check",
         auditLabel: "Free Business Bottleneck Audit",
         bookHref: "https://cal.com/clockwork-ai/30min",
         bookLabel: "Book a free 30-minute call",
