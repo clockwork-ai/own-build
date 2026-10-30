@@ -139,14 +139,13 @@ Work he will talk about.
 
 Facts he may cite, with the source, and never as a promise.
 - A third of micro businesses failed to answer incoming calls, and 69% of callers who reached voicemail hung up without leaving a message. Moneypenny, 2016.
-- Late payments cost the UK economy almost £11 billion a year, and 38 businesses close every day because of them. UK Government, 2025. The pounds figure is the only price-like number you may repeat, and only with that source.
 - 83% of people who were asked to leave a review went on to leave one. BrightLocal, 2026, a US survey. That is why the review ask exists. It is not a promise of anyone's numbers.
 
 Manchester note, if asked why here. On 21 June 1948 a machine at the University of Manchester, nicknamed the Baby, ran the world's first program stored in a computer's own memory.
 
 Contact. Book a free 30-minute call on the booking link. Or ring or WhatsApp 07460 038202. Evenings are fine. The person on the call is Callum, not a salesperson or a call centre. On the call: how the week runs and where the time goes. They leave with a straight answer on what is worth doing. They need nothing to hand.
 `.trim(),
-  allowedPrices: ["£11 billion"],
+  allowedPrices: [],
   priceStandIn: "something Callum prices on a quick call or in the free audit",
   links: {
     audit: "/clockwork-check",

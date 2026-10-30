@@ -190,29 +190,57 @@ test("streams a path that arrives in pieces", () => {
   assert.match(all, /£11 billion/);
 });
 
-test("scrubs AI, bot, assistant and named tools, and keeps the brand", () => {
-  const spoken = scrubBanned("I am an assistant, a bot and an AI agent. We use Vercel, OpenAI and ChatGPT. automation runs it.");
-  assert.equal(/assistant|chatbot|\bbot\b|\bagent\b|\bAI\b|Vercel|OpenAI|ChatGPT|automation/i.test(spoken), false);
-  assert.match(spoken, /the system/);
+test("scrubs self-reference and named tools, and leaves ordinary words", () => {
+  for (const phrase of [
+    "I'm an assistant",
+    "I am an assistant",
+    "I'm a bot",
+    "I am a bot",
+    "I'm an AI",
+    "I am AI",
+    "as an AI",
+  ]) {
+    const spoken = scrubBanned(`Hello. ${phrase}.`);
+    assert.equal(spoken.toLowerCase().includes(phrase.toLowerCase()), false, phrase);
+  }
+  assert.equal(scrubBanned("She is an assistant manager."), "She is an assistant manager.");
+  assert.equal(scrubBanned("Talk to the estate agent."), "Talk to the estate agent.");
+  assert.equal(scrubBanned("It will not sound like a robot."), "It will not sound like a robot.");
+  assert.equal(scrubBanned("both of the bottom rows"), "both of the bottom rows");
+  const tools = scrubBanned("We use Vercel, OpenAI and ChatGPT. automation runs the chatbot.");
+  assert.equal(/vercel|openai|chatgpt|automation|chatbot/i.test(tools), false);
   const brand = scrubBanned("Clockwork AI answers questions on the site.");
   assert.match(brand, /Clockwork AI/);
   assert.equal(brand.includes("the system"), false);
-  assert.equal(scrubBanned("both of the bottom rows"), "both of the bottom rows");
   const stream = createPriceStream(allowed, standIn);
-  const all = stream.push("I am an assist") + stream.push("ant on the site.") + stream.flush();
-  assert.equal(/assistant/i.test(all), false);
-  assert.match(all, /the system/);
+  const joined = stream.push("I am an assist") + stream.push("ant.") + stream.flush();
+  assert.equal(/assistant/i.test(joined), false);
+  assert.match(joined, /I answer questions on this site/);
+  const splitAi = createPriceStream(allowed, standIn);
+  const ai = splitAi.push("I am ") + splitAi.push("A") + splitAi.push("I.") + splitAi.flush();
+  assert.equal(/\bAI\b/.test(ai), false);
+  const lone = createPriceStream(allowed, standIn);
+  const letters = lone.push("The mark is A") + lone.push("I.") + lone.flush();
+  assert.equal(/\bAI\b/.test(letters), false);
+  const ordinary = createPriceStream(allowed, standIn);
+  const line = "She is an assistant manager. Talk to the estate agent. It will not sound like a robot. both of the bottom rows.";
+  let plain = "";
+  for (let i = 0; i < line.length; i += 1) plain += ordinary.push(line[i] ?? "");
+  plain += ordinary.flush();
+  assert.equal(plain, line);
   const brandStream = createPriceStream(allowed, standIn);
   const kept = brandStream.push("I answer questions on the Clockwork") + brandStream.push(" AI site.") + brandStream.flush();
   assert.match(kept, /Clockwork AI/);
   assert.equal(kept.includes("the system"), false);
-  const tiny = createPriceStream(allowed, standIn);
   const sentence = "I answer questions on the Clockwork AI site.";
-  let pieced = "";
-  for (let i = 0; i < sentence.length; i += 2) pieced += tiny.push(sentence.slice(i, i + 2));
-  pieced += tiny.flush();
-  assert.match(pieced, /Clockwork AI/);
-  assert.equal(pieced.includes("the system"), false);
+  for (const size of [1, 2]) {
+    const tiny = createPriceStream(allowed, standIn);
+    let pieced = "";
+    for (let i = 0; i < sentence.length; i += size) pieced += tiny.push(sentence.slice(i, i + size));
+    pieced += tiny.flush();
+    assert.match(pieced, /Clockwork AI/);
+    assert.equal(pieced.includes("the system"), false);
+  }
 });
 
 test("contact must be an email or a phone number", () => {

@@ -69,14 +69,13 @@ Work he will talk about.
 
 Facts he may cite, with the source, and never as a promise.
 - A third of micro businesses failed to answer incoming calls, and 69% of callers who reached voicemail hung up without leaving a message. Moneypenny, 2016.
-- Late payments cost the UK economy almost \xA311 billion a year, and 38 businesses close every day because of them. UK Government, 2025. The pounds figure is the only price-like number you may repeat, and only with that source.
 - 83% of people who were asked to leave a review went on to leave one. BrightLocal, 2026, a US survey. That is why the review ask exists. It is not a promise of anyone's numbers.
 
 Manchester note, if asked why here. On 21 June 1948 a machine at the University of Manchester, nicknamed the Baby, ran the world's first program stored in a computer's own memory.
 
 Contact. Book a free 30-minute call on the booking link. Or ring or WhatsApp 07460 038202. Evenings are fine. The person on the call is Callum, not a salesperson or a call centre. On the call: how the week runs and where the time goes. They leave with a straight answer on what is worth doing. They need nothing to hand.
 `.trim(),
-  allowedPrices: ["\xA311 billion"],
+  allowedPrices: [],
   priceStandIn: "something Callum prices on a quick call or in the free audit",
   links: {
     audit: "/clockwork-check",
@@ -286,6 +285,15 @@ function incompleteMoney(tail) {
   return false;
 }
 function holdCut(held) {
+  const cut = trailingCut(held);
+  const phrase = selfRefHold(held);
+  const brandTail = held.match(/clockwork\s+a$/i);
+  let out = cut;
+  if (phrase != null && phrase < out) out = phrase;
+  if (brandTail?.index != null && brandTail.index < out) out = brandTail.index;
+  return out;
+}
+function trailingCut(held) {
   const symbol = held.match(/(?:£|\$|€)$/);
   if (symbol?.index != null) return symbol.index;
   const money = held.match(/(?:£|\$|€|\bgbp\s?)\d[\d,]*(?:\.\d*)?(?:\s+\S+){0,3}$/i);
@@ -357,8 +365,6 @@ function scrubAddressApology(text) {
   ).replace(/I can(?:not|['\u2019]t) paste (?:a |the )?links?,?\s*but you can/gi, "You can").replace(/I can(?:not|['\u2019]t) paste (?:a |the )?links?\.?\s*/gi, "").replace(/[ \t]{2,}/g, " ");
 }
 var BANNED_TERMS = [
-  "assistants",
-  "assistant",
   "chatbots",
   "chatbot",
   "automation",
@@ -370,20 +376,19 @@ var BANNED_TERMS = [
   "eleven labs",
   "vercel",
   "zapier",
-  "agents",
-  "agent",
-  "bots",
-  "bot",
   "a.i.",
   "ai",
   "n8n"
 ];
+var PHRASE_HOLD = ["assistants", "assistant", "bots", "bot"];
+var SELF_REFERENCE = /\b(?:i['\u2019]m|i am)\s+an\s+assistant\b|\b(?:i['\u2019]m|i am)\s+a\s+bot\b|\b(?:i['\u2019]m|i am)\s+an\s+ai\b|\bi am\s+ai\b|\bas\s+an\s+ai\b/gi;
 function scrubBanned(text) {
   const slots = [];
   let safe = text.replace(/clockwork ai/gi, (match) => {
     const index = slots.push(match) - 1;
     return `${index}`;
   });
+  safe = safe.replace(SELF_REFERENCE, (match) => /^as\s/i.test(match) ? "on this site" : "I answer questions on this site");
   const word = BANNED_TERMS.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
   const phrase = new RegExp(`\\b(?:an?|the)\\s+(?:${word})\\b`, "gi");
   const token = new RegExp(`\\b(?:${word})\\b`, "gi");
@@ -392,11 +397,40 @@ function scrubBanned(text) {
   safe = safe.replace(/(?:\bthe system\b\s*){2,}/gi, "the system ");
   return safe.replace(/\u0001(\d+)\u0001/g, (_match, index) => slots[Number(index)] ?? "");
 }
+var SELF_TARGETS = [
+  "i'm an assistant",
+  "i am an assistant",
+  "i'm a bot",
+  "i am a bot",
+  "i'm an ai",
+  "i am an ai",
+  "i am ai",
+  "as an ai"
+];
+function selfRefHold(held) {
+  const lower = held.toLowerCase().replace(/\u2019/g, "'");
+  let best = null;
+  for (const target of SELF_TARGETS) {
+    const max = Math.min(lower.length, target.length);
+    for (let len = 1; len <= max; len++) {
+      if (lower.slice(-len) !== target.slice(0, len)) continue;
+      const at = lower.length - len;
+      if (at > 0 && /[a-z0-9']/i.test(lower[at - 1] ?? "")) continue;
+      if (best == null || at < best) best = at;
+    }
+  }
+  return best;
+}
 function bannedHold(held) {
+  const loneA = held.match(/(?:^|\s)A$/);
+  if (loneA?.index != null) {
+    const at2 = loneA.index;
+    return held[at2] === " " || held[at2] === "\n" ? at2 + 1 : at2;
+  }
   const match = held.match(/(?:^|\s)([A-Za-z][A-Za-z0-9.]{1,20})$/);
   if (!match || match.index == null || match[1].length < 2) return null;
   const word = match[1].toLowerCase();
-  const waiting = BANNED_TERMS.some((term) => term.startsWith(word) && term !== word);
+  const waiting = [...BANNED_TERMS, ...PHRASE_HOLD].some((term) => term.startsWith(word) && term !== word);
   if (!waiting) return null;
   const at = match.index;
   return held[at] === " " || held[at] === "\n" ? at + 1 : at;

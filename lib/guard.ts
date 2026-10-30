@@ -194,6 +194,16 @@ function incompleteMoney(tail: string): boolean {
 }
 
 function holdCut(held: string): number {
+  const cut = trailingCut(held);
+  const phrase = selfRefHold(held);
+  const brandTail = held.match(/clockwork\s+a$/i);
+  let out = cut;
+  if (phrase != null && phrase < out) out = phrase;
+  if (brandTail?.index != null && brandTail.index < out) out = brandTail.index;
+  return out;
+}
+
+function trailingCut(held: string): number {
   const symbol = held.match(/(?:£|\$|€)$/);
   if (symbol?.index != null) return symbol.index;
   const money = held.match(/(?:£|\$|€|\bgbp\s?)\d[\d,]*(?:\.\d*)?(?:\s+\S+){0,3}$/i);
@@ -274,8 +284,6 @@ function scrubAddressApology(text: string): string {
 }
 
 const BANNED_TERMS = [
-  "assistants",
-  "assistant",
   "chatbots",
   "chatbot",
   "automation",
@@ -287,22 +295,25 @@ const BANNED_TERMS = [
   "eleven labs",
   "vercel",
   "zapier",
-  "agents",
-  "agent",
-  "bots",
-  "bot",
   "a.i.",
   "ai",
   "n8n",
 ];
 
-/** Replaces AI, bot, assistant, agent, automation and named-tool words. Clockwork AI stays. */
+/** Held only so a self-reference can finish across a chunk. Not blanket-replaced. */
+const PHRASE_HOLD = ["assistants", "assistant", "bots", "bot"];
+
+const SELF_REFERENCE =
+  /\b(?:i['\u2019]m|i am)\s+an\s+assistant\b|\b(?:i['\u2019]m|i am)\s+a\s+bot\b|\b(?:i['\u2019]m|i am)\s+an\s+ai\b|\bi am\s+ai\b|\bas\s+an\s+ai\b/gi;
+
+/** Replaces self-reference, chatbot, automation and named tools. Ordinary words stay. Clockwork AI stays. */
 export function scrubBanned(text: string): string {
   const slots: string[] = [];
   let safe = text.replace(/clockwork ai/gi, (match) => {
     const index = slots.push(match) - 1;
     return `\u0001${index}\u0001`;
   });
+  safe = safe.replace(SELF_REFERENCE, (match) => (/^as\s/i.test(match) ? "on this site" : "I answer questions on this site"));
   const word = BANNED_TERMS.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
   const phrase = new RegExp(`\\b(?:an?|the)\\s+(?:${word})\\b`, "gi");
   const token = new RegExp(`\\b(?:${word})\\b`, "gi");
@@ -312,11 +323,43 @@ export function scrubBanned(text: string): string {
   return safe.replace(/\u0001(\d+)\u0001/g, (_match, index: string) => slots[Number(index)] ?? "");
 }
 
+const SELF_TARGETS = [
+  "i'm an assistant",
+  "i am an assistant",
+  "i'm a bot",
+  "i am a bot",
+  "i'm an ai",
+  "i am an ai",
+  "i am ai",
+  "as an ai",
+];
+
+/** Holds a trailing fragment that could still grow into a self-reference. */
+function selfRefHold(held: string): number | null {
+  const lower = held.toLowerCase().replace(/\u2019/g, "'");
+  let best: number | null = null;
+  for (const target of SELF_TARGETS) {
+    const max = Math.min(lower.length, target.length);
+    for (let len = 1; len <= max; len++) {
+      if (lower.slice(-len) !== target.slice(0, len)) continue;
+      const at = lower.length - len;
+      if (at > 0 && /[a-z0-9']/i.test(lower[at - 1] ?? "")) continue;
+      if (best == null || at < best) best = at;
+    }
+  }
+  return best;
+}
+
 function bannedHold(held: string): number | null {
+  const loneA = held.match(/(?:^|\s)A$/);
+  if (loneA?.index != null) {
+    const at = loneA.index;
+    return held[at] === " " || held[at] === "\n" ? at + 1 : at;
+  }
   const match = held.match(/(?:^|\s)([A-Za-z][A-Za-z0-9.]{1,20})$/);
   if (!match || match.index == null || match[1].length < 2) return null;
   const word = match[1].toLowerCase();
-  const waiting = BANNED_TERMS.some((term) => term.startsWith(word) && term !== word);
+  const waiting = [...BANNED_TERMS, ...PHRASE_HOLD].some((term) => term.startsWith(word) && term !== word);
   if (!waiting) return null;
   const at = match.index;
   return held[at] === " " || held[at] === "\n" ? at + 1 : at;
