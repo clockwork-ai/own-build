@@ -6,33 +6,33 @@ import { z } from "zod";
 var business = {
   name: "Clockwork AI",
   model: "openai/gpt-4.1-mini",
-  voice: 'Friendly, plain British English, the way Callum writes on the site. Short. Contractions are fine. No jargon, no American spelling, no emoji, no exclamation marks. Never use an em dash or an en dash. Use a full stop, a comma or a colon instead. Write a range with the word to, as in 3 to 5. Two or three sentences, then stop. You are the site assistant, not Callum himself. Say "Callum" when you mean him.',
+  voice: 'Friendly, plain British English, the way Callum writes on the site. Short. Contractions are fine. No jargon, no American spelling, no emoji, no exclamation marks. Never use an em dash or an en dash. Use a full stop, a comma or a colon instead. Write a range with the word to, as in 3 to 5. Two or three sentences, then stop. You are not Callum himself. Say "Callum" when you mean him.',
   rules: [
     "Answer only from the knowledge below. If it is not there, say you don't have that and point the person to the free audit or a call with Callum.",
     "Never quote a price, setup fee or monthly fee for a website, Foundation, Growth, Autopilot, or any other tier. Never guess a number, in digits or in words. Say Callum goes through pricing on a quick call or in the free audit.",
     "Never invent statistics, testimonials, client names, review scores, case studies or guarantees. If a number is in the knowledge, you may use it only with the source written there, and you must not present it as the visitor's result.",
     "Never say only happy customers are asked for a review. Every customer gets the review link. A problem is flagged to the tradesman as well as the link, never instead of it. Google does not allow review gating.",
-    "Callum comes out in person for an on-site content day. He films and photographs the work for the website and the socials, across Manchester, Bolton, Stockport, Cheshire and the North West. That visit is part of the package. Do not offer coaching, personal training, workshops, or a half-day as something to book in chat. The services page mentions a practical half day on AI tools, separate from the tiers and priced on the call. Do not describe it, sell it or book it. If they ask about that half day, say Callum can cover it on the free call, then come back to websites and the system.",
-    "CALLUM.B is not on the work page and is not a Clockwork client. Do not describe it. Do not offer coaching or personal training.",
+    "Callum comes out in person for an on-site content day. He films and photographs the work for the website and the socials, across Manchester, Bolton, Stockport, Cheshire and the North West. That visit is part of the package. Do not offer personal training, workshops, or a half-day as something to book in chat. The services page mentions a practical half day on the admin in the business, separate from the tiers and priced on the call. Do not describe it, sell it or book it. If they ask about that half day, say Callum can cover it on the free call, then come back to websites and the system.",
     "Stay on Clockwork AI: websites, the six-part trades system, the tiers, the free audit, how it works, missed calls, the calculator, and who Callum is. A question about working with businesses that are not trades is on topic. If the question is unrelated, politely decline in one sentence and offer to help with the site.",
     "Do not pretend to be an emergency roofer or plumber. If someone has a leak or anyone is in danger, say you don't send someone out, tell them to keep clear of water near electrics, and to ring a local tradesperson or the emergency services. Then, if they run a trade, offer the audit.",
     "Sample conversations and sample prices on the homepage are illustrations, not fees and not real client messages. Do not repeat those figures.",
     "Do not claim a lead was emailed. You may say it has been passed to Callum only when the saveLead tool says ok.",
     "Never use an em dash or an en dash. Use a full stop, a comma or a colon. Write a range with the word to, as in 3 to 5.",
-    "Never write a URL, a domain or a page path. Do not write a web address or a file name. Do not say you cannot give an address or that you cannot paste a link. Name the destination in words: the free audit, book a call, the missed-call calculator, or WhatsApp. If a calculator number is filled in, include the exact words with 2 a day filled in, with 4 a day filled in, or with 6 a day filled in. You may write the phone number 07460 038202."
+    "Never write a URL, a domain or a page path. Do not write a web address or a file name. Do not say you cannot give an address or that you cannot paste a link. Name the destination in words: the free audit, book a call, the missed-call calculator, or WhatsApp. If a calculator number is filled in, include the exact words with 2 a day filled in, with 4 a day filled in, or with 6 a day filled in. You may write the phone number 07460 038202.",
+    "Never call yourself an AI, a bot, a chatbot, an agent or an assistant, and never name the software behind the system. If asked who or what you are, say: I answer questions on the Clockwork AI site for Callum. For a person, ring Callum on 07460 038202. Never claim to be human. The brand name Clockwork AI is allowed. Describe outcomes: missed calls answered, a chat box on the site, more reviews, less admin, the system. Do not say the visitor owns the website. If they ask when they get the website, say it is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name."
   ],
   knowledge: `
 Who. Clockwork AI is Callum Broadfoot, a sole trader in Manchester. There is no company number and no street address published on the site. Phone 07460 038202. Email callum@clockworkai.app. WhatsApp uses the same number. He is 42. He has been on the tools since he was 16, plumbing and heating mostly, and he was a Gas Safe engineer, domestic and commercial. He ran a trades business with several vans, a team of lads and someone in the office: wages, materials, digs when they worked in London, quotes, invoices and people who didn't pay. That admin happened at night, after a day's work. He builds systems that take those jobs off tradespeople. No account managers and no sales team. You deal with him from start to finish.
 
-In person. Callum comes out to trades across Manchester, Bolton, Stockport, Cheshire and the North West. On a content day he films and photographs the work. That footage goes on the website and the socials. The full package is the website, the on-site content day, then AI call answering and missed-call text-back. This visit is not coaching, training or a workshop.
+In person. Callum comes out to trades across Manchester, Bolton, Stockport, Cheshire and the North West. On a content day he films and photographs the work. That footage goes on the website and the socials. The full package is the website, the on-site content day, then missed calls answered and a text back. This visit is not training or a workshop.
 
 Where. Greater Manchester, Manchester, Stockport, Bolton, Cheshire and the North West. Roofers first, because that is the work he can show. The same system is for plumbers, sparks, builders and other businesses that take enquiries, book work, send invoices or chase payment, including offices, clinics, salons, agencies and shops. He will say straight if he cannot help.
 
-Other businesses. If they ask whether you work with businesses other than trades, answer in these words: Clockwork AI is built for trades first (roofers, plumbers, electricians and so on), but Callum is happy to talk to other small local businesses about a website or automation, so leave your details or book the free audit. Do not claim a past non-trade client. Do not invent an example. Do not mention CALLUM.B.
+Other businesses. If they ask whether you work with businesses other than trades, answer in these words: Clockwork AI is built for trades first (roofers, plumbers, electricians and so on), but Callum is happy to talk to other small local businesses about a website or the system, so leave your details or book the free audit. Do not claim a past non-trade client. Do not invent an example.
 
-What he sells. The full package is the website, an on-site content day, then a six-part system. Fixed setup plus a simple monthly plan, priced on a free call and put in writing before he starts. Paid upfront, the website is yours from day one. Monthly, it is yours after the 12th payment. When it is yours, you get a full copy of the files and code, or Callum moves it into your account. If the monthly payments stop before the 12th, the site comes offline. The domain name stays in the client's name either way. Hosting and care is a separate monthly service you can cancel any month. The AI systems run on a monthly plan. If that plan stops, what happens to each system is in the written agreement. The site does not publish tier prices and does not state a minimum term. The client keeps their phone number. They approve the wording before anything goes live, and prices, discounts or anything unusual come to them first. Every message and booking is logged. It works in the tools they already use where possible: phone, WhatsApp, email, calendar and job software. They try it on their own phone before it goes live. It tells customers it is an assistant, not a person. Systems run with backups, including when Callum is ill or away.
+What he sells. The full package is the website, an on-site content day, then a six-part system. Fixed setup plus a simple monthly plan, priced on a free call and put in writing before he starts. The website is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name. Do not say they own it. If the monthly payments stop before the 12th, the site comes offline. The domain name stays in the client's name either way. Hosting and care is a separate monthly service you can cancel any month. Missed calls answered, the chat box and review requests run on a monthly plan. If that plan stops, what happens to each system is in the written agreement. The site does not publish tier prices and does not state a minimum term. The client keeps their phone number. They approve the wording before anything goes live, and prices, discounts or anything unusual come to them first. Every message and booking is logged. It works in the apps they already use where possible: phone, WhatsApp, email, calendar and job software. They try it on their own phone before it goes live. It is upfront that it is not the tradesperson. Systems run with backups, including when Callum is ill or away.
 
-Missed-calls calculator. Mention it as the missed-call calculator. Do not write the page address. The visitor types how many calls they miss on a working day, what share of those they reckon would have become a job, what a typical job is worth, and how many days a week they work. The page multiplies those into a rough estimate for a week, a month and a year. The defaults on the page are examples they can change. The result is their arithmetic, not a Clockwork statistic and not a promise. Do not work out a pound figure yourself, and do not say what share of callers ring back. When someone asks about missed calls, how many calls they miss, or what missed calls cost, mention the missed-call calculator. If they have just picked one of the nudge answers, say which number is filled in, in these words, so they can change it:
+Missed-calls calculator. Mention it as the missed-call calculator. Do not write the page address. The visitor types how many calls they miss on a working day, how many minutes each one would take them, and how many days a week they work. The page turns those into hours for a week, a month and a year. The defaults on the page are examples they can change. The result is their arithmetic, not a Clockwork statistic and not a promise. Do not work out a pound figure yourself, and do not say what share of callers ring back. When someone asks about missed calls, how many calls they miss, or what missed calls cost, mention the missed-call calculator. If they have just picked one of the nudge answers, say which number is filled in, in these words, so they can change it:
 - "1 to 2" or about 1 or 2 calls a day: with 2 a day filled in
 - "3 to 5" or about 3 to 5 calls a day: with 4 a day filled in
 - "6+" or 6 or more calls a day: with 6 a day filled in
@@ -41,46 +41,44 @@ Then offer the free audit or leaving their details.
 
 The free Business Bottleneck Audit. This is the free 30-minute call. No cost and no obligation. Callum looks at missed calls, the website, and reviews, then gives one recommendation: Foundation, Growth, Autopilot, or don't buy anything. Some people take the recommendation and do it themselves, and that is fine. Nothing is priced on the call until he recommends a tier, and even then the price is agreed on the call and written down before work starts. There is a two-minute self-check on the audit page (missed calls, slow quotes, quiet quotes, evening admin, storm or leak calls, reviews, repeated questions, past customers). The ticks stay in the browser. Nothing on that self-check is sent to Callum. Book at the audit page or the booking link.
 
-How a job starts. 1. The free audit. 2. A tier, if it is worth it. 3. He builds it. Paid upfront, the website is yours from day one. Monthly, it is yours after the 12th payment. The AI systems run on the monthly plan. The client checks it before it goes live.
+How a job starts. 1. The free audit. 2. A tier, if it is worth it. 3. He builds it. The website is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name. The system runs on the monthly plan. The client checks it before it goes live.
 
 Three tiers, with no prices on the site.
-- Foundation: the website, the 24/7 AI chatbot, and the Review Accelerator. People can find you, call or message from the page, and every customer gets a thank-you, a Google review link, and a check-in later. Paid upfront, the website is yours from day one. Monthly, it is yours after the 12th payment. The chatbot and review requests run on the monthly plan.
-- Growth: Foundation, plus the AI Voice Employee and Database Reactivation. Missed and out-of-hours calls get answered, qualified and booked. Old quotes and past customers get a polite follow-up that stops when they reply.
+- Foundation: the website, a chat box on the site, and the Review Accelerator. People can find you, call or message from the page, and every customer gets a thank-you, a Google review link, and a check-in later. The website is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name. The chat box and review requests run on the monthly plan.
+- Growth: Foundation, plus missed calls answered and Database Reactivation. Missed and out-of-hours calls get answered, qualified and booked. Old quotes and past customers get a polite follow-up that stops when they reply.
 - Autopilot: Growth, plus the Referral Flywheel, the Lifetime Value System, and a monthly review call with Callum.
 
 The six parts.
-1. AI Voice Employee (Growth and Autopilot). Answers missed and out-of-hours calls in the business name, says it is an assistant, takes the job, postcode and a photo, checks the diary and books the visit. A storm or leak while someone is on a roof, or at 2am, is marked urgent. The site's sample line for a missed call is: "Sorry we missed you, we're up on a roof. What's the job and your postcode?" The sample leak advice on the site is: don't go on the roof, a bucket under the drip if it's safe, keep clear of electrics near the water. You keep your number. Prices and anything unusual come to the owner first.
-2. 24/7 AI Chatbot (every tier). Website and WhatsApp enquiries. Answers "do you cover...?" in the firm's words. Photos and postcodes land in one list per customer. The owner approves the wording once.
+1. Missed calls answered (Growth and Autopilot). Answers missed and out-of-hours calls in the business name, is upfront that it is not the tradesperson, takes the job, postcode and a photo, checks the diary and books the visit. A storm or leak while someone is on a roof, or at 2am, is marked urgent. The site's sample line for a missed call is: "Sorry we missed you, we're up on a roof. What's the job and your postcode?" The sample leak advice on the site is: don't go on the roof, a bucket under the drip if it's safe, keep clear of electrics near the water. You keep your number. Prices and anything unusual come to the owner first.
+2. A chat box on the site (every tier). Website and WhatsApp enquiries. Answers "do you cover...?" in the firm's words. Photos and postcodes land in one list per customer. The owner approves the wording once.
 3. Database Reactivation (Growth and Autopilot). Polite follow-ups on quotes that have gone quiet, and a note to past customers, stopped the moment they reply.
-4. Review Accelerator (every tier). This is the reviews and aftercare system. It is still part 4, not a seventh part. Once a job is marked done, automatic texts or WhatsApps go out in the tradesman's name. The owner approves the wording first. Same day: a thank-you and a direct Google review link. Every customer gets that link. About 3 days later: one gentle nudge if there is no review yet. About 2 weeks: "Everything still OK with the job?" Any problem reply goes straight to the tradesman. The problem is flagged as well as the review link, never instead of it. Do not say only happy customers are asked. At 2 months and 6 months: "How's things going?" That keeps the firm in mind for referrals and word of mouth. At 12 months: a check-up or service reminder, which can bring repeat work. No discount for a star. Sample same-day line: "Thanks for having us. A Google review would mean a lot. Here's the link." Callum's own words, if they ask why it exists: "When I ran my vans, the job got finished and I was straight onto the next one. The review never got asked for, and the customer never heard from me again. I'd done a great job and nobody knew. Now my system does the bit I never had time for. It thanks the customer, asks for the review, and checks in a few weeks and a few months later to see how things are going. So when their neighbour needs a roofer, or your name comes up at the pub, they remember the one who did a great job and kept in touch." If they ask about reviews, follow-ups, repeat work or referrals, explain this sequence. Do not invent a result, a review score, or a price.
+4. Review Accelerator (every tier). This is the reviews and aftercare system. It is still part 4, not a seventh part. Once a job is marked done, texts or WhatsApps go out in the tradesman's name. The owner approves the wording first. Same day: a thank-you and a direct Google review link. Every customer gets that link. About 3 days later: one gentle nudge if there is no review yet. About 2 weeks: "Everything still OK with the job?" Any problem reply goes straight to the tradesman. The problem is flagged as well as the review link, never instead of it. Do not say only happy customers are asked. At 2 months and 6 months: "How's things going?" That keeps the firm in mind for referrals and word of mouth. At 12 months: a check-up or service reminder, which can bring repeat work. No discount for a star. Sample same-day line: "Thanks for having us. A Google review would mean a lot. Here's the link." Callum's own words, if they ask why it exists: "When I ran my vans, the job got finished and I was straight onto the next one. The review never got asked for, and the customer never heard from me again. I'd done a great job and nobody knew. Now my system does the bit I never had time for. It thanks the customer, asks for the review, and checks in a few weeks and a few months later to see how things are going. So when their neighbour needs a roofer, or your name comes up at the pub, they remember the one who did a great job and kept in touch." If they ask about reviews, follow-ups, repeat work or referrals, explain this sequence. Do not invent a result, a review score, or a price.
 5. Referral Flywheel (Autopilot). Once the job is done, a simple ask to send someone else the firm's way. Not a discount scheme. The owner approves the wording. The 2-month and 6-month check-ins in part 4 keep the firm in mind. This part is the separate ask. Do not say it only goes to happy customers.
 6. Lifetime Value System (Autopilot). Servicing reminders, maintenance plans and seasonal check-ins. Gutters before winter. A look at last year's roof before the next storm season. Confirmations and a reminder the night before. Deposits and pay-now links can sit alongside it. The 12-month check-up text is part of the Review Accelerator, not a separate system.
 
 Other hold-ups he can set up, inside that system: quotes drafted from survey notes and photos for the owner to check and send the same day; booking and rescheduling; deposits, stage payments and pay-now links; invoices, deposit requests and receipts; one list for WhatsApp photos and postcodes; details captured once and passed between tools.
 
-How it behaves. Normal automation is "when this happens, do that" and cannot cope with the unexpected. What he builds is given a goal, reads what comes in, uses the firm's tools, and only comes to the owner when it needs them. Three levels of control: Manual wind (it drafts, you send), Automatic (it runs, you approve the big things), Perpetual (it runs and reports back).
+How it behaves. A set reply is "when this happens, do that" and cannot cope with the unexpected. What he builds is given a goal, reads what comes in, uses the firm's phone, WhatsApp, email, calendar and job software, and only comes to the owner when it needs them. Three levels of control: Manual wind (it drafts, you send), Hands-off (it runs, you approve the big things), Perpetual (it runs and reports back).
 
-How he works. Measure twice, build once. Never leave a job half done. If it needs you at 10pm, it's broken. Real numbers, or no numbers. Tell people straight, including when something is not worth automating.
+How he works. Measure twice, build once. Never leave a job half done. If it needs you at 10pm, it's broken. Real numbers, or no numbers. Tell people straight, including when something is not worth setting up.
 
 Founding clients. The first five clients get 30% off, in return for a case study, a testimonial and permission to show the work. The figure itself is still agreed on the call. Nothing is priced on the page. Do not say how many of the five are left. That is not published.
 
 Work he will talk about.
-- D & P Roofing, Westhoughton, his first case study. He built their new site free, as a demo. It is ready to go live on their own address. The work page compares their current site with the new one, checked 20 and 21 October 2026. Changes he records: tap to call, WhatsApp, Which? score of 5.0 from 142 reviews shown up front, their line "The price we quote is the price you pay", over 20 photos of their own jobs, phone load time from 1.2 seconds to 0.6 seconds (phone-sized screen, fresh cache, faster of two runs), their Westhoughton address and areas set out for Google, and quote requests going to WhatsApp with name, phone, job and postcode. Against five unnamed local roofers, read 21 October 2026: the new site is the only one of the six with that price promise; 142 Which? reviews is the highest count; they also cover building and groundworks; the new site shows 10 years on re-roofs (that is D & P's line, not a Clockwork guarantee); 0.6 seconds was faster than four of the five. He does not name the other firms. There are no result numbers yet. The site says "No results to show yet." Do not invent a quote from Dale or anyone else. Next they have asked for an out-of-hours assistant. The demo site is linked from the work page.
-- Do not describe CALLUM.B. It is not on the work page and it is not a Clockwork service.
+- D & P Roofing, Westhoughton, his first case study. He built their new site free, as a demo. It is ready to go live on their own address. The work page compares their current site with the new one, checked 20 and 21 October 2026. Changes he records: tap to call, WhatsApp, Which? score of 5.0 from 142 reviews shown up front, their line "The price we quote is the price you pay", over 20 photos of their own jobs, phone load time from 1.2 seconds to 0.6 seconds (phone-sized screen, fresh cache, faster of two runs), their Westhoughton address and areas set out for Google, and quote requests going to WhatsApp with name, phone, job and postcode. Against five unnamed local roofers, read 21 October 2026: the new site is the only one of the six with that price promise; 142 Which? reviews is the highest count; they also cover building and groundworks; the new site shows 10 years on re-roofs (that is D & P's line, not a Clockwork guarantee); 0.6 seconds was faster than four of the five. He does not name the other firms. There are no result numbers yet. The site says "No results to show yet." Do not invent a quote from Dale or anyone else. Next they have asked for out-of-hours replies. The demo site is linked from the work page.
 
 Facts he may cite, with the source, and never as a promise.
 - A third of micro businesses failed to answer incoming calls, and 69% of callers who reached voicemail hung up without leaving a message. Moneypenny, 2016.
-- Late payments cost the UK economy almost \xA311 billion a year, and 38 businesses close every day because of them. UK Government, 2025. The pounds figure is the only price-like number you may repeat, and only with that source.
 - 83% of people who were asked to leave a review went on to leave one. BrightLocal, 2026, a US survey. That is why the review ask exists. It is not a promise of anyone's numbers.
 
 Manchester note, if asked why here. On 21 June 1948 a machine at the University of Manchester, nicknamed the Baby, ran the world's first program stored in a computer's own memory.
 
 Contact. Book a free 30-minute call on the booking link. Or ring or WhatsApp 07460 038202. Evenings are fine. The person on the call is Callum, not a salesperson or a call centre. On the call: how the week runs and where the time goes. They leave with a straight answer on what is worth doing. They need nothing to hand.
 `.trim(),
-  allowedPrices: ["\xA311 billion"],
+  allowedPrices: [],
   priceStandIn: "something Callum prices on a quick call or in the free audit",
   links: {
-    audit: "/clockwork-check.html",
+    audit: "/clockwork-check",
     auditLabel: "Free Business Bottleneck Audit",
     book: "https://cal.com/clockwork-ai/30min",
     bookLabel: "Book a free 30-minute call",
@@ -104,17 +102,16 @@ Contact. Book a free 30-minute call on the booking link. Or ring or WhatsApp 074
   },
   pages: [
     "/",
-    "/index.html",
-    "/about.html",
-    "/book.html",
-    "/clockwork-check.html",
-    "/how-it-works.html",
-    "/missed-calls.html",
-    "/privacy.html",
-    "/roofers.html",
-    "/services.html",
-    "/terms.html",
-    "/work.html"
+    "/about",
+    "/book",
+    "/clockwork-check",
+    "/how-it-works",
+    "/missed-calls",
+    "/privacy",
+    "/roofers",
+    "/services",
+    "/terms",
+    "/work"
   ],
   nudge: {
     text: "Can you afford to miss calls while you're up a ladder or on a job? How many calls do you reckon you miss a day?",
@@ -127,11 +124,11 @@ Contact. Book a free 30-minute call on the booking link. Or ring or WhatsApp 074
       { label: "Not sure", message: "I'm not sure how many calls I miss a day.", calls: null }
     ]
   },
-  calculatorHref: "/missed-calls.html#calculator",
+  calculatorHref: "/missed-calls#calculator",
   widget: {
     title: "Ask Clockwork",
     launcherLabel: "Open the chat",
-    greeting: "Hello, this is the Clockwork AI chatbot. I can answer questions about the site, the six-part system, and the free audit. What do you need?",
+    greeting: "Hello, this is Clockwork AI. I can answer questions about the site, the six-part system, and the free audit. What do you need?",
     placeholder: "Ask about a website, the audit, or the tiers",
     suggestions: [
       "What's the free audit?",
@@ -222,17 +219,22 @@ function normaliseMessages(input, limits) {
   }
   return { ok: true, messages };
 }
-var WORD_PRICE = /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)(?:[\s-](?:and|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred))*\s+pounds?\b/gi;
-var MONEY = /£\s?\d[\d,]*(?:\.\d+)?(?:\s*billion|\s*(?:\/|a |per )(?:month|mo))?|[$€]\s?\d[\d,]*(?:\.\d+)?(?:\s*(?:\/|a |per )(?:month|mo))?|\bgbp\s?\d[\d,]*(?:\.\d+)?|\b\d[\d,]*(?:\.\d+)?\s*(?:pounds?|quid)\b|\b\d[\d,]*(?:\.\d+)?\s*(?:\/|a |per )(?:month|mo)\b/gi;
+var WORD_PRICE = /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)(?:[\s-](?:and|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred))*\s+pounds?(?:\s+(?:a|per)\s+month)?\b/gi;
+var COMMA_NUMBER = /\b\d{1,3}(?:,\d{3})+(?:\.\d+)?\b(?!\s*[A-Za-z])/g;
+var MONTH = "(?:months?|mo(?!nth))";
+var MONEY = new RegExp(
+  `\xA3\\s?\\d[\\d,]*(?:\\.\\d+)?(?:\\s*billion|\\s*million|\\s*(?:\\/|a |per )${MONTH})?|[$\u20AC]\\s?\\d[\\d,]*(?:\\.\\d+)?(?:\\s*(?:\\/|a |per )${MONTH})?|\\bgbp\\s?\\d[\\d,]*(?:\\.\\d+)?|\\b\\d[\\d,]*(?:\\.\\d+)?\\s*(?:pounds?|quid)\\b|\\b\\d[\\d,]*(?:\\.\\d+)?\\s*(?:\\/|a |per )${MONTH}\\b`,
+  "gi"
+);
 function scrubDashes(text) {
   return text.replace(/(\d)\s*[\u2013\u2014]\s*(\d)/g, "$1 to $2").replace(/\s*[\u2013\u2014]\s*/g, ", ").replace(/,\s*,/g, ",").replace(/[ \t]{2,}/g, " ");
 }
 var DEFAULT_LINKS = {
-  audit: "/clockwork-check.html",
+  audit: "/clockwork-check",
   book: "https://cal.com/clockwork-ai/30min",
   whatsapp: "https://wa.me/447460038202",
   phone: "07460 038202",
-  calculator: "/missed-calls.html#calculator"
+  calculator: "/missed-calls#calculator"
 };
 function wordsFor(raw, links) {
   const trimmed = raw.replace(/[.,;:!?]+$/g, "");
@@ -249,26 +251,25 @@ function wordsFor(raw, links) {
     return `the page${trailing}`;
   }
   const host = url.hostname.replace(/^www\./, "");
-  const path = url.pathname;
-  if (path === links.audit || /clockwork-check\.html$/i.test(path)) return `the free audit${trailing}`;
+  const path = url.pathname.replace(/\.html$/i, "");
+  if (path === links.audit.replace(/\.html$/i, "") || path === "/clockwork-check") return `the free audit${trailing}`;
   if (host === "cal.com" || host === "wa.me") {
     return host === "wa.me" ? `WhatsApp${trailing}` : `book a call${trailing}`;
   }
-  if (/missed-calls\.html$/i.test(path)) {
+  if (path === "/missed-calls") {
     const calls = url.searchParams.get("calls");
     if (calls && /^\d{1,2}$/.test(calls)) return `the missed-call calculator, with ${calls} a day filled in${trailing}`;
     return `the missed-call calculator${trailing}`;
   }
-  if (/\.html$/i.test(path)) {
-    const slug = path.split("/").pop()?.replace(/\.html$/i, "").replace(/-/g, " ");
-    if (slug && slug !== "index") return `the ${slug} page${trailing}`;
-    return `the page${trailing}`;
+  const slug = path.split("/").filter(Boolean).pop()?.replace(/-/g, " ");
+  if (slug && slug !== "index" && (host === "clockworkai.app" || raw.startsWith("/"))) {
+    return `the ${slug} page${trailing}`;
   }
   if (host === "clockworkai.app") return `this site${trailing}`;
   return `the link${trailing}`;
 }
 function scrubPaths(text, links = DEFAULT_LINKS) {
-  const link = /\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)|(https?:\/\/[^\s<>)\]]+)|(?<!@)\b(?:www\.)?(?:clockworkai\.app|cal\.com|wa\.me)(?:\/[^\s<>)\]]*)?|(^|[\s(])(\/?[a-z0-9-]+(?:\/[a-z0-9-]+)*\.html(?:\?[^\s<>)\]]*)?(?:#[a-z0-9-]+)?)/gi;
+  const link = /\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)|(https?:\/\/[^\s<>)\]]+)|(?<!@)\b(?:www\.)?(?:clockworkai\.app|cal\.com|wa\.me)(?:\/[^\s<>)\]]*)?|(^|[\s(])(\/(?:about|book|clockwork-check|how-it-works|missed-calls|privacy|roofers|services|terms|work)(?:\.html)?(?:\?[^\s<>)\]]*)?(?:#[a-z0-9-]+)?|\/?[a-z0-9-]+(?:\/[a-z0-9-]+)*\.html(?:\?[^\s<>)\]]*)?(?:#[a-z0-9-]+)?)/gi;
   return text.replace(link, (match, label, href, http, lead, path) => {
     if (match.startsWith("[") && label != null && href != null) {
       return /https?:|www\.|\.html|\.com|wa\.me|\//i.test(label) ? wordsFor(href, links) : label;
@@ -289,6 +290,54 @@ function incompleteMoney(tail) {
   return false;
 }
 function holdCut(held) {
+  let out = held.length;
+  for (const index of [
+    trailingCut(held),
+    bannedHold(held),
+    selfRefHold(held),
+    articleHold(held),
+    priceHold(held),
+    completeTermHold(held)
+  ]) {
+    if (index == null || index >= held.length) continue;
+    if (index < out) out = index;
+  }
+  return widenHold(held, out);
+}
+function widenHold(held, at) {
+  if (at >= held.length) return held.length;
+  let cur = at;
+  for (let pass = 0; pass < 3; pass++) {
+    const article = includeArticle(held, cur);
+    const open = extendOpen(held, article);
+    const brand = extendBrand(held, open);
+    const next = Math.min(article, open, brand);
+    if (next >= cur) break;
+    cur = next;
+  }
+  return cur;
+}
+function extendOpen(held, at) {
+  if (at <= 0 || at > held.length) return at;
+  const open = held.slice(0, at).match(/open\s+$/i);
+  if (!open) return at;
+  if (/^a(?:i\b|\b)/i.test(held.slice(at))) return at - open[0].length;
+  return at;
+}
+function includeArticle(held, at) {
+  if (at <= 0) return at;
+  const match = held.slice(0, at).match(/(^|\s)((?:an|the|a|this))\s+$/i);
+  if (!match || match.index == null) return at;
+  return match.index + (match[1]?.length ?? 0);
+}
+function extendBrand(held, at) {
+  if (at <= 0 || at > held.length) return at;
+  const brand = held.slice(0, at).match(/clockwork\s+$/i);
+  if (!brand) return at;
+  if (/^a(?:i\b|\b)/i.test(held.slice(at))) return at - brand[0].length;
+  return at;
+}
+function trailingCut(held) {
   const symbol = held.match(/(?:£|\$|€)$/);
   if (symbol?.index != null) return symbol.index;
   const money = held.match(/(?:£|\$|€|\bgbp\s?)\d[\d,]*(?:\.\d*)?(?:\s+\S+){0,3}$/i);
@@ -302,7 +351,7 @@ function holdCut(held) {
   const bare = held.match(/(?<!@)(?:www\.)?(?:clockworkai\.app|cal\.com|wa\.me)(?:\/\S*)?$/i);
   if (bare?.index != null) return bare.index;
   const path = held.match(/\/[a-z0-9][\w./?#=&%-]*$/i);
-  if (path?.index != null && !/^\/(?:month|mo)$/i.test(path[0])) return path.index;
+  if (path?.index != null && !/^\/(?:months?|mo)(?:[.,;:!?]*)?$/i.test(path[0])) return path.index;
   const file = held.match(/(?:^|\s)([a-z0-9-]+\.h(?:t(?:m(?:l)?)?)?)$/i);
   if (file?.index != null) {
     const at = file.index;
@@ -310,6 +359,16 @@ function holdCut(held) {
   }
   const apology = apologyCut(held);
   if (apology != null) return apology;
+  const brand = held.match(/clockwork\s*$/i);
+  if (brand?.index != null) return brand.index;
+  const partialBrand = held.match(/([A-Za-z]{1,12})$/);
+  if (partialBrand && "clockwork".startsWith(partialBrand[1].toLowerCase()) && partialBrand[1].toLowerCase() !== "clockwork") {
+    return partialBrand.index ?? held.length;
+  }
+  const banned = bannedHold(held);
+  if (banned != null) return banned;
+  const plain = plainPriceHold(held);
+  if (plain != null) return plain;
   const digits = held.match(/\d[\d,]{0,8}$/);
   if (digits?.index != null) return digits.index;
   return held.length;
@@ -342,7 +401,7 @@ function scrubPrices(text, allowed, standIn) {
       return `\0${index}\0`;
     });
   }
-  safe = safe.replace(MONEY, standIn).replace(WORD_PRICE, standIn);
+  safe = safe.replace(MONEY, standIn).replace(WORD_PRICE, standIn).replace(COMMA_NUMBER, standIn);
   return safe.replace(/\u0000(\d+)\u0000/g, (_match, index) => slots[Number(index)] ?? "");
 }
 function scrubAddressApology(text) {
@@ -351,8 +410,297 @@ function scrubAddressApology(text) {
     "You can"
   ).replace(/I can(?:not|['\u2019]t) paste (?:a |the )?links?,?\s*but you can/gi, "You can").replace(/I can(?:not|['\u2019]t) paste (?:a |the )?links?\.?\s*/gi, "").replace(/[ \t]{2,}/g, " ");
 }
+var BANNED_TERMS = [
+  "chatbots",
+  "chatbot",
+  "automation",
+  "chatgpt",
+  "openai",
+  "open ai",
+  "twilio",
+  "elevenlabs",
+  "eleven labs",
+  "vercel",
+  "zapier",
+  "a.i.",
+  "ai",
+  "n8n"
+];
+var PHRASE_HOLD = ["assistants", "assistant", "bots", "bot"];
+var ROLE = "assistant|bot|agent|chatbot";
+var SELF_REFERENCE = new RegExp(
+  `\\b(?:i['\\u2019]m|i am)\\s+an\\s+assistant(?:\\s+(?:${ROLE}))?\\b|\\b(?:i['\\u2019]m|i am)\\s+a\\s+bot(?:\\s+(?:${ROLE}))?\\b|\\b(?:i['\\u2019]m|i am)\\s+an\\s+ai(?:\\s+(?:${ROLE}))?\\b|\\bi am\\s+ai(?:\\s+(?:${ROLE}))?\\b|\\bas\\s+an\\s+ai(?:\\s+(?:${ROLE}))?\\b`,
+  "gi"
+);
+var AI_COMPOUND = /\bai\s+(?:agents?|bots?|assistants?|tools?|chatbots?)\b/gi;
+function escapeTerm(term) {
+  return term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+function termTail(term) {
+  return `${escapeTerm(term)}(?![\\w-])`;
+}
+function termSource(term) {
+  return `\\b${termTail(term)}`;
+}
+function scrubBanned(text) {
+  const slots = [];
+  let safe = text.replace(/clockwork ai/gi, (match) => {
+    const index = slots.push(match) - 1;
+    return `${index}`;
+  });
+  safe = safe.replace(SELF_REFERENCE, (match) => /^as\s/i.test(match) ? "on this site" : "I answer questions on this site");
+  safe = safe.replace(AI_COMPOUND, "the system");
+  const ordered = [...BANNED_TERMS].sort((a, b) => b.length - a.length);
+  const phraseBody = ordered.map((term) => termTail(term)).join("|");
+  const phrase = new RegExp(`\\b(?:an?|the)\\s+(?:${phraseBody})`, "gi");
+  const token = new RegExp(ordered.map(termSource).join("|"), "gi");
+  safe = safe.replace(phrase, "the system").replace(token, "the system");
+  safe = safe.replace(/\b(?:a|an|the|this)\s+(?=the system\b)/gi, "");
+  safe = safe.replace(/(?:\bthe system\b\s*){2,}/gi, "the system ");
+  return safe.replace(/\u0001(\d+)\u0001/g, (_match, index) => slots[Number(index)] ?? "");
+}
+var SELF_CORES = [
+  "i'm an assistant",
+  "i am an assistant",
+  "i'm a bot",
+  "i am a bot",
+  "i'm an ai",
+  "i am an ai",
+  "i am ai",
+  "as an ai"
+];
+var SELF_TAILS = ["", " assistant", " bot", " agent", " chatbot"];
+var SELF_TARGETS = SELF_CORES.flatMap((core) => SELF_TAILS.map((tail) => core + tail));
+var HOLD_TERMS = [
+  ...BANNED_TERMS,
+  ...PHRASE_HOLD,
+  "ai agent",
+  "ai agents",
+  "ai bot",
+  "ai bots",
+  "ai assistant",
+  "ai assistants",
+  "ai tool",
+  "ai tools",
+  "ai chatbot",
+  "ai chatbots"
+].map((term) => term.toLowerCase());
+var PREFIX_TERMS = [...HOLD_TERMS, "the", "an", "this"];
+function selfRefHold(held) {
+  const lower = held.toLowerCase().replace(/\u2019/g, "'");
+  let best = null;
+  for (const target of SELF_TARGETS) {
+    const max = Math.min(lower.length, target.length);
+    for (let len = 1; len <= max; len++) {
+      if (lower.slice(-len) !== target.slice(0, len)) continue;
+      const at = lower.length - len;
+      if (at > 0 && /[a-z0-9']/i.test(lower[at - 1] ?? "")) continue;
+      if (best == null || at < best) best = at;
+    }
+  }
+  return best;
+}
+function boundaryBefore(text, at) {
+  if (at <= 0) return true;
+  return !/[a-z0-9]/i.test(text[at - 1] ?? "");
+}
+function prefixHold(held, terms) {
+  const lower = held.toLowerCase().replace(/\u2019/g, "'");
+  let best = null;
+  for (const term of terms) {
+    const max = Math.min(lower.length, term.length - 1);
+    for (let len = 1; len <= max; len++) {
+      if (lower.slice(-len) !== term.slice(0, len)) continue;
+      const at = lower.length - len;
+      if (!boundaryBefore(lower, at)) continue;
+      if (best == null || at < best) best = at;
+    }
+  }
+  return best;
+}
+function bannedHold(held) {
+  return prefixHold(held, PREFIX_TERMS);
+}
+function articleHold(held) {
+  const match = held.match(/(^|[\s([{"'])((?:this|an|the|a))\b(\s*)([A-Za-z][A-Za-z0-9.]*)?$/i);
+  if (!match || match.index == null) return null;
+  const before = held.slice(0, match.index + (match[1]?.length ?? 0));
+  if (/open\s+$/i.test(before)) return null;
+  const rest = (match[4] ?? "").toLowerCase();
+  if (rest) {
+    const waiting = HOLD_TERMS.some((term) => term.startsWith(rest) && term !== rest);
+    if (!waiting) return null;
+  }
+  return match.index + (match[1]?.length ?? 0);
+}
+var NUMBER_WORDS = [
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+  "eleven",
+  "twelve",
+  "fifteen",
+  "twenty",
+  "thirty",
+  "forty",
+  "fifty",
+  "sixty",
+  "seventy",
+  "eighty",
+  "ninety",
+  "hundred",
+  "thousand",
+  "and"
+];
+function openNumberChain(words, spaced, hyphen) {
+  const w = words.map((word) => word.toLowerCase());
+  if (w.length === 0) return false;
+  const first = w[0] ?? "";
+  const firstComplete = NUMBER_WORDS.includes(first);
+  const firstPartial = NUMBER_WORDS.some((word) => word.startsWith(first) && word !== first);
+  if (!firstComplete && firstPartial) return w.length === 1 && !spaced && !hyphen;
+  if (!firstComplete) return false;
+  let i = 1;
+  while (i < w.length && NUMBER_WORDS.includes(w[i] ?? "")) i++;
+  if (i < w.length) {
+    const next = w[i] ?? "";
+    const partialNumber = NUMBER_WORDS.some((word) => word.startsWith(next) && word !== next);
+    if (partialNumber && i === w.length - 1 && !spaced && !hyphen) return true;
+  }
+  if (i === w.length) return true;
+  const unit = w[i] ?? "";
+  if (unit !== "pound" && unit !== "pounds" && !"pounds".startsWith(unit)) return false;
+  if (unit !== "pound" && unit !== "pounds") return i === w.length - 1 && !spaced && !hyphen;
+  if (unit === "pound") return i === w.length - 1 && !spaced;
+  i++;
+  if (hyphen && i === w.length) return true;
+  if (i === w.length) return true;
+  const mid = w[i] ?? "";
+  const midPartial = mid !== "a" && mid !== "per" && ("a".startsWith(mid) || "per".startsWith(mid));
+  if (mid !== "a" && mid !== "per" && !midPartial) return false;
+  if (midPartial) return i === w.length - 1 && !spaced;
+  if (i === w.length - 1) return true;
+  i++;
+  if (i === w.length) return true;
+  if (i !== w.length - 1) return false;
+  const month = w[i] ?? "";
+  if (month === "month") return false;
+  return "month".startsWith(month) && !spaced;
+}
+function wordPriceHold(held) {
+  const tail = held.match(/([A-Za-z]+(?:[-\s]+[A-Za-z]+)*)([-\s]*)$/);
+  if (!tail || tail.index == null || !tail[1]) return null;
+  const words = tail[1].split(/[-\s]+/).filter(Boolean);
+  const end = tail[2] ?? "";
+  const hyphen = end.endsWith("-");
+  const spaced = /\s/.test(end) && !hyphen;
+  for (let i = 0; i < words.length; i++) {
+    if (!openNumberChain(words.slice(i), spaced, hyphen)) continue;
+    let from = 0;
+    for (let w = 0; w < i; w++) {
+      const at2 = tail[1].indexOf(words[w] ?? "", from);
+      from = at2 + (words[w]?.length ?? 0);
+    }
+    const at = tail[1].indexOf(words[i] ?? "", from);
+    return tail.index + at;
+  }
+  return null;
+}
+function slashHold(held) {
+  const match = held.match(/(?:^|[^\d])(\d[\d,]*\s*\/\s*(?:m(?:o(?:n(?:t(?:h)?)?)?)?)?)$/i);
+  if (!match || match.index == null || match[1] == null) return null;
+  if (/\/\s*month$/i.test(match[1])) return null;
+  return match.index + (match[0].length - match[1].length);
+}
+function currencyIncomplete(tail) {
+  if (/^(?:£|\$|€|gbp\s*)$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s*\/\s*$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s*\/\s*m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(tail)) return !/month$/i.test(tail);
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)\s+$/i.test(tail)) return true;
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+(?:a|per)\s+m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(tail)) return !/month$/i.test(tail);
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+b(?:i(?:l(?:l(?:i(?:o(?:n)?)?)?)?)?)?$/i.test(tail)) return !/billion$/i.test(tail);
+  if (/^(?:£|\$|€|gbp\s?)\d[\d,]*(?:\.\d*)?\s+m(?:i(?:l(?:l(?:i(?:o(?:n)?)?)?)?)?)?$/i.test(tail)) return !/million$/i.test(tail);
+  return false;
+}
+function currencyHold(held) {
+  const match = held.match(/(?:£|\$|€|\bgbp\s?)\d[\d,]*(?:\.\d*)?[^£$€]*$/i) ?? held.match(/(?:£|\$|€|\bgbp\s*)$/i);
+  if (!match || match.index == null) return null;
+  return currencyIncomplete(held.slice(match.index)) ? match.index : null;
+}
+function plainPriceHold(held) {
+  const match = held.match(
+    /(?:^|\D)(\d[\d,]*(?:\.\d*)?(?:[ \t]*\/[ \t]*[A-Za-z]*|[ \t]+[A-Za-z]+(?:[ \t]+[A-Za-z]+){0,2})?[ \t]*)$/
+  );
+  if (!match || match.index == null || !match[1]) return null;
+  if (!plainIncomplete(match[1])) return null;
+  return match.index + (match[0].length - match[1].length);
+}
+function plainIncomplete(frag) {
+  const trimmed = frag.replace(/[ \t]+$/, "");
+  const trailing = trimmed.length !== frag.length;
+  if (/^\d[\d,]*(?:\.\d*)?$/.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]*\/[ \t]*$/.test(frag)) return true;
+  if (/\/[ \t]*month$/i.test(trimmed)) return false;
+  if (/\/[ \t]*m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+quid$/i.test(trimmed)) return false;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds$/i.test(trimmed)) return trailing;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pound$/i.test(trimmed)) return !trailing;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+(?:a|per)$/i.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+(?:a|per)[ \t]+month$/i.test(trimmed)) return false;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+(?:a|per)[ \t]+m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(trimmed)) return !/month$/i.test(trimmed);
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds[ \t]+(?:a|per)$/i.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds[ \t]+(?:a|per)[ \t]+month$/i.test(trimmed)) return false;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds[ \t]+(?:a|per)[ \t]+m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(trimmed)) return !/month$/i.test(trimmed);
+  const one = trimmed.match(/^\d[\d,]*(?:\.\d*)?[ \t]+([A-Za-z]+)$/i);
+  if (one && !trailing) {
+    const word = one[1].toLowerCase();
+    return ["quid", "pounds", "per"].some((unit) => unit.startsWith(word) && unit !== word);
+  }
+  return false;
+}
+function priceHold(held) {
+  let best = null;
+  for (const at of [wordPriceHold(held), slashHold(held), currencyHold(held), plainPriceHold(held)]) {
+    if (at != null && (best == null || at < best)) best = at;
+  }
+  return best;
+}
+function completeTermHold(held) {
+  const lower = held.toLowerCase().replace(/\u2019/g, "'");
+  const terms = [
+    ...BANNED_TERMS,
+    "ai agent",
+    "ai agents",
+    "ai bot",
+    "ai bots",
+    "ai assistant",
+    "ai assistants",
+    "ai tool",
+    "ai tools",
+    "ai chatbot",
+    "ai chatbots"
+  ];
+  let best = null;
+  for (const term of terms) {
+    if (!lower.endsWith(term)) continue;
+    const at = lower.length - term.length;
+    if (!boundaryBefore(lower, at)) continue;
+    if (best == null || at < best) best = at;
+  }
+  return best;
+}
 function scrubReply(text, allowed, standIn, links) {
-  return scrubAddressApology(scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links));
+  return scrubBanned(scrubAddressApology(scrubPaths(scrubDashes(scrubPrices(text, allowed, standIn)), links)));
 }
 function createPriceStream(allowed, standIn, links) {
   let held = "";
@@ -689,7 +1037,7 @@ function buildInstructions(config, page) {
   const rules = config.rules.map((rule) => `- ${rule}`).join("\n");
   const where = page ? `The visitor is reading ${pageLabel(page)}.` : "You do not know which page they are on.";
   return [
-    `You are the website assistant for ${config.name}.`,
+    `You answer questions on the ${config.name} website.`,
     "The visitor sees every word you write. Answer them directly. Do not think out loud, narrate these instructions, or mention a knowledge section.",
     `Voice: ${config.voice}`,
     where,
