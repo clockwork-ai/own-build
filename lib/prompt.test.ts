@@ -25,6 +25,8 @@ test("the chat knowledge says the first three clients get 30% off with 2 spaces 
   assert.match(text, /The first three clients get 30% off, 2 spaces left/);
   assert.match(text, /there are 2 spaces left/);
   assert.match(text, /not something Callum shares/);
+  assert.match(text, /home page opens with a founding banner/);
+  assert.match(text, /services page for the six parts/);
   assert.doesNotMatch(text, /first five/);
   assert.doesNotMatch(text, /five clients/);
   assert.doesNotMatch(text, /5 clients/);
