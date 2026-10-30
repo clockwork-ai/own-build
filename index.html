@@ -681,7 +681,7 @@
     .foot { bottom: calc(var(--dock-h) + 12px); }
     .foot nav { display: none; }
   }
-  @media (max-width: 399px) {
+  @media (max-width: 430px) {
     .founding-banner__full { display: none; }
     .founding-banner__short { display: inline; }
     .founding-banner {
@@ -1307,7 +1307,7 @@
   const STEPS = [0.08, 0.2, 0.32, 0.46, 0.6];
   let heroStep = -1;
   function drawHero() {
-    const p = reduce ? 1 : pOf(hero);
+    const p = reduce ? (innerWidth <= 860 ? 0 : 1) : pOf(hero);
     hero.style.setProperty('--hx', reduce ? 0 : clamp((p - 0.78) / 0.22, 0, 1).toFixed(4));
     const step = STEPS.filter(t => p >= t).length;
     if (step === heroStep) return;
