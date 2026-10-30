@@ -24,6 +24,7 @@ test("the chat knowledge says the first three clients get 30% off with 2 spaces 
   const text = buildInstructions(business, "/services");
   assert.match(text, /The first three clients get 30% off, 2 spaces left/);
   assert.match(text, /there are 2 spaces left/);
+  assert.match(text, /not something Callum shares/);
   assert.doesNotMatch(text, /first five/);
   assert.doesNotMatch(text, /five clients/);
   assert.doesNotMatch(text, /5 clients/);
