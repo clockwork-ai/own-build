@@ -95,10 +95,30 @@
   .note { font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
 
   /* ------------------------------------------------------------ chrome -- */
-  .bar {
+  .mast {
     position: fixed; inset: 0 0 auto 0; z-index: 60;
+    display: flex; flex-direction: column;
+    pointer-events: none;
+  }
+  .mast > * { pointer-events: auto; }
+  .founding-banner {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 48px;
+    padding: calc(env(safe-area-inset-top, 0px) + 10px) 18px 10px;
+    background: var(--sc-accent); color: var(--sc-accent-ink);
+    text-decoration: none; text-align: center;
+    font: 500 1rem/1.4 var(--sc-font-text);
+    text-wrap: balance;
+  }
+  .founding-banner span { max-width: 40rem; }
+  .founding-banner b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .founding-banner__short { display: none; }
+  .founding-banner:hover { background: color-mix(in oklab, var(--sc-accent) 88%, #fff); }
+  .founding-banner:focus-visible { outline: 2px solid var(--sc-accent-ink); outline-offset: -3px; }
+  .bar {
+    position: relative;
     display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    padding: calc(env(safe-area-inset-top, 0px) + 14px) var(--sc-gutter) 14px;
+    padding: 10px var(--sc-gutter) 12px;
     background: linear-gradient(to bottom, color-mix(in oklab, var(--sc-canvas) 78%, transparent), transparent);
     pointer-events: none;
     transition: background-color 220ms var(--sc-ease-out), border-color 220ms var(--sc-ease-out);
@@ -208,7 +228,7 @@
     animation: swipe 1100ms var(--sc-ease-out) 300ms both; }
   @keyframes swipe { from { clip-path: inset(0 100% 0 0); transform: translateX(-12px); opacity: 0; } to { clip-path: inset(0 0 0 0); transform: none; opacity: 1; } }
 
-  .story { position: absolute; z-index: 21; right: var(--sc-gutter); top: calc(env(safe-area-inset-top, 0px) + 92px); width: min(370px, 30vw); margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .story { position: absolute; z-index: 21; right: var(--sc-gutter); top: calc(env(safe-area-inset-top, 0px) + 148px); width: min(370px, 30vw); margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
   .scard { padding: 14px 16px; border-radius: 16px; background: color-mix(in oklab, #121317 88%, transparent); border: 1px solid var(--sc-hairline); box-shadow: var(--sc-e2), var(--sc-edge);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     opacity: 0; transform: translateX(26px); transition: opacity 420ms var(--sc-ease-out), transform 420ms var(--sc-ease-out); }
@@ -540,7 +560,7 @@
   .home .sc-scrim--lead { background: linear-gradient(90deg, color-mix(in oklab, var(--sc-canvas) 93%, transparent) 0%, color-mix(in oklab, var(--sc-canvas) 78%, transparent) 30%, color-mix(in oklab, var(--sc-canvas) 30%, transparent) 52%, transparent 68%), linear-gradient(to top, color-mix(in oklab, var(--sc-canvas) 85%, transparent) 0%, color-mix(in oklab, var(--sc-canvas) 35%, transparent) 38%, transparent 56%); }
 
   /* ------------------------------------------------------------- close -- */
-  .close { background: #1a1612; }
+  .close { position: relative; height: 100svh; overflow: clip; background: #1a1612; }
   .close__plate { position: absolute; inset: 0; }
   .close__plate img { width: 100%; height: 100%; object-fit: cover; object-position: 65% 50%; max-width: none; }
   .close__shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(14,15,18,.82) 0%, transparent 30%); }
@@ -583,12 +603,12 @@
     }
     .dock .btn { min-height: 48px; padding: 0 12px; font-size: 0.92rem; }
 
-    .hero__dial { --d: min(88vw, 50svh); left: 50%; top: calc(env(safe-area-inset-top, 0px) + 70px); translate: -50% 0; }
+    .hero__dial { --d: min(88vw, 50svh); left: 50%; top: calc(env(safe-area-inset-top, 0px) + 132px); translate: -50% 0; }
     .hero__plate img { object-position: 50% 60%; }
     .hero__shade { background: linear-gradient(to top, rgba(9,10,13,.94) 0%, rgba(9,10,13,.6) 34%, transparent 58%), linear-gradient(to bottom, rgba(9,10,13,.5), transparent 30%); }
     .hero__copy { bottom: calc(var(--dock-h) + 22px); }
     .hero__copy h1 { font-size: clamp(2.5rem, 11vw, 3.4rem); }
-    .hero__copy p { font-size: 1.05rem; margin-top: 12px; }
+    .hero__copy p { font-size: 1.05rem; margin-top: 12px; padding-right: 4.75rem; }
     .hero__copy .cta-row { display: none; }
     .story { left: var(--sc-gutter); right: var(--sc-gutter); width: auto; top: auto; bottom: calc(var(--dock-h) + 16px); display: block; min-height: 12rem; }
     .scard { position: absolute; left: 0; right: 0; bottom: 0; }
@@ -661,17 +681,61 @@
     .foot { bottom: calc(var(--dock-h) + 12px); }
     .foot nav { display: none; }
   }
+  @media (max-width: 430px) {
+    .founding-banner__full { display: none; }
+    .founding-banner__short { display: inline; }
+    .founding-banner {
+      white-space: nowrap;
+      font-size: 0.9rem;
+      min-height: 40px;
+      padding: calc(env(safe-area-inset-top, 0px) + 8px) 8px 8px;
+    }
+    .hero__dial { --d: min(64vw, 32svh); top: calc(env(safe-area-inset-top, 0px) + 112px); }
+    .hero__comp { top: 12%; width: 54%; }
+    .comp__swipe { display: none; }
+    .hero__copy h1 { font-size: clamp(1.65rem, 7.6vw, 2rem); }
+    .hero__copy p { font-size: 0.9rem; margin-top: 8px; line-height: 1.35; }
+  }
+  @media (max-width: 380px) {
+    .dock {
+      grid-template-columns: auto auto minmax(0, 1fr);
+      gap: 4px;
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+    .dock .btn { min-height: 44px; padding: 0 6px; font-size: 0.75rem; gap: 4px; }
+    .dock .btn svg { width: 16px; height: 16px; }
+  }
+  @media (min-width: 861px) and (max-height: 700px) {
+    .hero__dial {
+      --d: min(48vh, 38vw);
+      top: calc(var(--mast, 118px) + 6px);
+      translate: 0 0;
+    }
+    .comp__swipe { display: none; }
+    .hero__comp { top: 8%; }
+    .hero__copy { bottom: 1rem; }
+    .hero__copy h1 { font-size: clamp(2.1rem, 3.6vw, 3.2rem); }
+    .hero__copy p { margin-top: 10px; }
+  }
   .tally__cap { display: none; }
+
+  [data-sc-in], [data-sc-stagger] > * {
+    transform: translate3d(0, 8px, 0);
+    transition-duration: 420ms;
+  }
+  .trim + .trim, .cost + .sc-section, .sc-section + .cost, .sc-section + .act, .cost + .act {
+    scroll-margin-top: 7rem;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .hero__plate, .plane, .hero__comp { transform: none !important; }
     .scard, .dialmark, .hero__copyin { transition: none; }
     .dialmark__ring, .scard__pulse, .comp__swipe { animation: none !important; }
     .plane--glass { opacity: 0.5 !important; }
-    .day__log ol, .day__log li, .wdial__ap img, .wf__rail ol, .wf__rail li, .wf__rail ol::after { transition: none; }
-    .silence__dial, .silence__hand { transform: none !important; }
-    .silence__arc { stroke-dasharray: 100 100; }
     .pick__panel.is-shown .msg { animation: none; }
+    [data-sc-in], [data-sc-stagger] > * { opacity: 1; transform: none; transition: none; }
+    .hero { position: relative; height: 100svh; min-height: 100svh; overflow: clip; }
   }
 
   /* Who and what: Callum, then the three steps. */
@@ -712,7 +776,7 @@
   .menu__cta { display: none; }
   @media (max-width: 860px) {
     .bar__tel { display: none; }
-    .subdial__menu { position: fixed; inset: calc(env(safe-area-inset-top, 0px) + 72px) 0 0 0; width: auto; max-height: none; border-radius: 0; border-width: 1px 0 0;
+    .subdial__menu { position: fixed; inset: var(--mast, 132px) 0 0 0; width: auto; max-height: none; border-radius: 0; border-width: 1px 0 0;
       padding: 14px var(--sc-gutter) calc(24px + var(--dock-h)); transform-origin: top center; }
     .bar:has(.subdial[data-open]) { background: var(--sc-canvas); backdrop-filter: none; -webkit-backdrop-filter: none; }
     .subdial__menu a { padding: 14px 12px; font-size: 1.05rem; }
@@ -730,6 +794,11 @@
 <span data-sc-progress></span>
 <div class="sc-grain" aria-hidden="true"></div>
 
+<div class="mast">
+<a class="founding-banner" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">
+  <span class="founding-banner__full">Founding clients: the first three get 30% off. <b>2 spaces left.</b></span>
+  <span class="founding-banner__short">Founding: 30% off, <b>2 spaces left</b></span>
+</a>
 <header class="bar">
   <a class="bar__logo" href="#tonight" aria-label="Clockwork AI, back to the top"><img src="assets/logo-lockup.svg" alt="Clockwork AI" width="200" height="40"></a>
   <div class="bar__right">
@@ -753,11 +822,12 @@
     <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
   </div>
 </header>
+</div>
 
 <main id="main">
 
   <!-- 02:14 · RECOGNITION. Pinned stage, four planes: night plate, dial face, hands, glass. -->
-  <section id="tonight" class="act" data-title="Tonight" data-sc-act="pin" data-sc-span="3.8">
+  <section id="tonight" class="act" data-title="Tonight" data-sc-act="pin" data-sc-span="2">
     <div data-sc-stage class="hero">
       <picture class="hero__plate">
         <source media="(max-width: 860px)" srcset="assets/01-night-p.webp">
@@ -869,6 +939,7 @@
         <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
         <a class="linkline" href="/services#tiers">See the three tiers <span aria-hidden="true">→</span></a>
       </div>
+      <p class="sc-body" data-sc-in style="margin-top:1.5rem">The first job I can show you is just below. After that, the evenings I used to lose.</p>
     </div>
   </section>
 
@@ -906,6 +977,7 @@
         <div><h3>What's next for them</h3><p>Out-of-hours replies for emergency leak calls, which they asked for. No results to show yet. I'll publish real numbers when there are some.</p></div>
       </div>
       <a class="linkline" href="/work">Read the full D &amp; P story <span aria-hidden="true">→</span></a>
+      <p class="sc-body" data-sc-in style="margin-top:1.75rem">That site is the shop window. The next part is the evenings around the work, which is where I used to lose the time.</p>
     </div>
   </section>
 
@@ -933,156 +1005,7 @@
         <div><dt>Asking for reviews</dt><dd>Happy customers never leave one.</dd>
           <dd class="src">83% of people who were asked to leave a review went on to leave one. <cite><a href="https://www.brightlocal.com/research/local-consumer-review-survey/" target="_blank" rel="noopener">BrightLocal, 2026 (US survey)</a></cite></dd></div>
       </dl>
-    </div>
-  </section>
-
-  <!-- Authored silence. The seconds hand starts under the reader's scroll. -->
-  <section class="silence trim" data-sc-act="flow">
-    <img class="silence__plate" src="assets/04-movement-poster.webp" width="1600" height="900" alt="" loading="lazy">
-    <div class="silence__dial" aria-hidden="true">
-      <svg viewBox="0 0 400 400">
-        <circle cx="200" cy="200" r="198" fill="none" stroke="rgba(232,238,214,.14)" stroke-width="0.6"/>
-        <g id="silticks"></g>
-        <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(232,238,214,.06)" stroke-width="0.6"/>
-        <circle cx="352.4" cy="112" r="3.4" fill="#CBB892"/>
-        <circle class="silence__arc" cx="200" cy="200" r="186" fill="none" stroke="#CBB892" stroke-width="1.6" stroke-linecap="round" pathLength="100" transform="rotate(-90 200 200)"/>
-        <g class="silence__hand"><circle cx="200" cy="14" r="4.2" fill="#CBB892"/></g>
-      </svg>
-    </div>
-    <p data-sc-in>Here's a normal day, with the admin <em>done for you.</em></p>
-  </section>
-
-  <!-- THE WIND · PEAK. Pinned; the visitor's scroll turns the hour hand through a sample day. -->
-  <section id="day" class="act day trim" data-title="A working day" data-sc-act="pin" data-sc-span="6.4">
-    <div data-sc-stage class="day__stage">
-      <div class="day__intro">
-        <span class="sc-label">A sample day across the trades</span>
-        <h2 class="sc-display">What it does while you work.</h2>
-        <p>Scroll and the hand moves through one working day for a roofer, a plumber, an electrician and a builder. Each job it handles for them lights up as the hand passes.</p>
-        <div class="tally">
-          <div class="tally__n" aria-live="off"><span id="tallyh">0</span><small>h</small><span id="tallym">00</span><small>min</small></div>
-          <span class="tally__cap">handed back, sample day</span>
-          <p>Handed back in this sample day. Illustrative: it's the total of the minutes on the log, not a client result.</p>
-        </div>
-      </div>
-
-      <div class="wdial" aria-hidden="true">
-        <div class="wdial__ap">
-          <img src="assets/h-0630.webp" width="900" height="1192" alt="" data-from="5" data-to="8" loading="lazy">
-          <img src="assets/h-0900.webp" width="900" height="1192" alt="" data-from="8" data-to="11" loading="lazy">
-          <img src="assets/h-1100.webp" width="900" height="1192" alt="" data-from="11" data-to="14" loading="lazy">
-          <img src="assets/h-1400.webp" width="900" height="1192" alt="" data-from="14" data-to="17" loading="lazy">
-          <img src="assets/h-1800.webp" width="900" height="1192" alt="" data-from="17" data-to="21" loading="lazy">
-          <img src="assets/h-2300.webp" width="900" height="1192" alt="" data-from="21" data-to="29" loading="lazy">
-        </div>
-        <div class="wdial__clock"><b id="daytime">06:00</b></div>
-        <svg viewBox="0 0 400 400">
-          <circle cx="200" cy="200" r="197" fill="none" stroke="rgba(232,238,214,.16)" stroke-width="0.8"/>
-          <g id="dayticks"></g>
-          <g id="daysegs"></g>
-          <circle cx="200" cy="200" r="132" fill="none" stroke="rgba(232,238,214,.08)" stroke-width="4"/>
-          <circle id="dayarc" cx="200" cy="200" r="132" fill="none" stroke="#CBB892" stroke-width="4" stroke-linecap="round" transform="rotate(-90 200 200)" stroke-dasharray="0 9999"/>
-          <g id="dayhand">
-            <line x1="200" y1="226" x2="200" y2="12" stroke="#CBB892" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="200" cy="200" r="5" fill="#CBB892"/>
-            <circle cx="200" cy="200" r="2" fill="#0E0F12"/>
-          </g>
-        </svg>
-      </div>
-
-      <div class="day__log">
-        <ol id="daylog">
-          <li data-t="6.5" data-min="20"><time>06:30</time><p><b class="trade">Roofer</b>Sent today's job sheets to the lads, with addresses and access notes.</p><span>about 20 min by hand</span></li>
-          <li data-t="7.0833" data-min="25"><time>07:05</time><p><b class="trade">Plumber</b>Replied to two quote requests from last night and asked for photos and postcodes.</p><span>about 25 min by hand</span></li>
-          <li data-t="8.6667" data-min="15"><time>08:40</time><p><b class="trade">Electrician</b>Missed call in the middle of a rewire. Texted back straight away and booked a call-back.</p><span>about 15 min by hand</span></li>
-          <li data-t="10.25" data-min="30"><time>10:15</time><p><b class="trade">Roofer</b>Rain forecast for Thursday. Moved two customers to Friday, and both confirmed.</p><span>about 30 min by hand</span></li>
-          <li data-t="12.5" data-min="45"><time>12:30</time><p><b class="trade">Builder</b>Drafted an extension quote from this morning's survey notes and photos, ready to check.</p><span>about 45 min by hand</span></li>
-          <li data-t="14" data-min="10"><time>14:00</time><p><b class="trade">Plumber</b>Followed up a boiler quote that had gone quiet for five days. The customer booked.</p><span>about 10 min by hand</span></li>
-          <li data-t="16.75" data-min="20"><time>16:45</time><p><b class="trade">Electrician</b>Job signed off. Invoice sent, with a review request.</p><span>about 20 min by hand</span></li>
-          <li data-t="19.5" data-min="10"><time>19:30</time><p><b class="trade">Builder</b>Answered "do you cover Bolton?" on WhatsApp, in their words.</p><span>about 10 min by hand</span></li>
-          <li data-t="21.1667" data-min="10"><time>21:10</time><p><b class="trade">Plumber</b>Sent a second polite reminder on an unpaid invoice.</p><span>about 10 min by hand</span></li>
-          <li data-t="23.6667" data-min="20"><time>23:40</time><p><b class="trade">Electrician</b>Chased three unpaid invoices.</p><span>about 20 min by hand</span></li>
-          <li data-t="26.2333" data-min="15"><time>02:14</time><p><b class="trade">Roofer</b>Storm leak. Told them not to go on the roof, got a photo and the postcode, marked it urgent, booked a 9am visit and sent the owner a summary.</p><span>about 15 min by hand</span></li>
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS · scrub. The movement under the reader's hand. -->
-  <section id="how" class="act how" data-title="How it works" data-sc-act="scrub" data-sc-span="2.6" data-sc-dwell="0.32">
-    <div data-sc-stage>
-      <img class="sc-stage__poster" src="assets/04-movement-poster.webp" width="1600" height="900" alt="">
-      <video data-sc-scrub data-sc-src="assets/04-movement.mp4" data-sc-src-mobile="assets/04-movement-m.mp4" muted playsinline></video>
-      <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
-      <div class="sc-copy sc-copy--lead" data-sc-cue="0.04 0.5">
-        <h2 class="sc-display">A set reply does a task. The system does the whole job.</h2>
-      </div>
-      <div class="sc-copy sc-copy--lead" data-sc-cue="0.46 0.98">
-        <p>A customer gets in touch at 9pm about a leak. A set reply says "thanks, we'll be in touch", and nothing else happens until you see it.</p>
-        <p>What I build handles the whole thing, then tells you it's done. Here's how it runs.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- THE 9PM LEAK · pin. Each step lights as the reader scrolls. -->
-  <section id="leak" class="act wf trim" data-title="The 9pm leak" data-sc-act="pin" data-sc-span="4.6">
-    <div data-sc-stage class="wf__stage">
-      <div class="wf__intro">
-        <span class="sc-label">A sample of the job</span>
-        <h2 class="sc-display">The 9pm leak, step by step.</h2>
-        <p>Every step is logged. Your rules decide what it can do on its own, and anything unusual comes to you first. This sample is a ceiling leak. For a roofer, the same run books the call-out and tells them not to go on the roof. <a href="/roofers">See that version.</a></p>
-      </div>
-      <div class="wf__rail">
-        <ol id="wflist">
-          <li><div class="wf__meta"><time>21:02</time><span class="wf__who">Customer</span></div><h3>A call comes in</h3><p>"Got a leak over the back bedroom. Can someone come and look?" You're up a ladder on another job.</p></li>
-          <li><div class="wf__meta"><time>21:02</time><span class="wf__who">System</span></div><h3>It picks up straight away</h3><p>It answers in your business name and is upfront that it isn't you.</p></li>
-          <li><div class="wf__meta"><time>21:03</time><span class="wf__who">System</span></div><h3>It gets the details</h3><p>What's happening, their name and postcode, and a photo by text or WhatsApp.</p></li>
-          <li><div class="wf__meta"><time>21:03</time><span class="wf__who">System</span></div><h3>It makes it safe</h3><p>It talks them through turning the water off at the stopcock and keeping clear of any electrics near the water, only if it's safe to.</p><q>Your stopcock is usually under the kitchen sink. Turn it clockwise until it stops. Don't touch any switches or sockets near the water.</q></li>
-          <li><div class="wf__meta"><time>21:04</time><span class="wf__who">System</span></div><h3>It checks the job</h3><p>The postcode is in your area. Water coming through a ceiling, so it's marked urgent.</p></li>
-          <li><div class="wf__meta"><time>21:05</time><span class="wf__who">Calendar</span></div><h3>It checks your diary</h3><p>It finds the first free slots: 9am or 1pm tomorrow.</p></li>
-          <li><div class="wf__meta"><time>21:06</time><span class="wf__who">System</span></div><h3>It books the job in</h3><p>The customer picks 9am. It goes in your calendar and they get a confirmation.</p><q>You're booked in for 9am tomorrow. Keep clear of the area and put a bucket down if it's safe to.</q></li>
-          <li><div class="wf__meta"><time>21:06</time><span class="wf__who">You</span></div><h3>It tells you, or the engineer</h3><p>A summary with the photo, address and slot, by text or WhatsApp. Prices and anything unusual wait for your OK.</p><q>New urgent job: leak, back bedroom ceiling, BL5. Booked 9am tomorrow. Photo attached.</q></li>
-          <li><div class="wf__meta"><time>08:00</time><span class="wf__who">System</span></div><h3>It follows up</h3><p>A reminder on the morning of the job, and one polite nudge if they go quiet.</p></li>
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <!-- THE PARTS · flow -->
-  <section id="parts" class="sc-section parts trim" data-title="The parts">
-    <div class="sc-wrap parts__grid">
-      <div>
-        <div class="sc-stack" data-sc-in data-sc-stagger="70">
-          <h2 class="sc-display">Six parts. Each one takes a job off you.</h2>
-          <p class="sc-body">The full package is the website, the on-site content day, then these parts: a fixed setup and a simple monthly plan. I fit only the parts your tier includes, in the apps you already use: your phone, WhatsApp, email, calendar and job software. Prices on your free call.</p>
-        </div>
-        <ol class="partlist" data-sc-in data-sc-stagger="60">
-          <li><h3>Missed calls answered</h3><p>Answers missed and out-of-hours calls, qualifies the job and books it. Confirmations and a reminder the night before, and an easy rebook when the weather turns.</p><q>Sorry we missed you, we're up on a roof. What's the job and your postcode? We'll ring you back today.</q></li>
-          <li><h3>A chat box on your site</h3><p>Website and messaging enquiries, and the lead captured. Answers "do you cover...?" and "do you do guttering?" on your site and WhatsApp, in your words. Prices come to you first. Photos and postcodes land in one list per customer, not lost in forty chats.</p></li>
-          <li><h3>Database Reactivation</h3><p>Wins back old quotes and past customers. Polite follow-ups on quotes that have gone quiet, stopped the moment they reply.</p></li>
-          <li><h3>Review Accelerator</h3><p>Reviews and aftercare, in your name, once a job is marked done. Same day: a thank-you and a Google review link, for every customer. About 3 days later: one nudge if there's no review. About 2 weeks: "Everything still OK with the job?" A problem comes straight to you, as well as the link, never instead of it. At 2 and 6 months: "How's things going?" At 12 months: a check-up or service reminder.</p><q>Thanks for having us. A Google review would mean a lot. Here's the link.</q></li>
-          <li><h3>Referral Flywheel</h3><p>A simple ask, once the job is done, to send someone else your way. The later check-ins in the Review Accelerator keep you in mind first.</p></li>
-          <li><h3>Lifetime Value System</h3><p>Servicing reminders, maintenance plans and seasonal check-ins, so last year's roofs and gutters come back before the weather does. The 12-month check-up text is part of the Review Accelerator.</p></li>
-        </ol>
-        <div class="cta-row" data-sc-in style="margin-top:28px">
-          <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
-          <span class="note">I'll tell you which parts are worth it for you.</span>
-        </div>
-      </div>
-      <aside class="control" data-sc-in aria-labelledby="control-h">
-        <h3 id="control-h">You stay in control.</h3>
-        <ul>
-          <li>You set the rules: what it can say, what it can book, and what it must always check with you.</li>
-          <li>Nothing goes out in your name unless you've approved the wording.</li>
-          <li>Every message and booking is logged, so you can check it any time.</li>
-          <li>Handed over from day one if you pay upfront, or after your 12th monthly payment: a full copy of the files and code, or the site moved into an account in your name. The system runs on a monthly plan.</li>
-        </ul>
-        <div class="ladder" aria-label="How much it does on its own">
-          <div><b>Manual wind</b><span>It drafts, you send.</span></div>
-          <div><b>Hands-off</b><span>It runs, you approve the big things.</span></div>
-          <div><b>Perpetual</b><span>It runs and reports back.</span></div>
-        </div>
-      </aside>
+      <p class="sc-body" data-sc-in style="margin-top:2rem">If that is your week, the next part puts your own numbers on it.</p>
     </div>
   </section>
 
@@ -1225,14 +1148,6 @@
         </div>
       </div>
 
-      <div class="steps__head" data-sc-in>
-        <h2 class="sc-display" style="font-size:var(--sc-t-2xl)">How it works.</h2>
-      </div>
-      <ol class="steps" data-sc-in data-sc-stagger="70">
-        <li><h3>A free Business Bottleneck Audit</h3><p>A missed-call, website and reviews check. Tell me how your week runs. No cost, no obligation.</p></li>
-        <li class="is-key"><h3>A tier, if it's worth it</h3><p>Foundation, Growth or Autopilot, or none of them. Fixed setup plus a simple monthly plan, priced on the call and put in writing before I start.</p></li>
-        <li><h3>I build it, you approve it</h3><p>Nothing goes live until you've checked it. Handed over from day one if you pay upfront, or after your 12th monthly payment: a full copy of the files and code, or the site moved into an account in your name. The system runs on the monthly plan. You keep your number and the apps you already use.</p></li>
-      </ol>
       <ul class="promises" data-sc-in>
         <li>Keep your number</li><li>No tech skills needed</li><li>You approve every message</li><li>Handed over upfront, or after the 12th payment</li><li>The system on a monthly plan</li><li>You deal with me, start to finish</li>
       </ul>
@@ -1252,39 +1167,16 @@
       </div>
 
       <div class="pricelist" id="tiers" data-sc-in>
-        <h2 class="sc-display">Three tiers. No prices on this page.</h2>
-        <p class="founding" style="margin-bottom:1.25rem">Fixed setup plus a simple monthly plan, priced on your call. Handed over from day one if you pay upfront, or after your 12th monthly payment: a full copy of the files and code, or the site moved into an account in your name. The system runs on the monthly plan.</p>
-        <ol class="steps">
-          <li><h3>Foundation</h3><p>The website, a chat box on your site, and the Review Accelerator. You get found, enquiries are captured, and every customer gets a thank-you, a Google review link, and a check-in later.</p></li>
-          <li class="is-key"><h3>Growth</h3><p>Foundation, plus missed calls answered and Database Reactivation. Missed and out-of-hours calls get answered and booked, and old quotes get a follow-up.</p></li>
-          <li><h3>Autopilot</h3><p>Growth, plus the Referral Flywheel, the Lifetime Value System, and a monthly review call with me.</p></li>
-        </ol>
-        <p style="margin-top:18px"><a class="linkline" href="/services#tiers">The six parts, tier by tier <span aria-hidden="true">→</span></a></p>
-        <p class="founding"><b>Founding clients:</b> the first five clients get 30% off, in return for a case study, a testimonial and permission to show the work. The figure itself is agreed on the call.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOME ON TIME · scrub. The second and last clip: what the visitor's numbers buy back. -->
-  <section id="home" class="act home trim" data-title="Home on time" data-sc-act="scrub" data-sc-span="2.4" data-sc-dwell="0.3">
-    <div data-sc-stage>
-      <img class="sc-stage__poster" src="assets/09-home-poster.webp" width="1600" height="900" alt="">
-      <video data-sc-scrub data-sc-lazy-mobile data-sc-src="assets/09-home.mp4" data-sc-src-mobile="assets/09-home-m.mp4" muted playsinline></video>
-      <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
-      <div class="sc-copy sc-copy--lead" data-sc-cue="0.04 0.52">
-        <h2 class="sc-display">Home on time.</h2>
-        <p>The calls, quotes and reminders are handled, so the evening's yours.</p>
-      </div>
-      <div class="sc-copy sc-copy--lead" data-sc-cue="0.48 0.98">
-        <span class="sc-label">At the numbers you put in above</span>
-        <p class="home__total" id="homeline"><b>24 hours</b> back this year.</p>
-        <p>Change the numbers above and this changes too.</p>
+        <h2 class="sc-display">Six parts, in three tiers.</h2>
+        <p class="founding">Missed calls answered, a chat box on your site, old quotes followed up, reviews and aftercare, a simple referral ask, and reminders that bring last year's work back. Foundation, Growth and Autopilot are how those parts are grouped. Fixed setup plus a simple monthly plan, priced on your call. Handed over from day one if you pay upfront, or after your 12th monthly payment: a full copy of the files and code, or the site moved into an account in your name. The system runs on the monthly plan.</p>
+        <p style="margin-top:18px"><a class="linkline" href="/services">The six parts, tier by tier <span aria-hidden="true">→</span></a></p>
+        <p class="founding"><b>Founding clients:</b> the first three clients get 30% off, 2 spaces left, in return for a case study, a testimonial and permission to show the work. The figure itself is agreed on the call.</p>
       </div>
     </div>
   </section>
 
   <!-- 07:00 · CLOSE. The appointment sits in the dial. -->
-  <section id="book" class="act" data-title="Book" data-sc-act="pin" data-sc-span="1.3">
+  <section id="book" class="act" data-title="Book" data-sc-act="flow">
     <div data-sc-stage class="close">
       <picture class="close__plate">
         <source media="(max-width: 860px)" srcset="assets/07-dawn-p.webp">
@@ -1354,6 +1246,13 @@
 <script src="scrollcraft.js"></script>
 <script>
 (() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const tonight = document.getElementById('tonight');
+    if (tonight) {
+      tonight.setAttribute('data-sc-act', 'flow');
+      tonight.removeAttribute('data-sc-span');
+    }
+  }
   ScrollCraft.mount(document.body);
   const NS = 'http://www.w3.org/2000/svg';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1381,14 +1280,15 @@
     { stroke: 'rgba(232,238,214,.22)', 'stroke-width': 0.45 },
     { stroke: 'rgba(232,238,214,.6)', 'stroke-width': 1.1, 'stroke-linecap': 'round' }, 35);
   ticks($('#subticks'), 20, 12, 17.5, 15.5, 3, 14.5, { 'stroke-width': 0.8 }, { 'stroke-width': 1.3 });
-  ticks($('#silticks'), 200, 120, 196, 191, 10, 180,
+  const silTicks = $('#silticks');
+  if (silTicks) ticks(silTicks, 200, 120, 196, 191, 10, 180,
     { stroke: 'rgba(232,238,214,.16)', 'stroke-width': 0.6 },
     { stroke: 'rgba(232,238,214,.42)', 'stroke-width': 1.4, 'stroke-linecap': 'round' }, 20);
   const dayTicks = $('#dayticks');
-  ticks(dayTicks, 200, 96, 190, 186, 4, 178,
+  if (dayTicks) ticks(dayTicks, 200, 96, 190, 186, 4, 178,
     { stroke: 'rgba(232,238,214,.22)', 'stroke-width': 0.6 },
     { stroke: 'rgba(232,238,214,.62)', 'stroke-width': 1.4, 'stroke-linecap': 'round' });
-  for (let h = 0; h < 24; h += 3) {
+  if (dayTicks) for (let h = 0; h < 24; h += 3) {
     const [x, y] = polar(200, 200, 162, h * 15);
     const t = document.createElementNS(NS, 'text');
     t.setAttribute('x', x); t.setAttribute('y', y + 3.5); t.setAttribute('text-anchor', 'middle');
@@ -1407,7 +1307,7 @@
   const STEPS = [0.08, 0.2, 0.32, 0.46, 0.6];
   let heroStep = -1;
   function drawHero() {
-    const p = pOf(hero);
+    const p = reduce ? (innerWidth <= 860 ? 0 : 1) : pOf(hero);
     hero.style.setProperty('--hx', reduce ? 0 : clamp((p - 0.78) / 0.22, 0, 1).toFixed(4));
     const step = STEPS.filter(t => p >= t).length;
     if (step === heroStep) return;
@@ -1427,12 +1327,12 @@
 
 
   // ---- the wind: one sample day, 06:00 round to 06:00
-  const day = $('#day'), hand = $('#dayhand'), segs = $('#daysegs'), arc = $('#dayarc'), dayTime = $('#daytime');
-  const logList = $('#daylog'), items = [...logList.children];
+  const day = $('#day'), hand = day && $('#dayhand'), segs = day && $('#daysegs'), arc = day && $('#dayarc'), dayTime = day && $('#daytime');
+  const logList = day && $('#daylog'), items = logList ? [...logList.children] : [];
   const entries = items.map(li => ({ li, t: +li.dataset.t, min: +li.dataset.min }));
   const totalMin = entries.reduce((s, e) => s + e.min, 0);
   const R = 175, C = 2 * Math.PI * 132;
-  entries.forEach(e => {
+  if (segs) entries.forEach(e => {
     // each job drawn at its time, its length to true scale (1 minute = 0.25 degrees, min 3 for visibility)
     const a0 = (e.t % 24) * 15, a1 = a0 + Math.max(3, e.min * 0.25);
     const [x0, y0] = polar(200, 200, R, a0), [x1, y1] = polar(200, 200, R, a1);
@@ -1444,6 +1344,7 @@
   const imgs = [...document.querySelectorAll('.wdial__ap img')];
   let lastNow = -1;
   function drawDay() {
+    if (!day || !hand) return;
     const p = pOf(day);
     const s = reduce ? 1 : clamp((p - 0.05) / 0.86, 0, 1);
     const t = 6 + 24 * s;
@@ -1505,7 +1406,9 @@
 
   }
   const bar = $('.bar');
+  const mast = $('.mast');
   function drawSub() {
+    if (mast) document.documentElement.style.setProperty('--mast', Math.ceil(mast.getBoundingClientRect().height) + 'px');
     const h = timeAtY(scrollY);
     bar.classList.toggle('is-solid', scrollY > innerHeight * 1.1);
     $('#subhour').setAttribute('transform', `rotate(${((h % 12) / 12) * 360} 20 20)`);
@@ -1526,9 +1429,10 @@
   document.addEventListener('pointerdown', e => { if (!subWrap.contains(e.target)) setOpen(false); });
 
   // ---- the 9pm leak: steps light up in order, the rail fills, the current step stays in view
-  const wfSec = $('#leak'), wfList = $('#wflist'), wfSteps = [...wfList.querySelectorAll('li')];
+  const wfSec = $('#leak'), wfList = wfSec && $('#wflist'), wfSteps = wfList ? [...wfList.querySelectorAll('li')] : [];
   let wfLast = -1;
   function drawFlow() {
+    if (!wfSec || !wfList || !wfSteps.length) return;
     const s = clamp((pOf(wfSec) - 0.04) / 0.84, 0, 1);
     const now = Math.min(wfSteps.length - 1, Math.floor(s * wfSteps.length));
     if (now === wfLast) return;
@@ -1593,7 +1497,8 @@
     $('#wres').innerHTML = out;
     $('#wchart').hidden = false;
     drawChart(c, hoursMonth);
-    $('#homeline').innerHTML = `<b>${hoursLabel(hoursYear)}</b> back this year.`;
+    const homeLine = $('#homeline');
+    if (homeLine) homeLine.innerHTML = `<b>${hoursLabel(hoursYear)}</b> back this year.`;
   }
 
   // ---- 12-month chart: cumulative cost against cumulative value, at the visitor's numbers

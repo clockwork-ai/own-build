@@ -302,6 +302,16 @@ main a:not(.btn):not(.linkline):hover { color: var(--sc-accent); }
   .enddisc h2 { font-size: clamp(1.4rem, 6vw, 1.9rem); }
   .enddisc .btn { min-height: 46px; padding: 0 18px; font-size: 0.92rem; }
 }
+@media (max-width: 380px) {
+  .dock {
+    grid-template-columns: auto auto minmax(0, 1fr);
+    gap: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+  .dock .btn { min-height: 44px; padding: 0 6px; font-size: 0.75rem; gap: 4px; }
+  .dock .btn svg { width: 16px; height: 16px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .subdial__menu, .btn, .bar { transition: none; }
