@@ -57,7 +57,6 @@
     --sc-ink-soft:   #A7AC9C;
     --sc-accent:     #CBB892;
     --sc-accent-ink: #0E0F12;
-    --bronze:        #9A7130;
     --sc-font-display: "Instrument Serif", Georgia, serif;
     --sc-font-text:    "Geist", system-ui, sans-serif;
     --sc-font-mono:    "Geist Mono", ui-monospace, monospace;
@@ -106,15 +105,16 @@
     display: flex; align-items: center; justify-content: center;
     min-height: 48px;
     padding: calc(env(safe-area-inset-top, 0px) + 10px) 18px 10px;
-    background: var(--bronze); color: #FFF8EC;
+    background: var(--sc-accent); color: var(--sc-accent-ink);
     text-decoration: none; text-align: center;
     font: 500 1rem/1.4 var(--sc-font-text);
     text-wrap: balance;
   }
   .founding-banner span { max-width: 40rem; }
-  .founding-banner b { font: 500 1rem/1.4 var(--sc-font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
-  .founding-banner:hover { background: color-mix(in oklab, var(--bronze) 86%, #fff); }
-  .founding-banner:focus-visible { outline: 2px solid #FFF8EC; outline-offset: -3px; }
+  .founding-banner b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .founding-banner__short { display: none; }
+  .founding-banner:hover { background: color-mix(in oklab, var(--sc-accent) 88%, #fff); }
+  .founding-banner:focus-visible { outline: 2px solid var(--sc-accent-ink); outline-offset: -3px; }
   .bar {
     position: relative;
     display: flex; align-items: center; justify-content: space-between; gap: 16px;
@@ -681,6 +681,43 @@
     .foot { bottom: calc(var(--dock-h) + 12px); }
     .foot nav { display: none; }
   }
+  @media (max-width: 399px) {
+    .founding-banner__full { display: none; }
+    .founding-banner__short { display: inline; }
+    .founding-banner {
+      white-space: nowrap;
+      font-size: 0.9rem;
+      min-height: 40px;
+      padding: calc(env(safe-area-inset-top, 0px) + 8px) 8px 8px;
+    }
+    .hero__dial { --d: min(64vw, 32svh); top: calc(env(safe-area-inset-top, 0px) + 112px); }
+    .hero__comp { top: 12%; width: 54%; }
+    .comp__swipe { display: none; }
+    .hero__copy h1 { font-size: clamp(1.65rem, 7.6vw, 2rem); }
+    .hero__copy p { font-size: 0.9rem; margin-top: 8px; line-height: 1.35; }
+  }
+  @media (max-width: 380px) {
+    .dock {
+      grid-template-columns: auto auto minmax(0, 1fr);
+      gap: 4px;
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+    .dock .btn { min-height: 44px; padding: 0 6px; font-size: 0.75rem; gap: 4px; }
+    .dock .btn svg { width: 16px; height: 16px; }
+  }
+  @media (min-width: 861px) and (max-height: 700px) {
+    .hero__dial {
+      --d: min(48vh, 38vw);
+      top: calc(var(--mast, 118px) + 6px);
+      translate: 0 0;
+    }
+    .comp__swipe { display: none; }
+    .hero__comp { top: 8%; }
+    .hero__copy { bottom: 1rem; }
+    .hero__copy h1 { font-size: clamp(2.1rem, 3.6vw, 3.2rem); }
+    .hero__copy p { margin-top: 10px; }
+  }
   .tally__cap { display: none; }
 
   [data-sc-in], [data-sc-stagger] > * {
@@ -698,6 +735,7 @@
     .plane--glass { opacity: 0.5 !important; }
     .pick__panel.is-shown .msg { animation: none; }
     [data-sc-in], [data-sc-stagger] > * { opacity: 1; transform: none; transition: none; }
+    .hero { position: relative; height: 100svh; min-height: 100svh; overflow: clip; }
   }
 
   /* Who and what: Callum, then the three steps. */
@@ -758,7 +796,8 @@
 
 <div class="mast">
 <a class="founding-banner" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">
-  <span>Founding clients: the first three get 30% off. <b>2 spaces left.</b></span>
+  <span class="founding-banner__full">Founding clients: the first three get 30% off. <b>2 spaces left.</b></span>
+  <span class="founding-banner__short">Founding: 30% off, <b>2 spaces left</b></span>
 </a>
 <header class="bar">
   <a class="bar__logo" href="#tonight" aria-label="Clockwork AI, back to the top"><img src="assets/logo-lockup.svg" alt="Clockwork AI" width="200" height="40"></a>
@@ -1207,6 +1246,13 @@
 <script src="scrollcraft.js"></script>
 <script>
 (() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const tonight = document.getElementById('tonight');
+    if (tonight) {
+      tonight.setAttribute('data-sc-act', 'flow');
+      tonight.removeAttribute('data-sc-span');
+    }
+  }
   ScrollCraft.mount(document.body);
   const NS = 'http://www.w3.org/2000/svg';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
