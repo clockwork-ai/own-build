@@ -202,6 +202,10 @@ test("scrubs AI, bot, assistant and named tools, and keeps the brand", () => {
   const all = stream.push("I am an assist") + stream.push("ant on the site.") + stream.flush();
   assert.equal(/assistant/i.test(all), false);
   assert.match(all, /the system/);
+  const brandStream = createPriceStream(allowed, standIn);
+  const kept = brandStream.push("I answer questions on the Clockwork") + brandStream.push(" AI site.") + brandStream.flush();
+  assert.match(kept, /Clockwork AI/);
+  assert.equal(kept.includes("the system"), false);
 });
 
 test("contact must be an email or a phone number", () => {

@@ -215,6 +215,8 @@ function holdCut(held: string): number {
   }
   const apology = apologyCut(held);
   if (apology != null) return apology;
+  const brand = held.match(/clockwork\s*$/i);
+  if (brand?.index != null) return brand.index;
   const banned = bannedHold(held);
   if (banned != null) return banned;
   const digits = held.match(/\d[\d,]{0,8}$/);
