@@ -102,7 +102,9 @@ export function normaliseMessages(
 }
 
 const WORD_PRICE =
-  /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)(?:[\s-](?:and|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred))*\s+pounds?\b/gi;
+  /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)(?:[\s-](?:and|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred))*\s+pounds?(?:\s+(?:a|per)\s+month)?\b/gi;
+/** A comma-grouped number with nothing after it, such as 1,200. "1,200 leads" stays. */
+const COMMA_NUMBER = /\b\d{1,3}(?:,\d{3})+(?:\.\d+)?\b(?!\s*[A-Za-z])/g;
 
 const MONTH = "(?:months?|mo(?!nth))";
 const MONEY = new RegExp(
@@ -285,6 +287,8 @@ function trailingCut(held: string): number {
   }
   const banned = bannedHold(held);
   if (banned != null) return banned;
+  const plain = plainPriceHold(held);
+  if (plain != null) return plain;
   const digits = held.match(/\d[\d,]{0,8}$/);
   if (digits?.index != null) return digits.index;
   return held.length;
@@ -320,7 +324,7 @@ export function scrubPrices(text: string, allowed: readonly string[], standIn: s
       return `\u0000${index}\u0000`;
     });
   }
-  safe = safe.replace(MONEY, standIn).replace(WORD_PRICE, standIn);
+  safe = safe.replace(MONEY, standIn).replace(WORD_PRICE, standIn).replace(COMMA_NUMBER, standIn);
   return safe.replace(/\u0000(\d+)\u0000/g, (_match, index: string) => slots[Number(index)] ?? "");
 }
 
@@ -485,19 +489,39 @@ const NUMBER_WORDS = [
 ];
 
 function openNumberChain(words: string[], spaced: boolean, hyphen: boolean): boolean {
-  if (words.length === 0) return false;
-  const last = words[words.length - 1]?.toLowerCase() ?? "";
-  const prev = words.slice(0, -1).map((word) => word.toLowerCase());
-  if (!prev.every((word) => NUMBER_WORDS.includes(word))) return false;
-  if (hyphen && NUMBER_WORDS.includes(last)) return true;
-  // "pound" can still grow into "pounds". A space means the word has ended.
-  if (last === "pounds") return false;
-  if (last === "pound") return !spaced;
-  const complete = NUMBER_WORDS.includes(last);
-  const proper = NUMBER_WORDS.some((word) => word.startsWith(last) && word !== last);
-  const pounds = prev.length > 0 && "pounds".startsWith(last) && !complete;
-  if (spaced && !complete) return false;
-  return complete || (!spaced && (proper || pounds));
+  const w = words.map((word) => word.toLowerCase());
+  if (w.length === 0) return false;
+  const first = w[0] ?? "";
+  const firstComplete = NUMBER_WORDS.includes(first);
+  const firstPartial = NUMBER_WORDS.some((word) => word.startsWith(first) && word !== first);
+  if (!firstComplete && firstPartial) return w.length === 1 && !spaced && !hyphen;
+  if (!firstComplete) return false;
+  let i = 1;
+  while (i < w.length && NUMBER_WORDS.includes(w[i] ?? "")) i++;
+  if (i < w.length) {
+    const next = w[i] ?? "";
+    const partialNumber = NUMBER_WORDS.some((word) => word.startsWith(next) && word !== next);
+    if (partialNumber && i === w.length - 1 && !spaced && !hyphen) return true;
+  }
+  if (i === w.length) return true;
+  const unit = w[i] ?? "";
+  if (unit !== "pound" && unit !== "pounds" && !("pounds".startsWith(unit))) return false;
+  if (unit !== "pound" && unit !== "pounds") return i === w.length - 1 && !spaced && !hyphen;
+  if (unit === "pound") return i === w.length - 1 && !spaced;
+  i++;
+  if (hyphen && i === w.length) return true;
+  if (i === w.length) return true;
+  const mid = w[i] ?? "";
+  const midPartial = mid !== "a" && mid !== "per" && ("a".startsWith(mid) || "per".startsWith(mid));
+  if (mid !== "a" && mid !== "per" && !midPartial) return false;
+  if (midPartial) return i === w.length - 1 && !spaced;
+  if (i === w.length - 1) return true;
+  i++;
+  if (i === w.length) return true;
+  if (i !== w.length - 1) return false;
+  const month = w[i] ?? "";
+  if (month === "month") return false;
+  return "month".startsWith(month) && !spaced;
 }
 
 /** Spelled-out prices stay together until "pounds" arrives, or the next word shows it is not a price. */
@@ -549,9 +573,43 @@ function currencyHold(held: string): number | null {
   return currencyIncomplete(held.slice(match.index)) ? match.index : null;
 }
 
+/** "149 quid", "149 pounds" and "99 per month" stay together across a chunk boundary. */
+function plainPriceHold(held: string): number | null {
+  const match = held.match(
+    /(?:^|\D)(\d[\d,]*(?:\.\d*)?(?:[ \t]*\/[ \t]*[A-Za-z]*|[ \t]+[A-Za-z]+(?:[ \t]+[A-Za-z]+){0,2})?[ \t]*)$/,
+  );
+  if (!match || match.index == null || !match[1]) return null;
+  if (!plainIncomplete(match[1])) return null;
+  return match.index + (match[0].length - match[1].length);
+}
+
+function plainIncomplete(frag: string): boolean {
+  const trimmed = frag.replace(/[ \t]+$/, "");
+  const trailing = trimmed.length !== frag.length;
+  if (/^\d[\d,]*(?:\.\d*)?$/.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]*\/[ \t]*$/.test(frag)) return true;
+  if (/\/[ \t]*month$/i.test(trimmed)) return false;
+  if (/\/[ \t]*m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+quid$/i.test(trimmed)) return false;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds$/i.test(trimmed)) return trailing;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pound$/i.test(trimmed)) return !trailing;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+(?:a|per)$/i.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+(?:a|per)[ \t]+month$/i.test(trimmed)) return false;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+(?:a|per)[ \t]+m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(trimmed)) return !/month$/i.test(trimmed);
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds[ \t]+(?:a|per)$/i.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds[ \t]+(?:a|per)[ \t]+month$/i.test(trimmed)) return false;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds[ \t]+(?:a|per)[ \t]+m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(trimmed)) return !/month$/i.test(trimmed);
+  const one = trimmed.match(/^\d[\d,]*(?:\.\d*)?[ \t]+([A-Za-z]+)$/i);
+  if (one && !trailing) {
+    const word = one[1].toLowerCase();
+    return ["quid", "pounds", "per"].some((unit) => unit.startsWith(word) && unit !== word);
+  }
+  return false;
+}
+
 function priceHold(held: string): number | null {
   let best: number | null = null;
-  for (const at of [wordPriceHold(held), slashHold(held), currencyHold(held)]) {
+  for (const at of [wordPriceHold(held), slashHold(held), currencyHold(held), plainPriceHold(held)]) {
     if (at != null && (best == null || at < best)) best = at;
   }
   return best;

@@ -296,6 +296,10 @@ test("split prices and combined terms match the whole reply", () => {
   same("We use open ai today.");
   same("one hundred pounds");
   same("fifty pounds");
+  same("149 quid");
+  same("149 pounds");
+  same("99 per month");
+  same("two hundred and fifty pounds a month");
   same("Foundation 99/month.");
   same("It costs £11 billion a year.");
   const cited = "Late payments cost almost 11 billion pounds a year, UK Government, July 2026.";

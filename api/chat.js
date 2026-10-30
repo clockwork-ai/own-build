@@ -219,7 +219,8 @@ function normaliseMessages(input, limits) {
   }
   return { ok: true, messages };
 }
-var WORD_PRICE = /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)(?:[\s-](?:and|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred))*\s+pounds?\b/gi;
+var WORD_PRICE = /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)(?:[\s-](?:and|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred))*\s+pounds?(?:\s+(?:a|per)\s+month)?\b/gi;
+var COMMA_NUMBER = /\b\d{1,3}(?:,\d{3})+(?:\.\d+)?\b(?!\s*[A-Za-z])/g;
 var MONTH = "(?:months?|mo(?!nth))";
 var MONEY = new RegExp(
   `\xA3\\s?\\d[\\d,]*(?:\\.\\d+)?(?:\\s*billion|\\s*million|\\s*(?:\\/|a |per )${MONTH})?|[$\u20AC]\\s?\\d[\\d,]*(?:\\.\\d+)?(?:\\s*(?:\\/|a |per )${MONTH})?|\\bgbp\\s?\\d[\\d,]*(?:\\.\\d+)?|\\b\\d[\\d,]*(?:\\.\\d+)?\\s*(?:pounds?|quid)\\b|\\b\\d[\\d,]*(?:\\.\\d+)?\\s*(?:\\/|a |per )${MONTH}\\b`,
@@ -366,6 +367,8 @@ function trailingCut(held) {
   }
   const banned = bannedHold(held);
   if (banned != null) return banned;
+  const plain = plainPriceHold(held);
+  if (plain != null) return plain;
   const digits = held.match(/\d[\d,]{0,8}$/);
   if (digits?.index != null) return digits.index;
   return held.length;
@@ -398,7 +401,7 @@ function scrubPrices(text, allowed, standIn) {
       return `\0${index}\0`;
     });
   }
-  safe = safe.replace(MONEY, standIn).replace(WORD_PRICE, standIn);
+  safe = safe.replace(MONEY, standIn).replace(WORD_PRICE, standIn).replace(COMMA_NUMBER, standIn);
   return safe.replace(/\u0000(\d+)\u0000/g, (_match, index) => slots[Number(index)] ?? "");
 }
 function scrubAddressApology(text) {
@@ -557,18 +560,39 @@ var NUMBER_WORDS = [
   "and"
 ];
 function openNumberChain(words, spaced, hyphen) {
-  if (words.length === 0) return false;
-  const last = words[words.length - 1]?.toLowerCase() ?? "";
-  const prev = words.slice(0, -1).map((word) => word.toLowerCase());
-  if (!prev.every((word) => NUMBER_WORDS.includes(word))) return false;
-  if (hyphen && NUMBER_WORDS.includes(last)) return true;
-  if (last === "pounds") return false;
-  if (last === "pound") return !spaced;
-  const complete = NUMBER_WORDS.includes(last);
-  const proper = NUMBER_WORDS.some((word) => word.startsWith(last) && word !== last);
-  const pounds = prev.length > 0 && "pounds".startsWith(last) && !complete;
-  if (spaced && !complete) return false;
-  return complete || !spaced && (proper || pounds);
+  const w = words.map((word) => word.toLowerCase());
+  if (w.length === 0) return false;
+  const first = w[0] ?? "";
+  const firstComplete = NUMBER_WORDS.includes(first);
+  const firstPartial = NUMBER_WORDS.some((word) => word.startsWith(first) && word !== first);
+  if (!firstComplete && firstPartial) return w.length === 1 && !spaced && !hyphen;
+  if (!firstComplete) return false;
+  let i = 1;
+  while (i < w.length && NUMBER_WORDS.includes(w[i] ?? "")) i++;
+  if (i < w.length) {
+    const next = w[i] ?? "";
+    const partialNumber = NUMBER_WORDS.some((word) => word.startsWith(next) && word !== next);
+    if (partialNumber && i === w.length - 1 && !spaced && !hyphen) return true;
+  }
+  if (i === w.length) return true;
+  const unit = w[i] ?? "";
+  if (unit !== "pound" && unit !== "pounds" && !"pounds".startsWith(unit)) return false;
+  if (unit !== "pound" && unit !== "pounds") return i === w.length - 1 && !spaced && !hyphen;
+  if (unit === "pound") return i === w.length - 1 && !spaced;
+  i++;
+  if (hyphen && i === w.length) return true;
+  if (i === w.length) return true;
+  const mid = w[i] ?? "";
+  const midPartial = mid !== "a" && mid !== "per" && ("a".startsWith(mid) || "per".startsWith(mid));
+  if (mid !== "a" && mid !== "per" && !midPartial) return false;
+  if (midPartial) return i === w.length - 1 && !spaced;
+  if (i === w.length - 1) return true;
+  i++;
+  if (i === w.length) return true;
+  if (i !== w.length - 1) return false;
+  const month = w[i] ?? "";
+  if (month === "month") return false;
+  return "month".startsWith(month) && !spaced;
 }
 function wordPriceHold(held) {
   const tail = held.match(/([A-Za-z]+(?:[-\s]+[A-Za-z]+)*)([-\s]*)$/);
@@ -613,9 +637,40 @@ function currencyHold(held) {
   if (!match || match.index == null) return null;
   return currencyIncomplete(held.slice(match.index)) ? match.index : null;
 }
+function plainPriceHold(held) {
+  const match = held.match(
+    /(?:^|\D)(\d[\d,]*(?:\.\d*)?(?:[ \t]*\/[ \t]*[A-Za-z]*|[ \t]+[A-Za-z]+(?:[ \t]+[A-Za-z]+){0,2})?[ \t]*)$/
+  );
+  if (!match || match.index == null || !match[1]) return null;
+  if (!plainIncomplete(match[1])) return null;
+  return match.index + (match[0].length - match[1].length);
+}
+function plainIncomplete(frag) {
+  const trimmed = frag.replace(/[ \t]+$/, "");
+  const trailing = trimmed.length !== frag.length;
+  if (/^\d[\d,]*(?:\.\d*)?$/.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]*\/[ \t]*$/.test(frag)) return true;
+  if (/\/[ \t]*month$/i.test(trimmed)) return false;
+  if (/\/[ \t]*m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+quid$/i.test(trimmed)) return false;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds$/i.test(trimmed)) return trailing;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pound$/i.test(trimmed)) return !trailing;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+(?:a|per)$/i.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+(?:a|per)[ \t]+month$/i.test(trimmed)) return false;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+(?:a|per)[ \t]+m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(trimmed)) return !/month$/i.test(trimmed);
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds[ \t]+(?:a|per)$/i.test(trimmed)) return true;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds[ \t]+(?:a|per)[ \t]+month$/i.test(trimmed)) return false;
+  if (/^\d[\d,]*(?:\.\d*)?[ \t]+pounds[ \t]+(?:a|per)[ \t]+m(?:o(?:n(?:t(?:h)?)?)?)?$/i.test(trimmed)) return !/month$/i.test(trimmed);
+  const one = trimmed.match(/^\d[\d,]*(?:\.\d*)?[ \t]+([A-Za-z]+)$/i);
+  if (one && !trailing) {
+    const word = one[1].toLowerCase();
+    return ["quid", "pounds", "per"].some((unit) => unit.startsWith(word) && unit !== word);
+  }
+  return false;
+}
 function priceHold(held) {
   let best = null;
-  for (const at of [wordPriceHold(held), slashHold(held), currencyHold(held)]) {
+  for (const at of [wordPriceHold(held), slashHold(held), currencyHold(held), plainPriceHold(held)]) {
     if (at != null && (best == null || at < best)) best = at;
   }
   return best;
