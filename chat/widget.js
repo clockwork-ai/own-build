@@ -310,7 +310,7 @@
       fitPanel();
     } else {
       clearPanelFit();
-      launch.focus();
+      if (launch.offsetParent) launch.focus();
     }
   }
 
@@ -428,6 +428,10 @@
     hideNudge();
     markNudge();
     setOpen(true);
+  });
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest("[data-open-chat]")) return;
+    launch.click();
   });
   nudgeDismiss.addEventListener("click", (event) => {
     event.stopPropagation();
