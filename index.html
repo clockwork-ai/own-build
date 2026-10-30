@@ -208,6 +208,7 @@
       border-radius: 50%;
     }
   }
+  @media (min-width:861px){ .hero.is-story .hero__comp, .hero.is-story .dialmark__t { opacity:0; transition:opacity .25s var(--sc-ease-out) } }
   .plane { position: absolute; inset: 0; transform-origin: 50% 50%; }
   .plane svg { width: 100%; height: 100%; overflow: visible; }
   .plane--face  { -webkit-mask-image: linear-gradient(to bottom, #000 58%, rgba(0,0,0,.28) 86%); mask-image: linear-gradient(to bottom, #000 58%, rgba(0,0,0,.28) 86%); transform: scale(calc(1 + var(--hx, 0) * 0.5)); opacity: calc(1 - max(0, var(--hx, 0) - 0.4) * 1.7); }
@@ -637,6 +638,7 @@
     }
     .dock .btn { min-height: 48px; padding: 0 12px; font-size: 0.92rem; }
 
+    .hero { display: flow-root; }
     .hero__dial {
       --d: min(56vw, 26svh);
       position: relative;
@@ -962,9 +964,9 @@
     </div>
   </section>
 
-  <a class="demostrip" href="https://aldwyn.clockworkai.app" target="_blank" rel="noopener">
+  <a class="demostrip" href="https://aldwyn.clockworkai.app" target="_blank" rel="noopener" aria-label="See the work: Aldwyn Studio, a demo site I built (opens in a new tab)">
     <span class="demostrip__kicker">See the work</span>
-    <span class="demostrip__name">Aldwyn Studio, a demo site we built</span>
+    <span class="demostrip__name">Aldwyn Studio, a demo site I built</span>
     <span class="demostrip__go" aria-hidden="true">→</span>
   </a>
 

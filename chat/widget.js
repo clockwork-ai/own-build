@@ -68,6 +68,7 @@
   let nudgeArmed = false;
   let nudgeMode = false;
   let engaged = false;
+  let menuReturn = null;
   const seenKey = "cw-nudge-seen";
 
   function seenNudge() {
@@ -310,7 +311,10 @@
       fitPanel();
     } else {
       clearPanelFit();
-      if (launch.offsetParent) launch.focus();
+      const back = menuReturn;
+      menuReturn = null;
+      if (back) back.focus();
+      else if (launch.offsetParent) launch.focus();
     }
   }
 
@@ -431,6 +435,7 @@
   });
   document.addEventListener("click", (event) => {
     if (!event.target.closest("[data-open-chat]")) return;
+    menuReturn = document.querySelector(".subdial__btn");
     launch.click();
   });
   nudgeDismiss.addEventListener("click", (event) => {

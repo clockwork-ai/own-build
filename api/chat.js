@@ -43,6 +43,7 @@ The free Business Bottleneck Audit. This is the free 30-minute call. No cost and
 
 How a job starts. 1. The free audit. 2. A plan, if it is worth it. 3. He builds it. The website is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name. The system runs on the monthly plan. The client checks it before it goes live.
 
+A plan is one of the three Foundation, Growth and Autopilot plans, distinct from the monthly maintenance plan, with no prices.
 Three plans, with no prices on the site.
 - Foundation: the website, a chat box on the site, and the Review Accelerator. People can find you, call or message from the page, and every customer gets a thank-you, a Google review link, and a check-in later. The website is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name. The chat box and review requests run on the monthly plan.
 - Growth: Foundation, plus missed calls answered and Database Reactivation. Missed and out-of-hours calls get answered, qualified and booked. Old quotes and past customers get a polite follow-up that stops when they reply.
