@@ -36,8 +36,25 @@ test("scrubs tier prices, including the old government figure", () => {
 });
 
 test("does not touch the phone number, the discount or the audit", () => {
-  const text = "Ring 07460 038202. The first five clients get 30% off. The audit is free and takes 30 minutes.";
+  const text = "Ring 07460 038202. The first three clients get 30% off, 2 spaces left. The audit is free and takes 30 minutes.";
   assert.equal(scrubPrices(text, allowed, standIn), text);
+});
+
+test("keeps 30% off, 2 spaces left and first three in every split", () => {
+  const text = "Founding clients: the first three clients get 30% off, 2 spaces left, in return for a case study.";
+  const streamOf = (size: number) => {
+    const stream = createPriceStream(allowed, standIn);
+    let out = "";
+    for (let i = 0; i < text.length; i += size) out += stream.push(text.slice(i, i + size));
+    return out + stream.flush();
+  };
+  for (const size of [text.length, 1, 2, 3]) {
+    const out = streamOf(size);
+    assert.equal(out, text, `split ${size}`);
+    assert.equal(out.includes("30% off"), true, out);
+    assert.equal(out.includes("2 spaces left"), true, out);
+    assert.equal(out.includes("first three"), true, out);
+  }
 });
 
 test("streams a price that arrives in pieces", () => {

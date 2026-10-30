@@ -20,6 +20,16 @@ test("the model is not handed a web address or a page path", () => {
   assert.doesNotMatch(text, /[\u2013\u2014]/);
 });
 
+test("the chat knowledge says the first three clients get 30% off with 2 spaces left", () => {
+  const text = buildInstructions(business, "/services");
+  assert.match(text, /The first three clients get 30% off, 2 spaces left/);
+  assert.match(text, /there are 2 spaces left/);
+  assert.doesNotMatch(text, /first five/);
+  assert.doesNotMatch(text, /five clients/);
+  assert.doesNotMatch(text, /5 clients/);
+  assert.doesNotMatch(text, /how many of the five/);
+});
+
 test("the public widget config still has the button destinations", () => {
   const widget = publicWidget(business);
   assert.equal(widget.auditHref, "/clockwork-check");
