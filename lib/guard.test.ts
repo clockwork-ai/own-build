@@ -12,7 +12,7 @@ import {
   takeRateLimit,
 } from "./guard.ts";
 
-const standIn = "something Callum prices on a quick call or in the free audit";
+const standIn = "something Callum prices on a quick call or in the Free Website Check";
 const allowed: string[] = [];
 const limits = {
   windowMs: 60_000,
@@ -139,7 +139,7 @@ test("streams a number range that arrives in pieces", () => {
 
 test("turns raw paths and web addresses into words", () => {
   const audit = scrubPaths("The next step is /clockwork-check.html.");
-  assert.equal(audit, "The next step is the free audit.");
+  assert.equal(audit, "The next step is the Free Website Check.");
   assert.equal(audit.includes(".html"), false);
   const book = scrubPaths("Use https://cal.com/clockwork-ai/30min today.");
   assert.equal(book, "Use book a call today.");
@@ -165,36 +165,36 @@ test("streams a price and a web address that arrive in small pieces", () => {
   assert.equal(all.includes(".html"), false);
   assert.equal(all.includes("https"), false);
   assert.equal(all.includes("cal.com"), false);
-  assert.match(all, /the free audit/);
+  assert.match(all, /the Free Website Check/);
   assert.match(all, /book a call/);
 });
 
 test("drops the apology for not pasting an address", () => {
-  const text = "I can't give the exact page address, but you can find the free audit on the site.";
+  const text = "I can't give the exact page address, but you can find the Free Website Check on the site.";
   const stream = createPriceStream(allowed, standIn);
   const all = stream.push(text) + stream.flush();
   assert.equal(all.includes("can't give"), false);
-  assert.match(all, /^You can find the free audit/);
+  assert.match(all, /^You can find the Free Website Check/);
   const pasted = createPriceStream(allowed, standIn);
-  const second = pasted.push("I can't paste links. The free audit is a 30 minute call.") + pasted.flush();
+  const second = pasted.push("I can't paste links. The Free Website Check is a 30 minute call.") + pasted.flush();
   assert.equal(second.includes("paste"), false);
-  assert.match(second, /^The free audit/);
+  assert.match(second, /^The Free Website Check/);
   const joined = createPriceStream(allowed, standIn);
-  const third = joined.push("I can't paste links, but you can find the free audit on the site.") + joined.flush();
+  const third = joined.push("I can't paste links, but you can find the Free Website Check on the site.") + joined.flush();
   assert.equal(third.includes("paste"), false);
-  assert.match(third, /^You can find the free audit/);
+  assert.match(third, /^You can find the Free Website Check/);
   const pieces = createPriceStream(allowed, standIn);
-  const live = "I can't paste links, but you can find the free audit on the site.";
+  const live = "I can't paste links, but you can find the Free Website Check on the site.";
   let streamed = "";
   for (let i = 0; i < live.length; i += 5) streamed += pieces.push(live.slice(i, i + 5));
   streamed += pieces.flush();
   assert.equal(streamed.includes("paste"), false);
-  assert.match(streamed, /You can find the free audit/);
+  assert.match(streamed, /You can find the Free Website Check/);
   const words = createPriceStream(allowed, standIn);
-  const tokens = ["I", " can't", " paste", " links,", " but", " you", " can", " find the free audit on the site."];
+  const tokens = ["I", " can't", " paste", " links,", " but", " you", " can", " find the Free Website Check on the site."];
   const wordy = tokens.map((token) => words.push(token)).join("") + words.flush();
   assert.equal(wordy.includes("paste"), false);
-  assert.match(wordy, /You can find the free audit/);
+  assert.match(wordy, /You can find the Free Website Check/);
 });
 
 test("streams a path that arrives in pieces", () => {
@@ -205,7 +205,7 @@ test("streams a path that arrives in pieces", () => {
   const all = head + mid + end;
   assert.equal(all.includes(".html"), false);
   assert.equal(all.includes("/clock"), false);
-  assert.match(all, /the free audit/);
+  assert.match(all, /the Free Website Check/);
   assert.equal(all.includes("£11 billion"), false);
   assert.equal(all.includes("£"), false);
 });

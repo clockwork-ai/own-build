@@ -64,7 +64,7 @@ export function normaliseMessages(
     return {
       ok: false,
       status: 400,
-      error: "That's as far as this chat goes. Book the free audit and Callum will take it from there.",
+      error: "That's as far as this chat goes. Book the Free Website Check and Callum will take it from there.",
     };
   }
   const messages: ChatTurn[] = [];
@@ -153,7 +153,7 @@ function wordsFor(raw: string, links: PathLinks): string {
   }
   const host = url.hostname.replace(/^www\./, "");
   const path = url.pathname.replace(/\.html$/i, "");
-  if (path === links.audit.replace(/\.html$/i, "") || path === "/clockwork-check") return `the free audit${trailing}`;
+  if (path === links.audit.replace(/\.html$/i, "") || path === "/clockwork-check") return `the Free Website Check${trailing}`;
   if (host === "cal.com" || host === "wa.me") {
     return host === "wa.me" ? `WhatsApp${trailing}` : `book a call${trailing}`;
   }
