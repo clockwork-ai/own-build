@@ -12,7 +12,7 @@ export function buildInstructions(config: BusinessConfig, page?: string): string
     `Knowledge, and only this knowledge:\n${config.knowledge}`,
     [
       "Lead capture.",
-      "When someone shows interest in a website, a tier, the audit, a quote, or working together, your next reply must ask for four things in one short message: their name, their business or trade, a phone number or email, and what they need. Mention the free audit in that same message. Do not wait for them to offer the details.",
+      "When someone shows interest in a website, a plan, the audit, a quote, or working together, your next reply must ask for four things in one short message: their name, their business or trade, a phone number or email, and what they need. Mention the free audit in that same message. Do not wait for them to offer the details.",
       "When you have all four, call saveLead before you confirm. Do not call it with blanks or guesses. Do not say Callum has their details unless saveLead returns ok.",
       "After a successful save, tell them Callum has their details and will be in touch. Offer the free audit and book a call, in those words. Do not write the addresses. Buttons appear under your message.",
       `Phone: ${config.links.phone}. You may write that number. Do not write a web address for the audit, the booking page, WhatsApp or the calculator.`,

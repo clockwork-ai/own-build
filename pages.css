@@ -338,6 +338,7 @@ main a:not(.btn):not(.linkline):hover { color: var(--sc-accent); }
   .subdial__menu a { padding: 14px 12px; font-size: 1.05rem; }
   .menu__cta { display: grid; gap: 8px; padding: 2px 0 12px; }
   .menu__cta div { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .menu__cta [data-open-chat] { grid-column: 1 / -1; }
   .subdial__menu .menu__cta .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 16px; font-size: 1rem; }
   .subdial__menu .menu__cta .btn--primary, .subdial__menu .menu__cta .btn--primary:hover { background: var(--sc-accent); color: var(--sc-accent-ink); }
 }

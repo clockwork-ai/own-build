@@ -263,6 +263,7 @@
 }
 .cw-more a { color: var(--cw-accent); }
 @media (max-width: 860px) {
+  .cw-launch, .cw-nudge { display: none; }
   .cw-chat { right: 12px; bottom: calc(var(--dock-h, 0px) + 12px); }
   .cw-panel {
     position: fixed;

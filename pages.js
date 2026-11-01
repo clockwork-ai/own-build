@@ -87,7 +87,7 @@
     const add = html => { const li = document.createElement('li'); li.innerHTML = html; menu.appendChild(li); return li; };
     // Phones: the same three actions as the dock, at the top of the menu.
     const book = $('.dock .btn--primary'), wa = $('.dock a[href^="https://wa.me"]');
-    if (book && wa) add(`<div class="menu__cta"><a class="btn btn--primary" href="${book.href}" target="_blank" rel="noopener">Book a free 30-minute call</a><div><a class="btn btn--ghost" href="tel:+447460038202">Call</a><a class="btn btn--ghost" href="${wa.href}" target="_blank" rel="noopener">WhatsApp</a></div></div>`);
+    if (book && wa) add(`<div class="menu__cta"><a class="btn btn--primary" href="${book.href}" target="_blank" rel="noopener">Book a free 30-minute call</a><div><a class="btn btn--ghost" href="tel:+447460038202">Call</a><a class="btn btn--ghost" href="${wa.href}" target="_blank" rel="noopener">WhatsApp</a><button class="btn btn--ghost" type="button" data-open-chat>Chat</button></div></div>`);
     add('<div class="menu__head">Pages</div>');
     PAGES.forEach(([href, name, t]) => {
       const li = add('<a></a>'), a = li.firstChild;
@@ -112,7 +112,7 @@
     if (open) menu.querySelector('a')?.focus();
   };
   subBtn?.addEventListener('click', () => setOpen(!subWrap.hasAttribute('data-open')));
-  menu?.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
+  menu?.addEventListener('click', e => { if (e.target.closest('a, [data-open-chat]')) setOpen(false); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && subWrap?.hasAttribute('data-open')) { setOpen(false); subBtn.focus(); } });
   document.addEventListener('pointerdown', e => { if (subWrap && !subWrap.contains(e.target)) setOpen(false); });
 

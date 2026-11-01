@@ -32,7 +32,7 @@
       </form>
       <form class="cw-composer">
         <label class="sr" for="cw-input">Message</label>
-        <textarea class="cw-input" id="cw-input" rows="1" maxlength="600" placeholder="Ask about a website, the audit, or the tiers"></textarea>
+        <textarea class="cw-input" id="cw-input" rows="1" maxlength="600" placeholder="Ask about a website, the audit, or the plans"></textarea>
         <button class="cw-send" type="submit">Send</button>
       </form>
       <div class="cw-more">
@@ -68,6 +68,7 @@
   let nudgeArmed = false;
   let nudgeMode = false;
   let engaged = false;
+  let menuReturn = null;
   const seenKey = "cw-nudge-seen";
 
   function seenNudge() {
@@ -310,7 +311,10 @@
       fitPanel();
     } else {
       clearPanelFit();
-      launch.focus();
+      const back = menuReturn;
+      menuReturn = null;
+      if (back) back.focus();
+      else if (launch.offsetParent) launch.focus();
     }
   }
 
@@ -324,7 +328,7 @@
         title: "Ask Clockwork",
         launcherLabel: "Open the chat",
         greeting: "Hello, this is Clockwork AI. I can answer questions about the site and the free audit. What do you need?",
-        placeholder: "Ask about a website, the audit, or the tiers",
+        placeholder: "Ask about a website, the audit, or the plans",
         suggestions: ["What's the free audit?", "Can you do my roofing site?", "How do you help me get more reviews?"],
         nudge: {
           text: "Can you afford to miss calls while you're up a ladder or on a job? How many calls do you reckon you miss a day?",
@@ -428,6 +432,11 @@
     hideNudge();
     markNudge();
     setOpen(true);
+  });
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest("[data-open-chat]")) return;
+    menuReturn = document.querySelector(".subdial__btn");
+    launch.click();
   });
   nudgeDismiss.addEventListener("click", (event) => {
     event.stopPropagation();

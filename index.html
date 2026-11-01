@@ -195,6 +195,20 @@
     left: calc(var(--sc-gutter) - var(--d) * 0.1); top: 43%; translate: 0 -50%;
     pointer-events: none;
   }
+  @media (min-width: 861px) {
+    .hero { --hero-dial: min(54vh, 32vw); }
+    .hero__dial {
+      --d: var(--hero-dial);
+      left: auto;
+      right: calc(var(--sc-gutter) * 0.35);
+      top: calc(var(--mast, 120px) + 10px);
+      translate: 0 0;
+      z-index: 1;
+      overflow: hidden;
+      border-radius: 50%;
+    }
+  }
+  @media (min-width:861px){ .hero.is-story .hero__comp, .hero.is-story .dialmark__t { opacity:0; transition:opacity .25s var(--sc-ease-out) } }
   .plane { position: absolute; inset: 0; transform-origin: 50% 50%; }
   .plane svg { width: 100%; height: 100%; overflow: visible; }
   .plane--face  { -webkit-mask-image: linear-gradient(to bottom, #000 58%, rgba(0,0,0,.28) 86%); mask-image: linear-gradient(to bottom, #000 58%, rgba(0,0,0,.28) 86%); transform: scale(calc(1 + var(--hx, 0) * 0.5)); opacity: calc(1 - max(0, var(--hx, 0) - 0.4) * 1.7); }
@@ -263,6 +277,16 @@
   .hero__copyin { transition: opacity 360ms var(--sc-ease-out), transform 360ms var(--sc-ease-out); }
 
   .hero__copy { position: absolute; left: var(--sc-gutter); right: var(--sc-gutter); bottom: clamp(2.5rem, 9vh, 6rem); z-index: 20; max-width: 44rem; }
+  @media (min-width: 861px) {
+    .hero__copy {
+      z-index: 30;
+      right: auto;
+      width: min(40rem, calc(100% - var(--hero-dial) - var(--sc-gutter) - 4rem));
+      max-width: min(40rem, calc(100% - var(--hero-dial) - var(--sc-gutter) - 4rem));
+    }
+    .hero__copy h1 { max-width: 100%; }
+    .plane--glass { z-index: 2; }
+  }
   .hero__copy h1 { font-size: clamp(2.7rem, 1.4rem + 4.6vw, 6.2rem); line-height: 0.98; }
   .hero__copy h1 em { font-style: italic; color: var(--sc-accent); }
   .hero__copy p { margin: 18px 0 0; max-width: 34ch; font-size: var(--sc-t-lg); line-height: 1.45; color: color-mix(in oklab, var(--sc-ink) 86%, transparent); }
@@ -389,7 +413,7 @@
   .partlist p { margin: 0; color: color-mix(in oklab, var(--sc-ink) 84%, transparent); line-height: 1.55; }
   .partlist q { display: block; grid-column: 2; margin-top: 4px; font: 400 0.8rem/1.5 var(--sc-font-mono); color: var(--sc-ink-soft); quotes: none; }
   .partlist q::before { content: "Sample message: "; color: var(--sc-accent); }
-  .control { position: sticky; top: 110px; padding: clamp(1.5rem, 3vw, 2.4rem); border-radius: 20px;
+  .control { padding: clamp(1.5rem, 3vw, 2.4rem); border-radius: 20px;
     background: linear-gradient(180deg, color-mix(in oklab, var(--sc-surface) 92%, #fff 2%), var(--sc-surface));
     box-shadow: var(--sc-e2), var(--sc-edge); border: 1px solid var(--sc-hairline); }
   .control h3 { margin: 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); }
@@ -418,6 +442,17 @@
   .work__foot div { border-top: 1px solid var(--sc-hairline); padding-top: 16px; }
   .work__foot h3 { margin: 0 0 6px; font: 500 0.98rem/1.3 var(--sc-font-text); }
   .work__foot p { margin: 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.55; }
+  .demostrip {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap;
+    padding: 16px var(--sc-gutter); min-height: 64px;
+    background: #101114; color: var(--sc-ink); text-decoration: none;
+    border-top: 1px solid color-mix(in oklab, var(--sc-accent) 45%, transparent);
+  }
+  .demostrip__kicker { font: 500 0.72rem/1 var(--sc-font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--sc-accent); }
+  .demostrip__name { font: 400 1.2rem/1.3 var(--sc-font-display); }
+  .demostrip__go { color: var(--sc-accent); font-size: 1.1rem; }
+  .demostrip:hover .demostrip__name { color: var(--sc-accent); }
+  .demostrip:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: -3px; }
   .linkline { display: inline-flex; align-items: center; gap: 8px; margin-top: 26px; color: var(--sc-ink); text-decoration: none; border-bottom: 1px solid var(--lume-45); padding-bottom: 3px; transition: border-color 160ms var(--sc-ease-out), color 160ms var(--sc-ease-out); }
   .linkline:hover { border-color: var(--sc-accent); color: var(--sc-accent); }
   .linkline:active { opacity: 0.8; }
@@ -428,7 +463,7 @@
   .offer2 .lede-p { margin: 18px 0 0; max-width: 46ch; font-size: var(--sc-t-lg); line-height: 1.5; color: color-mix(in oklab, var(--sc-ink) 82%, transparent); }
 
   .pick { display: grid; grid-template-columns: minmax(17rem, 0.85fr) 1.15fr; gap: clamp(1.5rem, 4vw, 4.5rem); margin-top: clamp(2.5rem, 6vh, 4rem); align-items: start; }
-  .pick__list { display: grid; gap: 10px; position: sticky; top: 110px; }
+  .pick__list { display: grid; gap: 10px; }
   .pick__btn {
     display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%;
     min-height: 64px; padding: 16px 20px; border-radius: 16px; cursor: pointer; text-align: left;
@@ -603,12 +638,28 @@
     }
     .dock .btn { min-height: 48px; padding: 0 12px; font-size: 0.92rem; }
 
-    .hero__dial { --d: min(88vw, 50svh); left: 50%; top: calc(env(safe-area-inset-top, 0px) + 132px); translate: -50% 0; }
+    .hero { display: flow-root; }
+    .hero__dial {
+      --d: min(56vw, 26svh);
+      position: relative;
+      left: auto; right: auto; top: auto;
+      translate: none;
+      margin: calc(env(safe-area-inset-top, 0px) + 92px) auto 0;
+      z-index: 2;
+    }
     .hero__plate img { object-position: 50% 60%; }
     .hero__shade { background: linear-gradient(to top, rgba(9,10,13,.94) 0%, rgba(9,10,13,.6) 34%, transparent 58%), linear-gradient(to bottom, rgba(9,10,13,.5), transparent 30%); }
-    .hero__copy { bottom: calc(var(--dock-h) + 22px); }
-    .hero__copy h1 { font-size: clamp(2.5rem, 11vw, 3.4rem); }
-    .hero__copy p { font-size: 1.05rem; margin-top: 12px; padding-right: 4.75rem; }
+    .hero__copy {
+      position: relative;
+      left: auto; right: auto; bottom: auto;
+      width: auto;
+      max-width: none;
+      margin: 14px var(--sc-gutter) 0;
+      padding-bottom: calc(var(--dock-h) + 16px);
+      z-index: 3;
+    }
+    .hero__copy h1 { font-size: clamp(2.15rem, 9vw, 3rem); }
+    .hero__copy p { font-size: 1.02rem; margin-top: 12px; padding-right: 0; }
     .hero__copy .cta-row { display: none; }
     .story { left: var(--sc-gutter); right: var(--sc-gutter); width: auto; top: auto; bottom: calc(var(--dock-h) + 16px); display: block; min-height: 12rem; }
     .scard { position: absolute; left: 0; right: 0; bottom: 0; }
@@ -690,8 +741,8 @@
       min-height: 40px;
       padding: calc(env(safe-area-inset-top, 0px) + 8px) 8px 8px;
     }
-    .hero__dial { --d: min(64vw, 32svh); top: calc(env(safe-area-inset-top, 0px) + 112px); }
-    .hero__comp { top: 12%; width: 54%; }
+    .hero__dial { --d: min(52vw, 22svh); margin-top: calc(env(safe-area-inset-top, 0px) + 84px); }
+    .hero__comp { top: 18%; width: 62%; }
     .comp__swipe { display: none; }
     .hero__copy h1 { font-size: clamp(1.65rem, 7.6vw, 2rem); }
     .hero__copy p { font-size: 0.9rem; margin-top: 8px; line-height: 1.35; }
@@ -707,16 +758,12 @@
     .dock .btn svg { width: 16px; height: 16px; }
   }
   @media (min-width: 861px) and (max-height: 700px) {
-    .hero__dial {
-      --d: min(48vh, 38vw);
-      top: calc(var(--mast, 118px) + 6px);
-      translate: 0 0;
-    }
+    .hero { --hero-dial: min(40vh, 26vw); }
     .comp__swipe { display: none; }
     .hero__comp { top: 8%; }
     .hero__copy { bottom: 1rem; }
-    .hero__copy h1 { font-size: clamp(2.1rem, 3.6vw, 3.2rem); }
-    .hero__copy p { margin-top: 10px; }
+    .hero__copy h1 { font-size: clamp(1.85rem, 3vw, 2.6rem); }
+    .hero__copy p { margin-top: 8px; }
   }
   .tally__cap { display: none; }
 
@@ -782,6 +829,7 @@
     .subdial__menu a { padding: 14px 12px; font-size: 1.05rem; }
     .menu__cta { display: grid; gap: 8px; padding: 2px 0 12px; }
     .menu__cta div { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .menu__cta [data-open-chat] { grid-column: 1 / -1; }
     .subdial__menu .menu__cta .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 16px; font-size: 1rem; }
     .subdial__menu .menu__cta .btn--primary, .subdial__menu .menu__cta .btn--primary:hover { background: var(--sc-accent); color: var(--sc-accent-ink); }
   }
@@ -906,7 +954,7 @@
       <div class="hero__copy" data-sc-cue="0 0.74 0">
         <div class="hero__copyin">
         <h1 class="sc-display">Your business, running like <em>clockwork.</em></h1>
-        <p>Built first for roofers. I come out to trades in person across Manchester, Bolton, Stockport, Cheshire and the North West. Website, on-site content day, then missed calls answered and a text back.</p>
+        <p>More booked jobs, fewer missed calls, and your evenings back. Built by a tradesman.</p>
         <div class="cta-row">
           <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
           <span class="note">No obligation. Built in Manchester.</span>
@@ -915,6 +963,12 @@
       </div>
     </div>
   </section>
+
+  <a class="demostrip" href="https://aldwyn.clockworkai.app" target="_blank" rel="noopener" aria-label="See the work: Aldwyn Studio, a demo site I built (opens in a new tab)">
+    <span class="demostrip__kicker">See the work</span>
+    <span class="demostrip__name">Aldwyn Studio, a demo site I built</span>
+    <span class="demostrip__go" aria-hidden="true">→</span>
+  </a>
 
   <!-- WHO AND WHAT · flow. Callum, who it's for, and the three steps, before the long scroll. -->
   <section id="callum" class="sc-section intro trim" data-title="Who's behind it">
@@ -932,12 +986,12 @@
     <div class="sc-wrap">
       <ol class="offerline" data-sc-in data-sc-stagger="70">
         <li><span>1</span><h3>A free Business Bottleneck Audit</h3><p>A missed-call, website and reviews check. No cost, no obligation. You talk to me.</p></li>
-        <li class="is-key"><span>2</span><h3>A tier, if it's worth it</h3><p>Foundation, Growth or Autopilot. Fixed setup plus a simple monthly plan, priced on the call.</p></li>
+        <li class="is-key"><span>2</span><h3>Pick a plan that fits</h3><p>Foundation, Growth or Autopilot. Fixed setup plus a simple monthly plan, priced on the call.</p></li>
         <li><span>3</span><h3>I build it</h3><p>Handed over from day one if you pay upfront, or after your 12th monthly payment: a full copy of the files and code, or the site moved into an account in your name. The system runs on the monthly plan. You check it before it goes live.</p></li>
       </ol>
       <div class="cta-row offerline__cta" data-sc-in>
         <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
-        <a class="linkline" href="/services#tiers">See the three tiers <span aria-hidden="true">→</span></a>
+        <a class="linkline" href="/services#tiers">See the three plans <span aria-hidden="true">→</span></a>
       </div>
       <p class="sc-body" data-sc-in style="margin-top:1.5rem">The first job I can show you is just below. After that, the evenings I used to lose.</p>
     </div>
@@ -1009,12 +1063,12 @@
     </div>
   </section>
 
-  <!-- WHAT WE DO · interactive. Start from the visitor's problem, show it working, then the tiers. -->
+  <!-- WHAT WE DO · interactive. Start from the visitor's problem, show it working, then the plans. -->
   <section id="offer" class="sc-section offer2 trim" data-title="What I do" data-sc-act="flow">
     <div class="sc-wrap">
       <div class="sc-stack" data-sc-in data-sc-stagger="70">
         <h2 class="sc-display lede-h">What's slowing you down?</h2>
-        <p class="lede-p">Tap the one that sounds like you. I'll show you what I'd set up, what you'd do, and which tier it sits on.</p>
+        <p class="lede-p">Tap the one that sounds like you. I'll show you what I'd set up, what you'd do, and which plan it sits on.</p>
       </div>
 
       <div class="pick">
@@ -1161,15 +1215,15 @@
           <details><summary>What if it says something wrong?</summary><p>You agree the wording before anything goes live, and anything unusual, like prices or discounts, comes to you first. Every message is logged, so you can check it any time.</p></details>
           <details><summary>When do I get the website?</summary><p>Handed over from day one if you pay upfront, or after your 12th monthly payment: a full copy of the files and code, or the site moved into an account in your name. If you stop the monthly payments before the 12th, the site comes offline. The domain name is in your name either way. Hosting and care is a separate monthly service you can cancel any month. Missed calls answered, the chat box and review requests run on a monthly plan. What that covers, and the price, are agreed on your free call and put in writing before I start. I don't set a minimum term on this page.</p></details>
           <details><summary>It's just you. What if you're ill or on holiday?</summary><p>Everything I build runs on its own, with backups in place, so it keeps working whether I'm at my desk or not. My own business runs the same way, so bookings and messages don't stop when I'm away.</p></details>
-          <details><summary>What does it cost?</summary><p>Fixed setup plus a simple monthly plan, priced on your free call. The first conversation is free. I don't publish tier prices on this site.</p></details>
+          <details><summary>What does it cost?</summary><p>Fixed setup plus a simple monthly plan, priced on your free call. The first conversation is free. I don't publish plan prices on this site.</p></details>
           <details><summary>What about my customers' details?</summary><p>They stay in the apps you already use: your phone, email, calendar and job software. I only use what I need to set things up and fix them. <a href="/privacy">Read how I handle data.</a></p></details>
         </div>
       </div>
 
       <div class="pricelist" id="tiers" data-sc-in>
-        <h2 class="sc-display">Six parts, in three tiers.</h2>
+        <h2 class="sc-display">Six parts, in three plans.</h2>
         <p class="founding">Missed calls answered, a chat box on your site, old quotes followed up, reviews and aftercare, a simple referral ask, and reminders that bring last year's work back. Foundation, Growth and Autopilot are how those parts are grouped. Fixed setup plus a simple monthly plan, priced on your call. Handed over from day one if you pay upfront, or after your 12th monthly payment: a full copy of the files and code, or the site moved into an account in your name. The system runs on the monthly plan.</p>
-        <p style="margin-top:18px"><a class="linkline" href="/services">The six parts, tier by tier <span aria-hidden="true">→</span></a></p>
+        <p style="margin-top:18px"><a class="linkline" href="/services">The six parts, plan by plan <span aria-hidden="true">→</span></a></p>
         <p class="founding"><b>Founding clients:</b> the first three clients get 30% off, 2 spaces left, in return for a case study, a testimonial and permission to show the work. The figure itself is agreed on the call.</p>
       </div>
     </div>
@@ -1386,7 +1440,7 @@
   const PAGES = [['/roofers', 'Roofers', '07:30'], ['/how-it-works', 'How it works', '06:30'], ['/services', 'Services', '09:00'], ['/missed-calls', 'Missed calls', '10:42'], ['/clockwork-check', 'Free audit', '11:00'], ['/work', 'My work', '14:00'], ['/about', 'About', '17:30'], ['/book', 'Book a call', '08:00']];
   function buildMenu() {
     const book = $('.dock .btn--primary'), wa = $('.dock a[href^="https://wa.me"]');
-    menu.innerHTML = `<li><div class="menu__cta"><a class="btn btn--primary" href="${book.href}" target="_blank" rel="noopener">Book a free 30-minute call</a><div><a class="btn btn--ghost" href="tel:+447460038202">Call</a><a class="btn btn--ghost" href="${wa.href}" target="_blank" rel="noopener">WhatsApp</a></div></div></li><li><div class="menu__head">Pages</div></li>`;
+    menu.innerHTML = `<li><div class="menu__cta"><a class="btn btn--primary" href="${book.href}" target="_blank" rel="noopener">Book a free 30-minute call</a><div><a class="btn btn--ghost" href="tel:+447460038202">Call</a><a class="btn btn--ghost" href="${wa.href}" target="_blank" rel="noopener">WhatsApp</a><button class="btn btn--ghost" type="button" data-open-chat>Chat</button></div></div></li><li><div class="menu__head">Pages</div></li>`;
     PAGES.forEach(([href, name, t]) => {
       const li = document.createElement('li'), a = document.createElement('a');
       a.href = href; a.innerHTML = `<time>${t}</time><span></span>`; a.lastChild.textContent = name;
@@ -1424,7 +1478,7 @@
     if (open) menu.querySelector('a')?.focus();
   };
   subBtn.addEventListener('click', () => setOpen(!subWrap.hasAttribute('data-open')));
-  menu.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
+  menu.addEventListener('click', e => { if (e.target.closest('a, [data-open-chat]')) setOpen(false); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && subWrap.hasAttribute('data-open')) { setOpen(false); subBtn.focus(); } });
   document.addEventListener('pointerdown', e => { if (!subWrap.contains(e.target)) setOpen(false); });
 
