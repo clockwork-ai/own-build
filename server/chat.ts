@@ -31,7 +31,7 @@ function json(body: unknown, status = 200, extra?: HeadersInit): Response {
 
 function limited(retryAfter: number): Response {
   return json(
-    { error: "You've sent quite a few messages. Give it a minute, or book the free audit." },
+    { error: "You've sent quite a few messages. Give it a minute, or book the Free Website Check." },
     429,
     { "retry-after": String(retryAfter) },
   );
@@ -82,7 +82,7 @@ export async function POST(request: Request): Promise<Response> {
     if (!saved.ok) {
       return json(
         {
-          error: "I couldn't save that just now. Book the free audit, or WhatsApp Callum, and he'll take it from there.",
+          error: "I couldn't save that just now. Book the Free Website Check, or WhatsApp Callum, and he'll take it from there.",
         },
         503,
       );
@@ -90,7 +90,7 @@ export async function POST(request: Request): Promise<Response> {
     return json({
       ok: true,
       notified: saved.notified,
-      message: `${parsed.lead.name}, that's with Callum. He'll use it to reply. The free audit is linked below if you want the 30-minute call as well.`,
+      message: `${parsed.lead.name}, that's with Callum. He'll use it to reply. The Free Website Check is linked below if you want the 30-minute call as well.`,
     });
   }
 
@@ -123,13 +123,13 @@ export async function POST(request: Request): Promise<Response> {
           if (!saved.ok) {
             return {
               ok: false,
-              error: "The details could not be stored. Ask them to book the free audit or use WhatsApp.",
+              error: "The details could not be stored. Ask them to book the Free Website Check or use WhatsApp.",
             };
           }
           return {
             ok: true,
             notified: saved.notified,
-            note: "Stored for Callum. Do not say it was emailed. Offer the free audit.",
+            note: "Stored for Callum. Do not say it was emailed. Offer the Free Website Check.",
           };
         },
       }),
@@ -164,8 +164,8 @@ export async function POST(request: Request): Promise<Response> {
         }
         if (!wrote) {
           const fallback = savedLead
-            ? "Thanks. That's with Callum. The free audit is linked below if you'd like the 30-minute call as well."
-            : "Sorry, I missed that. Ask me about the free audit, or book a call with Callum.";
+            ? "Thanks. That's with Callum. The Free Website Check is linked below if you'd like the 30-minute call as well."
+            : "Sorry, I missed that. Ask me about the Free Website Check, or book a call with Callum.";
           controller.enqueue(encoder.encode(fallback));
         }
       } catch (error) {
@@ -173,7 +173,7 @@ export async function POST(request: Request): Promise<Response> {
         if (!wrote) {
           controller.enqueue(
             encoder.encode(
-              "Sorry, I can't answer just now. Book the free audit, or ring Callum on 07460 038202.",
+              "Sorry, I can't answer just now. Book the Free Website Check, or ring Callum on 07460 038202.",
             ),
           );
         }

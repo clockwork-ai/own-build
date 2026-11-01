@@ -32,12 +32,12 @@
       </form>
       <form class="cw-composer">
         <label class="sr" for="cw-input">Message</label>
-        <textarea class="cw-input" id="cw-input" rows="1" maxlength="600" placeholder="Ask about a website, the audit, or the plans"></textarea>
+        <textarea class="cw-input" id="cw-input" rows="1" maxlength="600" placeholder="Ask about a website, the Free Website Check, or the plans"></textarea>
         <button class="cw-send" type="submit">Send</button>
       </form>
       <div class="cw-more">
         <button class="cw-details" type="button" aria-expanded="false">Leave your details</button>
-        <a class="cw-audit" href="/clockwork-check">Free audit</a>
+        <a class="cw-audit" href="/clockwork-check">Free Website Check</a>
         <a class="cw-book" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a call</a>
       </div>
     </section>
@@ -130,7 +130,7 @@
       seen.add(label);
       actions.push({ label, href, external });
     };
-    if (/free audit|bottleneck audit/i.test(text)) push("Free audit", audit.href, false);
+    if (/website check|free audit|bottleneck audit/i.test(text)) push("Free Website Check", audit.href, false);
     if (/book(?:ing)? a (?:free |30-minute )*call/i.test(text)) push("Book a call", book.href, true);
     if (/calculator/i.test(text)) {
       const filled = String(text).match(/(\d+) a day filled in/i);
@@ -327,9 +327,9 @@
       applyConfig({
         title: "Ask Clockwork",
         launcherLabel: "Open the chat",
-        greeting: "Hello, this is Clockwork AI. I can answer questions about the site and the free audit. What do you need?",
-        placeholder: "Ask about a website, the audit, or the plans",
-        suggestions: ["What's the free audit?", "Can you do my roofing site?", "How do you help me get more reviews?"],
+        greeting: "Hello, this is Clockwork AI. I can answer questions about the site and the Free Website Check. What do you need?",
+        placeholder: "Ask about a website, the Free Website Check, or the plans",
+        suggestions: ["What's the Free Website Check?", "Can you do my roofing site?", "How do you help me get more reviews?"],
         nudge: {
           text: "Can you afford to miss calls while you're up a ladder or on a job? How many calls do you reckon you miss a day?",
           delayMs: 22000,
@@ -345,7 +345,7 @@
         formTitle: "Leave your details",
         formSubmit: "Send to Callum",
         auditHref: "/clockwork-check",
-        auditLabel: "Free Business Bottleneck Audit",
+        auditLabel: "Free Website Check",
         bookHref: "https://cal.com/clockwork-ai/30min",
         bookLabel: "Book a free 30-minute call",
         phoneHref: "tel:+447460038202",
@@ -412,7 +412,7 @@
       if (/your name|phone or email|leave your details|leave my details/i.test(bubble.textContent)) openForm();
     } catch {
       bubble.className = "cw-msg cw-msg--note";
-      bubble.textContent = "Sorry, the chat didn't connect. You can still book the free audit below.";
+      bubble.textContent = "Sorry, the chat didn't connect. You can still book the Free Website Check below.";
       attachActions(bubble, bubble.textContent);
       messages.pop();
       if (!hasUserMessage()) {
@@ -492,7 +492,7 @@
       add(response.ok ? "assistant" : "note", payload.message || payload.error || "Sorry, that didn't send.");
       if (response.ok) form.reset();
     } catch {
-      add("note", "Sorry, that didn't send. Book the free audit below, or WhatsApp Callum.");
+      add("note", "Sorry, that didn't send. Book the Free Website Check below, or WhatsApp Callum.");
     } finally {
       button.disabled = false;
     }
