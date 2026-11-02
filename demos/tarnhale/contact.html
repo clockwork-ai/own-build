@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.write('<base href="'+(location.pathname.indexOf('/demos/tarnhale')===0?'/demos/tarnhale/':'/')+'">')</script>
+<title>Book a consultation | Tarnhale (demo)</title>
+<meta name="description" content="Demo site. Book a free consultation with Tarnhale, a fictional architecture studio in Lancaster.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://tarnhale.clockworkai.app/contact">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tarnhale (demo site)">
+<meta property="og:title" content="Book a consultation | Tarnhale (demo)">
+<meta property="og:description" content="Demo site. Book a free consultation with Tarnhale, a fictional architecture studio in Lancaster.">
+<meta property="og:url" content="https://tarnhale.clockworkai.app/contact">
+<meta property="og:image" content="https://tarnhale.clockworkai.app/img/fell-house.jpg">
+<meta name="theme-color" content="#F7F7F4">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Tarnhale (demo)", "description": "A fictional architecture practice. Demo site by Clockwork AI.", "url": "https://tarnhale.clockworkai.app", "areaServed": ["Lancaster", "Kendal", "Lune Valley", "Ribble Valley", "Preston", "South Lakes"], "address": {"@type": "PostalAddress", "addressLocality": "Lancaster", "addressRegion": "Lancashire", "addressCountry": "GB"}, "telephone": "+44 1632 960123", "email": "hello@tarnhale.example"}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="demo-bar" role="note" aria-label="Demo site notice"><p><strong>Demo site:</strong> Tarnhale is a fictional architecture practice, built by <a href="https://clockworkai.app" target="_blank" rel="noopener">Clockwork AI</a> to show what we make.</p></div>
+<header class="hdr" id="hdr">
+  <a class="brand" href="./" aria-label="Tarnhale, home"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 21.5 L12 9 L21.5 21.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Tarnhale</span></a>
+  <nav class="nav" aria-label="Main"><a href="projects" data-nav="projects">Projects</a><a href="services" data-nav="services">Services</a><a href="process" data-nav="process">Process</a><a href="about" data-nav="about">About</a><a href="journal" data-nav="journal">Journal</a><a href="contact" data-nav="contact">Contact</a></nav>
+  <a class="btn btn--sm hdr__cta" href="contact#enquiry">Book a consultation</a>
+  <button class="burger" id="burger" aria-expanded="false" aria-controls="mnav" aria-label="Open the menu"><i></i><i></i></button>
+</header>
+<nav class="mnav" id="mnav" aria-label="Mobile"><a href="projects">Projects</a><a href="services">Services</a><a href="process">Process</a><a href="about">About</a><a href="journal">Journal</a><a href="contact">Contact</a><a class="btn" href="contact#enquiry">Book a consultation</a></nav>
+<main id="main"><section class="page-hero wrap"><p class="mono">Contact</p><h1 class="h-hero split">Book a<br>consultation.</h1>
+<p class="lede">A free 30 minute chat about your project. Fill this in and we'll reply within two working days to find a time. <i class="sample">Sample</i></p></section>
+<section class="wrap contact" id="enquiry">
+  <form class="enq" id="enqForm" novalidate>
+    <div class="fld"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+    <div class="fld"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+    <div class="fld"><label for="f-phone">Phone <span>(optional)</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
+    <div class="fld"><label for="f-loc">Where's the project?</label><input id="f-loc" name="location" placeholder="Town or postcode" required></div>
+    <div class="fld"><label for="f-type">Project type</label><select id="f-type" name="type" required><option value="">Choose one</option><option>Extension</option><option>New home</option><option>Barn or building conversion</option><option>Interior remodel</option><option>Not sure yet</option></select></div>
+    <div class="fld"><label for="f-budget">Rough build budget</label><select id="f-budget" name="budget" required><option value="">Choose one</option><option>Under 100k</option><option>100k to 250k</option><option>250k to 500k</option><option>Over 500k</option><option>Not sure yet</option></select></div>
+    <div class="fld"><label for="f-time">When would you like to start building?</label><select id="f-time" name="timeline" required><option value="">Choose one</option><option>Within 6 months</option><option>6 to 12 months</option><option>1 to 2 years</option><option>Just exploring</option></select></div>
+    <div class="fld"><label for="f-plan">Planning status</label><select id="f-plan" name="planning" required><option value="">Choose one</option><option>Not started</option><option>Had pre-application advice</option><option>Application submitted</option><option>Planning approved</option><option>Might be permitted development</option><option>Not sure</option></select></div>
+    <div class="fld fld--wide"><label for="f-msg">Tell us a little about it</label><textarea id="f-msg" name="message" rows="4" placeholder="A few lines is plenty"></textarea></div>
+    <p class="demo-note">Demo form. Nothing you type is sent or saved.</p>
+    <button class="btn" type="submit" data-magnet>Send enquiry</button>
+  </form>
+  <div class="enq-done" id="enqDone" hidden tabindex="-1"><h2 class="h-xl">Thank you<span id="enqName"></span>.</h2><p class="lede">Demo only, nothing was sent. On a live site, the studio would get this straight away and reply to book your consultation.</p><button class="btn" type="button" id="enqAgain">Send another</button></div>
+  <aside class="contact__side">
+    <div><p class="mono">Call</p><p><a href="tel:01632960123">01632 960 123</a></p></div>
+    <div><p class="mono">Write</p><p><a href="mailto:hello@tarnhale.example">hello@tarnhale.example</a></p></div>
+    <div><p class="mono">Studio</p><p>Lancaster, by appointment <i class="sample">Sample</i></p></div>
+    <div><p class="mono">Hours</p><p>Mon to Fri, 9 to 5 <i class="sample">Sample</i></p></div>
+    <button class="btn btn--ghost" type="button" data-chat-open data-chat-intent="book">Book through the chat</button>
+  </aside>
+</section></main>
+<footer class="ftr">
+  <div class="wrap ftr__grid">
+    <div><a class="brand brand--lg" href="./"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 21.5 L12 9 L21.5 21.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Tarnhale</span></a>
+      <p class="ftr__lede">Homes shaped by light, land and the way you live. An architecture studio in Lancaster, working across the North West. <i class="sample">Sample</i></p></div>
+    <div><p class="mono">Visit</p><p>Studio in Lancaster <i class="sample">Sample</i><br>By appointment</p></div>
+    <div><p class="mono">Talk</p><p><a href="tel:01632960123">01632 960 123</a><br><a href="mailto:hello@tarnhale.example">hello@tarnhale.example</a></p></div>
+    <div><p class="mono">Pages</p><p><a href="projects">Projects</a><br><a href="services">Services</a><br><a href="process">Process</a><br><a href="about">About</a><br><a href="journal">Journal</a><br><a href="contact">Contact</a><br><a href="credits">Photo credits</a></p></div>
+  </div>
+  <div class="wrap ftr__base"><span>&copy; 2026 Tarnhale. A fictional practice, not a real business.</span><span>Demo site by <a href="https://clockworkai.app" target="_blank" rel="noopener">Clockwork AI</a></span></div>
+</footer>
+<div class="cursor" aria-hidden="true"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
+<script src="main.js" defer></script>
+<script src="chat.js" defer></script>
+</body>
+</html>
