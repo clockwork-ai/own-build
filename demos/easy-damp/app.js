@@ -78,7 +78,7 @@
   var stack = [];
   var cur = null;
 
-  function guideIndex(name) { for (var i = 0; i < GUIDE.length; i++) if (GUIDE[i][1].indexOf(name) >= 0) return i; return 0; }
+  function guideIndex(name) { if (name === "welcome") return -1; for (var i = 0; i < GUIDE.length; i++) if (GUIDE[i][1].indexOf(name) >= 0) return i; return 0; }
   function renderGuide(name) {
     var gi = guideIndex(name);
     $("#guideSteps").innerHTML = GUIDE.map(function (g, i) {
@@ -101,6 +101,9 @@
     $("#act").innerHTML = "";
     SCREENS[cur.name](v, cur.arg);
     v.scrollTop = 0;
+    var gi = guideIndex(cur.name);
+    $("#coachStep").textContent = cur.name === "welcome" ? "Welcome" : "Step " + (gi + 1) + " of " + GUIDE.length;
+    coach.plan(PLANS[cur.name] ? PLANS[cur.name](cur.arg) : []);
     try { v.focus({ preventScroll: true }); } catch (e) {}
   }
   function title(t) { $("#title").textContent = t; }
@@ -117,8 +120,152 @@
   }
   function closeSheet() { var s = $("#sheet"); s.hidden = true; s.innerHTML = ""; }
 
+  /* ---------- Click guidance ---------- */
+  // Each screen has a list of steps. The current step's element gets an orange
+  // ring and a "Tap here" label, everything else is dimmed, and taps anywhere
+  // else are caught and pointed back to the right place.
+  var coach = (function () {
+    var app = $("#app"), hole, tag, steps = [], i = 0, token = 0, clickToken = -1, saved = [], raf = 0, scrolled = -1, prev = null, prevAt = 0;
+    hole = document.createElement("div"); hole.className = "coach-hole"; hole.hidden = true; app.appendChild(hole);
+    tag = document.createElement("div"); tag.className = "coach-tag"; tag.hidden = true; tag.setAttribute("aria-hidden", "true"); app.appendChild(tag);
+    function cur() { return steps[i]; }
+    function allowed(t) {
+      if (!t.closest) return true;
+      if (t.closest("#back")) return !$(".mk");
+      if (t.closest("#restart, .coach-bar, .sheet, .toast")) return true;
+      var s = cur(); if (!s) return true;
+      return !!t.closest(s.sel + (s.allow ? ", " + s.allow : ""));
+    }
+    function guard(e) {
+      if (!cur() || !$("#sheet").hidden) return;
+      if (allowed(e.target)) { if (e.type === "click") clickToken = token; return; }
+      e.preventDefault(); e.stopPropagation();
+      // The click that ends a drag or signature lands after the step has moved on. Ignore it quietly.
+      var quiet = prev && Date.now() - prevAt < 800 && e.target.closest(prev);
+      if (e.type === "click" && !quiet) {
+        toast("Not that one. " + cur().text);
+        hole.classList.remove("is-nudge"); void hole.offsetWidth; hole.classList.add("is-nudge");
+      }
+    }
+    app.addEventListener("pointerdown", guard, true);
+    app.addEventListener("click", guard, true);
+    app.addEventListener("click", function (e) {
+      var s = cur();
+      if (!s || s.manual || clickToken !== token || !e.target.closest || !e.target.closest(s.sel)) return;
+      var t = token; setTimeout(function () { if (t === token) next(); }, 0);
+    });
+    function render() {
+      var s = cur();
+      $("#coachText").textContent = s ? s.text : "";
+      if (!s) { hole.hidden = tag.hidden = true; return; }
+      tag.textContent = s.label || "Tap here";
+      if (!raf) raf = requestAnimationFrame(loop);
+    }
+    function loop() {
+      raf = 0;
+      var s = cur(); if (!s) { hole.hidden = tag.hidden = true; return; }
+      raf = requestAnimationFrame(loop);
+      var el = $(s.sel);
+      if (!el || !el.getClientRects().length || !$("#sheet").hidden) { hole.hidden = tag.hidden = true; return; }
+      if (scrolled !== token) {
+        scrolled = token;
+        var view = $("#view");
+        if (view.contains(el)) {
+          var vr = view.getBoundingClientRect(), er = el.getBoundingClientRect();
+          if (er.top < vr.top + 8 || er.bottom > vr.bottom - 60) el.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+        }
+      }
+      var a = app.getBoundingClientRect(), r = el.getBoundingClientRect(), pad = 5;
+      var br = parseFloat(getComputedStyle(el).borderTopLeftRadius) || 8;
+      hole.hidden = tag.hidden = false;
+      hole.style.left = (r.left - a.left - pad) + "px"; hole.style.top = (r.top - a.top - pad) + "px";
+      hole.style.width = (r.width + pad * 2) + "px"; hole.style.height = (r.height + pad * 2) + "px";
+      hole.style.borderRadius = (br + pad) + "px";
+      var tw = tag.offsetWidth, th = tag.offsetHeight, cx = r.left - a.left + r.width / 2;
+      var x = Math.min(Math.max(10, cx - tw / 2), a.width - tw - 10);
+      var above = (r.top - a.top) > a.height * 0.5 || s.above;
+      var y = above ? r.top - a.top - pad - th - 12 : r.bottom - a.top + pad + 12;
+      if (s.inside) { above = false; y = r.top - a.top + Math.min(r.height * 0.35, 90); }
+      tag.className = "coach-tag " + (above ? "is-above" : "is-below");
+      tag.style.left = x + "px"; tag.style.top = y + "px";
+      tag.style.setProperty("--ax", Math.min(Math.max(14, cx - x), tw - 14) + "px");
+    }
+    function plan(list) { steps = list || []; i = 0; token++; render(); }
+    function next() { var s = cur(); if (s) { prev = s.sel + (s.allow ? ", " + s.allow : ""); prevAt = Date.now(); } i++; token++; render(); }
+    return {
+      plan: plan, next: next,
+      event: function (name) { var s = cur(); if (s && s.on === name) next(); },
+      push: function (list) { saved.push({ steps: steps, i: i }); plan(list); },
+      pop: function (advance) { var p = saved.pop(); if (!p) return; steps = p.steps; i = p.i; token++; if (advance) next(); else render(); },
+    };
+  })();
+
+  var PLANS = {
+    welcome: function () { return [{ sel: "#go", text: "Follow the orange ring and tap where it says.", label: "Start here" }]; },
+    jobs: function () { return [{ sel: "[data-go]", text: "A new enquiry has come in from the website. Tap Sarah Holt's job." }]; },
+    enquiry: function () { return [{ sel: "#go", text: "The job's filled in from the website form. Tap Start the survey." }]; },
+    type: function () { return [{ sel: "#go", text: "Rising damp is picked for this demo. Tap Rising damp: carry on.", allow: ".type" }]; },
+    property: function () { return [{ sel: "#go", text: "The property details are filled in. Tap Looks right." }]; },
+    rooms: function () {
+      return S.rooms.front.done
+        ? [{ sel: "#go", text: "All rooms logged. Tap Next: floor plan." }]
+        : [{ sel: '[data-room="front"]', text: "Tap Front room to log it. The other rooms are already done." }];
+    },
+    room: function (id) {
+      if (id !== "front" || S.rooms.front.done) return [{ sel: "#save", text: "Tap Back to rooms." }];
+      return [
+        { sel: "#readAll", text: "Tap Take all readings. The meter reads each height up the wall.", on: "readings", manual: true, allow: "[data-read]" },
+        { sel: ".thumb--add", text: "Tap Take a photo of the damp wall." },
+        { sel: "#mic", text: "Tap the mic and say what you see. It gets typed up for you.", on: "voice", manual: true, allow: "#notes" },
+        { sel: "#save", text: "Findings are ticked and the rating is set to red from the readings. Tap Save room.", allow: "#obs .chip, #rag button, #notes" },
+      ];
+    },
+    plan: function () {
+      return [
+        { sel: "#plan svg", text: "Tap inside the front room on the plan to drop a red pin.", label: "Tap the front room", on: "pin", manual: true, inside: true },
+        { sel: "#go", text: "Pin dropped. Tap Next: findings and quote.", allow: "#undoPin" },
+      ];
+    },
+    findings: function () { return [{ sel: "#go", text: "Reds come first, so the customer knows what to look at. Tap Next: customer signs.", allow: "#works .work" }]; },
+    custsign: function () {
+      return [
+        { sel: "#sig", text: "Hand the phone over. Sign in the box with a finger, or tap Sign for me.", label: "Sign here", on: "sig", manual: true, allow: "#fake", inside: true },
+        { sel: "#go", text: "Signed. Tap Done, back to Chris." },
+      ];
+    },
+    review: function () {
+      return [
+        { sel: "#sig", text: "Check the list, then sign to approve it. Or tap Sign for me.", label: "Sign here", on: "sig", manual: true, allow: "#fake, #prev", inside: true },
+        { sel: "#go", text: "Tap Approve and send. This builds the customer's PDF." },
+      ];
+    },
+    sent: function () {
+      return [
+        { sel: "#op", text: "Done. Tap Open PDF to see the report the customer gets.", allow: "#dl, #go" },
+        { sel: "#go", text: "Tap What happens next.", allow: "#dl, #op" },
+      ];
+    },
+    after: function () { return [{ sel: "#again", text: "That's the whole job, from enquiry to review request. Tap Start again to run it again.", allow: "#dl" }]; },
+  };
+
   /* ---------- Screens ---------- */
   var SCREENS = {};
+
+  SCREENS.welcome = function (v) {
+    title("Survey app");
+    v.innerHTML = '<div class="welcome"><p class="welcome__kicker">Easy Damp survey app demo</p>' +
+      "<h2>A 4-minute walk through a real damp survey.</h2>" +
+      '<p class="sub">Just follow the orange arrows. Tap where it says and you\'ll go from a new enquiry to a finished customer report.</p>' +
+      '<div class="welcome__look"><span class="welcome__ring" aria-hidden="true"></span><span class="small">Look for the orange ring. Everything else is faded until you need it.</span></div>' +
+      "<ul>" +
+        "<li>" + I.tick + "<span>Log a rising damp survey: readings, a photo, a voice note.</span></li>" +
+        "<li>" + I.tick + "<span>Get a signed, branded PDF report for the customer.</span></li>" +
+        "<li>" + I.tick + "<span>Fictional customer. Nothing is sent to anyone.</span></li>" +
+      "</ul>" +
+      '<p class="small" style="margin-top:16px">Stuck? Tap Start again at the top at any time.</p></div>';
+    act('<button class="btn" id="go">Start the demo</button>');
+    $("#go").onclick = function () { stack = []; cur = null; go("jobs"); };
+  };
 
   SCREENS.jobs = function (v) {
     title("Today");
@@ -228,6 +375,7 @@
       (function tick(t) { var p = D ? Math.min(1, (t - t0) / D) : 1; cell.textContent = Math.round(val * p); bar.style.width = Math.min(100, val * p / 30 * 100) + "%"; if (p < 1) requestAnimationFrame(tick); })(t0);
       if (st.readings.every(function (w) { return w.every(function (x) { return x != null; }); })) {
         var ra = $("#readAll"); if (ra) ra.remove();
+        coach.event("readings");
         if (!st.rag) { st.rag = "red"; $$("#rag button").forEach(function (b) { b.classList.toggle("is-on", b.dataset.v === "red"); }); toast("Readings done. Wet up to 600mm, so it's set to red. Change it if you disagree."); }
       }
     }
@@ -268,6 +416,7 @@
       if (mic.classList.contains("is-rec")) return stopRec();
       mic.classList.add("is-rec"); mic.innerHTML = I.stop; wave.classList.add("is-rec");
       $("#micHint").textContent = "Recording. Tap again to stop.";
+      $("#coachText").textContent = "Recording. Talk, or just wait. It stops on its own.";
       animT = setInterval(function () { bars.forEach(function (b) { b.style.height = (6 + Math.random() * 30) + "px"; }); }, 110);
       recT = setTimeout(stopRec, 4200);
     };
@@ -283,6 +432,7 @@
         if (i < txt.length) return setTimeout(type, 18);
         ta.classList.remove("typing");
         $("#micHint").textContent = "Note typed up. You can edit it.";
+        setTimeout(function () { coach.event("voice"); }, 300);
         if (R.todo) {
           var added = 0;
           R.observations.forEach(function (o) { if (st.obs.indexOf(o) < 0) { st.obs.push(o); added++; } });
@@ -362,16 +512,24 @@
 
   function markup(pid, done) {
     var P = S.photos[pid], tool = "arrow", drag = null, pendingNote = null;
-    var el = document.createElement("div"); el.className = "mk";
+    var el = document.createElement("div"); el.className = "mk"; el.dataset.coached = "1";
     el.innerHTML = '<div class="mk__top"><b>Mark up the photo</b></div><div class="mk__stage"><canvas></canvas></div><p class="mk__hint" id="mkHint"></p>' +
       '<div class="mk__note" id="mkNote" hidden><input id="mkText" maxlength="40" placeholder="Type a short note" aria-label="Note text"><button class="btn btn--sm" id="mkAdd">Add</button></div>' +
       '<div class="mk__tools"><button class="tool is-on" data-tool="arrow">' + I.arrow + 'Arrow</button><button class="tool" data-tool="note">' + I.note + 'Note</button><button class="tool" data-undo>' + I.undo + "Undo</button></div>" +
       '<div class="mk__foot"><button class="btn btn--ghost" data-cancel style="flex:0 0 auto">Cancel</button><button class="btn" data-save>Save photo</button></div>';
     $("#app").appendChild(el);
+    var bar = $("#coachBar"); el.style.top = (bar.offsetTop + bar.offsetHeight) + "px";
     var cv = $("canvas", el), shapes = P.shapes.slice();
+    coach.push([
+      { sel: ".mk canvas", text: "Drag your finger across the photo to draw an arrow at the tide mark.", label: "Drag on the photo", on: "arrow", manual: true, inside: true },
+      { sel: '[data-tool="note"]', text: "Now tap Note to add a label." },
+      { sel: ".mk canvas", text: "Tap the photo where the note should go.", label: "Tap the photo", on: "notepos", manual: true, inside: true },
+      { sel: "#mkAdd", text: "The note's typed in for you. Tap Add.", allow: "#mkText" },
+      { sel: "[data-save]", text: "Tap Save photo. It goes straight into the report.", allow: "[data-undo], [data-tool]" },
+    ]);
     function hint() {
       $("#mkHint", el).innerHTML = tool === "arrow" ? "Drag on the photo to draw an arrow." : "Tap the photo where the note should go.";
-      if (!shapes.length) $("#mkHint", el).innerHTML += ' <button class="link" data-eg style="color:#FF8A3D">Or fill in an example</button>';
+      if (!shapes.length && !el.dataset.coached) $("#mkHint", el).innerHTML += ' <button class="link" data-eg style="color:#FF8A3D">Or fill in an example</button>';
       var eg = $("[data-eg]", el); if (eg) eg.onclick = function () { shapes = ED.photos[pid].example.slice(); redraw(); hint(); };
     }
     function redraw(extra) { renderTo(cv, pid, 1200, shapes.concat(extra || [])); }
@@ -380,12 +538,12 @@
     cv.addEventListener("pointerdown", function (e) {
       var p = pt(e);
       if (tool === "arrow") { drag = { t: "arrow", x1: p.x, y1: p.y, x2: p.x, y2: p.y }; cv.setPointerCapture(e.pointerId); }
-      else { pendingNote = p; $("#mkNote", el).hidden = false; var inp = $("#mkText", el); inp.value = ""; inp.focus(); $("#mkHint", el).textContent = "Type the note, then tap Add."; }
+      else { pendingNote = p; $("#mkNote", el).hidden = false; var inp = $("#mkText", el); inp.value = shapes.some(function (x) { return x.t === "note"; }) ? "" : "Tide mark at 900mm"; $("#mkHint", el).textContent = "Type the note, then tap Add."; coach.event("notepos"); }
     });
     cv.addEventListener("pointermove", function (e) { if (!drag) return; var p = pt(e); drag.x2 = p.x; drag.y2 = p.y; redraw([drag]); });
     cv.addEventListener("pointerup", function () {
       if (!drag) return;
-      if (Math.hypot(drag.x2 - drag.x1, drag.y2 - drag.y1) > .03) shapes.push(drag);
+      if (Math.hypot(drag.x2 - drag.x1, drag.y2 - drag.y1) > .03) { shapes.push(drag); coach.event("arrow"); }
       drag = null; redraw(); hint();
     });
     function addNote() {
@@ -397,8 +555,8 @@
     $("#mkText", el).onkeydown = function (e) { if (e.key === "Enter") addNote(); };
     $$("[data-tool]", el).forEach(function (b) { b.onclick = function () { tool = b.dataset.tool; $$("[data-tool]", el).forEach(function (x) { x.classList.toggle("is-on", x === b); }); hint(); }; });
     $("[data-undo]", el).onclick = function () { shapes.pop(); redraw(); hint(); };
-    $("[data-cancel]", el).onclick = function () { el.remove(); done && done(); };
-    $("[data-save]", el).onclick = function () { P.shapes = shapes; el.remove(); toast("Photo saved to the report."); done && done(); };
+    $("[data-cancel]", el).onclick = function () { el.remove(); coach.pop(false); done && done(); };
+    $("[data-save]", el).onclick = function () { P.shapes = shapes; el.remove(); toast("Photo saved to the report."); done && done(); coach.pop(true); };
   }
 
   /* ---------- Floor plan ---------- */
@@ -459,6 +617,7 @@
         var label = where === "Front room" ? "Front room: rising damp, tide mark and salts" : where + ": " + { red: "needs work now", amber: "needs work soon", green: "checked, no damp" }[rag];
         S.pins.push({ x: Math.round(p.x), y: Math.round(p.y), rag: rag, label: label });
         draw();
+        coach.event("pin");
       };
     }
     draw();
@@ -486,7 +645,7 @@
     v.innerHTML = '<h2 class="h">Findings</h2><p class="sub">Built from what you logged. This is the order the customer sees them.</p>' +
       '<div class="card">' + areas.map(function (r, i) { var g = S.rooms[r.id].rag; return '<div class="find"' + (i ? ' style="margin-top:14px"' : "") + '><span class="find__bar ' + g + '"></span><div><b>' + esc(r.name) + ' <span class="pill pill--' + g + '" style="margin-left:4px">' + { red: "Red", amber: "Amber", green: "Green" }[g] + "</span></b><p>" + esc(r.summary) + "</p></div></div>"; }).join("") + "</div>" +
       '<div class="row row--between" style="margin:20px 0 8px"><p class="lbl" style="margin:0">Recommended work</p><span class="eg">Example figures</span></div>' +
-      '<div class="card" id="works">' + ED.works.map(function (w) { return '<div class="work"><input type="checkbox" id="' + w.id + '"' + (S.works[w.id] ? " checked" : "") + '><label for="' + w.id + '">' + esc(w.text) + '</label><span class="p">' + money(w.price) + "</span></div>"; }).join("") +
+      '<div class="card" id="works">' + ED.works.map(function (w) { return '<label class="work"><input type="checkbox" id="' + w.id + '"' + (S.works[w.id] ? " checked" : "") + '><span class="t">' + esc(w.text) + '</span><span class="p">' + money(w.price) + "</span></label>"; }).join("") +
       '<div class="tot" id="tot"></div></div><p class="small">Untick anything the customer doesn\'t need. The quote updates straight away.</p>';
     function tot() { var t = totals(); $("#tot").innerHTML = "<span>Subtotal</span><b>" + money(t.sub) + "</b><span>VAT at 20%</span><b>" + money(t.vat) + '</b><span class="big">Total</span><b class="big">' + money(t.total) + "</b>"; }
     tot();
@@ -522,7 +681,7 @@
       '<div class="chips" style="margin-bottom:14px">' + ED.rooms.map(function (r) { return '<span class="chip">' + esc(r.name) + "</span>"; }).join("") + "</div>" +
       '<div class="sig" id="sig" data-who="' + esc(J.customer) + ", " + esc(J.dateShort) + '"></div>' +
       '<p class="small" style="margin-top:10px">This isn\'t agreeing to any work. ' + esc(J.first) + ' gets the full report once Chris has checked and signed it.</p><button class="link" id="fake">Sign for me (demo)</button>';
-    var pad = sigPad($("#sig"), function (d) { S.custSig = d; $("#go").disabled = !d; });
+    var pad = sigPad($("#sig"), function (d) { S.custSig = d; $("#go").disabled = !d; if (d) coach.event("sig"); });
     $("#fake").onclick = function () { pad.fake(); };
     act('<button class="btn" id="go" disabled>Done, back to Chris</button>');
     $("#go").onclick = function () { go("review"); };
@@ -544,7 +703,7 @@
         "<li>" + I.tick + "Signed by " + esc(J.customer) + " on the day</li>" +
       '</ul><button class="btn btn--ghost" id="prev" style="width:100%;margin-top:14px">' + I.pdf + "Open the PDF to check it</button></div>" +
       '<p class="lbl">Your signature</p><div class="sig" id="sig" data-who="Chris Smith, Easy Damp"></div><button class="link" id="fake">Sign for me (demo)</button>';
-    var pad = sigPad($("#sig"), function (d) { S.chrisSig = d; $("#go").disabled = !d; });
+    var pad = sigPad($("#sig"), function (d) { S.chrisSig = d; $("#go").disabled = !d; if (d) coach.event("sig"); });
     $("#fake").onclick = function () { pad.fake(); };
     $("#prev").onclick = function () { openPdf($("#prev")); };
     act('<button class="btn" id="go" disabled>Approve and send to ' + esc(J.first) + "</button>");
@@ -601,7 +760,7 @@
       '<p class="small" style="text-align:center">Demo: nothing here is sent for real.</p>';
     act('<button class="btn btn--ghost" id="dl">' + I.down + 'PDF</button><button class="btn" id="again">Start again</button>');
     $("#dl").onclick = download;
-    $("#again").onclick = function () { S = fresh(); stack = []; cur = null; go("jobs"); };
+    $("#again").onclick = restart;
   };
 
   /* ---------- Book / deposit links from the PDF ---------- */
@@ -611,8 +770,10 @@
     sheet('<h2 class="h">' + (h === "#book" ? "Book the work" : "Pay a deposit") + '</h2><p class="sub">This is where ' + esc(J.first) + (h === "#book" ? " would pick a start date that suits them, straight from the report." : " would pay the deposit by card to lock in the date.") + '</p><p class="quote">Demo only. No booking is made and no payment is taken.</p><button class="btn" data-close style="width:100%;margin-top:16px">OK</button>');
   }
 
+  function restart() { $$(".mk").forEach(function (m) { m.remove(); }); S = fresh(); stack = []; cur = null; go("welcome"); }
+  $("#restart").onclick = restart;
   $("#back").onclick = back;
-  go("jobs");
+  go("welcome");
   hashSheet();
   window.addEventListener("hashchange", hashSheet);
 })();
