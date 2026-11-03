@@ -1,0 +1,24 @@
+name: Client-safe check
+
+# Blocks house-rule slips (em dashes, £ in Clockwork copy, AI or tool names, "live chat",
+# PCA membership claims, internal notes, keys) in lines a branch adds to client-facing files.
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check lines added since main
+        run: node scripts/check-client-safe.mjs --diff origin/main
