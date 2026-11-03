@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>document.write('<base href="'+(location.pathname.indexOf('/demos/tarnhale')===0?'/demos/tarnhale/':'/')+'">')</script>
+<script>(function(d){var h=d.documentElement,rm=false;try{rm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}h.classList.add('js');try{if(!rm){if(!sessionStorage.getItem('th-intro')){h.classList.add('is-intro');sessionStorage.setItem('th-intro','1')}else if(sessionStorage.getItem('th-leave')){h.classList.add('is-entering')}}sessionStorage.removeItem('th-leave')}catch(e){}setTimeout(function(){h.classList.remove('is-intro','is-entering','is-leaving')},4500)})(document);</script>
 <title>About | Tarnhale (demo)</title>
 <meta name="description" content="Demo site. About Tarnhale, a fictional architecture studio in Lancaster.">
 <meta name="robots" content="noindex, follow">
@@ -13,16 +14,27 @@
 <meta property="og:title" content="About | Tarnhale (demo)">
 <meta property="og:description" content="Demo site. About Tarnhale, a fictional architecture studio in Lancaster.">
 <meta property="og:url" content="https://tarnhale.clockworkai.app/about">
-<meta property="og:image" content="https://tarnhale.clockworkai.app/img/fell-house.jpg">
-<meta name="theme-color" content="#F7F7F4">
+<meta property="og:image" content="https://tarnhale.clockworkai.app/img/fh-hero.jpg">
+<meta name="theme-color" content="#121413">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/ClashDisplay-500.woff2" as="font" type="font/woff2" crossorigin>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Tarnhale (demo)", "description": "A fictional architecture practice. Demo site by Clockwork AI.", "url": "https://tarnhale.clockworkai.app", "areaServed": ["Lancaster", "Kendal", "Lune Valley", "Ribble Valley", "Preston", "South Lakes"], "address": {"@type": "PostalAddress", "addressLocality": "Lancaster", "addressRegion": "Lancashire", "addressCountry": "GB"}, "telephone": "+44 1632 960123", "email": "hello@tarnhale.example"}</script>
 </head>
 <body>
+<div class="loader" aria-hidden="true">
+  <p class="mono">Tarnhale &middot; Architecture studio</p>
+  <div class="loader__mid"><svg class="loader__mark" viewBox="0 0 24 24" aria-hidden="true"><rect pathLength="1" x="2.5" y="2.5" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.2"/><path pathLength="1" d="M2.5 21.5 L12 9 L21.5 21.5" fill="none" stroke="#C7CEC3" stroke-width="1.2"/></svg><p class="loader__word"><span>Tarnhale</span></p></div>
+  <div class="loader__foot"><p class="mono">Houses for the fells</p><p class="loader__count" data-count>0</p></div>
+  <i class="loader__bar"></i>
+</div>
+<div class="curtain" aria-hidden="true"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 21.5 L12 9 L21.5 21.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+<script>(function(){var h=document.documentElement;function done(){window.__introDone=1;document.dispatchEvent(new Event('th:intro'))}if(h.classList.contains('is-intro')){var c=document.querySelector('[data-count]'),l=document.querySelector('.loader'),t0=performance.now(),D=1150;(function tick(t){var p=Math.min(1,Math.max(0,(t-t0)/D)),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;c.textContent=Math.round(e*100);if(p<1){requestAnimationFrame(tick)}else{setTimeout(function(){l.classList.add('is-done');done();setTimeout(function(){h.classList.remove('is-intro')},800)},100)}})(t0)}else if(h.classList.contains('is-entering')){d0()}else{done()}function d0(){var go=function(){h.classList.add('is-revealing');h.classList.remove('is-entering');done();setTimeout(function(){h.classList.remove('is-revealing')},650)};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){requestAnimationFrame(go)})}else{requestAnimationFrame(go)}}})();</script>
 <a class="skip" href="#main">Skip to content</a>
+<div class="top" id="top">
 <div class="demo-bar" role="note" aria-label="Demo site notice"><p><strong>Demo site:</strong> Tarnhale is a fictional architecture practice, built by <a href="https://clockworkai.app" target="_blank" rel="noopener">Clockwork AI</a> to show what we make.</p></div>
 <header class="hdr" id="hdr">
   <a class="brand" href="./" aria-label="Tarnhale, home"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 21.5 L12 9 L21.5 21.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Tarnhale</span></a>
@@ -30,10 +42,11 @@
   <a class="btn btn--sm hdr__cta" href="contact#enquiry">Book a consultation</a>
   <button class="burger" id="burger" aria-expanded="false" aria-controls="mnav" aria-label="Open the menu"><i></i><i></i></button>
 </header>
+</div>
 <nav class="mnav" id="mnav" aria-label="Mobile"><a href="projects">Projects</a><a href="services">Services</a><a href="process">Process</a><a href="about">About</a><a href="journal">Journal</a><a href="contact">Contact</a><a class="btn" href="contact#enquiry">Book a consultation</a></nav>
-<main id="main"><section class="page-hero wrap"><p class="mono">About</p><h1 class="h-hero split">A small studio<br>that draws carefully.</h1></section>
+<main id="main"><section class="page-hero wrap"><p class="eyebrow">About</p><h1 class="h-hero split">Small studio.<br>Careful drawings.</h1></section>
 <section class="wrap about">
-  <figure class="about__img"><img src="img/studio.jpg" alt="A timber lattice ceiling with daylight falling through onto a plant" loading="lazy"></figure>
+  <figure class="rv about__img"><picture><source type="image/avif" srcset="img/studio-800.avif 800w, img/studio-1600.avif 1600w" sizes="(max-width:820px) 100vw, 50vw"><source type="image/webp" srcset="img/studio-800.webp 800w, img/studio-1600.webp 1600w" sizes="(max-width:820px) 100vw, 50vw"><img src="img/studio.jpg" alt="An architecture studio table with white card house models, tracing paper and pencil drawings by a big window" width="1600" height="1067" loading="lazy" decoding="async"></picture><span class="ai-tag">Illustrative, AI-generated</span></figure>
   <div class="about__copy">
     <p class="lede">Tarnhale started in a spare room in Lancaster, drawing kitchen extensions for neighbours. Today we're three people in a studio near the canal, designing homes from the coast to the fells. <i class="sample">Sample</i></p>
     <p>We like plain forms, honest materials and buildings that sit quietly in their place. Most of all, we like clients who want a home that works for them, not a show house.</p>
@@ -41,28 +54,29 @@
   </div>
 </section>
 <section class="wrap team">
-  <p class="mono">The studio <i class="sample">Sample</i></p>
+  <p class="eyebrow">The studio <i class="sample">Sample</i></p>
   <div class="people">
-    <div class="person"><span class="initials">IF</span><h3>Isla Fenwick</h3><p>Founder. Leads design on every project. <i class="sample">Sample</i></p></div>
-    <div class="person"><span class="initials">TR</span><h3>Tom Reay</h3><p>Technical drawings and time on site. <i class="sample">Sample</i></p></div>
-    <div class="person"><span class="initials">MA</span><h3>Maya Ashworth</h3><p>Planning and client care. <i class="sample">Sample</i></p></div>
+    <div class="person"><span class="initials" aria-hidden="true">IF</span><h3>Isla Fenwick</h3><p>Founder. Leads design on every project. <i class="sample">Sample</i></p></div>
+    <div class="person"><span class="initials" aria-hidden="true">TR</span><h3>Tom Reay</h3><p>Technical drawings and time on site. <i class="sample">Sample</i></p></div>
+    <div class="person"><span class="initials" aria-hidden="true">MA</span><h3>Maya Ashworth</h3><p>Planning and client care. <i class="sample">Sample</i></p></div>
   </div>
   <p class="note">These people are made up for this demo.</p>
 </section>
-<section class="wrap areas"><p class="mono">Where we work</p>
+<section class="wrap areas"><p class="eyebrow">Where we work</p>
 <p class="h-lg">Lancaster, Morecambe, Kendal, the Lune Valley, Kirkby Lonsdale, Arnside, the Ribble Valley, Preston, the Fylde and the South Lakes. <i class="sample">Sample</i></p></section>
-<section class="band"><div class="wrap band__in">
-  <h2 class="h-xl split">Got a plot, a barn<br>or a back room?</h2>
-  <p class="lede">Start with a free 30 minute consultation. Tell us what you're thinking and we'll tell you honestly what's possible. <i class="sample">Sample</i></p>
+<section class="band" data-hc="dark"><div class="wrap">
+  <p class="eyebrow">Free first consultation</p>
+  <h2 class="h-close split">Start with<br>a chat.</h2>
+  <p class="lede">Thirty minutes, no charge. Tell us what you're thinking and we'll tell you honestly what's possible. <i class="sample">Sample</i></p>
   <div class="row"><a class="btn btn--light" href="contact#enquiry" data-magnet>Book a consultation</a><button class="btn btn--ghost-light" type="button" data-chat-open>Ask a quick question</button></div>
 </div></section></main>
-<footer class="ftr">
+<footer class="ftr" data-hc="dark">
   <div class="wrap ftr__grid">
     <div><a class="brand brand--lg" href="./"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 21.5 L12 9 L21.5 21.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Tarnhale</span></a>
       <p class="ftr__lede">Homes shaped by light, land and the way you live. An architecture studio in Lancaster, working across the North West. <i class="sample">Sample</i></p></div>
     <div><p class="mono">Visit</p><p>Studio in Lancaster <i class="sample">Sample</i><br>By appointment</p></div>
     <div><p class="mono">Talk</p><p><a href="tel:01632960123">01632 960 123</a><br><a href="mailto:hello@tarnhale.example">hello@tarnhale.example</a></p></div>
-    <div><p class="mono">Pages</p><p><a href="projects">Projects</a><br><a href="services">Services</a><br><a href="process">Process</a><br><a href="about">About</a><br><a href="journal">Journal</a><br><a href="contact">Contact</a><br><a href="credits">Photo credits</a></p></div>
+    <div><p class="mono">Pages</p><p><a href="projects">Projects</a><br><a href="services">Services</a><br><a href="process">Process</a><br><a href="about">About</a><br><a href="journal">Journal</a><br><a href="contact">Contact</a><br><a href="credits">Image credits</a></p></div>
   </div>
   <div class="wrap ftr__base"><span>&copy; 2026 Tarnhale. A fictional practice, not a real business.</span><span>Demo site by <a href="https://clockworkai.app" target="_blank" rel="noopener">Clockwork AI</a></span></div>
 </footer>
