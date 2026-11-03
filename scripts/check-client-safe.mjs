@@ -43,10 +43,12 @@ const profile = opt("--profile", "clockwork");
 const rules = [...RULES.all, ...(profile === "all" ? [...RULES.clockwork, ...RULES.coaching, ...RULES.lyme] : RULES[profile] || [])];
 
 // Which repo files count as client-facing in --diff mode
-const CLIENT_FACING = (f) =>
+// lib/ holds code that writes text visitors see (business.ts, the chat prompt), so its quoted strings are checked too
+const LIB_CODE = (f) => /^lib\/[^/]+\.(ts|js|mjs)$/i.test(f) && !/\.test\.(ts|js|mjs)$/i.test(f);
+const CLIENT_FACING = (f) => LIB_CODE(f) || (
   !/(^|\/)(node_modules|lib|api|server|scripts|tests?|\.github)\//.test(f) &&
   !/(^|\/)(README|CLAUDE|CHANGELOG|LICENSE)[^/]*$/i.test(f) &&
-  (/\.(html?|md|txt)$/i.test(f) || (/^(demos|p)\//.test(f) && /\.(js|mjs|json|css|svg)$/i.test(f)));
+  (/\.(html?|md|txt)$/i.test(f) || (/^(demos|p)\//.test(f) && /\.(js|mjs|json|css|svg)$/i.test(f))));
 
 // Gather [file, lineNo, text]
 const lines = [];
@@ -71,6 +73,14 @@ if (base) {
 const visible = (t) => t.replace(/\b(?:src|href|class|id|for|name|data-[\w-]+)=("[^"]*"|'[^']*')/g, " ").replace(/https?:\/\/[^\s"'<>)]+/g, " ");
 
 // Code comments in .js/.css aren't seen by anyone, so they're skipped
+// In lib code, only the words inside quoted strings count (not code, comments or regex patterns)
+const REGEXY = /\\[sdwbS]|\(\?[:=!<]|\[\^|\$\{|^\^/;
+function libStrings(t) {
+  const out = []; const line = t.replace(/(^|[^:"'`\\])\/\/.*$/, "$1");
+  if (/^\s*(\*|\/\*)/.test(line)) return "";
+  for (const m of line.matchAll(/(["'`])((?:\\.|(?!\1).)*)\1/g)) { const v = m[2]; if (/[A-Za-z]{2,}\s+\S/.test(v) && !REGEXY.test(v)) out.push(v); }
+  return out.join("  ");
+}
 const uncomment = (file, t) => (/\.(js|mjs|css)$/i.test(file) ? t.replace(/\/\*.*?\*\//g, " ").replace(/^\s*(\/\/|\*|\/\*).*$/, "") : t);
 // A client's demo app shows that client's own prices, so £ is allowed under demos/ (rule is for Clockwork's own content)
 const skip = (file, rule) => rule === "pound" && /(^|\/)demos\//.test(file);
@@ -78,7 +88,7 @@ const skip = (file, rule) => rule === "pound" && /(^|\/)demos\//.test(file);
 const hits = [];
 for (const [file, line, raw] of lines) {
   if (/client-safe:\s*ignore/i.test(raw)) continue;
-  const t = visible(uncomment(file, raw));
+  const t = visible(LIB_CODE(file) ? libStrings(raw) : uncomment(file, raw));
   for (const r of rules) { if (skip(file, r.id)) continue; const m = t.match(r.re); if (m) hits.push({ file, line, rule: r.id, msg: r.msg, found: m[0], text: raw.trim().slice(0, 140) }); }
 }
 
