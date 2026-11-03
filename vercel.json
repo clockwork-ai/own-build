@@ -8,5 +8,27 @@
     "api/chat.js": {
       "maxDuration": 30
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "tarnhale.clockworkai.app"
+        }
+      ],
+      "destination": "/demos/tarnhale/index.html"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "tarnhale.clockworkai.app"
+        }
+      ],
+      "destination": "/demos/tarnhale/:path*"
+    }
+  ]
 }
