@@ -32,7 +32,8 @@ const RULES = {
     { id: "in-person", re: /\bin[\s-]person\b/i, msg: "No in-person offers." },
   ],
   lyme: [
-    { id: "gas", re: /\b(gas safe|gas engineer|boilers?|MCS)\b/i, msg: "No gas, boiler, Gas Safe or MCS claims." },
+    { id: "gas", re: /\b(gas|gas safe|f-?gas|boilers?|MCS)\b/i, msg: "No gas, boiler, Gas Safe, F-gas or MCS claims." },
+    { id: "claims", re: /\b(grants?|accredited|accreditation|certified|insured)\b/i, msg: "No grants, accredited, certified or insured claims." },
   ],
 };
 
