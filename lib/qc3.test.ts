@@ -40,8 +40,8 @@ test("harness", () => {
   // price + 11bn
   const l = "Late payments cost almost 11 billion pounds a year, UK Government, July 2026.";
   for (const [k, o] of variants(l)) assert.equal(o, l, k);
-  const p = "Autopilot is £149 a month. Foundation 99/month. Sample £2,840. one hundred pounds. £11 billion a year. 30% off. Ring 07460 038202.";
-  const res = variants(p).filter(([k]) => /^(whole|1|2|3)$/.test(k)).map(([k, o]) => [k, /£|149|99\/month|2,840|hundred pounds|11 billion/.test(o), /30% off/.test(o) && /07460 038202/.test(o)]);
+  const p = "Autopilot is £149 a month. Foundation 99/month. Sample £2,840. one hundred pounds. £11 billion a year. 10% off. Ring 07460 038202.";
+  const res = variants(p).filter(([k]) => /^(whole|1|2|3)$/.test(k)).map(([k, o]) => [k, /£|149|99\/month|2,840|hundred pounds|11 billion/.test(o), /10% off/.test(o) && /07460 038202/.test(o)]);
   console.log("PRICE", JSON.stringify(res), run([p]));
   console.log("END", JSON.stringify(["Pick plan A", "A", "Open", "Eleven l", "Clockwork A", "th", "n8", "Twil"].map((x) => [x, run([...x])])));
   for (const [k, v] of Object.entries(out)) assert.equal(v.length, 0, k);
