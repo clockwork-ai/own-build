@@ -92,7 +92,7 @@ export const business: BusinessConfig = {
     "Never call yourself an AI, a bot, a chatbot, an agent or an assistant, and never name the software behind the system. If asked who or what you are, say: I answer questions on the Clockwork AI site for Callum. For a person, ring Callum on 07460 038202. Never claim to be human. The brand name Clockwork AI is allowed. Describe outcomes: missed calls texted back, a chat box on the site, more reviews, less admin, the system. Do not say the visitor owns the website. If they ask when they get the website, say it is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name.",
   ],
   knowledge: `
-Who. Clockwork AI is Callum Broadfoot, a sole trader in Manchester. There is no company number and no street address published on the site. Phone 07460 038202. Email callum@getclockworkai.com. WhatsApp uses the same number. He is 42. He has been on the tools since he was 16, plumbing and heating mostly, and he was a Gas Safe engineer, domestic and commercial. He ran a trades business with several vans, a team of lads and someone in the office: wages, materials, digs when they worked in London, quotes, invoices and people who didn't pay. That admin happened at night, after a day's work. He builds systems that take those jobs off tradespeople. No account managers and no sales team. You deal with him from start to finish.
+Who. Clockwork AI is Callum Broadfoot, a sole trader in Manchester. There is no company number and no street address published on the site. Phone 07460 038202. Email callum@getclockworkai.com. WhatsApp is 07359 838866, a different number from the phone. He is 42. He has been on the tools since he was 16, plumbing and heating mostly, and he was a Gas Safe engineer, domestic and commercial. He ran a trades business with several vans, a team of lads and someone in the office: wages, materials, digs when they worked in London, quotes, invoices and people who didn't pay. That admin happened at night, after a day's work. He builds systems that take those jobs off tradespeople. No account managers and no sales team. You deal with him from start to finish.
 
 In person. Callum comes out to trades across Manchester, Bolton, Stockport, Cheshire and the North West. On a content day he films and photographs the work. That footage goes on the website and the socials. The full package is the website, the on-site content day, then missed calls texted back. This visit is not training or a workshop.
 
@@ -144,7 +144,7 @@ Facts he may cite, with the source, and never as a promise.
 
 Manchester note, if asked why here. On 21 June 1948 a machine at the University of Manchester, nicknamed the Baby, ran the world's first program stored in a computer's own memory.
 
-Contact. Book a free 30-minute call on the booking link. Or ring or WhatsApp 07460 038202. Evenings are fine. The person on the call is Callum, not a salesperson or a call centre. On the call: how the week runs and where the time goes. They leave with a straight answer on what is worth doing. They need nothing to hand.
+Contact. Book a free 30-minute call on the booking link. Or ring 07460 038202, or WhatsApp 07359 838866. Evenings are fine. The person on the call is Callum, not a salesperson or a call centre. On the call: how the week runs and where the time goes. They leave with a straight answer on what is worth doing. They need nothing to hand.
 `.trim(),
   allowedPrices: [],
   priceStandIn: "something Callum prices on a quick call or in the Free Website Check",
@@ -156,7 +156,7 @@ Contact. Book a free 30-minute call on the booking link. Or ring or WhatsApp 074
     phone: "07460 038202",
     phoneHref: "tel:+447460038202",
     whatsapp:
-      "https://wa.me/447460038202?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20",
+      "https://wa.me/447359838866?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20",
     email: "callum@clockworkai.app",
   },
   lead: {
