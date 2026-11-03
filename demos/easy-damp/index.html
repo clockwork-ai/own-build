@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Survey app demo | Easy Damp</title>
+<meta name="description" content="Demo of a survey app for Easy Damp: log a damp survey on site and send the customer a finished report.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#14172D">
+<link rel="icon" href="img/logo-dark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="stage">
+  <aside class="guide" id="guide" aria-label="About this demo">
+    <img class="guide__logo" src="img/logo-light.svg" alt="Easy Damp" width="220" height="47">
+    <p class="guide__kicker">Survey app demo</p>
+    <h1 class="guide__title">From the enquiry to a signed report, on your phone.</h1>
+    <p class="guide__lede">Click through one rising damp survey, start to finish. It takes about four minutes. The customer and the house are made up, and nothing is sent to anyone.</p>
+    <ol class="guide__steps" id="guideSteps"></ol>
+    <p class="guide__foot">Demo built for Chris at Easy Damp by <a href="https://clockworkai.app" target="_blank" rel="noopener">Clockwork AI</a>.</p>
+  </aside>
+  <div class="phone">
+    <div class="app" id="app">
+      <div class="demo-strip" role="note">Demo &middot; fictional customer &middot; nothing is sent</div>
+      <header class="top">
+        <button class="top__back" id="back" aria-label="Back" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <img class="top__logo" src="img/logo-dark.svg" alt="Easy Damp" width="118" height="25">
+        <span class="top__title" id="title"></span>
+      </header>
+      <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
+      <main class="view" id="view" tabindex="-1"></main>
+      <footer class="act" id="act"></footer>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <div class="sheet" id="sheet" hidden></div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script src="data.js" defer></script>
+<script src="report.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
