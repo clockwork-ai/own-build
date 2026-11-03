@@ -14,7 +14,7 @@ function variants(t: string): [string, string][] {
   return v;
 }
 const PRICE = ["one hundred pounds", "fifty pounds", "two hundred and fifty pounds a month", "99/month", "£149 a month", "149 quid", "£11 billion a year", "1,200", "£1,200", "It is £149 a month, honestly.", "Setup is fifty pounds.", "That is 99/month all in."];
-const KEEP = ["30% off", "Ring 07460 038202.", "Late payments cost almost 11 billion pounds a year, UK Government, July 2026.", "one of my customers", "fifty years old", "a month later", "per month", "one hundred percent", "2 hours a week", "Monday", "It takes 2 hours a week on Monday.", "I have one of my customers on it, fifty years old, a month later, 2 hours a week, one hundred percent.", "Call 07460 038202 on Monday for 30% off, per month nothing extra.", "two hundred and fifty customers", "Fifty", "one hundred", "one", "Pay 1 of 2 on Monday", "about 20 minutes a day", "twelve months", "99", "1,200 leads"];
+const KEEP = ["10% off", "Ring 07460 038202.", "Late payments cost almost 11 billion pounds a year, UK Government, July 2026.", "one of my customers", "fifty years old", "a month later", "per month", "one hundred percent", "2 hours a week", "Monday", "It takes 2 hours a week on Monday.", "I have one of my customers on it, fifty years old, a month later, 2 hours a week, one hundred percent.", "Call 07460 038202 on Monday for 10% off, per month nothing extra.", "two hundred and fifty customers", "Fifty", "one hundred", "one", "Pay 1 of 2 on Monday", "about 20 minutes a day", "twelve months", "99", "1,200 leads"];
 test("p", () => {
   let priceLeaks = 0;
   let priceIncons = 0;

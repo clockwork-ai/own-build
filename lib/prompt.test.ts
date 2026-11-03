@@ -20,17 +20,16 @@ test("the model is not handed a web address or a page path", () => {
   assert.doesNotMatch(text, /[\u2013\u2014]/);
 });
 
-test("the chat knowledge says the first three clients get 30% off with 2 spaces left", () => {
+test("the chat knowledge no longer mentions the old founding offer", () => {
   const text = buildInstructions(business, "/services");
-  assert.match(text, /The first three clients get 30% off, 2 spaces left/);
-  assert.match(text, /there are 2 spaces left/);
-  assert.match(text, /not something Callum shares/);
-  assert.match(text, /home page opens with a founding banner/);
+  assert.doesNotMatch(text, /30%/);
+  assert.doesNotMatch(text, /spaces left/);
+  assert.doesNotMatch(text, /first three/);
+  assert.doesNotMatch(text, /[Ff]ounding/);
+  assert.match(text, /home page opens with the night story/);
   assert.match(text, /services page for the six parts/);
-  assert.doesNotMatch(text, /first five/);
-  assert.doesNotMatch(text, /five clients/);
-  assert.doesNotMatch(text, /5 clients/);
-  assert.doesNotMatch(text, /how many of the five/);
+  assert.match(text, /callum@getclockworkai\.com/);
+  assert.doesNotMatch(text, /callum@clockworkai\.app/);
 });
 
 test("the public widget config still has the button destinations", () => {

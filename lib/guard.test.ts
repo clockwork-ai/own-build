@@ -36,12 +36,12 @@ test("scrubs tier prices, including the old government figure", () => {
 });
 
 test("does not touch the phone number, the discount or the audit", () => {
-  const text = "Ring 07460 038202. The first three clients get 30% off, 2 spaces left. The audit is free and takes 30 minutes.";
+  const text = "Ring 07460 038202. The first two clients get 10% off, 2 days left. The audit is free and takes 30 minutes.";
   assert.equal(scrubPrices(text, allowed, standIn), text);
 });
 
-test("keeps 30% off, 2 spaces left and first three in every split", () => {
-  const text = "Founding clients: the first three clients get 30% off, 2 spaces left, in return for a case study.";
+test("keeps 10% off, 2 days left and first two in every split", () => {
+  const text = "New clients: the first two clients get 10% off, 2 days left, in return for a case study.";
   const streamOf = (size: number) => {
     const stream = createPriceStream(allowed, standIn);
     let out = "";
@@ -51,9 +51,9 @@ test("keeps 30% off, 2 spaces left and first three in every split", () => {
   for (const size of [text.length, 1, 2, 3]) {
     const out = streamOf(size);
     assert.equal(out, text, `split ${size}`);
-    assert.equal(out.includes("30% off"), true, out);
-    assert.equal(out.includes("2 spaces left"), true, out);
-    assert.equal(out.includes("first three"), true, out);
+    assert.equal(out.includes("10% off"), true, out);
+    assert.equal(out.includes("2 days left"), true, out);
+    assert.equal(out.includes("first two"), true, out);
   }
 });
 
@@ -321,11 +321,11 @@ test("split prices and combined terms match the whole reply", () => {
   same("It costs £11 billion a year.");
   const cited = "Late payments cost almost 11 billion pounds a year, UK Government, July 2026.";
   for (const size of [1, 2, 3]) assert.equal(pieces(cited, size), cited);
-  const priced = "Autopilot is £149 a month. Foundation 99/month. Sample £2,840. one hundred pounds. £11 billion a year. 30% off. Ring 07460 038202.";
+  const priced = "Autopilot is £149 a month. Foundation 99/month. Sample £2,840. one hundred pounds. £11 billion a year. 10% off. Ring 07460 038202.";
   for (const size of [1, 2, 3]) {
     const out = pieces(priced, size);
     assert.equal(/£|149|99\/month|2,840|hundred pounds|11 billion/.test(out), false, out);
-    assert.equal(/30% off/.test(out) && /07460 038202/.test(out), true, out);
+    assert.equal(/10% off/.test(out) && /07460 038202/.test(out), true, out);
     assert.equal(out.includes("auditnth"), false, out);
     assert.equal(out.includes(" billion"), false, out);
   }

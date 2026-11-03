@@ -434,8 +434,9 @@
     setOpen(true);
   });
   document.addEventListener("click", (event) => {
-    if (!event.target.closest("[data-open-chat]")) return;
-    menuReturn = document.querySelector(".subdial__btn");
+    const opener = event.target.closest("[data-open-chat]");
+    if (!opener) return;
+    menuReturn = returnFor(opener);
     launch.click();
   });
   nudgeDismiss.addEventListener("click", (event) => {
@@ -509,6 +510,17 @@
     setTimeout(fitPanel, 300);
     setTimeout(fitPanel, 700);
   });
+
+  // Buttons in the menu close it, so focus goes back to the menu button.
+  function returnFor(opener) {
+    return opener.closest(".subdial__menu") ? document.querySelector(".subdial__btn") : opener;
+  }
+  window.ClockworkChat = { open: () => launch.click() };
+  if (window.__cwOpen) {
+    menuReturn = returnFor(window.__cwOpen);
+    window.__cwOpen = null;
+    launch.click();
+  }
 
   const ready = loadConfig();
   launch.addEventListener("click", () => { ready.then(() => input.focus({ preventScroll: true })); }, { once: true });
