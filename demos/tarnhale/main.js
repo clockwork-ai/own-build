@@ -38,11 +38,24 @@
 
   /* ---------- header: hide on scroll down, colour by section ---------- */
   var lastY = 0, hcEls = $$('[data-hc]');
+  /* Hide the banner and header only after a real scroll down, show them after a real scroll up.
+     Tiny moves (smooth scrolling easing out, or a second call in the same frame) change nothing. */
+  var travel = 0;
   function onScroll() {
-    var y = window.scrollY || 0;
-    if (top) top.classList.toggle('is-hidden', y > 320 && y > lastY + 2 && !(mnav && mnav.classList.contains('is-open')));
-    if (y < lastY - 2 || y < 320) top && top.classList.remove('is-hidden');
+    var y = window.scrollY || 0, d = y - lastY;
     lastY = y;
+    if (top) {
+      var menuOpen = mnav && mnav.classList.contains('is-open');
+      if (y < 120 || menuOpen) { travel = 0; top.classList.remove('is-hidden'); }
+      else if (d !== 0) {
+        travel = (d > 0) === (travel > 0) ? travel + d : d;
+        if (travel > 12 && y > 320) top.classList.add('is-hidden');
+        else if (travel < -12) top.classList.remove('is-hidden');
+      }
+    }
+    headerColour(y);
+  }
+  function headerColour(y) {
     if (!hdr) return;
     hdr.classList.toggle('is-solid', y > 12);
     var probe = (bar ? bar.offsetHeight : 0) + hdr.offsetHeight / 2, dark = false;
@@ -286,7 +299,7 @@
       gsap.set(cut, { left: '0%', opacity: 0 });
       var tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: {
         trigger: sc, start: 'top top', end: desk ? '+=430%' : '+=320%', pin: true, scrub: .8, anticipatePin: 1,
-        onUpdate: function (st) { sc.setAttribute('data-hc', st.progress > .6 ? 'dark' : 'light'); onScroll(); } } });
+        onUpdate: function (st) { sc.setAttribute('data-hc', st.progress > .6 ? 'dark' : 'light'); headerColour(window.scrollY || 0); } } });
       tl.to('.g-datum line', { strokeDashoffset: 0, duration: 1.2, stagger: .2 }, 0)
         .to('.g-axis line', { strokeDashoffset: 0, duration: 1.2, stagger: .15 }, .4)
         .to('.g-text text', { opacity: 1, duration: .4, stagger: .05 }, 1.1)
