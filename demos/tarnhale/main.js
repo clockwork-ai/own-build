@@ -203,16 +203,16 @@
 
   /* ---------- intro: hero media settles, headline rises line by line ---------- */
   var heroLines = $$('.hero .split .l > span, .pj__hero .split .l > span, .page-hero .split .l > span, .article .split .l > span');
-  var heroBits = $$('.hero .eyebrow, .hero__row, .hero__ctl, .pj__head .eyebrow, .page-hero .eyebrow, .page-hero .lede, .page-hero .ai-note, .article > .eyebrow');
+  var heroBits = $$('.hero .eyebrow, .hero__row, .hero__ctl, .pj__head .eyebrow, .page-hero .eyebrow, .page-hero .lede, .page-hero .img-note, .article > .eyebrow');
   var heroMedia = $$('.hero__media > img, .hero__media picture img, .hero__media video, .pj__hero .rv img');
-  gsap.set(heroLines, { yPercent: 110 });
-  gsap.set(heroBits, { opacity: 0, y: 18 });
+  if (heroLines.length) gsap.set(heroLines, { yPercent: 110 });
+  if (heroBits.length) gsap.set(heroBits, { opacity: 0, y: 18 });
   function heroIntro() {
     if (lenis) lenis.start();
     var t = gsap.timeline();
     if (heroMedia.length) t.fromTo(heroMedia, { scale: 1.25 }, { scale: 1, duration: 2.2, ease: 'expo.out' }, 0);
-    t.to(heroLines, { yPercent: 0, duration: 1.3, stagger: .12, ease: 'expo.out' }, .12)
-     .to(heroBits, { opacity: 1, y: 0, duration: 1, stagger: .08, ease: 'power3.out' }, .35);
+    if (heroLines.length) t.to(heroLines, { yPercent: 0, duration: 1.3, stagger: .12, ease: 'expo.out' }, .12);
+    if (heroBits.length) t.to(heroBits, { opacity: 1, y: 0, duration: 1, stagger: .08, ease: 'power3.out' }, .35);
     ST.refresh();
   }
   if (window.__introDone) heroIntro(); else document.addEventListener('th:intro', heroIntro, { once: true });

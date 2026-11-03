@@ -2,8 +2,8 @@
 (function () {
   var MARK = '<svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 21.5 L12 9 L21.5 21.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
   var btn = document.createElement('button');
-  btn.className = 'chat-btn'; btn.type = 'button'; btn.setAttribute('aria-haspopup', 'dialog');
-  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask Tarnhale';
+  btn.className = 'chat-btn'; btn.type = 'button'; btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-label', 'Ask Tarnhale');
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span class="chat-btn__t">Ask Tarnhale</span>';
   var box = document.createElement('div');
   box.className = 'chat'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Chat with Tarnhale');
   box.innerHTML = '<div class="chat__top"><span class="brand">' + MARK + '<span>Tarnhale</span></span><small>Demo chat</small><button class="chat__x" type="button" aria-label="Close the chat">&times;</button></div>' +
@@ -74,7 +74,7 @@
 
   function open(intent) {
     box.classList.add('is-open'); btn.style.visibility = 'hidden'; btn.setAttribute('aria-expanded', 'true');
-    if (!started) { started = true; say("Hello, I'm the Tarnhale assistant. I can answer quick questions or book you a free consultation."); if (intent === 'book') { handle('Book a consultation'); } else chips(MAIN); }
+    if (!started) { started = true; say("Hello, welcome to Tarnhale. Ask me a quick question or book a free consultation."); if (intent === 'book') { handle('Book a consultation'); } else chips(MAIN); }
     else if (intent === 'book' && !flow) handle('Book a consultation');
     setTimeout(function () { input.focus(); }, 300);
   }

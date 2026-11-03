@@ -46,8 +46,8 @@ em{font-style:normal;color:var(--accent)}
 
 /* sample + AI labels */
 .sample{display:inline-block;font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--sample);color:var(--ink-2);border:1px solid var(--line);padding:1px 6px 0;border-radius:2px;vertical-align:middle;margin-left:4px;line-height:1.6;white-space:nowrap;font-weight:400}
-.ai-note{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--mute);max-width:72ch;line-height:1.6}
-.ai-tag{position:absolute;z-index:3;right:12px;bottom:12px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(247,247,244,.92);background:rgba(18,20,19,.42);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:5px 9px;border-radius:999px;pointer-events:none}
+.img-note{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--mute);max-width:72ch;line-height:1.6}
+.img-tag{position:absolute;z-index:3;right:12px;bottom:12px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(247,247,244,.92);background:rgba(18,20,19,.42);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:5px 9px;border-radius:999px;pointer-events:none}
 
 /* type */
 .display,.h-hero,.h-xl,.h-close,.h-lg{font-family:var(--display);font-weight:500}
@@ -145,7 +145,7 @@ html.is-revealing .curtain{visibility:visible;transform:translateY(-100%);transi
 .hero__pause{display:none;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);border:1px solid rgba(247,247,244,.45);border-radius:999px;padding:7px 12px;background:rgba(18,20,19,.25)}
 .hero__pause.is-on{display:inline-flex}
 .hero__pause:hover{background:rgba(18,20,19,.5)}
-.hero__ctl .ai-tag{position:static}
+.hero__ctl .img-tag{position:static}
 
 /* ---------- intro ---------- */
 .intro{padding-block:clamp(110px,15vw,220px) clamp(60px,8vw,120px)}
@@ -173,7 +173,7 @@ html.js-anim .intro__text .w{opacity:.14}
 .showcase{background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
 .showcase__pin{padding-block:clamp(90px,10vw,140px) clamp(60px,8vw,110px)}
 .showcase .eyebrow{color:rgba(247,247,244,.6)}
-.showcase .ai-note{color:rgba(247,247,244,.55);margin-top:18px}
+.showcase .img-note{color:rgba(247,247,244,.55);margin-top:18px}
 .showcase__track{display:flex;flex-direction:column;gap:clamp(40px,6vw,70px);padding-inline:var(--pad)}
 .slide{display:block;position:relative}
 .slide__img{aspect-ratio:4/3}
@@ -448,6 +448,16 @@ main>section:last-child:not(.band){margin-bottom:clamp(60px,8vw,120px)}
 .chat__in input{flex:1;border:1px solid var(--line);border-radius:999px;padding:10px 14px;font-size:16px;min-width:0}
 .chat__in button{background:var(--ink);color:var(--paper);border-radius:999px;padding:0 16px;font-size:14px}
 .chat__demo{font-family:var(--mono);font-size:10px;color:var(--mute);text-align:center;padding:0 12px 10px;letter-spacing:.04em}
+
+/* phones: the chat button becomes a small round icon so it never covers text */
+@media (max-width:699px){
+  .chat-btn{right:12px;bottom:12px;width:48px;height:48px;padding:0;justify-content:center;gap:0}
+  .chat-btn__t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .hero__copy,.pj__head{padding-bottom:76px}
+  .ftr__base{padding-bottom:76px}
+  .showcase__track{padding-right:calc(var(--pad) + 52px)}
+  .contact{padding-bottom:84px}
+}
 
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){
