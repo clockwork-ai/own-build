@@ -137,7 +137,7 @@
       const count = calls != null ? calls : filled ? Number(filled[1]) : null;
       push("Missed-call calculator", calculatorHref(count), false);
     }
-    if (/whatsapp/i.test(text)) push("WhatsApp", (config && config.whatsappHref) || "https://wa.me/447460038202", true);
+    if (/whatsapp/i.test(text)) push("WhatsApp", (config && config.whatsappHref) || "https://wa.me/447359838866", true);
     if (/07460\s*038202|\+44\s*7460\s*038202/.test(text)) push("Call", (config && config.phoneHref) || "tel:+447460038202", false);
     return actions;
   }
@@ -349,7 +349,7 @@
         bookHref: "https://cal.com/clockwork-ai/30min",
         bookLabel: "Book a free 30-minute call",
         phoneHref: "tel:+447460038202",
-        whatsappHref: "https://wa.me/447460038202",
+        whatsappHref: "https://wa.me/447359838866",
       });
     }
   }
