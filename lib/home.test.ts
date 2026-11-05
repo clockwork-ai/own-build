@@ -17,6 +17,7 @@ test("defaults: headline A live, Dale on, Website Check opens the phone", () => 
   assert.equal(cfg.CHECK_TARGETS.phone.href, "tel:+447460038202");
   assert.equal(cfg.DALE_ASSETS["dp-reroof.jpg"], "https://dandproofingandbuilding.co.uk/brand_assets/fb-reroof-ridge-2.jpg");
   assert.equal(cfg.DALE_ASSETS["dp-logo.png"], "https://dandproofingandbuilding.co.uk/brand_assets/logo-dandp-crop.png");
+  assert.equal(cfg.DALE_ASSETS["badge-which.png"], "https://dandproofingandbuilding.co.uk/brand_assets/badge-which.png");
   assert.deepEqual(Object.keys(cfg.HEADLINES), ["A", "B", "C", "D"]);
 });
 
@@ -41,6 +42,10 @@ test("sample-trade placeholders are gone from the homepage", () => {
   const on = render({ daleOn: true, which: { rating: "5.0", count: "143" } });
   assert.match(on, /assets\/dale\/dp-reroof\.jpg/);
   assert.match(on, /assets\/dale\/dp-logo\.png/);
+  assert.match(on, /assets\/dale\/badge-which\.png/);
+  assert.match(on, /stamp__card--logo/);
+  assert.match(on, /07587 415299/);
+  assert.doesNotMatch(on, /frame__bar|frame__logo/);
   assert.match(on, /assets\/dp-old-desktop\.webp/);
   assert.match(on, /assets\/dp-new-desktop\.webp/);
   assert.doesNotMatch(on, /Illustrative images|AI-generated|tarnhale\.clockworkai\.app|aldwyn\.clockworkai\.app/);
