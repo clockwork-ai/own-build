@@ -3,6 +3,7 @@ import path from "node:path";
 import { build } from "esbuild";
 import { tarnhaleFiles, manifestSource } from "./tarnhale-manifest.mjs";
 import { writeFile } from "node:fs/promises";
+import { buildHome } from "./home-build.mjs";
 
 const root = process.cwd();
 const publicDir = path.join(root, "public");
@@ -44,3 +45,6 @@ for (const entry of await readdir(root, { withFileTypes: true })) {
   if (entry.name.startsWith(".") || skip.has(entry.name)) continue;
   await cp(path.join(root, entry.name), path.join(publicDir, entry.name), { recursive: true });
 }
+
+// Homepage switches: headline, Website Check target, Dale block and his live Which? figures.
+await buildHome(publicDir);
