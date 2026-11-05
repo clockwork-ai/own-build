@@ -5,7 +5,7 @@
 //   <!-- dale:off --> ... <!-- /dale:off -->  kept only when DALE_ON is false
 //   {{DP_RATING}} {{DP_COUNT}}   Dale's live Which? figures; the block marked <!-- which --> ... <!-- /which -->
 //                                is dropped if they can't be read
-import { readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import * as cfg from "./home-config.mjs";
 
@@ -58,6 +58,15 @@ export async function buildHome(publicDir, c = cfg) {
     daleOn: c.DALE_ON, headline: c.HEADLINES[c.HEADLINE] ?? c.HEADLINES.A, check: checkTarget(c), which, town: c.DALE_JOB_TOWN,
   });
   await writeFile(file, html);
-  if (!c.DALE_ON) await rm(path.join(publicDir, "assets", "dale"), { recursive: true, force: true });
+  const daleDir = path.join(publicDir, "assets", "dale");
+  await rm(daleDir, { recursive: true, force: true });
+  if (c.DALE_ON) {
+    await mkdir(daleDir, { recursive: true });
+    for (const [name, url] of Object.entries(c.DALE_ASSETS)) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Dale asset ${name} could not be fetched (${res.status})`);
+      await writeFile(path.join(daleDir, name), Buffer.from(await res.arrayBuffer()));
+    }
+  }
   console.log(`home: headline ${c.HEADLINE}, check ${c.CHECK_MODE}, dale ${c.DALE_ON ? "on" : "off"}${c.DALE_ON ? `, which ${which ? `${which.rating} from ${which.count}` : "not read, left off"}` : ""}`);
 }

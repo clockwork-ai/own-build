@@ -31,3 +31,9 @@ export const CHECK_TARGETS = {
 // Dale's live Which? figures are read from his live homepage at build time. If that fails,
 // the figures are left off the page rather than shown stale.
 export const DALE_LIVE_URL = "https://dandproofingandbuilding.co.uk/";
+// Dale's photo and logo are not kept in this repo. When DALE_ON, the build copies them from his
+// live site into assets/dale. If either can't be fetched, the build stops rather than ship a gap.
+export const DALE_ASSETS = {
+  "dp-reroof.jpg": "https://dandproofingandbuilding.co.uk/brand_assets/fb-reroof-ridge-2.jpg",
+  "dp-logo.png": "https://dandproofingandbuilding.co.uk/brand_assets/logo-dandp-crop.png",
+};

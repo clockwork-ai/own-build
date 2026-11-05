@@ -5,3 +5,4 @@ export declare const HEADLINE: "A" | "B" | "C" | "D";
 export declare const CHECK_MODE: "call" | "phone" | "form";
 export declare const CHECK_TARGETS: Record<"call" | "phone" | "form", { href: string; newTab: boolean }>;
 export declare const DALE_LIVE_URL: string;
+export declare const DALE_ASSETS: Record<string, string>;
