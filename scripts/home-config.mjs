@@ -2,9 +2,8 @@
 // only ever holds what is switched on. Change a value here, push, and the next build picks it up.
 
 // Dale / D&P on the homepage (his name, photos, figures, site, before and after).
-// OFF until Dale has said yes to homepage use in so many words. When off, none of it is in
-// the served page, and assets/dale is not published.
-export const DALE_ON = false;
+// He has agreed to this. When off, none of it is in the served page, and assets/dale is not published.
+export const DALE_ON = true;
 // Town shown on Dale's framed photo. Leave blank unless it is the real town for that photo.
 export const DALE_JOB_TOWN = "";
 
@@ -18,10 +17,10 @@ export const HEADLINES = {
 export const HEADLINE = "A";
 
 // Where "Get your free Website Check" goes. One switch, three choices.
-//   call  : book a free call (today's homepage behaviour, the default for the preview)
-//   phone : tap to call
-//   form  : the Website Check page or a form or calendar address, set in CHECK_TARGETS.form
-export const CHECK_MODE = "call";
+//   call  : book a free call
+//   phone : tap to call. Live choice: those buttons open the phone dialler.
+//   form  : the Website Check page, or a form or calendar address, set in CHECK_TARGETS.form
+export const CHECK_MODE = "phone";
 export const CHECK_TARGETS = {
   call: { href: "https://cal.com/clockwork-ai/30min", newTab: true },
   phone: { href: "tel:+447460038202", newTab: false },
