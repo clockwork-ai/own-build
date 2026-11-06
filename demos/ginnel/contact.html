@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.write('<base href="'+(location.pathname.indexOf('/demos/ginnel')===0?'/demos/ginnel/':'/')+'">')</script>
+<script>document.documentElement.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('rm')}catch(e){}</script>
+<title>Get a quote | Ginnel Electrical (demo)</title>
+<meta name="description" content="Ask for a quote for EV chargers, rewires, fuse boards, fault finding or an EICR. Demo site by Clockwork AI.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://ginnel.clockworkai.app/contact">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ginnel Electrical (demo site)">
+<meta property="og:title" content="Get a quote | Ginnel Electrical (demo)">
+<meta property="og:description" content="Ask for a quote for EV chargers, rewires, fuse boards, fault finding or an EICR. Demo site by Clockwork AI.">
+<meta property="og:url" content="https://ginnel.clockworkai.app/contact">
+<meta property="og:image" content="https://ginnel.clockworkai.app/img/hero-1600.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#101317">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Electrician","name":"Ginnel Electrical (demo)","description":"A fictional electrician. Demo site by Clockwork AI.","url":"https://ginnel.clockworkai.app","telephone":"+44 1632 960417","email":"hello@ginnel.example","image":"https://ginnel.clockworkai.app/img/hero-1600.webp","areaServed":["Rochdale","Bury","Oldham","Heywood","Littleborough"],"address":{"@type":"PostalAddress","addressLocality":"Rochdale","addressRegion":"Greater Manchester","addressCountry":"GB"},"openingHours":["Mo-Fr 08:00-17:30","Sa 09:00-13:00"]}</script>
+</head>
+<body class="pg-contact">
+<a class="skip" href="#main">Skip to content</a>
+<div class="demo-bar" role="note" aria-label="Demo site notice"><p><strong>Demo site:</strong> Ginnel Electrical is a fictional electrician, built by <a href="https://clockworkai.app" target="_blank" rel="noopener">Clockwork AI</a> to show what we make.</p></div>
+<header class="hdr" id="hdr">
+  <a class="brand" href="./" aria-label="Ginnel Electrical, home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#101317"/><rect x="1" y="1" width="30" height="30" rx="7" fill="none" stroke="#FFC629" stroke-opacity=".35"/><path d="M18 5 9 18h6l-2 9 10-14h-6z" fill="#FFC629"/></svg><span class="brand__w">Ginnel<b>.</b></span></a>
+  <nav class="nav" aria-label="Main"><a href="services" data-nav="services">Services</a><a href="landlords" data-nav="landlords">Landlords</a><a href="areas" data-nav="areas">Areas</a><a href="about" data-nav="about">About</a><a href="advice" data-nav="advice">Advice</a><a href="contact" data-nav="contact" aria-current="page">Contact</a></nav>
+  <div class="hdr__cta"><button class="btn btn--sos btn--sm" type="button" data-sos><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg><span>Emergency electrician</span></button><a class="btn btn--sm" href="contact#quote">Get a quote</a></div>
+  <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Open the menu"><i></i><i></i></button>
+</header>
+<nav class="mnav" id="mnav" aria-label="Mobile"><a href="services">Services</a><a href="landlords">Landlords</a><a href="areas">Areas</a><a href="about">About</a><a href="advice">Advice</a><a href="contact">Contact</a><a class="btn" href="contact#quote">Get a quote</a></nav>
+<main id="main">
+<section class="phead"><div class="wrap"><p class="eyebrow">Contact</p><h1 class="h-xl">Get a quote.</h1><p class="lede">A few quick questions and a photo of your board if you have one. We'll reply with a fixed quote or a short visit to check.</p></div></section>
+<section class="sec--tight" style="padding-top:0" id="quote"><div class="wrap qwrap"><div class="qcard"><form class="form" data-demo-form="q-done" novalidate>
+<div class="field"><span class="lbl" id="jt">What's the job?</span><div class="opts" role="radiogroup" aria-labelledby="jt"><label class="opt"><input type="radio" name="job" value="ev" required><span>EV charger</span></label><label class="opt"><input type="radio" name="job" value="rewire"><span>Rewire</span></label><label class="opt"><input type="radio" name="job" value="cu"><span>Consumer unit</span></label><label class="opt"><input type="radio" name="job" value="fault"><span>Fault finding</span></label><label class="opt"><input type="radio" name="job" value="eicr"><span>EICR for a landlord</span></label><label class="opt"><input type="radio" name="job" value="other"><span>Something else</span></label></div><span class="bad-msg">Pick the closest one.</span></div>
+<fieldset data-when="job=ev"><legend>About the charger</legend><div class="fgrid">
+<div class="field"><span class="lbl" id="park">Off-street parking?</span><div class="opts" role="radiogroup" aria-labelledby="park"><label class="opt"><input type="radio" name="parking" value="yes"><span>Yes</span></label><label class="opt"><input type="radio" name="parking" value="no"><span>No</span></label><label class="opt"><input type="radio" name="parking" value="unsure"><span>Not sure</span></label></div></div>
+<div class="field"><label for="car">Which car or charger, if you know</label><input id="car" name="car" placeholder="For example, a family hatchback, no charger yet"></div></div></fieldset>
+<fieldset data-when="job=eicr"><legend>About the property</legend><div class="fgrid">
+<div class="field"><label for="beds">Bedrooms</label><select id="beds" name="beds"><option value="">Choose</option><option>Studio or 1</option><option>2</option><option>3</option><option>4 or more</option><option>HMO</option></select></div>
+<div class="field"><span class="lbl" id="rent">Is it rented out?</span><div class="opts" role="radiogroup" aria-labelledby="rent"><label class="opt"><input type="radio" name="rental" value="yes"><span>Yes, it's let</span></label><label class="opt"><input type="radio" name="rental" value="soon"><span>About to be</span></label><label class="opt"><input type="radio" name="rental" value="no"><span>No</span></label></div></div></div></fieldset>
+<div class="fgrid">
+<div class="field"><label for="pc">Postcode</label><input id="pc" name="postcode" autocomplete="postal-code" required placeholder="OL11"><span class="bad-msg">We need a postcode to check we cover you.</span></div>
+<div class="field"><label for="pt">Property type</label><select id="pt" name="ptype" required><option value="">Choose</option><option>Terraced house</option><option>Semi-detached</option><option>Detached</option><option>Flat or apartment</option><option>Shop or small business</option></select><span class="bad-msg">Choose the closest.</span></div>
+</div>
+<div class="field"><span class="lbl" id="urg">How soon?</span><div class="opts" role="radiogroup" aria-labelledby="urg"><label class="opt"><input type="radio" name="urgency" value="Today, it's urgent" required><span>Today, it's urgent</span></label><label class="opt"><input type="radio" name="urgency" value="This week"><span>This week</span></label><label class="opt"><input type="radio" name="urgency" value="Within a month"><span>Within a month</span></label><label class="opt"><input type="radio" name="urgency" value="Just planning"><span>Just planning</span></label></div><span class="bad-msg">Let us know how soon.</span></div>
+<div class="field"><label for="desc">Tell us a bit about it</label><textarea id="desc" name="desc" placeholder="What's happening, which rooms, anything you've noticed"></textarea></div>
+<div class="field"><span class="lbl">Photos (optional)</span><div class="drop"><input type="file" name="photos" accept="image/*" multiple aria-label="Add photos of the job"><b>Add a photo of your fuse board or the job</b><span class="hint">A clear photo of the board helps us quote. In this demo, photos never leave your device.</span></div><p class="hint" data-files-note="photos" aria-live="polite"></p><ul class="files" data-files="photos"></ul></div>
+<div class="fgrid">
+<div class="field"><label for="nm">Your name</label><input id="nm" name="name" autocomplete="name" required><span class="bad-msg">Please add your name.</span></div>
+<div class="field"><label for="ph">Phone</label><input id="ph" name="phone" type="tel" autocomplete="tel" required placeholder="07700 900123"><span class="bad-msg">Please add a phone number we can call.</span></div>
+</div>
+<div class="field"><label for="em">Email</label><input id="em" name="email" type="email" autocomplete="email" required><span class="bad-msg">Please add a working email.</span></div>
+<label class="tick field"><input type="checkbox" name="ok" required><span>I understand this is a demo. Nothing I type here is sent or saved.</span></label>
+<p class="form__err" hidden>A few things need filling in. They're marked in red.</p>
+<button class="btn btn--lg" type="submit">Send my quote request</button>
+<p class="form__note">Demo form: it checks your answers, then shows a thank you. Nothing is sent or stored.</p>
+</form>
+<div class="thanks" id="q-done" tabindex="-1" hidden><p class="eyebrow">Demo: nothing was sent</p><h3>Thanks, that's everything we'd need.</h3><p>On the real site, this would reach the office and we'd reply the same working day <i class="sample">Sample</i>. In this demo nothing has been sent or saved.</p><button class="btn btn--ghost" type="button" data-again="q-done">Start again</button></div></div>
+<aside class="aside"><div class="card"><p class="eyebrow" style="margin:0">Call the office</p><a href="tel:+441632960417" style="font:700 24px var(--f-h);text-decoration:none">01632 960417</a><p>Mon to Fri 8am to 5.30pm, Sat 9am to 1pm <i class="sample">Sample</i></p></div>
+<div class="card" style="border-color:var(--sos)"><p class="eyebrow" style="margin:0;color:var(--sos)">Emergency</p><p>Sparks, burning smell or no power?</p><button class="btn btn--sos" type="button" data-sos><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Emergency help</button></div>
+<div class="card"><p class="eyebrow" style="margin:0">Rather chat?</p><p>Book a visit step by step in the chat.</p><button class="btn btn--ghost" type="button" data-chat="book">Open the chat</button></div>
+<div class="card"><p class="eyebrow" style="margin:0">Email and address</p><p><a href="mailto:hello@ginnel.example">hello@ginnel.example</a> <i class="sample">Sample</i></p><p>Ginnel Yard, Rochdale, Greater Manchester <i class="sample">Sample</i></p></div></aside></div></section>
+</main>
+<footer class="foot">
+  <div class="foot__in">
+    <div class="foot__brand"><a class="brand" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#101317"/><rect x="1" y="1" width="30" height="30" rx="7" fill="none" stroke="#FFC629" stroke-opacity=".35"/><path d="M18 5 9 18h6l-2 9 10-14h-6z" fill="#FFC629"/></svg><span class="brand__w">Ginnel<b>.</b></span></a><p>Electricians for homes, landlords and small businesses across Rochdale and the boroughs around it. Tidy work, straight answers.</p></div>
+    <div><h2 class="foot__h">Get in touch</h2><p><a href="tel:+441632960417">01632 960417</a> <i class="sample">Sample</i><br><a href="mailto:hello@ginnel.example">hello@ginnel.example</a> <i class="sample">Sample</i></p><p>Ginnel Yard, Rochdale, Greater Manchester <i class="sample">Sample</i></p><p>Mon to Fri 8am to 5.30pm, Sat 9am to 1pm <i class="sample">Sample</i></p></div>
+    <div><h2 class="foot__h">Services</h2><p><a href="ev-charger-installation">EV chargers</a></p><p><a href="rewires">Rewires</a></p><p><a href="consumer-units">Consumer units</a></p><p><a href="fault-finding">Fault finding</a></p><p><a href="eicr-landlord-certificates">EICRs for landlords</a></p></div>
+    <div><h2 class="foot__h">More</h2><p><a href="emergency">Emergency help</a></p><p><a href="areas">Areas we cover</a></p><p><a href="advice">Advice</a></p><p><a href="about">About</a></p><p><a href="credits">Photo credits</a></p></div>
+  </div>
+  <div class="foot__legal"><p><strong>A fictional business, not a real company.</strong> Demo site built by <a href="https://clockworkai.app" target="_blank" rel="noopener">Clockwork AI</a> to show what we make. Photos are stock images, see <a href="credits">photo credits</a>.</p></div>
+</footer>
+<div class="mbar" aria-label="Quick actions"><button type="button" class="mbar__sos" data-sos><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg><span>Emergency</span></button><a class="mbar__q" href="contact#quote">Get a quote</a></div>
+<dialog class="sos" id="sos" aria-labelledby="sos-h">
+  <div class="sos__in">
+    <button class="sos__x" type="button" data-close aria-label="Close">&times;</button>
+    <p class="eyebrow">Emergency electrician</p>
+    <h2 id="sos-h">Lost power, sparks or a burning smell?</h2>
+    <a class="sos__call" href="tel:+441632960999"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg><span>01632 960999</span></a>
+    <p class="sos__demo">This is a demo number from the range Ofcom keeps for drama. It rings nobody.</p>
+    <h3>Safe first, while you wait</h3>
+    <ol class="sos__list"><li>If it's safe to reach, switch off the main switch on your consumer unit (fuse board).</li><li>Don't touch damaged sockets, switches, cables or anything that's wet.</li><li>Keep everyone, and pets, away from the area.</li><li>Call us on the number above and tell us what you can see, hear or smell.</li></ol>
+    <p class="sos__foot"><strong>Fire, smoke or someone has had a shock?</strong> Call 999 first. Don't touch a person who is still in contact with electricity.</p>
+    <a class="link" href="emergency">More on what to do</a>
+  </div>
+</dialog>
+<script src="site.js" defer></script>
+<script src="chat.js" defer></script>
+</body>
+</html>
