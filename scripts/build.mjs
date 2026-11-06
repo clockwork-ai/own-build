@@ -2,6 +2,7 @@ import { cp, mkdir, readdir, rm } from "node:fs/promises";
 import path from "node:path";
 import { build } from "esbuild";
 import { tarnhaleFiles, manifestSource } from "./tarnhale-manifest.mjs";
+import { demoSites, sitesSource } from "./demo-sites.mjs";
 import { writeFile } from "node:fs/promises";
 import { buildHome } from "./home-build.mjs";
 
@@ -14,6 +15,8 @@ await mkdir(publicDir, { recursive: true });
 
 // Keep the Tarnhale subdomain file list in step with demos/tarnhale.
 await writeFile(path.join(root, "lib", "tarnhale-files.js"), manifestSource(await tarnhaleFiles()));
+// And every other demo with a site.json, each on its own subdomain.
+await writeFile(path.join(root, "lib", "demo-sites.js"), sitesSource(await demoSites()));
 
 await build({
   entryPoints: ["server/chat.ts"],
