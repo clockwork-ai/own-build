@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Illustration of the same cellar after work: dry, lined walls, a light and storage shelves">
+<rect width="800" height="500" fill="#DCE6E5"/>
+<path d="M0 0h800v60C640 20 160 20 0 60z" fill="#C9D6D5"/>
+<rect x="40" y="90" width="720" height="300" fill="#EEF3F2"/><path d="M40 90h720" stroke="#C9D6D5" stroke-width="6"/><circle cx="400" cy="70" r="16" fill="#FFF6D5"/><circle cx="400" cy="70" r="60" fill="#FFF6D5" opacity=".25"/>
+<g fill="#B79B78"><rect x="520" y="200" width="200" height="10"/><rect x="520" y="270" width="200" height="10"/><rect x="520" y="340" width="200" height="10"/></g>
+<g fill="#7FB7AE"><rect x="540" y="172" width="44" height="28" rx="3"/><rect x="600" y="166" width="52" height="34" rx="3"/><rect x="560" y="240" width="60" height="30" rx="3"/><rect x="640" y="306" width="50" height="34" rx="3"/></g>
+<rect y="390" width="800" height="110" fill="#A9B8B6"/>
+
+</svg>

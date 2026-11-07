@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Illustration of the same wall after drying out and replastering, with clean plaster and a new skirting board">
+<rect width="800" height="500" fill="#EEF2F1"/>
+
+<rect x="560" y="70" width="170" height="200" rx="4" fill="#DCE8E6" stroke="#B6CCCA" stroke-width="10"/>
+<path d="M645 70v200M560 170h170" stroke="#B6CCCA" stroke-width="8"/>
+<rect y="430" width="800" height="34" fill="#FFFFFF"/>
+<rect y="430" width="800" height="4" fill="#CFDAD9"/>
+<rect y="464" width="800" height="36" fill="#B79B78"/>
+<path d="M0 470h800" stroke="#A3876A" stroke-width="2"/>
+</svg>
