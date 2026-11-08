@@ -142,7 +142,7 @@ export function openItems(terms = websiteLaunchTerms) {
     {
       id: "case-study",
       title: "Case-study participation",
-      text: "This is a Foundation case-study offer. What you must do for the case study, and what permission is asked for photos, words or the finished site, is not settled. A public mention still needs a separate yes, and what that yes covers is not listed. This page does not give blanket permission to publicise the business. A testimonial is not compulsory. No penalty is set.",
+      text: "Permission to show your business name, the finished website, and screenshots we have each agreed is a confirmed condition of the setup-fee waiver. Anything else the case study might ask, including other photos or words, is not settled. A testimonial is not compulsory. Your customers' private details are not included. This page does not give blanket permission, and it does not set a penalty.",
     },
     {
       id: "privacy",
@@ -178,6 +178,7 @@ function renderPage(terms) {
     ["scope", "Foundation"],
     ["price", "The price"],
     ["payments", "Payments"],
+    ["condition", "The condition"],
     ["apply", "Who can apply"],
     ["selection", "Selection"],
     ["timing", "Timing"],
@@ -407,7 +408,8 @@ function renderPage(terms) {
       <div data-sc-in>
         <dl class="facts">
           <div><dt>Package</dt><dd>Foundation case-study offer. Foundation only. Not Growth. Not Autopilot. Not an upgrade.</dd></div>
-          <div><dt>Setup fee</dt><dd>Waived for the one selected trade business. The waiver does not cover Growth, Autopilot, an upgrade, or any extra agreed separately.</dd></div>
+          <div><dt>Setup fee</dt><dd>Waived for the one selected trade business, on the condition below. The waiver does not cover Growth, Autopilot, an upgrade, or any extra agreed separately.</dd></div>
+          <div><dt>Condition</dt><dd>You permit me to show your business name, the finished website, and screenshots we have each agreed. Read that before you apply.</dd></div>
           <div><dt>Monthly price</dt><dd>${escapeHtml(price)} I am not VAT registered, so nothing is added for VAT. I am not publishing a VAT number.</dd></div>
           <div><dt>Who</dt><dd>One trade business that is not already a client. The owner, or someone the owner has authorised. No site, or a site that is missing or weak.</dd></div>
           <div><dt>How to apply</dt><dd>A direct message on the Facebook or Instagram post. That is the only way to apply.</dd></div>
@@ -477,7 +479,21 @@ function renderPage(terms) {
     </div>
   </section>
 
-  <section id="apply" data-title="Who can apply" class="block ground-1 trim">
+  <section id="condition" data-title="The condition" class="block ground-1 trim">
+    <div class="sc-wrap split">
+      <div class="block__head sticky" data-sc-in>
+        <h2 class="sc-display h2-md">The condition of the waiver.</h2>
+        <p>Read this before you apply or accept.</p>
+      </div>
+      <div class="prose" data-sc-in>
+        <p><strong>Confirmed.</strong> The waived setup fee has this condition. If you are selected and you accept, you permit me to show your business name, the finished website, and screenshots of that website which we have each agreed. I do not show a screenshot until you have agreed that exact screenshot.</p>
+        <p>That permission comes with the setup-fee waiver. It is not a separate optional yes. It is not permission to show anything else. A testimonial is voluntary. I do not show your customers' private details. This is not a blanket permission. This page does not name where those three things may be shown, and it does not say for how long. No penalty is set, and the setup fee is not put back on.</p>
+        <p>Anything else about the case study is not settled.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="apply" data-title="Who can apply" class="block ground-2 trim">
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display h2-md">Who can apply, and how.</h2>
@@ -499,9 +515,9 @@ function renderPage(terms) {
         <p>Need, fit and readiness. A written record. Not a random draw.</p>
       </div>
       <div class="prose" data-sc-in>
-        <p>I select one trade business. I look at need, fit and readiness, and I keep a written record of why. It is not a competition, and it is not a random draw. There is no independent judge. I do not publish the name.</p>
+        <p>I select one trade business. I look at need, fit and readiness, and I keep a written record of why. It is not a competition, and it is not a random draw. There is no independent judge. I do not publish who has been selected before they accept.</p>
         <p>I contact the selected business privately by ${escapeHtml(selectBy)}. That is ${terms.selectWithinWorkingDays} working days after the close: ${escapeHtml(selectionDays)}. They have ${terms.acceptWithinWorkingDays} working days from the day I contact them to accept in writing, by email to <a href="mailto:${escapeHtml(terms.email)}">${escapeHtml(terms.email)}</a>. If they do not accept in that time, I may select another eligible business in the same way.</p>
-        <p>I do not announce the selected business on ${escapeHtml(selectBy)}, or on any fixed day. A public mention happens only after they have accepted, and only with a separate yes to publicity. What that yes covers, and what taking part in the case study requires, is not settled. This page does not make a testimonial compulsory, and it does not set a penalty.</p>
+        <p>I do not announce the selected business on ${escapeHtml(selectBy)}, or on any fixed day. Permission to show the business name, the finished website, and screenshots we have each agreed is a condition of the setup-fee waiver, set out above. It is not a separate optional yes. A testimonial is voluntary. Anything else still needs a separate yes, and what that further yes covers is not settled. No penalty is set.</p>
         <p>A working day in this draft means a day other than a Saturday, a Sunday, or a bank holiday in England and Wales.</p>
         <p>Messaging me does not mean you will be selected. If only one business messages, I still do not have to select it. If nobody fits, I select nobody. I do not automatically message the businesses that are not selected, and I do not add anyone to a marketing list.</p>
       </div>
@@ -531,7 +547,7 @@ function renderPage(terms) {
         <p>A direct message is an enquiry. It is not a contract. Being selected is not a contract. Nothing on this page is an offer you accept by sending a message. A contract exists only when we have both agreed in writing. Until then I do not have to go ahead, and you do not have to go ahead.</p>
         <p>If you accept in writing, you send the materials I ask for within ${terms.materialsCalendarDays} calendar days of that acceptance. The list of materials is not fixed on this page. What happens if they arrive late is not agreed.</p>
         <p>The current website terms say ${quote(terms.domainInYourName)} For this promotion you hold the registrar account and you pay the domain company. I help point the website, and I leave existing email records in place. I do not take the domain into an account of mine. They also say ${quote(terms.handover)} You then receive a full copy of the files and code, or I move the site into an account in your name. I do not say you own the website before that handover. ${escapeHtml(terms.siteOffline)} This draft does not change that handover.</p>
-        <p>Where this draft and the current website terms differ, publishing this draft does not override them. The written agreement we both sign is the one that would choose. Until that agreement exists, the current website terms stand.</p>
+        <p>For this campaign only, once we have both agreed in writing, the confirmed terms on this page take precedence over the general website terms where they differ. They do not change the general offers on the rest of this site. For this campaign those confirmed differences are: hosting and routine care are included in the £99; there are 12 monthly payments; if you stop during those 12, the ones left stay due monthly and I will not ask for them as one lump sum; after the 12th payment it carries on month to month until 30 days' notice in writing; and you buy and hold the domain yourself and pay the domain company.</p>
       </div>
     </div>
   </section>
@@ -544,7 +560,7 @@ function renderPage(terms) {
       </div>
       <div class="prose" data-sc-in>
         <p>I ask for the business name, the trade, the town or city, the current website or the fact there is not one, and what you need. I use that to read the enquiry, decide whether to select the business, keep the written record of the decision, and reply about this promotion. I do not add you to a marketing list.</p>
-        <p>A direct message is not permission to publicise your business, your name, your photos or your site. Publicity needs a separate yes, in writing, later. You can say no. Saying no does not change the selection. What that yes would cover is not listed yet.</p>
+        <p>A direct message is not permission to show your business. If you accept the setup-fee waiver in writing, you do permit me to show your business name, the finished website, and screenshots we have each agreed. That is a condition of the waiver. A testimonial stays voluntary. Your customers' private details are not included. Anything else still needs a separate yes, in writing. Saying no to that further yes does not change the selection. What that further yes would cover is not listed yet.</p>
         <p>How I handle personal details on the rest of this site is on the <a href="/privacy">privacy page</a>. That page does not yet describe this promotion, these direct messages, or a separate publicity consent. Your rights on that page still apply, including asking me for a copy, a correction or a deletion.</p>
       </div>
     </div>
