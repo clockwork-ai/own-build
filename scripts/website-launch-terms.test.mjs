@@ -64,33 +64,43 @@ test("the draft is Foundation only, at a stable address, and not indexed yet", (
   assert.match(html, /own quote and your written acceptance/);
 });
 
-test("quotes the published Foundation descriptions and does not rewrite those pages", () => {
+test("the same Foundation list is on the homepage, services, roofers and the draft", () => {
   const home = read("index.html");
   const services = read("services.html");
   const roofers = read("roofers.html");
   const currentTerms = read("terms.html");
-  for (const line of terms.homepageFoundation) {
-    assert.ok(home.includes(line), line);
-    assert.ok(html.includes(line), line);
+  const knowledge = read("lib/business.ts");
+  for (const line of terms.foundationIncludes) {
+    for (const [name, file] of [["home", home], ["services", services], ["roofers", roofers], ["draft", html]]) {
+      assert.ok(file.includes(line), `${name} missing ${line}`);
+    }
   }
-  for (const line of [terms.servicesFoundation, terms.servicesGrowth, terms.servicesAutopilot, terms.servicesHappyCustomers]) {
+  assert.match(knowledge, /mobile site of up to five pages/);
+  assert.match(knowledge, /chat box on the site and the Review Accelerator/);
+  assert.match(knowledge, /Never quote a price/);
+  assert.doesNotMatch(services, /happy customers are asked/);
+  assert.doesNotMatch(home, /A review request after every job|A quoting and job app|A page for each service and town|Monthly posts made from your own jobs/);
+  assert.doesNotMatch(home, /£/);
+  assert.doesNotMatch(services, /£/);
+  assert.doesNotMatch(roofers, /£/);
+  assert.doesNotMatch(currentTerms, /£99/);
+  assert.match(home, /Missed calls texted back/);
+  assert.match(home, /Database Reactivation/);
+  assert.match(home, /The Referral Flywheel/);
+  assert.match(home, /The Lifetime Value System/);
+  assert.match(home, /A monthly review call/);
+  for (const line of [terms.servicesGrowth, terms.servicesAutopilot]) {
     assert.ok(services.includes(line), line);
     assert.ok(html.includes(line), line);
   }
-  for (const line of [terms.roofersFoundation, terms.roofersGrowth, terms.roofersAutopilot, terms.roofersEveryCustomer]) {
+  for (const line of [terms.roofersGrowth, terms.roofersAutopilot, terms.roofersEveryCustomer]) {
     assert.ok(roofers.includes(line), line);
-    assert.ok(html.includes(line), line);
-  }
-  for (const line of terms.homepageGrowth.concat(terms.homepageAutopilot)) {
-    assert.ok(home.includes(line), line);
-    assert.ok(html.includes(line), line);
   }
   for (const line of [terms.separateHosting, terms.noMinimumOnCurrentTerms, terms.siteOffline, terms.domainInYourName, terms.handover]) {
     assert.ok(currentTerms.includes(line), line);
     assert.ok(html.includes(line), line);
   }
-  assert.match(html, /not rewriting the package to keep only the five-page list/);
-  assert.match(html, /I do not use that sentence\. Every customer gets the review link/);
+  assert.doesNotMatch(html, /does not choose|Which Foundation description applies|happy customers are asked/);
   for (const file of ["index.html", "services.html", "roofers.html", "terms.html", "privacy.html", "how-it-works.html", "sitemap.xml", "pages.js", "lib/business.ts"]) {
     assert.equal(read(file).includes("website-launch-terms"), false, file);
   }

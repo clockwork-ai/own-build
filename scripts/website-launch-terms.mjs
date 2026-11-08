@@ -40,29 +40,17 @@ export const websiteLaunchTerms = {
   acceptWithinWorkingDays: 5,
   materialsCalendarDays: 14,
   noticeDays: 30,
-  homepageFoundation: [
+  foundationIncludes: [
     "A mobile site, up to five pages",
     "One tap to call, text or email you",
     "Your reviews up front",
     "Your Google profile set up properly",
+    "A chat box on your site",
+    "The Review Accelerator, for every customer",
   ],
-  servicesFoundation: "Your website, a chat box on your site, and the Review Accelerator.",
-  roofersFoundation: "The website, a chat box on your site, and the Review Accelerator.",
-  servicesHappyCustomers: "happy customers are asked for a Google review",
   roofersEveryCustomer: "every customer gets a thank-you, a Google review link, and a check-in later.",
-  homepageGrowth: [
-    "A page for each service and town you cover",
-    "Every job photo framed with your name",
-    "A review request after every job",
-    "Monthly posts made from your own jobs",
-  ],
   servicesGrowth: "Missed calls texted back and Database Reactivation, on top of Foundation.",
   roofersGrowth: "Foundation, plus missed calls texted back and Database Reactivation. Missed and out-of-hours calls get texted back and booked, and old quotes get a follow-up.",
-  homepageAutopilot: [
-    "Calls you can't take, answered and texted back",
-    "A quoting and job app on your phone",
-    "A monthly results summary and a call",
-  ],
   servicesAutopilot: "The Referral Flywheel, the Lifetime Value System, and a monthly review call, on top of Growth.",
   roofersAutopilot: "Growth, plus the Referral Flywheel, the Lifetime Value System, and a monthly review call with me.",
   separateHosting: "Hosting and care is a separate monthly service you can cancel any month.",
@@ -140,16 +128,6 @@ export function openItems(terms = websiteLaunchTerms) {
   const end = formatDate(closeCandidateISO(terms));
   return [
     {
-      id: "foundation-scope",
-      title: "Which Foundation description applies",
-      text: "The homepage and the services page do not describe Foundation the same way. This draft quotes both and does not choose. An earlier description of this promotion matched the homepage list: a mobile site, up to five pages, reviews up front, and an easy way to get in touch. That list does not name the chat box or the Review Accelerator. The services and roofers pages do. I am not rewriting the package to keep only the five-page list, and I am not deleting the homepage list. Before this can apply, the written agreement has to name which description is included. One sentence on the services page says happy customers are asked for a review. The roofers page says every customer gets the review link. I work to the every-customer rule. This draft does not adopt the happy-customers sentence.",
-    },
-    {
-      id: "plan-boundary",
-      title: "Where Foundation stops",
-      text: "The waived setup fee and the monthly price do not cover Growth, Autopilot, an upgrade, or an extra agreed separately. Those need their own written quote and a separate acceptance. They are not compulsory. Growth and Autopilot are also described two ways on the site, so the edge of what is outside Foundation is not settled until the Foundation description is chosen.",
-    },
-    {
       id: "revisions",
       title: "How many changes are included",
       text: "A revision allowance is not agreed. Routine care in this draft means keeping the site online and small corrections so it keeps working. That is not a redesign allowance, and it is not a set number of rounds.",
@@ -180,19 +158,14 @@ export function openItems(terms = websiteLaunchTerms) {
       text: "The privacy page does not yet describe these direct messages, the written selection record, or a separate publicity consent. What a publicity yes would cover is not listed. The Facebook and Instagram addresses are not in the site files, so this page does not link to an account.",
     },
     {
-      id: "confirmations",
-      title: "Readings that still need a yes",
-      text: "Confirm that new means not already a client of mine, rather than a business that has only just started. Confirm that a working day is Monday to Friday and not a bank holiday in England and Wales. Confirm, on the day this is published, that I am still not VAT registered. The list of materials is not fixed, and what happens if they arrive late is not agreed. This draft sets no geographical limit, because none was given.",
+      id: "materials",
+      title: "The materials, and a late delivery",
+      text: "The list of materials is not fixed, and what happens if they arrive late is not agreed.",
     },
     {
       id: "same-words",
       title: "The post and this page use the same words",
       text: "Any post that points here has to say Foundation, and it has to use this price. A layout that only says the website setup fee is waived, and does not say Foundation, does not match this draft.",
-    },
-    {
-      id: "chat",
-      title: "The chat on this site",
-      text: "The chat is still instructed not to quote a plan price, and it does not know this page. I have left it that way. A direct message on the post is the only application. The chat is not an application.",
     },
   ];
 }
@@ -463,31 +436,16 @@ function renderPage(terms) {
   <section id="scope" data-title="Foundation" class="block ground-2 trim">
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
-        <h2 class="sc-display h2-md">What Foundation means today.</h2>
-        <p>Two descriptions are already on the site. This draft does not delete either of them.</p>
+        <h2 class="sc-display h2-md">What Foundation includes.</h2>
+        <p>The same list on the homepage, the services page and the roofers page.</p>
       </div>
       <div class="prose" data-sc-in>
-        <p class="scope-kicker">Homepage</p>
-        ${list(terms.homepageFoundation)}
-        <p>That is the list under the Foundation heading on the <a href="/#what">homepage</a>. It does not name the chat box or the Review Accelerator. An earlier description of this promotion tracked this list: a mobile site of up to five pages, reviews, and an easy way to get in touch, plus the Google profile the homepage also names.</p>
-        <p class="scope-kicker">Services and roofers</p>
-        ${list([terms.servicesFoundation, terms.roofersFoundation])}
-        <p>The first line is Foundation on the <a href="/services">services page</a>. The second is Foundation on the <a href="/roofers">roofers page</a>. Neither line says five pages. Neither line mentions the Google profile. The roofers page also says ${quote(terms.roofersEveryCustomer)}</p>
-        <p>I am not rewriting the package to keep only the five-page list, and I am not deleting the homepage list to keep only the chat box and the Review Accelerator. Until a written agreement names which description applies, this promotion cannot say the package is settled.</p>
-        <p>One sentence on the services page says ${quote(terms.servicesHappyCustomers)}. I do not use that sentence. Every customer gets the review link. There is no incentive for a star.</p>
+        ${list(terms.foundationIncludes)}
+        <p>That is Foundation. The <a href="/#what">homepage</a>, the <a href="/services">services page</a> and the <a href="/roofers">roofers page</a> use this list. The site is the pages, the way to get in touch, the reviews on the page, and the Google profile. The chat box and the Review Accelerator sit with that site. Every customer gets a thank-you, a Google review link, and a check-in later. There is no incentive for a star.</p>
         <h3 class="subhead">Outside the waiver.</h3>
-        <p>The waived setup fee and the monthly price do not cover Growth, Autopilot, an upgrade, or an extra we agree separately. Each of those is optional. It needs its own quote and your written acceptance. It does not become a compulsory extra because it was discussed, and it is not a condition of being selected.</p>
-        <p class="scope-kicker">Growth on the homepage</p>
-        ${list(terms.homepageGrowth)}
-        <p class="scope-kicker">Growth on the services page</p>
-        <p>${quote(terms.servicesGrowth)}</p>
-        <p>The roofers page says: ${quote(terms.roofersGrowth)}</p>
-        <p class="scope-kicker">Autopilot on the homepage</p>
-        ${list(terms.homepageAutopilot)}
-        <p class="scope-kicker">Autopilot on the services page</p>
-        <p>${quote(terms.servicesAutopilot)}</p>
-        <p>The roofers page says: ${quote(terms.roofersAutopilot)}</p>
-        <p>I am not choosing between those lists here. They show why "not Growth" and "not Autopilot" still need the Foundation description to be fixed first.</p>
+        <p>The waived setup fee and the monthly price cover Foundation only. They do not cover Growth, Autopilot, an upgrade, or an extra we agree separately. Each of those is optional. It needs its own quote and your written acceptance. It does not become a compulsory extra because it was discussed, and it is not a condition of being selected.</p>
+        <p>Growth adds missed calls texted back and Database Reactivation. The services page says ${quote(terms.servicesGrowth)} The roofers page says ${quote(terms.roofersGrowth)}</p>
+        <p>Autopilot adds the Referral Flywheel, the Lifetime Value System, and a monthly review call. The services page says ${quote(terms.servicesAutopilot)} The roofers page says ${quote(terms.roofersAutopilot)}</p>
       </div>
     </div>
   </section>
@@ -504,7 +462,7 @@ function renderPage(terms) {
         <p>That monthly price is proposed to include the hosting, the routine care, and the standard domain costs that this Foundation package needs. You do not have to buy those separately. There are no compulsory extras.</p>
         <p>Routine care, in this draft, means keeping the site online and making small corrections so it keeps working. It is not a round of redesign. How many rounds of changes are included is not agreed.</p>
         <p>What counts as a standard domain is not agreed. That includes which ending the name uses, a premium name, a transfer, email on the domain, and the cost after the first year.</p>
-        <p>This figure is not a Growth price and not an Autopilot price. The <a href="/services">services page</a>, the <a href="/roofers">roofers page</a> and the <a href="/">homepage</a> still say the plans are priced on a call. This page does not change them.</p>
+        <p>This figure is not a Growth price and not an Autopilot price. The <a href="/services">services page</a>, the <a href="/roofers">roofers page</a> and the <a href="/">homepage</a> still say the plans are priced on a call. This page does not change them. The chat on this site does not quote this price.</p>
       </div>
     </div>
   </section>
@@ -532,7 +490,7 @@ function renderPage(terms) {
         <p>One application. Direct message only. No payment, and no like, tag, share or follow.</p>
       </div>
       <div class="prose" data-sc-in>
-        <p>You can apply if you are the owner of a trade business, or the owner has authorised you to apply and to agree the work. In this draft, new means the business is not already a client of mine. That reading is still to be confirmed. The business has no website, or the website it has is missing or weak. I have not published a score for weak. That judgement is part of the selection, and I write the reason down.</p>
+        <p>You can apply if you are the owner of a trade business, or the owner has authorised you to apply and to agree the work. New means the business is not already a client of mine. The business has no website, or the website it has is missing or weak. I have not published a score for weak. That judgement is part of the selection, and I write the reason down.</p>
         <p>One application per business. A second message does not make a second application. This draft sets no geographical limit.</p>
         <p>The only way to apply is a direct message on the Facebook or Instagram post this promotion is attached to. A phone call, an email, a booking, or a message on this website is not an application. I do not ask you to like, tag, share or follow anything. Do not send payment.</p>
         <p>In the direct message, send the business name, the trade, the town or city, the current website address or the fact there is not one, and what you need. That is the lot.</p>
