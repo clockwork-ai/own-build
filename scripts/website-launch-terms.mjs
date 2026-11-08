@@ -108,7 +108,7 @@ export function priceSentence(terms = websiteLaunchTerms) {
   const monthly = formatPounds(terms.monthlyPounds);
   const total = formatPounds(totalPounds(terms));
   const n = terms.paymentCount;
-  return `${monthly} per month. ${n}-month minimum. ${n} monthly payments of ${monthly}. ${total} total over ${n} months, not payable upfront. No VAT added.`;
+  return `${monthly} per month. ${n} monthly payments of ${monthly}. ${total} total Clockwork fees over ${n} months, not payable upfront. Domain purchase and renewal are paid separately by you. No VAT added.`;
 }
 
 function escapeHtml(value) {
@@ -129,11 +129,6 @@ function quote(text) {
 
 export function openItems(terms = websiteLaunchTerms) {
   return [
-    {
-      id: "domain",
-      title: "The domain",
-      text: "Whether a domain is included in the monthly price is not agreed. This page does not define a domain.",
-    },
     {
       id: "missed-payment",
       title: "A missed payment",
@@ -411,7 +406,7 @@ function renderPage(terms) {
           <div><dt>Monthly price</dt><dd>${escapeHtml(price)} I am not VAT registered, so nothing is added for VAT. I am not publishing a VAT number.</dd></div>
           <div><dt>Who</dt><dd>One trade business that is not already a client. The owner, or someone the owner has authorised. No site, or a site that is missing or weak.</dd></div>
           <div><dt>How to apply</dt><dd>A direct message on the Facebook or Instagram post. That is the only way to apply.</dd></div>
-          <div><dt>Not included</dt><dd>There are no compulsory extras. Optional work outside Foundation needs its own quote and your written acceptance.</dd></div>
+          <div><dt>Domain</dt><dd>You buy and renew it yourself, and you pay your domain company. The £1,188 is the Clockwork fees only.</dd></div>
         </dl>
         <div class="prose" style="margin-top:18px">
           <p>This draft is run by ${escapeHtml(terms.promoterName)}, trading as ${escapeHtml(terms.tradingAs)}, a sole trader in ${escapeHtml(terms.place)}. I am not publishing a street address or a company number. Questions about the draft: email <a href="mailto:${escapeHtml(terms.email)}">${escapeHtml(terms.email)}</a> or ring <a href="tel:${escapeHtml(terms.phoneTel)}">${escapeHtml(terms.phoneDisplay)}</a>. A call or an email is not an application.</p>
@@ -437,7 +432,7 @@ function renderPage(terms) {
         ${list(terms.foundationIncludes)}
         <p>That is Foundation. The <a href="/#what">homepage</a>, the <a href="/services">services page</a> and the <a href="/roofers">roofers page</a> use this list. The site is the pages, the way to get in touch, the reviews on the page, and the Google profile. The chat box and the Review Accelerator sit with that site. Every customer gets a thank-you, a Google review link, and a check-in later. There is no incentive for a star.</p>
         <h3 class="subhead">Outside the waiver.</h3>
-        <p>The waived setup fee and the monthly price cover Foundation only. They do not cover Growth, Autopilot, an upgrade, or an extra we agree separately. Each of those is optional. It needs its own quote and your written acceptance. It does not become a compulsory extra because it was discussed, and it is not a condition of being selected.</p>
+        <p>The waived setup fee and the monthly price cover Foundation only. They do not cover Growth, Autopilot, an upgrade, or an extra we agree separately. Each of those is optional. It needs its own quote and your written acceptance. It is not a condition of this offer.</p>
         <p>Growth adds missed calls texted back and Database Reactivation. The services page says ${quote(terms.servicesGrowth)} The roofers page says ${quote(terms.roofersGrowth)}</p>
         <p>Autopilot adds the Referral Flywheel, the Lifetime Value System, and a monthly review call. The services page says ${quote(terms.servicesAutopilot)} The roofers page says ${quote(terms.roofersAutopilot)}</p>
       </div>
@@ -454,7 +449,8 @@ function renderPage(terms) {
         <p>${escapeHtml(price)}</p>
         <p>I am not VAT registered. No VAT is added. I am not publishing a VAT number, and I am not publishing the usual setup fee. The setup fee is waived for the one selected business. Waiving it does not remove the monthly price.</p>
         <p><strong>Confirmed.</strong> Routine care is included in the ${monthly} a month. That is keeping the site working, and small corrections. Hosting is included in the ${monthly} a month as well. Two rounds of changes to the website are included.</p>
-        <p><strong>Not agreed.</strong> Whether a domain is included is not agreed. This page does not define a domain.</p>
+        <p><strong>Confirmed.</strong> You buy and renew the domain yourself, in a registrar account in your name that you control, and you pay that company directly. You can keep a domain you already have. You do not have to buy a new one. I help you point the domain to Vercel so the website shows, and I leave any email records you already have in place.</p>
+        <p>Setting up your Google profile is included. That is not an email inbox. Website hosting is not a business email subscription. No email package and no email price are included. If you want help with email, I quote that separately, and it happens only if you accept the quote. It is not a condition of this offer.</p>
         <p>This figure is not a Growth price and not an Autopilot price. The <a href="/services">services page</a>, the <a href="/roofers">roofers page</a> and the <a href="/">homepage</a> still say the plans are priced on a call. This page does not change them. The chat on this site does not quote this price.</p>
       </div>
     </div>
@@ -464,10 +460,10 @@ function renderPage(terms) {
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display h2-md">How the ${terms.paymentCount} payments work.</h2>
-        <p>The payment dates, hosting, routine care, two rounds of changes, and stopping are confirmed. Whether a domain is included is not agreed.</p>
+        <p>The payment dates, hosting, routine care, two rounds of changes, stopping, and the domain arrangement are confirmed. The domain fee is not part of the £1,188.</p>
       </div>
       <div class="prose" data-sc-in>
-        <p><strong>Confirmed.</strong> There are ${terms.paymentCount} payments of ${monthly}. The total is ${formatPounds(totalPounds(terms))}. I will not ask for them as one sum at the start. The first payment is due on the day the website actually goes live, once you have approved that go-live. It is not due earlier, on a day when you only agree a future go-live date. Each of the other ${laterPayments} payments is due monthly from that actual go-live date.</p>
+        <p><strong>Confirmed.</strong> There are ${terms.paymentCount} payments of ${monthly}. The total of the Clockwork fees is ${formatPounds(totalPounds(terms))}. I will not ask for them as one sum at the start. The first payment is due on the day the website actually goes live, once you have approved that go-live. It is not due earlier, on a day when you only agree a future go-live date. Each of the other ${laterPayments} payments is due monthly from that actual go-live date. Domain purchase and renewal are paid separately by you.</p>
         <p>If go-live falls on a day that a later month does not have, which calendar date is used then is an implementation detail. That date is not fixed here.</p>
         <p><strong>Confirmed.</strong> If you stop during the ${terms.paymentCount} payments, the ones still to come stay due one month at a time. I will not ask for the rest as one lump sum. After the 12th payment, it carries on month to month until one of us gives ${terms.noticeDays} days' notice in writing. When that notice ends it, hosting and routine care stop, and you can move the website elsewhere.</p>
         <p>What happens if a payment is missed is not agreed. This page does not set a consequence for that.</p>
@@ -529,7 +525,7 @@ function renderPage(terms) {
       <div class="prose" data-sc-in>
         <p>A direct message is an enquiry. It is not a contract. Being selected is not a contract. Nothing on this page is an offer you accept by sending a message. A contract exists only when we have both agreed in writing. Until then I do not have to go ahead, and you do not have to go ahead.</p>
         <p>If you accept in writing, you send the materials I ask for within ${terms.materialsCalendarDays} calendar days of that acceptance. The list of materials is not fixed on this page. What happens if they arrive late is not agreed.</p>
-        <p>The current website terms say ${quote(terms.domainInYourName)} I hold access so I can look after the domain. They also say ${quote(terms.handover)} You then receive a full copy of the files and code, or I move the site into an account in your name. I do not say you own the website before that handover. ${escapeHtml(terms.siteOffline)} This draft does not change that handover.</p>
+        <p>The current website terms say ${quote(terms.domainInYourName)} For this promotion you hold the registrar account and you pay the domain company. I help point the website, and I leave existing email records in place. I do not take the domain into an account of mine. They also say ${quote(terms.handover)} You then receive a full copy of the files and code, or I move the site into an account in your name. I do not say you own the website before that handover. ${escapeHtml(terms.siteOffline)} This draft does not change that handover.</p>
         <p>Where this draft and the current website terms differ, publishing this draft does not override them. The written agreement we both sign is the one that would choose. Until that agreement exists, the current website terms stand.</p>
       </div>
     </div>

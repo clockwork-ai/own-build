@@ -49,13 +49,13 @@ test("centralises the approved price and the agreed window dates", () => {
   assert.equal(terms.acceptWithinWorkingDays, 5);
   assert.equal(
     priceSentence(),
-    "£99 per month. 12-month minimum. 12 monthly payments of £99. £1,188 total over 12 months, not payable upfront. No VAT added.",
+    "£99 per month. 12 monthly payments of £99. £1,188 total Clockwork fees over 12 months, not payable upfront. Domain purchase and renewal are paid separately by you. No VAT added.",
   );
 });
 
 test("confirms only the 12 payment dates, and leaves the rest proposed", () => {
   assert.match(html, /<strong>Confirmed\.<\/strong> There are 12 payments of £99\./);
-  assert.match(html, /The total is £1,188\. I will not ask for them as one sum at the start\./);
+  assert.match(html, /The total of the Clockwork fees is £1,188\. I will not ask for them as one sum at the start\./);
   assert.match(html, /The first payment is due on the day the website actually goes live, once you have approved that go-live\./);
   assert.match(html, /It is not due earlier, on a day when you only agree a future go-live date\./);
   assert.match(html, /Each of the other 11 payments is due monthly from that actual go-live date\./);
@@ -65,8 +65,15 @@ test("confirms only the 12 payment dates, and leaves the rest proposed", () => {
   assert.match(html, /the ones still to come stay due one month at a time\. I will not ask for the rest as one lump sum\./);
   assert.match(html, /carries on month to month until one of us gives 30 days' notice/);
   assert.match(html, /hosting and routine care stop, and you can move the website elsewhere/);
-  assert.match(html, /Whether a domain is included is not agreed\. This page does not define a domain\./);
-  assert.doesNotMatch(html, /premium name|which ending the name uses|only a recommendation/);
+  assert.match(html, /You buy and renew the domain yourself, in a registrar account in your name that you control, and you pay that company directly\./);
+  assert.match(html, /You can keep a domain you already have\. You do not have to buy a new one\./);
+  assert.match(html, /I help you point the domain to Vercel so the website shows, and I leave any email records you already have in place\./);
+  assert.match(html, /Setting up your Google profile is included\. That is not an email inbox\./);
+  assert.match(html, /Website hosting is not a business email subscription\./);
+  assert.match(html, /No email package and no email price are included\./);
+  assert.match(html, /It is not a condition of this offer\./);
+  assert.doesNotMatch(html, /compulsory extra|all-in|all in|premium name|which ending the name uses|only a recommendation|Whether a domain is included is not agreed/i);
+  assert.equal((html.match(/£1,188 total(?! Clockwork fees)/g) || []).length, 0);
   assert.match(html, /which calendar date is used then is an implementation detail\. That date is not fixed here/);
   assert.match(html, /What happens if a payment is missed is not agreed\. This page does not set a consequence for that\./);
   assert.doesNotMatch(html, /late fee|interest on|suspended after|grace period/i);
@@ -94,7 +101,7 @@ test("the draft is Foundation only, at a stable address, and not indexed yet", (
   assert.equal(html.split(priceSentence()).length - 1, 3);
   assert.match(html, /No VAT is added/);
   assert.match(html, /I am not VAT registered/);
-  assert.match(html, /There are no compulsory extras/);
+  assert.match(html, /Domain purchase and renewal are paid separately by you/);
   assert.match(html, /own quote and your written acceptance/);
 });
 
