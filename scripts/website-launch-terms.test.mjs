@@ -89,13 +89,17 @@ test("the committed page matches the single source", () => {
 test("the draft is Foundation only, at a stable address, and not indexed yet", () => {
   assert.equal(terms.path, "/website-launch-terms");
   assert.equal(terms.canonical, "https://clockworkai.app/website-launch-terms");
-  assert.match(html, /<title>Foundation launch terms \| Clockwork AI<\/title>/);
+  assert.match(html, /<title>Foundation case-study offer \| Clockwork AI<\/title>/);
+  assert.match(html, /This is a Foundation case-study offer\./);
   assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/clockworkai\.app\/website-launch-terms">/);
   assert.match(html, /<html lang="en-GB">/);
   assert.match(html, /name="viewport"/);
   assert.match(html, /<h1 class="sc-display">Foundation <em>only\.<\/em><\/h1>/);
-  assert.match(html, /Foundation package only/);
+  assert.match(html, /Foundation case-study offer/);
+  assert.match(html, /What that yes covers, and what taking part in the case study requires, is not settled\./);
+  assert.match(html, /A testimonial is not compulsory\. No penalty is set\./);
+  assert.doesNotMatch(html, /you must give a testimonial|penalty for refusing|blanket permission to publicise the business is given/i);
   assert.match(html, /It is not a website sold on its own, outside Foundation\./);
   assert.match(html, /class="launch-limit"><strong>Foundation only\.<\/strong> The waived setup fee does not cover Growth, Autopilot, an upgrade, or an extra we agree separately\./);
   assert.equal(html.split(priceSentence()).length - 1, 3);

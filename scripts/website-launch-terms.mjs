@@ -18,8 +18,8 @@ export const websiteLaunchTerms = {
   path: "/website-launch-terms",
   file: "website-launch-terms.html",
   canonical: "https://clockworkai.app/website-launch-terms",
-  title: "Foundation launch terms | Clockwork AI",
-  description: "Draft terms for one selected trade business. Foundation package only. The website setup fee is waived. Not in force.",
+  title: "Foundation case-study offer | Clockwork AI",
+  description: "Draft terms for one selected trade business. A Foundation case-study offer. The website setup fee is waived. Not in force.",
   robots: "noindex, nofollow",
   draftDateISO: "2026-11-08",
   pageHour: "16:00",
@@ -138,6 +138,11 @@ export function openItems(terms = websiteLaunchTerms) {
       id: "advertising-rules",
       title: "Advertising rules and a postal address",
       text: "The UK advertising rules for this kind of selection (the CAP Code) have not been reviewed. I do not claim legal clearance. There is no independent judge. I choose, and I write down why. No postal address is published. Whether one has to be published is part of that review. I am not inventing an address.",
+    },
+    {
+      id: "case-study",
+      title: "Case-study participation",
+      text: "This is a Foundation case-study offer. What you must do for the case study, and what permission is asked for photos, words or the finished site, is not settled. A public mention still needs a separate yes, and what that yes covers is not listed. This page does not give blanket permission to publicise the business. A testimonial is not compulsory. No penalty is set.",
     },
     {
       id: "privacy",
@@ -374,9 +379,9 @@ function renderPage(terms) {
           <p><strong>Draft preview. Not in force.</strong></p>
           <p>A direct message does not accept this, and it does not create a contract. The window dates are set. Other points on this page are still open. This page does not replace the <a href="/terms">current website terms</a>.</p>
         </div>
-        <span class="sc-label">Foundation package only</span>
+        <span class="sc-label">Foundation case-study offer</span>
         <h1 class="sc-display">Foundation <em>only.</em></h1>
-        <p class="lede">One selected trade business. The website setup fee is waived for the Foundation package, and for nothing above it. Draft prepared ${escapeHtml(draftDate)}.</p>
+        <p class="lede">One selected trade business. This is a Foundation case-study offer. The website setup fee is waived for the Foundation package, and for nothing above it. Draft prepared ${escapeHtml(draftDate)}.</p>
         <p class="launch-price"><b>${monthly}</b> <span>per month</span></p>
         <p class="launch-note">${escapeHtml(price)}</p>
         <p class="launch-limit"><strong>Foundation only.</strong> The waived setup fee does not cover Growth, Autopilot, an upgrade, or an extra we agree separately.</p>
@@ -397,11 +402,11 @@ function renderPage(terms) {
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display h2-md">Foundation, and nothing above it.</h2>
-        <p>This promotion is the Foundation package. It is not a website sold on its own, outside Foundation.</p>
+        <p>This is a Foundation case-study offer. It is the Foundation package. It is not a website sold on its own, outside Foundation.</p>
       </div>
       <div data-sc-in>
         <dl class="facts">
-          <div><dt>Package</dt><dd>Foundation only. Not Growth. Not Autopilot. Not an upgrade.</dd></div>
+          <div><dt>Package</dt><dd>Foundation case-study offer. Foundation only. Not Growth. Not Autopilot. Not an upgrade.</dd></div>
           <div><dt>Setup fee</dt><dd>Waived for the one selected trade business. The waiver does not cover Growth, Autopilot, an upgrade, or any extra agreed separately.</dd></div>
           <div><dt>Monthly price</dt><dd>${escapeHtml(price)} I am not VAT registered, so nothing is added for VAT. I am not publishing a VAT number.</dd></div>
           <div><dt>Who</dt><dd>One trade business that is not already a client. The owner, or someone the owner has authorised. No site, or a site that is missing or weak.</dd></div>
@@ -496,7 +501,7 @@ function renderPage(terms) {
       <div class="prose" data-sc-in>
         <p>I select one trade business. I look at need, fit and readiness, and I keep a written record of why. It is not a competition, and it is not a random draw. There is no independent judge. I do not publish the name.</p>
         <p>I contact the selected business privately by ${escapeHtml(selectBy)}. That is ${terms.selectWithinWorkingDays} working days after the close: ${escapeHtml(selectionDays)}. They have ${terms.acceptWithinWorkingDays} working days from the day I contact them to accept in writing, by email to <a href="mailto:${escapeHtml(terms.email)}">${escapeHtml(terms.email)}</a>. If they do not accept in that time, I may select another eligible business in the same way.</p>
-        <p>I do not announce the selected business on ${escapeHtml(selectBy)}, or on any fixed day. A public mention happens only after they have accepted, and only with a separate yes to publicity.</p>
+        <p>I do not announce the selected business on ${escapeHtml(selectBy)}, or on any fixed day. A public mention happens only after they have accepted, and only with a separate yes to publicity. What that yes covers, and what taking part in the case study requires, is not settled. This page does not make a testimonial compulsory, and it does not set a penalty.</p>
         <p>A working day in this draft means a day other than a Saturday, a Sunday, or a bank holiday in England and Wales.</p>
         <p>Messaging me does not mean you will be selected. If only one business messages, I still do not have to select it. If nobody fits, I select nobody. I do not automatically message the businesses that are not selected, and I do not add anyone to a marketing list.</p>
       </div>
