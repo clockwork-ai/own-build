@@ -52,6 +52,21 @@ test("centralises the approved price and the agreed window dates", () => {
   );
 });
 
+test("confirms only the 12 payment dates, and leaves the rest proposed", () => {
+  assert.match(html, /<strong>Confirmed\.<\/strong> There are 12 payments of £99\./);
+  assert.match(html, /The total is £1,188\. I will not ask for them as one sum at the start\./);
+  assert.match(html, /The first payment is due on the date you approve the site to go live\./);
+  assert.match(html, /Each of the other 11 payments is due monthly from that date\./);
+  assert.match(html, /which calendar date is used then is an implementation detail\. That date is not fixed here/);
+  assert.match(html, /<strong>Proposed, not agreed\.<\/strong>/);
+  assert.match(html, /None of this paragraph is confirmed\./);
+  assert.match(html, /What happens if a payment is missed is not agreed\. This page does not set a consequence for that\./);
+  assert.doesNotMatch(html, /late fee|interest on|suspended after|grace period/i);
+  assert.match(html, /Wednesday 18 November 2026 at 20:00 Europe\/London/);
+  assert.match(html, /Monday 23 November 2026/);
+  assert.match(html, /The Review Accelerator, for every customer/);
+});
+
 test("the committed page matches the single source", () => {
   assert.equal(read(terms.file), html);
 });

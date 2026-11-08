@@ -141,7 +141,7 @@ export function openItems(terms = websiteLaunchTerms) {
     {
       id: "missed-payment",
       title: "Missed payments, and the clash with the current terms",
-      text: `The day of the month for payments after the first is not agreed. What happens if a payment is missed is not agreed. The current website terms do not state a minimum term, do not publish a price, say hosting and care is a separate monthly service you can cancel any month, and say the site comes offline if monthly payments stop before the 12th. This draft proposes ${terms.paymentCount} payments that continue monthly if you cancel early, with hosting included in the monthly price. Those positions conflict. This page does not change the current terms.`,
+      text: `The ${terms.paymentCount} payments, and when they fall due, are confirmed. The first is due on the go-live date you approve, and the rest are monthly from that date. What happens if a payment is missed is not agreed. Hosting, routine care and standard domain costs inside the monthly price are still a proposal. So is stopping during the ${terms.paymentCount} payments, and so is carrying on after the last payment with ${terms.noticeDays} days' notice. The current website terms do not state a minimum term, do not publish a price, say hosting and care is a separate monthly service you can cancel any month, and say the site comes offline if monthly payments stop before the 12th. This page does not change those sentences.`,
     },
     {
       id: "advertising-rules",
@@ -469,14 +469,14 @@ function renderPage(terms) {
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display h2-md">How the ${terms.paymentCount} payments work.</h2>
-        <p>Not as one sum at the start. The first payment waits until you approve go-live.</p>
+        <p>The dates are confirmed. Stopping early, and what the monthly price includes, are still proposals.</p>
       </div>
       <div class="prose" data-sc-in>
-        <p>The first of the ${terms.paymentCount} payments is due when you have approved the site to go live. The other ${laterPayments} payments are due monthly after that. I will not ask for them as one sum at the start.</p>
-        <p>If you tell me during those ${terms.paymentCount} payments that you want to stop, the agreement does not roll on after the last of them, and I will not ask for the rest as one lump sum. The payments still to come stay due on their monthly dates.</p>
-        <p>After the last of those payments has been made, the same monthly price continues until either of us ends it with ${terms.noticeDays} days' notice in writing.</p>
-        <p>The day of the month for payments after the first is not agreed. What happens if a payment is missed is not agreed.</p>
-        <p>The <a href="/terms">current website terms</a> say ${quote(terms.noMinimumOnCurrentTerms)} They also say ${quote(terms.separateHosting)} And they say ${quote(terms.siteOffline)} This draft proposes a ${terms.paymentCount}-month minimum, a published price, hosting inside that price, and remaining payments that continue if you cancel early. This page does not rewrite those sentences. A written agreement would have to say which applies. Until that agreement exists, the current website terms stand.</p>
+        <p><strong>Confirmed.</strong> There are ${terms.paymentCount} payments of ${monthly}. The total is ${formatPounds(totalPounds(terms))}. I will not ask for them as one sum at the start. The first payment is due on the date you approve the site to go live. Each of the other ${laterPayments} payments is due monthly from that date.</p>
+        <p>If go-live falls on a day that a later month does not have, which calendar date is used then is an implementation detail. That date is not fixed here.</p>
+        <p><strong>Proposed, not agreed.</strong> If you tell me during those ${terms.paymentCount} payments that you want to stop, the agreement does not roll on after the last of them, and I will not ask for the rest as one lump sum. The payments still to come would stay due on their monthly dates. After the last of those payments, the same monthly price would continue until either of us ends it with ${terms.noticeDays} days' notice in writing. Hosting, routine care and standard domain costs inside the monthly price are the same kind of proposal. None of this paragraph is confirmed.</p>
+        <p>What happens if a payment is missed is not agreed. This page does not set a consequence for that.</p>
+        <p>The <a href="/terms">current website terms</a> say ${quote(terms.noMinimumOnCurrentTerms)} They also say ${quote(terms.separateHosting)} And they say ${quote(terms.siteOffline)} The confirmed part of this promotion is the ${terms.paymentCount} payments and when they fall due. It does not change those sentences, and it does not decide hosting, a missed payment, or stopping early.</p>
       </div>
     </div>
   </section>
