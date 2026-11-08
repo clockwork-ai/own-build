@@ -6,10 +6,11 @@ import { fileURLToPath } from "node:url";
 import {
   addCalendarDays,
   closeCandidateISO,
+  dated,
   formatDate,
   formatPounds,
-  illustrationClockNote,
   openItems,
+  weekdayName,
   priceSentence,
   totalPounds,
   websiteLaunchTerms,
@@ -21,7 +22,7 @@ const read = (file) => readFileSync(path.join(root, file), "utf8");
 const terms = websiteLaunchTerms;
 const html = websiteLaunchTermsHtml();
 
-test("centralises the approved price and the illustration dates", () => {
+test("centralises the approved price and the agreed window dates", () => {
   assert.equal(terms.monthlyPounds, 99);
   assert.equal(terms.paymentCount, 12);
   assert.equal(terms.selectedCount, 1);
@@ -30,15 +31,25 @@ test("centralises the approved price and the illustration dates", () => {
   assert.equal(formatPounds(1188), "£1,188");
   assert.equal(addCalendarDays("2026-11-08", 10), "2026-11-18");
   assert.equal(addCalendarDays("2026-11-25", 10), "2026-12-05");
-  assert.equal(closeCandidateISO(), "2026-11-18");
-  assert.equal(formatDate("2026-11-08"), "8 November 2026");
-  assert.equal(formatDate("2026-11-18"), "18 November 2026");
+  assert.equal(terms.openDateISO, "2026-11-08");
+  assert.equal(terms.closeDateISO, "2026-11-18");
+  assert.equal(closeCandidateISO(), terms.closeDateISO);
+  assert.equal(addCalendarDays(terms.openDateISO, terms.windowCalendarDays), terms.closeDateISO);
+  assert.equal(weekdayName(terms.openDateISO), "Sunday");
+  assert.equal(weekdayName(terms.closeDateISO), "Wednesday");
+  assert.equal(weekdayName(terms.selectByDateISO), "Monday");
+  assert.deepEqual(terms.selectionWorkingDates.map(weekdayName), ["Thursday", "Friday", "Monday"]);
+  assert.equal(dated(terms.openDateISO), "Sunday 8 November 2026");
+  assert.equal(dated(terms.closeDateISO), "Wednesday 18 November 2026");
+  assert.equal(dated(terms.selectByDateISO), "Monday 23 November 2026");
+  assert.equal(terms.closeTime, "20:00");
+  assert.equal(terms.windowCalendarDays, 10);
+  assert.equal(terms.selectWithinWorkingDays, 3);
+  assert.equal(terms.acceptWithinWorkingDays, 5);
   assert.equal(
     priceSentence(),
     "£99 per month. 12-month minimum. 12 monthly payments of £99. £1,188 total over 12 months, not payable upfront. No VAT added.",
   );
-  assert.match(illustrationClockNote(), /Europe\/London is GMT/);
-  assert.match(illustrationClockNote({ ...terms, publicationCandidateISO: "2026-07-01", windowCalendarDays: 10, timeZone: "Europe/London" }), /Do not assume GMT/);
 });
 
 test("the committed page matches the single source", () => {
@@ -110,13 +121,24 @@ test("keeps the promotion rules that are already decided", () => {
   assert.match(html, /direct message on the Facebook or Instagram post/);
   assert.match(html, /I do not ask you to like, tag, share or follow anything/);
   assert.match(html, /It is not a competition, and it is not a random draw/);
-  assert.match(html, /within 3 working days of the enquiry window closing/);
-  assert.match(html, /5 working days to accept in writing/);
+  assert.match(html, /3 working days after the close/);
+  assert.match(html, /5 working days from the day I contact them to accept in writing/);
   assert.match(html, /within 14 calendar days of that acceptance/);
   assert.match(html, /30 days' notice in writing/);
   assert.match(html, /10 calendar days/);
-  assert.match(html, /The publication date is not approved/);
-  assert.match(html, /18 November 2026/);
+  assert.match(html, /Sunday 8 November 2026/);
+  assert.match(html, /Wednesday 18 November 2026 at 20:00 Europe\/London/);
+  assert.match(html, /On that date, Europe\/London is GMT/);
+  assert.match(html, /Monday 23 November 2026/);
+  assert.match(html, /Thursday 19 November 2026, Friday 20 November 2026, Monday 23 November 2026/);
+  assert.match(html, /does not open before the post/);
+  assert.match(html, /This page is not the post/);
+  assert.match(html, /not treating the window as already open/);
+  assert.match(html, /I do not announce the selected business on Monday 23 November 2026/);
+  assert.match(html, /only after they have accepted, and only with a separate yes to publicity/);
+  assert.doesNotMatch(html, /illustration|not approved|13 November|16 November/i);
+  assert.match(html, /Draft preview\. Not in force\./);
+  assert.equal(openItems().some((item) => item.id === "publication-date"), false);
   assert.match(html, /not payable upfront|not payable as one sum|will not ask for them as one sum/);
   assert.match(html, /will not ask for the rest as one lump sum/);
   assert.match(html, /A direct message is an enquiry\. It is not a contract/);

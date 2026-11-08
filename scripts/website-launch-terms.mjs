@@ -32,8 +32,11 @@ export const websiteLaunchTerms = {
   monthlyPounds: 99,
   paymentCount: 12,
   selectedCount: 1,
-  publicationCandidateISO: "2026-11-08",
-  publicationTime: "20:00",
+  openDateISO: "2026-11-08",
+  closeDateISO: "2026-11-18",
+  closeTime: "20:00",
+  selectByDateISO: "2026-11-23",
+  selectionWorkingDates: ["2026-11-19", "2026-11-20", "2026-11-23"],
   timeZone: "Europe/London",
   windowCalendarDays: 10,
   selectWithinWorkingDays: 3,
@@ -85,19 +88,19 @@ export function totalPounds(terms = websiteLaunchTerms) {
   return terms.monthlyPounds * terms.paymentCount;
 }
 
-export function closeCandidateISO(terms = websiteLaunchTerms) {
-  return addCalendarDays(terms.publicationCandidateISO, terms.windowCalendarDays);
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+export function weekdayName(iso) {
+  const [year, month, day] = iso.split("-").map(Number);
+  return WEEKDAYS[new Date(Date.UTC(year, month - 1, day)).getUTCDay()];
 }
 
-export function illustrationClockNote(terms = websiteLaunchTerms) {
-  const start = formatDate(terms.publicationCandidateISO);
-  const end = formatDate(closeCandidateISO(terms));
-  const startMonth = terms.publicationCandidateISO.slice(5, 7);
-  const endMonth = closeCandidateISO(terms).slice(5, 7);
-  if (startMonth === "11" && endMonth === "11" && terms.timeZone === "Europe/London") {
-    return `On ${start} and ${end}, Europe/London is GMT.`;
-  }
-  return `On ${start} and ${end}, check which civil time ${terms.timeZone} is using. Do not assume GMT.`;
+export function dated(iso) {
+  return `${weekdayName(iso)} ${formatDate(iso)}`;
+}
+
+export function closeCandidateISO(terms = websiteLaunchTerms) {
+  return terms.closeDateISO;
 }
 
 export function priceSentence(terms = websiteLaunchTerms) {
@@ -124,8 +127,6 @@ function quote(text) {
 }
 
 export function openItems(terms = websiteLaunchTerms) {
-  const start = formatDate(terms.publicationCandidateISO);
-  const end = formatDate(closeCandidateISO(terms));
   return [
     {
       id: "revisions",
@@ -141,11 +142,6 @@ export function openItems(terms = websiteLaunchTerms) {
       id: "missed-payment",
       title: "Missed payments, and the clash with the current terms",
       text: `The day of the month for payments after the first is not agreed. What happens if a payment is missed is not agreed. The current website terms do not state a minimum term, do not publish a price, say hosting and care is a separate monthly service you can cancel any month, and say the site comes offline if monthly payments stop before the 12th. This draft proposes ${terms.paymentCount} payments that continue monthly if you cancel early, with hosting included in the monthly price. Those positions conflict. This page does not change the current terms.`,
-    },
-    {
-      id: "publication-date",
-      title: "The publication date",
-      text: `The publication date is not approved. Illustration only: a post on ${start} at ${terms.publicationTime} ${terms.timeZone} would close on ${end} at ${terms.publicationTime} ${terms.timeZone}. ${illustrationClockNote(terms)} Do not treat that illustration as a date I have set.`,
     },
     {
       id: "advertising-rules",
@@ -174,8 +170,10 @@ function renderPage(terms) {
   const monthly = formatPounds(terms.monthlyPounds);
   const price = priceSentence(terms);
   const draftDate = formatDate(terms.draftDateISO);
-  const start = formatDate(terms.publicationCandidateISO);
-  const end = formatDate(closeCandidateISO(terms));
+  const openOn = dated(terms.openDateISO);
+  const closeOn = dated(terms.closeDateISO);
+  const selectBy = dated(terms.selectByDateISO);
+  const selectionDays = terms.selectionWorkingDates.map(dated).join(", ");
   const laterPayments = terms.paymentCount - 1;
   const items = openItems(terms);
 
@@ -383,7 +381,7 @@ function renderPage(terms) {
       <div data-sc-in data-sc-stagger="70">
         <div class="draft-flag" role="note">
           <p><strong>Draft preview. Not in force.</strong></p>
-          <p>A direct message does not accept this, and it does not create a contract. The dates are an illustration. They are not approved. This page does not replace the <a href="/terms">current website terms</a>.</p>
+          <p>A direct message does not accept this, and it does not create a contract. The window dates are set. Other points on this page are still open. This page does not replace the <a href="/terms">current website terms</a>.</p>
         </div>
         <span class="sc-label">Foundation package only</span>
         <h1 class="sc-display">Foundation <em>only.</em></h1>
@@ -506,7 +504,8 @@ function renderPage(terms) {
       </div>
       <div class="prose" data-sc-in>
         <p>I select one trade business. I look at need, fit and readiness, and I keep a written record of why. It is not a competition, and it is not a random draw. There is no independent judge. I do not publish the name.</p>
-        <p>I contact the selected business privately within ${terms.selectWithinWorkingDays} working days of the enquiry window closing. They have ${terms.acceptWithinWorkingDays} working days to accept in writing, by email to <a href="mailto:${escapeHtml(terms.email)}">${escapeHtml(terms.email)}</a>. If they do not accept in that time, I may select another eligible business in the same way.</p>
+        <p>I contact the selected business privately by ${escapeHtml(selectBy)}. That is ${terms.selectWithinWorkingDays} working days after the close: ${escapeHtml(selectionDays)}. They have ${terms.acceptWithinWorkingDays} working days from the day I contact them to accept in writing, by email to <a href="mailto:${escapeHtml(terms.email)}">${escapeHtml(terms.email)}</a>. If they do not accept in that time, I may select another eligible business in the same way.</p>
+        <p>I do not announce the selected business on ${escapeHtml(selectBy)}, or on any fixed day. A public mention happens only after they have accepted, and only with a separate yes to publicity.</p>
         <p>A working day in this draft means a day other than a Saturday, a Sunday, or a bank holiday in England and Wales.</p>
         <p>Messaging me does not mean you will be selected. If only one business messages, I still do not have to select it. If nobody fits, I select nobody. I do not automatically message the businesses that are not selected, and I do not add anyone to a marketing list.</p>
       </div>
@@ -517,11 +516,11 @@ function renderPage(terms) {
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display h2-md">When the window runs.</h2>
-        <p>${terms.windowCalendarDays} calendar days from the real publication time. The date is not approved.</p>
+        <p>${terms.windowCalendarDays} calendar days. It opens when the launch post is published, and it closes at ${escapeHtml(terms.closeTime)} on ${escapeHtml(closeOn)}.</p>
       </div>
       <div class="prose" data-sc-in>
-        <p>The enquiry window is proposed as ${terms.windowCalendarDays} calendar days, starting at ${escapeHtml(terms.publicationTime)} ${escapeHtml(terms.timeZone)} on the day the post is actually published, and ending at ${escapeHtml(terms.publicationTime)} ${escapeHtml(terms.timeZone)} ${terms.windowCalendarDays} calendar days later.</p>
-        <p>The publication date is not approved. Illustration only: a post published on ${escapeHtml(start)} at ${escapeHtml(terms.publicationTime)} ${escapeHtml(terms.timeZone)} would close on ${escapeHtml(end)} at ${escapeHtml(terms.publicationTime)} ${escapeHtml(terms.timeZone)}. ${escapeHtml(illustrationClockNote(terms))} Do not treat the illustration as a date I have set.</p>
+        <p>The launch post is planned for ${escapeHtml(openOn)}. The enquiry window opens when that post is published. It does not open before the post. This page is not the post, and it does not start the window. I am not treating the window as already open.</p>
+        <p>The window closes on ${escapeHtml(closeOn)} at ${escapeHtml(terms.closeTime)} ${escapeHtml(terms.timeZone)}. On that date, ${escapeHtml(terms.timeZone)} is GMT. From ${escapeHtml(openOn)} to that close is ${terms.windowCalendarDays} calendar days. The close does not move.</p>
       </div>
     </div>
   </section>
