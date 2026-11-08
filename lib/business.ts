@@ -115,7 +115,7 @@ How a job starts. 1. The Free Website Check. 2. A plan, if it is worth it. 3. He
 
 A plan is one of the three Foundation, Growth and Autopilot plans, distinct from the monthly maintenance plan, with no prices.
 Three plans, with no prices on the site.
-- Foundation: the website, a chat box on the site, and the Review Accelerator. People can find you, call or message from the page, and every customer gets a thank-you, a Google review link, and a check-in later. The website is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name. The chat box and review requests run on the monthly plan.
+- Foundation: a mobile site of up to five pages, one tap to call, text or email, reviews up front, and the Google profile set up properly, plus a chat box on the site and the Review Accelerator. Every customer gets a thank-you, a Google review link, and a check-in later. People can find you, call or message from the page. The website is handed over from day one if they pay upfront, or after the 12th monthly payment: a full copy of the files and code, or the site moved into an account in their name. The chat box and review requests run on the monthly plan. Do not quote a price for it.
 - Growth: Foundation, plus missed calls texted back and Database Reactivation. Missed and out-of-hours calls get texted back, qualified and booked. Old quotes and past customers get a polite follow-up that stops when they reply.
 - Autopilot: Growth, plus the Referral Flywheel, the Lifetime Value System, and a monthly review call with Callum.
 

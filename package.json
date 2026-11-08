@@ -8,7 +8,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test lib/*.test.ts",
+    "test": "node --experimental-strip-types --test lib/*.test.ts scripts/website-launch-terms.test.mjs",
     "check:client-safe": "node scripts/check-client-safe.mjs --diff origin/main"
   },
   "dependencies": {

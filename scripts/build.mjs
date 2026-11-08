@@ -4,6 +4,7 @@ import { build } from "esbuild";
 import { tarnhaleFiles, manifestSource } from "./tarnhale-manifest.mjs";
 import { writeFile } from "node:fs/promises";
 import { buildHome } from "./home-build.mjs";
+import { writeWebsiteLaunchTerms } from "./website-launch-terms.mjs";
 
 const root = process.cwd();
 const publicDir = path.join(root, "public");
@@ -11,6 +12,9 @@ const publicDir = path.join(root, "public");
 await rm(publicDir, { recursive: true, force: true });
 await mkdir(path.join(root, "api"), { recursive: true });
 await mkdir(publicDir, { recursive: true });
+
+// Foundation launch terms: one source in scripts/website-launch-terms.mjs.
+writeWebsiteLaunchTerms(root);
 
 // Keep the Tarnhale subdomain file list in step with demos/tarnhale.
 await writeFile(path.join(root, "lib", "tarnhale-files.js"), manifestSource(await tarnhaleFiles()));
