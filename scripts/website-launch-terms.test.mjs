@@ -25,6 +25,7 @@ const html = websiteLaunchTermsHtml();
 test("centralises the approved price and the agreed window dates", () => {
   assert.equal(terms.monthlyPounds, 99);
   assert.equal(terms.paymentCount, 12);
+  assert.equal(terms.revisionRounds, 2);
   assert.equal(terms.selectedCount, 1);
   assert.equal(totalPounds(), 1188);
   assert.equal(formatPounds(99), "£99");
@@ -55,11 +56,18 @@ test("centralises the approved price and the agreed window dates", () => {
 test("confirms only the 12 payment dates, and leaves the rest proposed", () => {
   assert.match(html, /<strong>Confirmed\.<\/strong> There are 12 payments of £99\./);
   assert.match(html, /The total is £1,188\. I will not ask for them as one sum at the start\./);
-  assert.match(html, /The first payment is due on the date you approve the site to go live\./);
-  assert.match(html, /Each of the other 11 payments is due monthly from that date\./);
+  assert.match(html, /The first payment is due on the day the website actually goes live, once you have approved that go-live\./);
+  assert.match(html, /It is not due earlier, on a day when you only agree a future go-live date\./);
+  assert.match(html, /Each of the other 11 payments is due monthly from that actual go-live date\./);
+  assert.match(html, /Routine care is included in the £99 a month\./);
+  assert.match(html, /Hosting is included in the £99 a month as well\./);
+  assert.match(html, /Two rounds of changes to the website are included\./);
+  assert.match(html, /the ones still to come stay due one month at a time\. I will not ask for the rest as one lump sum\./);
+  assert.match(html, /carries on month to month until one of us gives 30 days' notice/);
+  assert.match(html, /hosting and routine care stop, and you can move the website elsewhere/);
+  assert.match(html, /Whether a domain is included is not agreed\. This page does not define a domain\./);
+  assert.doesNotMatch(html, /premium name|which ending the name uses|only a recommendation/);
   assert.match(html, /which calendar date is used then is an implementation detail\. That date is not fixed here/);
-  assert.match(html, /<strong>Proposed, not agreed\.<\/strong>/);
-  assert.match(html, /None of this paragraph is confirmed\./);
   assert.match(html, /What happens if a payment is missed is not agreed\. This page does not set a consequence for that\./);
   assert.doesNotMatch(html, /late fee|interest on|suspended after|grace period/i);
   assert.match(html, /Wednesday 18 November 2026 at 20:00 Europe\/London/);
@@ -122,10 +130,11 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   for (const line of [terms.roofersGrowth, terms.roofersAutopilot, terms.roofersEveryCustomer]) {
     assert.ok(roofers.includes(line), line);
   }
-  for (const line of [terms.separateHosting, terms.noMinimumOnCurrentTerms, terms.siteOffline, terms.domainInYourName, terms.handover]) {
+  for (const line of [terms.separateHosting, terms.siteOffline, terms.domainInYourName, terms.handover]) {
     assert.ok(currentTerms.includes(line), line);
     assert.ok(html.includes(line), line);
   }
+  assert.ok(currentTerms.includes(terms.noMinimumOnCurrentTerms));
   assert.doesNotMatch(html, /does not choose|Which Foundation description applies|happy customers are asked/);
   for (const file of ["index.html", "services.html", "roofers.html", "terms.html", "privacy.html", "how-it-works.html", "sitemap.xml", "pages.js", "lib/business.ts"]) {
     assert.equal(read(file).includes("website-launch-terms"), false, file);

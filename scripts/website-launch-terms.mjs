@@ -31,6 +31,7 @@ export const websiteLaunchTerms = {
   phoneTel: "+447460038202",
   monthlyPounds: 99,
   paymentCount: 12,
+  revisionRounds: 2,
   selectedCount: 1,
   openDateISO: "2026-11-08",
   closeDateISO: "2026-11-18",
@@ -129,19 +130,14 @@ function quote(text) {
 export function openItems(terms = websiteLaunchTerms) {
   return [
     {
-      id: "revisions",
-      title: "How many changes are included",
-      text: "A revision allowance is not agreed. Routine care in this draft means keeping the site online and small corrections so it keeps working. That is not a redesign allowance, and it is not a set number of rounds.",
-    },
-    {
       id: "domain",
-      title: "What a standard domain includes",
-      text: "The monthly price is proposed to include standard domain costs. Which ending the name uses, a premium name, a transfer, email on the domain, and the cost after the first year are not agreed.",
+      title: "The domain",
+      text: "Whether a domain is included in the monthly price is not agreed. This page does not define a domain.",
     },
     {
       id: "missed-payment",
-      title: "Missed payments, and the clash with the current terms",
-      text: `The ${terms.paymentCount} payments, and when they fall due, are confirmed. The first is due on the go-live date you approve, and the rest are monthly from that date. What happens if a payment is missed is not agreed. Hosting, routine care and standard domain costs inside the monthly price are still a proposal. So is stopping during the ${terms.paymentCount} payments, and so is carrying on after the last payment with ${terms.noticeDays} days' notice. The current website terms do not state a minimum term, do not publish a price, say hosting and care is a separate monthly service you can cancel any month, and say the site comes offline if monthly payments stop before the 12th. This page does not change those sentences.`,
+      title: "A missed payment",
+      text: "What happens if a payment is missed is not agreed. This page does not set a consequence for that.",
     },
     {
       id: "advertising-rules",
@@ -457,9 +453,8 @@ function renderPage(terms) {
       <div class="prose" data-sc-in>
         <p>${escapeHtml(price)}</p>
         <p>I am not VAT registered. No VAT is added. I am not publishing a VAT number, and I am not publishing the usual setup fee. The setup fee is waived for the one selected business. Waiving it does not remove the monthly price.</p>
-        <p>That monthly price is proposed to include the hosting, the routine care, and the standard domain costs that this Foundation package needs. You do not have to buy those separately. There are no compulsory extras.</p>
-        <p>Routine care, in this draft, means keeping the site online and making small corrections so it keeps working. It is not a round of redesign. How many rounds of changes are included is not agreed.</p>
-        <p>What counts as a standard domain is not agreed. That includes which ending the name uses, a premium name, a transfer, email on the domain, and the cost after the first year.</p>
+        <p><strong>Confirmed.</strong> Routine care is included in the ${monthly} a month. That is keeping the site working, and small corrections. Hosting is included in the ${monthly} a month as well. Two rounds of changes to the website are included.</p>
+        <p><strong>Not agreed.</strong> Whether a domain is included is not agreed. This page does not define a domain.</p>
         <p>This figure is not a Growth price and not an Autopilot price. The <a href="/services">services page</a>, the <a href="/roofers">roofers page</a> and the <a href="/">homepage</a> still say the plans are priced on a call. This page does not change them. The chat on this site does not quote this price.</p>
       </div>
     </div>
@@ -469,14 +464,14 @@ function renderPage(terms) {
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display h2-md">How the ${terms.paymentCount} payments work.</h2>
-        <p>The dates are confirmed. Stopping early, and what the monthly price includes, are still proposals.</p>
+        <p>The payment dates, hosting, routine care, two rounds of changes, and stopping are confirmed. Whether a domain is included is not agreed.</p>
       </div>
       <div class="prose" data-sc-in>
-        <p><strong>Confirmed.</strong> There are ${terms.paymentCount} payments of ${monthly}. The total is ${formatPounds(totalPounds(terms))}. I will not ask for them as one sum at the start. The first payment is due on the date you approve the site to go live. Each of the other ${laterPayments} payments is due monthly from that date.</p>
+        <p><strong>Confirmed.</strong> There are ${terms.paymentCount} payments of ${monthly}. The total is ${formatPounds(totalPounds(terms))}. I will not ask for them as one sum at the start. The first payment is due on the day the website actually goes live, once you have approved that go-live. It is not due earlier, on a day when you only agree a future go-live date. Each of the other ${laterPayments} payments is due monthly from that actual go-live date.</p>
         <p>If go-live falls on a day that a later month does not have, which calendar date is used then is an implementation detail. That date is not fixed here.</p>
-        <p><strong>Proposed, not agreed.</strong> If you tell me during those ${terms.paymentCount} payments that you want to stop, the agreement does not roll on after the last of them, and I will not ask for the rest as one lump sum. The payments still to come would stay due on their monthly dates. After the last of those payments, the same monthly price would continue until either of us ends it with ${terms.noticeDays} days' notice in writing. Hosting, routine care and standard domain costs inside the monthly price are the same kind of proposal. None of this paragraph is confirmed.</p>
+        <p><strong>Confirmed.</strong> If you stop during the ${terms.paymentCount} payments, the ones still to come stay due one month at a time. I will not ask for the rest as one lump sum. After the 12th payment, it carries on month to month until one of us gives ${terms.noticeDays} days' notice in writing. When that notice ends it, hosting and routine care stop, and you can move the website elsewhere.</p>
         <p>What happens if a payment is missed is not agreed. This page does not set a consequence for that.</p>
-        <p>The <a href="/terms">current website terms</a> say ${quote(terms.noMinimumOnCurrentTerms)} They also say ${quote(terms.separateHosting)} And they say ${quote(terms.siteOffline)} The confirmed part of this promotion is the ${terms.paymentCount} payments and when they fall due. It does not change those sentences, and it does not decide hosting, a missed payment, or stopping early.</p>
+        <p>The <a href="/terms">current website terms</a> still say ${quote(terms.separateHosting)} That general page is not rewritten here. For this promotion, hosting and routine care are included in the ${monthly}, and stopping works as set out above.</p>
       </div>
     </div>
   </section>
