@@ -15,7 +15,10 @@ test("the model is not handed a web address or a page path", () => {
   assert.match(text, /with 4 a day filled in/);
   assert.match(text, /07460 038202/);
   assert.match(text, /content day/);
-  assert.match(text, /12th monthly payment/);
+  assert.match(text, /12-month minimum/);
+  assert.doesNotMatch(text, /12th monthly payment/);
+  assert.doesNotMatch(text, /cancel any month/);
+  assert.doesNotMatch(text, /does not state a minimum term/);
   assert.doesNotMatch(text, /8-Week/);
   assert.doesNotMatch(text, /[\u2013\u2014]/);
 });
