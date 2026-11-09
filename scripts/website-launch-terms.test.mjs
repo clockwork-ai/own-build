@@ -168,11 +168,14 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   for (const line of [terms.roofersGrowth, terms.roofersAutopilot, terms.roofersEveryCustomer]) {
     assert.ok(roofers.includes(line), line);
   }
-  for (const line of [terms.separateHosting, terms.siteOffline, terms.domainInYourName, terms.handover]) {
-    assert.ok(currentTerms.includes(line), line);
-    assert.ok(html.includes(line), line);
-  }
-  assert.ok(currentTerms.includes(terms.noMinimumOnCurrentTerms));
+  assert.ok(html.includes(terms.siteOffline), terms.siteOffline);
+  assert.ok(currentTerms.includes("These website terms don't publish a price."));
+  assert.ok(currentTerms.includes("there is a 12-month minimum from the day the website actually goes live"));
+  assert.equal(currentTerms.includes("These website terms don't set a minimum term"), false);
+  assert.equal(currentTerms.includes("Hosting and care is a separate monthly service you can cancel any month."), false);
+  assert.equal(currentTerms.includes(terms.siteOffline), false);
+  assert.equal(html.includes("Hosting and care is a separate monthly service you can cancel any month."), false);
+  assert.equal(html.includes("You then receive a full copy of the files and code, or I move the site into an account in your name."), false);
   assert.doesNotMatch(html, /does not choose|Which Foundation description applies|happy customers are asked/);
   for (const file of ["index.html", "services.html", "roofers.html", "terms.html", "how-it-works.html", "pages.js", "lib/business.ts"]) {
     assert.equal(read(file).includes("website-launch-terms"), false, file);
@@ -194,7 +197,8 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   assert.match(privacy, /I don't use them in paid advertising/);
   assert.match(privacy, /unless you agree to that further use in writing/);
   assert.match(privacy, /I delete those details within 12 months/);
-  assert.match(privacy, /for as long as the law requires for tax/);
+  assert.match(privacy, /I keep invoices and tax records for six years/);
+  assert.doesNotMatch(privacy, /for as long as the law requires for tax/);
   assert.match(privacy, /screenshots we have each agreed/);
   assert.match(privacy, /A testimonial is your choice/);
   assert.match(privacy, /I don't include your customers' private details/);
@@ -255,7 +259,10 @@ test("keeps the promotion rules that are already decided", () => {
   assert.match(html, /07460 038202/);
   assert.match(html, /Callum Broadfoot/);
   assert.match(html, /I am not publishing a VAT number, a street address or a company number/);
-  assert.match(html, /href="\/privacy#foundation-offer"/);
+  assert.match(html, /href="\/privacy#keep"/);
+  assert.match(html, /id="support"/);
+  assert.match(html, /id="exit"/);
+  assert.match(html, /I aim to acknowledge that request within two working days, and I aim to answer it within a month/);
   assert.match(html, /I delete those details within 12 months/);
   assert.match(html, /I do not send the message through the booking service/);
   assert.match(html, /I do not contact them about Growth, Autopilot, or another offer/);

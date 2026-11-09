@@ -71,11 +71,7 @@ export const websiteLaunchTerms = {
   roofersGrowth: "Foundation, plus missed calls texted back and Database Reactivation. Missed and out-of-hours calls get texted back and booked, and old quotes get a follow-up.",
   servicesAutopilot: "The Referral Flywheel, the Lifetime Value System, and a monthly review call, on top of Growth.",
   roofersAutopilot: "Growth, plus the Referral Flywheel, the Lifetime Value System, and a monthly review call with me.",
-  separateHosting: "Hosting and care is a separate monthly service you can cancel any month.",
-  noMinimumOnCurrentTerms: "These website terms don't set a minimum term, and they don't publish a price.",
   siteOffline: "If you stop the monthly payments before the 12th, the site comes offline.",
-  domainInYourName: "The domain name is in your name either way.",
-  handover: "If you pay monthly, that happens after your 12th monthly payment.",
 };
 
 export function formatDate(iso) {
@@ -156,11 +152,13 @@ function renderPage(terms) {
     ["scope", "Foundation"],
     ["price", "The price"],
     ["payments", "Payments"],
+    ["support", "Support"],
     ["condition", "The condition"],
     ["apply", "Who can enquire"],
     ["selection", "One client"],
     ["timing", "Timing"],
     ["agreement", "If we go ahead"],
+    ["exit", "When it ends"],
     ["privacy", "Privacy"],
     ["law", "Platforms and the law"],
   ];
@@ -431,12 +429,26 @@ function renderPage(terms) {
         <p>If a later month does not have that day, that payment is due on the last day of that month.</p>
         <p>If you stop during the ${terms.paymentCount} payments, the ones still to come stay due one month at a time. I will not bring them forward, and I will not ask for the rest as one lump sum. After the 12th payment, it carries on month to month until one of us gives ${terms.noticeDays} days' notice in writing. When that notice ends it, hosting and routine care stop, and you can move the website elsewhere.</p>
         <p>If a payment is missed, I email you at the address you used to accept. You then have ${terms.catchUpDays} days from that email to pay what is overdue. If it is still unpaid at the end of those ${terms.catchUpDays} days, I take the website offline until you have paid the overdue payments. When those overdue payments are cleared, I put the website back online. The monthly payments that are not yet due stay due on their own dates. I will not bring them forward, and I will not ask for them as one lump sum.</p>
-        <p>The <a href="/terms">website terms</a> say ${quote(terms.separateHosting)} That page is not rewritten here. For this offer, hosting and routine care are included in the ${monthly}, and stopping works as set out above.</p>
+        <p>For this offer, hosting and routine care are included in the ${monthly} a month during the paid term. Stopping, notice and moving the website away work as set out above, not as a service you can cancel any month.</p>
       </div>
     </div>
   </section>
 
-  <section id="condition" data-title="The condition" class="block ground-1 trim">
+  <section id="support" data-title="Support" class="block ground-1 trim">
+    <div class="sc-wrap split">
+      <div class="block__head sticky" data-sc-in>
+        <h2 class="sc-display h2-md">How to reach me about the work.</h2>
+        <p>Email only, in working hours. These times are aims, not guarantees.</p>
+      </div>
+      <div class="prose" data-sc-in>
+        <p>Write to <a href="mailto:${escapeHtml(terms.email)}">${escapeHtml(terms.email)}</a>. That is the support address until I have a dedicated mailbox. I am the person who covers support.</p>
+        <p>I aim to read support email Monday to Friday, excluding bank holidays in England and Wales. I do not offer evening or weekend cover. A working day means a day other than a Saturday, a Sunday, or a bank holiday in England and Wales.</p>
+        <p>If your message is urgent and I receive it before 16:00 on a working day, I aim to acknowledge it the same working day. For other support messages I aim to acknowledge them within two working days. I also aim to fix a routine fault within five working days of that acknowledgement, where the fix is in my hands. I do not promise those times in every case.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="condition" data-title="The condition" class="block ground-2 trim">
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display h2-md">The condition of the waiver.</h2>
@@ -451,7 +463,7 @@ function renderPage(terms) {
     </div>
   </section>
 
-  <section id="apply" data-title="Who can apply" class="block ground-2 trim">
+  <section id="apply" data-title="Who can apply" class="block ground-1 trim">
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display h2-md">Who can enquire, and how.</h2>
@@ -509,14 +521,31 @@ function renderPage(terms) {
         <p>If you do not have a logo, photos, a domain, or a Google profile, you do not have to create them in those ${terms.materialsCalendarDays} days. If you need a domain, you buy it yourself before the website goes live, and you pay your domain company.</p>
         <p>I do not ask for a testimonial, for extra photos, or for any other case-study material.</p>
         <p>If something on that list arrives after the ${terms.materialsCalendarDays} days, I do not charge a fee for the wait. I start the website once I have the business name, the trade and the services, the area, and the phone number and email. The first payment stays due on the day the website actually goes live, once you have approved that go-live. It is not due on the day the materials were due. If the website does not go live, the first payment is not due.</p>
-        <p>The website terms say ${quote(terms.domainInYourName)} For this offer you hold the registrar account and you pay the domain company. I help point the website, and I leave existing email records in place. I do not take the domain into an account of mine. They also say ${quote(terms.handover)} You then receive a full copy of the files and code, or I move the site into an account in your name. I do not say you own the website before that handover. These terms do not change that handover.</p>
+        <p>The domain stays in your registrar account, and you pay the domain company. I help point the website, and I leave existing email records in place. I do not take the domain into an account of mine. During the paid term I host the website. When notice ends, hosting and routine care stop, and you move the website away. The default handover is a copy of the website files you are entitled to, which are the pages and assets I built for you. I move the live project into an account in your name only if we agreed that in writing before we signed. This is not a blanket handover of all the code I use.</p>
         <p>The website terms also say ${quote(terms.siteOffline)} For this offer that does not apply in that form. The website is taken offline only as set out under payments, and I put it back when the overdue payments are cleared.</p>
         <p>For this offer only, once we have both agreed in writing, these terms take precedence over the general website terms where they differ. They do not change the general offers on the rest of this site. For this offer the differences are: hosting and routine care are included in the £99; there are 12 monthly payments; if you stop during those 12, the ones left stay due monthly, and I will not bring them forward or ask for them as one lump sum; if a payment is missed I email you, you have ${terms.catchUpDays} days from that email to pay what is overdue, I take the website offline only if it is still unpaid, and I put it back when the overdue payments are cleared; after the 12th payment it carries on month to month until 30 days' notice in writing; and you buy and hold the domain yourself and pay the domain company.</p>
+        <p>For this offer those differences also include the support aims set out under support, and the exit pack set out under when it ends. The default handover is a file copy, not a move of the live project, unless we agreed that move in writing before we signed.</p>
       </div>
     </div>
   </section>
 
-  <section id="privacy" data-title="Privacy" class="block ground-1 trim">
+  <section id="exit" data-title="When it ends" class="block ground-1 trim">
+    <div class="sc-wrap split">
+      <div class="block__head sticky" data-sc-in>
+        <h2 class="sc-display h2-md">When the work ends.</h2>
+        <p>The standard exit pack. No Clockwork handover fee.</p>
+      </div>
+      <div class="prose" data-sc-in>
+        <p>I host the website during the paid term. When notice ends, hosting and routine care stop, and you move the website away.</p>
+        <p>The standard exit pack is this. The domain stays in your registrar account. You keep your Google profile, your social accounts, your phone, and your content and photos. You receive a copy of the website files you are entitled to, which are the pages and assets I built for you. You also receive a written list of accounts, renewals and DNS notes needed to keep mail and the site working. I keep shared platform code, tools and intellectual property. This is not a blanket handover of all the code I use.</p>
+        <p>The default is that file copy. I move the live project into an account in your name only if we agreed that in writing before we signed.</p>
+        <p>There is no Clockwork fee for the agreed handover during the notice period. You pay any third-party costs, such as a new host or a domain or email charge.</p>
+        <p>Accounts used for your business stay in your name. I work as a delegate on those accounts, and I keep labels for them in my vault. I do not treat those logins as mine.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="privacy" data-title="Privacy" class="block ground-2 trim">
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display h2-md">What I do with the message.</h2>
@@ -525,13 +554,13 @@ function renderPage(terms) {
       <div class="prose" data-sc-in>
         <p>I ask for the business name, the trade, the town or city, the current website or the fact there is not one, and what you need. I use that to read the enquiry, decide whether the business is a genuine fit, keep the written record of the decision, and reply about this offer. I do not ask for anything else in the message. I do not add you to a marketing list. I do not automatically message the businesses that are not selected, and I do not contact them about another offer.</p>
         <p>You send the message on Facebook or Instagram, and I read it there. I do not send the message through the booking service on this website. If I email you about the decision, that email is handled in the same way as any other email.</p>
-        <p>A message that does not turn into work is an enquiry. I delete those details within 12 months. If you become a client, I keep your details while we work together, and my business records for as long as the law requires for tax. That is the same keeping rule as on the <a href="/privacy#foundation-offer">privacy page</a>. You can ask me for a copy, a correction or a deletion, as that page says.</p>
+        <p>A message that does not turn into work is an enquiry. I delete those details within 12 months. If you become a client, I keep your details while we work together. I keep invoices and tax records for six years. After handover is confirmed, I remove my delegated access and I delete or anonymise operational notes that are not needed for tax or a live dispute. I keep or take down case-study material only in line with the written permission. That is the same keeping rule as on the <a href="/privacy#keep">privacy page</a>. You can ask me for a copy, a correction or a deletion, as that page says. I aim to acknowledge that request within two working days, and I aim to answer it within a month.</p>
         <p>A direct message is not permission to show your business. If you are the client I take on, and you accept in writing, you permit me to show your business name, the finished website, and screenshots we have each agreed. I do not show a screenshot until you have agreed that exact screenshot. I show them only on ${escapeHtml(terms.publicityPlaces)}, for ${terms.publicityMonths} months from the day the website actually goes live, and then I take them off. I do not use them in paid advertising, and I do not let anyone else use them unless you agree to that further use in writing. A testimonial is voluntary. I do not show your customers' private details. I do not ask for any other case-study material.</p>
       </div>
     </div>
   </section>
 
-  <section id="law" data-title="Platforms and the law" class="block ground-2 trim">
+  <section id="law" data-title="Platforms and the law" class="block ground-1 trim">
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display h2-md">Platforms, and the law.</h2>
