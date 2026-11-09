@@ -76,7 +76,10 @@ test("states the agreed price, the 12 payments, and the missed-payment rule", ()
   assert.match(html, /I take the website offline until you have paid the overdue payments\./);
   assert.match(html, /When those overdue payments are cleared, I put the website back online\./);
   assert.match(html, /The monthly payments that are not yet due stay due on their own dates\./);
-  assert.match(html, /For this offer that does not apply in that form\./);
+  assert.match(html, /For this offer, the website is taken offline only as set out under payments, and I put it back when the overdue payments are cleared\./);
+  assert.match(html, /href="\/terms#term"/);
+  assert.match(html, /href="\/terms#exit"/);
+  assert.doesNotMatch(html, /If you stop the monthly payments before the 12th, the site comes offline/);
   assert.doesNotMatch(html, /What happens if a payment is missed is not agreed/);
   assert.doesNotMatch(html, /late fee|interest on|suspended after|grace period/i);
   assert.match(html, /You buy and renew the domain yourself, in a registrar account in your name that you control, and you pay that company directly\./);
@@ -168,11 +171,14 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   for (const line of [terms.roofersGrowth, terms.roofersAutopilot, terms.roofersEveryCustomer]) {
     assert.ok(roofers.includes(line), line);
   }
-  for (const line of [terms.separateHosting, terms.siteOffline, terms.domainInYourName, terms.handover]) {
-    assert.ok(currentTerms.includes(line), line);
-    assert.ok(html.includes(line), line);
-  }
-  assert.ok(currentTerms.includes(terms.noMinimumOnCurrentTerms));
+  assert.ok(currentTerms.includes("These website terms don't publish a price."));
+  assert.ok(currentTerms.includes("there is a 12-month minimum from the day the website actually goes live"));
+  assert.equal(currentTerms.includes("These website terms don't set a minimum term"), false);
+  assert.equal(currentTerms.includes("Hosting and care is a separate monthly service you can cancel any month."), false);
+  assert.equal(currentTerms.includes("If you stop the monthly payments before the 12th, the site comes offline."), false);
+  assert.equal(html.includes("Hosting and care is a separate monthly service you can cancel any month."), false);
+  assert.equal(html.includes("If you stop the monthly payments before the 12th, the site comes offline."), false);
+  assert.equal(html.includes("You then receive a full copy of the files and code, or I move the site into an account in your name."), false);
   assert.doesNotMatch(html, /does not choose|Which Foundation description applies|happy customers are asked/);
   for (const file of ["index.html", "services.html", "roofers.html", "terms.html", "how-it-works.html", "pages.js", "lib/business.ts"]) {
     assert.equal(read(file).includes("website-launch-terms"), false, file);
@@ -194,7 +200,8 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   assert.match(privacy, /I don't use them in paid advertising/);
   assert.match(privacy, /unless you agree to that further use in writing/);
   assert.match(privacy, /I delete those details within 12 months/);
-  assert.match(privacy, /for as long as the law requires for tax/);
+  assert.match(privacy, /I keep invoices and tax records for six years/);
+  assert.doesNotMatch(privacy, /for as long as the law requires for tax/);
   assert.match(privacy, /screenshots we have each agreed/);
   assert.match(privacy, /A testimonial is your choice/);
   assert.match(privacy, /I don't include your customers' private details/);
@@ -255,7 +262,10 @@ test("keeps the promotion rules that are already decided", () => {
   assert.match(html, /07460 038202/);
   assert.match(html, /Callum Broadfoot/);
   assert.match(html, /I am not publishing a VAT number, a street address or a company number/);
-  assert.match(html, /href="\/privacy#foundation-offer"/);
+  assert.match(html, /href="\/privacy#keep"/);
+  assert.match(html, /id="support"/);
+  assert.match(html, /id="exit"/);
+  assert.match(html, /I aim to acknowledge that request within two working days, and I aim to answer it within a month/);
   assert.match(html, /I delete those details within 12 months/);
   assert.match(html, /I do not send the message through the booking service/);
   assert.match(html, /I do not contact them about Growth, Autopilot, or another offer/);
