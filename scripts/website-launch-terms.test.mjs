@@ -100,13 +100,13 @@ test("the committed page matches the single source", () => {
   assert.equal(read(terms.file), html);
 });
 
-test("the draft is Foundation only, at a stable address, and not indexed yet", () => {
+test("the draft is Foundation only, at a stable address, and hidden from search", () => {
   assert.equal(terms.path, "/website-launch-terms");
   assert.equal(terms.canonical, "https://clockworkai.app/website-launch-terms");
   assert.match(html, /<title>Foundation case-study offer \| Clockwork AI<\/title>/);
   assert.match(html, /This is a Foundation case-study offer\./);
-  assert.doesNotMatch(html, /noindex|nofollow/);
-  assert.match(html, /<link rel="canonical" href="https:\/\/clockworkai\.app\/website-launch-terms">/);
+  assert.match(html, /<meta name="robots" content="noindex, follow">/);
+  assert.doesNotMatch(html, /nofollow|hreflang|<link rel="canonical"/);
   assert.match(html, /<html lang="en-GB">/);
   assert.match(html, /name="viewport"/);
   assert.match(html, /<h1 class="sc-display">Foundation <em>only\.<\/em><\/h1>/);
@@ -185,9 +185,15 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
     assert.doesNotMatch(read(file), /£99/);
   }
   const sitemap = read("sitemap.xml");
-  assert.equal((sitemap.match(/website-launch-terms/g) || []).length, 1);
-  assert.match(sitemap, /<loc>https:\/\/clockworkai\.app\/website-launch-terms<\/loc>/);
+  assert.equal((sitemap.match(/website-launch-terms/g) || []).length, 0);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/clockworkai\.app\/website-launch-terms<\/loc>/);
   assert.doesNotMatch(sitemap, /demos\/|tarnhale/);
+  const robots = read("robots.txt");
+  assert.match(robots, /Allow: \//);
+  assert.doesNotMatch(robots, /website-launch-terms/);
+  const config = JSON.parse(read("vercel.json"));
+  const header = config.headers.find((item) => item.source === "/website-launch-terms");
+  assert.deepEqual(header.headers, [{ key: "X-Robots-Tag", value: "noindex, follow" }]);
   const privacy = read("privacy.html");
   assert.match(privacy, /id="foundation-offer"/);
   assert.match(privacy, /href="\/website-launch-terms"/);
@@ -207,7 +213,7 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   assert.match(privacy, /I don't include your customers' private details/);
   assert.match(privacy, /I don't ask for any other case-study material/);
   assert.doesNotMatch(privacy, /£|Mailchimp|Stripe|Notion|Google Drive|Blob|consent|postal address/);
-  assert.match(privacy, /Last updated 8 November 2026/);
+  assert.match(privacy, /Last updated 9 November 2026/);
   assert.match(privacy, /If an enquiry doesn't turn into work, I delete your details within 12 months/);
 });
 
