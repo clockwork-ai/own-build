@@ -5,6 +5,14 @@
   "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/website-launch-terms",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, follow" }
+      ]
+    }
+  ],
   "functions": {
     "api/chat.js": {
       "maxDuration": 30

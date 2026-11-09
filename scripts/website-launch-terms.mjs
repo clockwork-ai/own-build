@@ -169,7 +169,7 @@ function renderPage(terms) {
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${escapeHtml(terms.title)}</title>
 <meta name="description" content="${escapeHtml(terms.description)}">
-<link rel="canonical" href="${escapeHtml(terms.canonical)}">
+<meta name="robots" content="noindex, follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Clockwork AI">
 <meta property="og:title" content="${escapeHtml(terms.title)}">
