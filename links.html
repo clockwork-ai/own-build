@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Links · Clockwork AI</title>
+<meta name="description" content="Free Website Check, the Foundation offer terms, my work, and how to reach me. Proof over promises.">
+<link rel="canonical" href="https://clockworkai.app/links">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clockwork AI">
+<meta property="og:title" content="Links · Clockwork AI">
+<meta property="og:description" content="Free Website Check, the Foundation offer terms, my work, and how to reach me. Proof over promises.">
+<meta property="og:url" content="https://clockworkai.app/links">
+<meta property="og:image" content="https://clockworkai.app/assets/og-movement.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0E0F12">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/scrollcraft.css">
+<link rel="stylesheet" href="/pages.css">
+<style>
+  body.links {
+    background:
+      radial-gradient(90% 42% at 50% -12%, color-mix(in oklab, var(--sc-accent) 16%, transparent), transparent 62%),
+      var(--sc-canvas);
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  .links-wrap {
+    width: 100%;
+    max-width: 28rem;
+    margin: 0 auto;
+    padding: calc(env(safe-area-inset-top, 0px) + 28px) 18px calc(env(safe-area-inset-bottom, 0px) + 40px);
+    text-align: center;
+  }
+  .links-mark { display: inline-block; border-radius: 6px; }
+  .links-mark img { height: 32px; width: auto; margin: 0 auto; }
+  .links-mark:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 4px; }
+  .links-wrap .sc-label { display: block; margin: 22px 0 0; color: var(--sc-accent); }
+  .links-wrap h1 {
+    margin: 10px 0 0;
+    font-family: var(--sc-font-display);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 10vw, 3.1rem);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    color: var(--sc-ink);
+  }
+  .links-hook {
+    margin: 12px auto 0;
+    max-width: 28ch;
+    color: var(--sc-ink-soft);
+    font-size: 1.02rem;
+    line-height: 1.45;
+  }
+  .links-list { margin: 28px 0 0; text-align: left; }
+  .links-list h2 { margin: 0 0 10px; }
+  a.opt {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "name cta" "what cta";
+    column-gap: 14px;
+    row-gap: 4px;
+    align-items: center;
+    width: 100%;
+    min-height: 76px;
+    margin: 0 0 10px;
+    padding: 16px 16px 16px 18px;
+    border-radius: 16px;
+    border: 1px solid color-mix(in oklab, var(--sc-accent) 42%, transparent);
+    background: var(--sc-surface);
+    color: var(--sc-ink);
+    text-decoration: none;
+    box-shadow: var(--sc-e1);
+  }
+  a.opt[hidden] { display: none !important; }
+  a.opt:hover { color: var(--sc-ink); border-color: var(--sc-accent); background: color-mix(in oklab, var(--sc-surface) 88%, var(--sc-accent) 8%); }
+  a.opt:active { transform: scale(0.985); }
+  a.opt--primary {
+    background: var(--sc-accent);
+    color: var(--sc-accent-ink);
+    border-color: transparent;
+    box-shadow: var(--sc-e2), inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  a.opt--primary:hover { color: var(--sc-accent-ink); background: #D8C7A3; border-color: transparent; }
+  .opt__name {
+    grid-area: name;
+    font-family: var(--sc-font-display);
+    font-size: 1.35rem;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+  .opt__what { grid-area: what; color: var(--sc-ink-soft); font-size: 0.92rem; line-height: 1.35; }
+  a.opt--primary .opt__what { color: color-mix(in oklab, var(--sc-accent-ink) 78%, transparent); }
+  .opt__cta {
+    grid-area: cta;
+    align-self: center;
+    font: 500 0.82rem/1 var(--sc-font-mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--sc-accent);
+    white-space: nowrap;
+  }
+  a.opt--primary .opt__cta { color: var(--sc-accent-ink); }
+  .links-div {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 22px 0 12px;
+    color: var(--sc-ink-soft);
+    font: 500 0.72rem/1 var(--sc-font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .links-div::before, .links-div::after { content: ""; flex: 1; height: 1px; background: var(--sc-hairline-strong); }
+  .links-contact { display: grid; gap: 8px; text-align: left; }
+  .links-contact a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 52px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 1px solid var(--sc-hairline-strong);
+    background: color-mix(in oklab, var(--sc-canvas) 55%, transparent);
+    color: var(--sc-ink);
+    text-decoration: none;
+  }
+  .links-contact a:hover { color: var(--sc-ink); border-color: var(--sc-accent); }
+  .links-contact a span:first-child { font-weight: 500; }
+  .links-contact a span:last-child { color: var(--sc-ink-soft); font-size: 0.92rem; text-align: right; }
+  .links-foot { margin: 28px 0 0; color: var(--sc-ink-soft); font-size: 0.82rem; line-height: 1.6; }
+  .links-foot nav { display: flex; justify-content: center; gap: 8px 0; flex-wrap: wrap; }
+  .links-foot nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--sc-ink-soft); text-decoration: none; }
+  .links-foot nav a:hover { color: var(--sc-ink); }
+  .links-foot p { margin: 4px 0 0; }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-FCHwsquUovwXaNBtHYdiJ.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body class="links">
+<a class="skip" href="#main">Skip to content</a>
+<div class="sc-grain" aria-hidden="true"></div>
+<main class="links-wrap" id="main">
+  <a class="links-mark" href="/?utm_source=ig&amp;utm_medium=social&amp;utm_content=links_page" aria-label="Clockwork AI, home"><img src="/assets/logo-lockup.svg" alt="Clockwork AI" width="200" height="40"></a>
+  <span class="sc-label">Proof over promises</span>
+  <h1>Start here.</h1>
+  <p class="links-hook">The website, the work, and a way to reach me.</p>
+
+  <nav class="links-list" aria-labelledby="links-h">
+    <h2 class="sr" id="links-h">Links</h2>
+    <a class="opt opt--primary" href="/clockwork-check?utm_source=ig&amp;utm_medium=social&amp;utm_content=links_page">
+      <span class="opt__name">Get your free Website Check</span>
+      <span class="opt__what">A free check of your website, reviews and missed calls.</span>
+      <span class="opt__cta">Start →</span>
+    </a>
+    <a class="opt" id="offer" data-hide-at="2026-11-18T20:00:00Z" href="/website-launch-terms?utm_source=ig&amp;utm_medium=social&amp;utm_content=links_page">
+      <span class="opt__name">Foundation setup-fee waiver</span>
+      <span class="opt__what">Offer terms. Closes Wednesday 18 November 2026 at 20:00 GMT.</span>
+      <span class="opt__cta">Terms →</span>
+    </a>
+    <script>
+    (function () {
+      var offer = document.getElementById("offer");
+      if (!offer) return;
+      var close = Date.parse(offer.getAttribute("data-hide-at"));
+      if (Number.isFinite(close) && Date.now() >= close) offer.hidden = true;
+    })();
+    </script>
+    <a class="opt" href="/work?utm_source=ig&amp;utm_medium=social&amp;utm_content=links_page">
+      <span class="opt__name">See my work</span>
+      <span class="opt__what">The website I rebuilt for D &amp; P Roofing.</span>
+      <span class="opt__cta">See it →</span>
+    </a>
+    <a class="opt" href="/?utm_source=ig&amp;utm_medium=social&amp;utm_content=links_page">
+      <span class="opt__name">Visit the website</span>
+      <span class="opt__what">The full site, from the homepage.</span>
+      <span class="opt__cta">Open →</span>
+    </a>
+    <a class="opt" href="/book?utm_source=ig&amp;utm_medium=social&amp;utm_content=links_page">
+      <span class="opt__name">Contact or call</span>
+      <span class="opt__what">Book a free 30-minute call, or ring 07460 038202.</span>
+      <span class="opt__cta">Book →</span>
+    </a>
+  </nav>
+
+  <p class="links-div">Contact</p>
+  <div class="links-contact">
+    <a href="tel:+447460038202"><span>Call</span><span>07460 038202</span></a>
+    <a href="https://wa.me/447359838866?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener"><span>WhatsApp</span><span>07359 838866</span></a>
+    <a href="mailto:callum@getclockworkai.com"><span>Email</span><span>callum@getclockworkai.com</span></a>
+  </div>
+
+  <footer class="links-foot">
+    <nav aria-label="Footer">
+      <a href="/privacy?utm_source=ig&amp;utm_medium=social&amp;utm_content=links_page">Privacy</a>
+      <a href="/terms?utm_source=ig&amp;utm_medium=social&amp;utm_content=links_page">Site terms</a>
+    </nav>
+    <p>Proof over promises · Manchester and the North West · © 2026 Clockwork AI</p>
+  </footer>
+</main>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
