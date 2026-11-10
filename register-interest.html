@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Register interest in Clockwork Flow | Clockwork AI</title>
+<meta name="description" content="Clockwork Flow is the job app I'm building for trades, from the van to the handover. Register interest for early access and a free Website Check.">
+<link rel="canonical" href="https://clockworkai.app/register-interest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clockwork AI">
+<meta property="og:title" content="Register interest in Clockwork Flow | Clockwork AI">
+<meta property="og:description" content="The job app for trades, from the van to the handover. Register interest for early access and a free Website Check.">
+<meta property="og:url" content="https://clockworkai.app/register-interest">
+<meta property="og:image" content="https://clockworkai.app/assets/og-movement.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0E0F12">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="pages.css">
+<style>
+  .ri-form { display: grid; gap: 22px; }
+  #register [hidden] { display: none !important; }
+  .ri-field { display: grid; gap: 8px; }
+  .ri-field > label, .ri-set legend { font: 500 0.78rem/1.4 var(--sc-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--sc-accent); }
+  .ri-field small, .ri-set small { color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; }
+  .ri-form input[type="text"], .ri-form input[type="tel"], .ri-form input[type="email"] {
+    width: 100%; min-height: 50px; padding: 12px 14px; border-radius: 12px;
+    border: 1px solid var(--sc-hairline); background: #0E0F12; color: var(--sc-ink);
+    font: 400 1rem/1.4 var(--sc-font-body); }
+  .ri-form input:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 2px; border-color: transparent; }
+  .ri-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ri-set { border: 0; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .ri-opts { display: flex; flex-wrap: wrap; gap: 10px; }
+  .ri-opt { position: relative; }
+  .ri-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .ri-opt span { display: inline-flex; align-items: center; min-height: 46px; padding: 0 18px; border-radius: 999px;
+    border: 1px solid var(--sc-hairline); color: var(--sc-ink); font: 500 0.95rem/1 var(--sc-font-body); }
+  .ri-opt input:checked + span { background: var(--sc-accent); color: #0E0F12; border-color: var(--sc-accent); }
+  .ri-opt input:focus-visible + span { outline: 2px solid var(--sc-accent); outline-offset: 2px; }
+  .ri-form .btn { justify-self: start; min-height: 50px; }
+  .ri-msg { margin: 0; padding: 14px 16px; border-radius: 12px; line-height: 1.55; border: 1px solid var(--sc-hairline); }
+  .ri-msg--err { border-color: color-mix(in oklab, #d9785f 60%, transparent); color: var(--sc-ink); }
+  .ri-thanks h3 { margin: 0; font: 400 var(--sc-t-xl)/1.1 var(--sc-font-display); }
+  .ri-thanks .cta-row { margin-top: 18px; }
+  .ri-demo { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--sc-hairline); }
+  .ri-proof { margin: 0; }
+  .ri-proof img { width: 100%; height: auto; border-radius: 18px; display: block; }
+  .ri-proof figcaption { margin-top: 12px; }
+  @media (max-width: 640px) { .ri-pair { grid-template-columns: 1fr; } }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-FCHwsquUovwXaNBtHYdiJ.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body data-hour="16:00">
+<a class="skip" href="#main">Skip to content</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__logo" href="/" aria-label="Clockwork AI, home"><img src="assets/logo-lockup.svg" alt="Clockwork AI" width="200" height="40"></a>
+  <div class="bar__right">
+    <nav class="subdial" aria-label="Site">
+      <button class="subdial__btn" type="button" aria-expanded="false" aria-controls="dialmenu">
+        <svg viewBox="0 0 40 40" aria-hidden="true" id="subdialsvg">
+          <circle cx="20" cy="20" r="18.5" fill="#0E0F12" stroke="rgba(232,238,214,.28)"/>
+          <g id="subticks" stroke="rgba(232,238,214,.55)" stroke-width="1" stroke-linecap="round"></g>
+          <g id="submarks" fill="#CBB892"></g>
+          <line id="subhour" x1="20" y1="20" x2="20" y2="11.5" stroke="#E8EED6" stroke-width="1.8" stroke-linecap="round"/>
+          <line id="submin" x1="20" y1="20" x2="20" y2="6.5" stroke="#E8EED6" stroke-width="1.1" stroke-linecap="round"/>
+          <circle cx="20" cy="20" r="1.8" fill="#CBB892"/>
+        </svg>
+        <span class="subdial__time" id="subtime">16:00</span>
+        <span class="subdial__label" aria-hidden="true">Menu</span>
+        <span class="sr">Open the menu</span>
+      </button>
+      <ol class="subdial__menu" id="dialmenu"></ol>
+    </nav>
+    <a class="bar__tel" href="/work#found">Reviews</a>
+    <a class="bar__tel" href="tel:+447460038202">07460 038202</a>
+    <a class="btn btn--primary" href="#register">Register interest</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="phero" id="top">
+    <div class="phero__plate" aria-hidden="true"><img src="assets/01-night.webp" alt="" style="object-position:50% 50%"></div>
+    <div class="sc-wrap phero__inner">
+      <div data-sc-in data-sc-stagger="70">
+        <span class="sc-label">What's coming</span>
+        <h1 class="sc-display">Clockwork Flow. From the van to the <em>handover.</em></h1>
+        <p class="lede">The job app I'm building for trades. Survey, quote, job card and handover, all on your phone, so your evenings aren't lost to quotes, chasing and paperwork. Register your interest for early access.</p>
+        <div class="cta-row"><a class="btn btn--primary" href="#register">Register interest</a><a class="btn btn--ghost" href="tel:+447460038202">Call 07460 038202</a></div>
+      </div>
+      <div class="pdial" aria-hidden="true">
+        <svg viewBox="0 0 200 200" data-dial="hero" data-hour="16:00">
+          <circle cx="100" cy="100" r="97" fill="rgba(9,10,13,.55)" stroke="rgba(232,238,214,.22)" stroke-width="0.5"/>
+          <circle cx="100" cy="100" r="66" fill="none" stroke="rgba(232,238,214,.08)" stroke-width="0.4"/>
+        </svg>
+        <div class="pdial__read"><b>16:00</b><span>What's coming</span></div>
+        <div class="pdial__glass"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="register" data-title="Register interest" class="block ground-1 trim">
+    <div class="sc-wrap split">
+      <div class="block__head sticky" data-sc-in>
+        <h2 class="sc-display">Register your interest.</h2>
+        <p>It takes a minute. I'll be in touch about early access, and the free Website Check if you'd like it.</p>
+        <dl class="facts" style="margin-top:2rem">
+          <div><dt>You get</dt><dd>Early access to Clockwork Flow when it's ready.</dd></div>
+          <div><dt>Also free</dt><dd>A Website Check: a 30-minute call about your missed calls, website and reviews. No obligation.</dd></div>
+          <div><dt>Rather talk?</dt><dd>Ring Callum on <a href="tel:+447460038202">07460 038202</a> or email <a href="mailto:callum@getclockworkai.com">callum@getclockworkai.com</a>. Evenings are fine.</dd></div>
+        </dl>
+      </div>
+
+      <div class="panel" data-sc-in>
+        <form class="ri-form" id="ri-form" novalidate>
+          <div class="ri-pair">
+            <div class="ri-field">
+              <label for="ri-name">First name</label>
+              <input type="text" id="ri-name" name="name" autocomplete="given-name" required minlength="2" maxlength="80">
+            </div>
+            <div class="ri-field">
+              <label for="ri-trade">Trade</label>
+              <input type="text" id="ri-trade" name="trade" autocomplete="organization-title" required minlength="2" maxlength="80" placeholder="Plumber, roofer, sparky">
+            </div>
+          </div>
+          <div class="ri-field">
+            <label for="ri-area">Area you work</label>
+            <input type="text" id="ri-area" name="area" autocomplete="address-level2" required minlength="2" maxlength="60" placeholder="Town or area">
+          </div>
+          <fieldset class="ri-set">
+            <legend>Mobile or email</legend>
+            <small>One is enough. Give both if you like.</small>
+            <div class="ri-pair">
+              <div class="ri-field">
+                <label for="ri-mobile" class="sr">Mobile</label>
+                <input type="tel" id="ri-mobile" name="mobile" autocomplete="tel" inputmode="tel" maxlength="40" placeholder="Mobile">
+              </div>
+              <div class="ri-field">
+                <label for="ri-email" class="sr">Email</label>
+                <input type="email" id="ri-email" name="email" autocomplete="email" maxlength="120" placeholder="Email">
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="ri-set">
+            <legend>Do you have a website?</legend>
+            <div class="ri-opts">
+              <label class="ri-opt"><input type="radio" name="website" value="yes" required><span>Yes</span></label>
+              <label class="ri-opt"><input type="radio" name="website" value="no"><span>No</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="ri-set">
+            <legend>What eats your evenings?</legend>
+            <small>Pick any that apply.</small>
+            <div class="ri-opts">
+              <label class="ri-opt"><input type="checkbox" name="evenings" value="quotes"><span>Quotes</span></label>
+              <label class="ri-opt"><input type="checkbox" name="evenings" value="chasing"><span>Chasing</span></label>
+              <label class="ri-opt"><input type="checkbox" name="evenings" value="paperwork"><span>Paperwork</span></label>
+            </div>
+          </fieldset>
+          <div class="ri-field">
+            <label for="ri-notes">Anything else? <span style="text-transform:none;letter-spacing:0;color:var(--sc-ink-soft)">(optional)</span></label>
+            <input type="text" id="ri-notes" name="notes" maxlength="140">
+          </div>
+          <p class="note" style="margin:0">I'll only use these details to offer you early access and to follow up about Clockwork Flow and the free Website Check. Nothing else. <a href="/privacy">How I handle data</a>.</p>
+          <p class="ri-msg ri-msg--err" id="ri-error" role="alert" hidden></p>
+          <button class="btn btn--primary" type="submit" id="ri-submit">Register interest</button>
+        </form>
+
+        <div class="ri-thanks" id="ri-thanks" tabindex="-1" hidden>
+          <h3 id="ri-thanks-title">Thanks. You're on the list.</h3>
+          <p>You've registered interest in early access to Clockwork Flow. Callum will be in touch.</p>
+          <p>While you wait, the free Website Check is there if you want it: a 30-minute call about your missed calls, website and reviews. No obligation.</p>
+          <div class="cta-row"><a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book the free Website Check</a><a class="btn btn--ghost" href="/clockwork-check">What the check covers</a></div>
+          <div class="ri-demo" id="ri-demo" hidden></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="proof" data-title="What's coming" class="block ground-2 trim">
+    <div class="sc-wrap">
+      <figure class="ri-proof" data-sc-in>
+        <img src="assets/flow-phones.webp" alt="Three phone screens from the example version of Clockwork Flow: today's jobs, a job card, and the customer's handover pack." width="1080" height="650" loading="lazy" decoding="async">
+        <figcaption class="note">Real screens from the example version, with sample jobs in a sample firm's brand. Proof over promises.</figcaption>
+      </figure>
+    </div>
+    <footer class="foot">
+      <img src="assets/logo-lockup.svg" alt="Clockwork AI" width="100" height="20">
+      <span>Proof over promises · Manchester and the North West · © 2026 Clockwork AI</span>
+      <nav aria-label="Footer">
+        <a href="/how-it-works">How it works</a>
+        <a href="/services">Services</a>
+        <a href="/roofers">Roofers</a>
+        <a href="/clockwork-check">Free Website Check</a>
+        <a href="/work">My work</a>
+        <a href="/work#found">Reviews</a>
+        <a href="/about">About</a>
+        <a href="/missed-calls">Missed calls</a>
+        <a href="/book">Book a call</a>
+        <a href="/register-interest">Register interest</a>
+        <a href="mailto:callum@getclockworkai.com">Email</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </nav>
+    </footer>
+  </section>
+</main>
+
+<nav class="dock" aria-label="Contact">
+  <a class="btn btn--ghost dock__icon" href="/work#found" aria-label="Reviews">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span class="dock__t">Reviews</span></a>
+  <a class="btn btn--ghost dock__icon" href="tel:+447460038202" aria-label="Call 07460 038202">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span class="dock__t">Call</span></a>
+  <a class="btn btn--ghost dock__icon" href="mailto:callum@getclockworkai.com" aria-label="Email Callum">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/></svg><span class="dock__t">Email</span></a>
+  <button class="btn btn--ghost dock__ask" type="button" data-open-chat>Ask Clockwork</button>
+  <a class="btn btn--primary" href="#register">Register interest</a>
+</nav>
+
+<script src="scrollcraft.js"></script>
+<script src="pages.js"></script>
+<script>
+// Register interest: posts to the same lead route as the chat details form.
+(() => {
+  const form = document.getElementById('ri-form');
+  const err = document.getElementById('ri-error');
+  const btn = document.getElementById('ri-submit');
+  const thanks = document.getElementById('ri-thanks');
+  const fail = 'That didn\'t go through, sorry. Nothing was saved. Ring Callum on 07460 038202, or book the free Website Check, and he\'ll take it from there.';
+  const show = (text) => { err.textContent = text; err.hidden = false; };
+  const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const isMobile = (v) => { const d = v.replace(/\D/g, ''); return d.length >= 10 && d.length <= 15 && /^[+\d][\d\s()-]+$/.test(v); };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    err.hidden = true;
+    const f = new FormData(form);
+    const val = (k) => String(f.get(k) || '').trim();
+    const lead = {
+      name: val('name'), trade: val('trade'), area: val('area'),
+      mobile: val('mobile'), email: val('email'),
+      website: val('website'), evenings: f.getAll('evenings').map(String), notes: val('notes'),
+    };
+    if (lead.name.length < 2) return show('Add your first name.');
+    if (lead.trade.length < 2) return show('Add your trade.');
+    if (lead.area.length < 2) return show('Add the town or area you work in.');
+    if (!(lead.mobile && isMobile(lead.mobile)) && !(lead.email && isEmail(lead.email))) return show('Add a mobile number or an email address.');
+    if (!lead.website) return show('Say whether you have a website.');
+    if (!lead.evenings.length) return show('Pick at least one of quotes, chasing or paperwork.');
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ form: 'register-interest', page: '/register-interest', lead }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        show(res.status === 400 && data.error ? data.error : (data.error || fail));
+        return;
+      }
+      document.getElementById('ri-thanks-title').textContent = `Thanks, ${data.name || lead.name}. You're on the list.`;
+      if (data.demo) {
+        const box = document.getElementById('ri-demo');
+        const p = document.createElement('p');
+        p.textContent = 'Curious in the meantime? There\'s an example version with sample jobs, so you can see how a job runs from survey to handover. It\'s an early example, not the finished app.';
+        const a = document.createElement('a');
+        a.className = 'btn btn--ghost';
+        a.href = data.demo;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = 'Have a look at the example';
+        const row = document.createElement('div');
+        row.className = 'cta-row';
+        row.appendChild(a);
+        box.append(p, row);
+        box.hidden = false;
+      }
+      form.hidden = true;
+      thanks.hidden = false;
+      thanks.focus();
+      if (window.plausible) window.plausible('Register interest');
+    } catch {
+      show(fail);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Register interest';
+    }
+  });
+})();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+(function(){var n=0;function l(){if(n)return;n=1;var c=document.createElement("link");c.rel="stylesheet";c.href="/chat/widget.css";document.head.appendChild(c);var s=document.createElement("script");s.src="/chat/widget.js";document.body.appendChild(s);}document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-open-chat]");if(b&&!window.ClockworkChat){window.__cwOpen=b;l();}});addEventListener("load",function(){(window.requestIdleCallback?requestIdleCallback(l,{timeout:2200}):setTimeout(l,1400));});})();
+</script>
+</body>
+</html>

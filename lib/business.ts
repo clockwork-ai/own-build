@@ -180,6 +180,7 @@ Contact. Book a free 30-minute call on the booking link. Or ring 07460 038202, o
     "/how-it-works",
     "/missed-calls",
     "/privacy",
+    "/register-interest",
     "/roofers",
     "/services",
     "/terms",

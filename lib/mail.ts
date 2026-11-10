@@ -78,12 +78,28 @@ export function buildLeadEmail(to: string, from: string, lead: LeadNotice, summa
   const contact = oneLine(lead.contact, 120) || "Not given";
   const need = oneLine(lead.need, 400) || "Not given";
   const page = oneLine(lead.page ?? "", 80) || "Not recorded";
-  const arrived = lead.source === "chat-form" ? "Details form" : "Chat";
+  const flow = lead.source === "register-interest";
+  const arrived = flow
+    ? "Register interest page (Clockwork Flow early access)"
+    : lead.source === "chat-form" ? "Details form" : "Chat";
   const recent = plainBlock(summary, 1800) || "No transcript was included.";
-  const subject = scrubDashes(`New chat lead: ${name}`);
-  const text = scrubDashes(
-    [
-      "New chat lead",
+  const heading = flow ? "New Clockwork Flow register interest" : "New chat lead";
+  const subject = scrubDashes(`${heading}: ${name}`);
+  const lines = flow
+    ? [
+      heading,
+      "",
+      `Name: ${name}`,
+      `Trade: ${business}`,
+      `Contact: ${contact}`,
+      `Page: ${page}`,
+      `How it arrived: ${arrived}`,
+      "",
+      "Their answers:",
+      recent,
+    ]
+    : [
+      heading,
       "",
       `Name: ${name}`,
       `Business: ${business}`,
@@ -94,8 +110,8 @@ export function buildLeadEmail(to: string, from: string, lead: LeadNotice, summa
       "",
       "Recent messages:",
       recent,
-    ].join("\n"),
-  );
+    ];
+  const text = scrubDashes(lines.join("\n"));
   return {
     from: oneLine(from, 120),
     to: oneLine(to, 120),
