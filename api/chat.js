@@ -110,6 +110,7 @@ Contact. Book a free 30-minute call on the booking link. Or ring 07460 038202, o
     "/how-it-works",
     "/missed-calls",
     "/privacy",
+    "/register-interest",
     "/roofers",
     "/services",
     "/terms",
@@ -781,24 +782,36 @@ function buildLeadEmail(to, from, lead, summary) {
   const contact = oneLine(lead.contact, 120) || "Not given";
   const need = oneLine(lead.need, 400) || "Not given";
   const page = oneLine(lead.page ?? "", 80) || "Not recorded";
-  const arrived = lead.source === "chat-form" ? "Details form" : "Chat";
+  const flow = lead.source === "register-interest";
+  const arrived = flow ? "Register interest page (Clockwork Flow early access)" : lead.source === "chat-form" ? "Details form" : "Chat";
   const recent = plainBlock(summary, 1800) || "No transcript was included.";
-  const subject = scrubDashes(`New chat lead: ${name}`);
-  const text = scrubDashes(
-    [
-      "New chat lead",
-      "",
-      `Name: ${name}`,
-      `Business: ${business2}`,
-      `Contact: ${contact}`,
-      `What they need: ${need}`,
-      `Page: ${page}`,
-      `How it arrived: ${arrived}`,
-      "",
-      "Recent messages:",
-      recent
-    ].join("\n")
-  );
+  const heading = flow ? "New Clockwork Flow register interest" : "New chat lead";
+  const subject = scrubDashes(`${heading}: ${name}`);
+  const lines = flow ? [
+    heading,
+    "",
+    `Name: ${name}`,
+    `Trade: ${business2}`,
+    `Contact: ${contact}`,
+    `Page: ${page}`,
+    `How it arrived: ${arrived}`,
+    "",
+    "Their answers:",
+    recent
+  ] : [
+    heading,
+    "",
+    `Name: ${name}`,
+    `Business: ${business2}`,
+    `Contact: ${contact}`,
+    `What they need: ${need}`,
+    `Page: ${page}`,
+    `How it arrived: ${arrived}`,
+    "",
+    "Recent messages:",
+    recent
+  ];
+  const text = scrubDashes(lines.join("\n"));
   return {
     from: oneLine(from, 120),
     to: oneLine(to, 120),
@@ -958,6 +971,51 @@ function validateLead(input, source, knownPage2) {
     lead: { name, business: trade, contact, need, page: knownPage2, source }
   };
 }
+var EVENING_JOBS = ["quotes", "chasing", "paperwork"];
+function validateRegisterInterest(input, knownPage2) {
+  const line = (v, max) => cleanLine(typeof v === "string" ? v : "", max);
+  const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const mobile = line(input.mobile, 40);
+  const email = line(input.email, 120);
+  const mobileOk = mobile !== "" && !isEmail(mobile) && isValidContact(mobile);
+  const emailOk = email !== "" && isEmail(email) && isValidContact(email);
+  const contact = mobileOk ? mobile : emailOk ? email : line(input.contact, 120);
+  const alsoEmail = mobileOk && emailOk ? email : "";
+  const area = cleanLine(typeof input.area === "string" ? input.area : "", 60);
+  const website = input.website === "yes" ? "Yes" : input.website === "no" ? "No" : "";
+  const picked = Array.isArray(input.evenings) ? input.evenings : [];
+  const evenings = EVENING_JOBS.filter((job) => picked.includes(job));
+  const notes = cleanLine(typeof input.notes === "string" ? input.notes : "", 140);
+  if (area.length < 2) return { ok: false, error: "Add the town or area you work in." };
+  if (!website) return { ok: false, error: "Say whether you have a website." };
+  if (!evenings.length) return { ok: false, error: "Pick at least one of quotes, chasing or paperwork." };
+  const need = [
+    "Clockwork Flow early access.",
+    `Works in ${area}.`,
+    `Has a website: ${website}.`,
+    `Evenings go on: ${evenings.join(", ")}.`,
+    alsoEmail ? `Email: ${alsoEmail}.` : "",
+    notes ? `Notes: ${notes}` : ""
+  ].filter(Boolean).join(" ");
+  const base = validateLead(
+    { name: input.name, business: input.trade, contact, need },
+    "register-interest",
+    knownPage2
+  );
+  if (!base.ok) {
+    const error = base.error === "I need a name." ? "Add your first name." : base.error === "I need the business or trade." ? "Add your trade." : base.error === "I need a phone number or email." ? "Add a mobile number or an email address." : base.error;
+    return { ok: false, error };
+  }
+  const summary = [
+    "Register interest answers (Clockwork Flow):",
+    `Area: ${area}`,
+    `Has a website: ${website}`,
+    `Evenings go on: ${evenings.join(", ")}`,
+    alsoEmail ? `Email as well: ${alsoEmail}` : "",
+    `Notes: ${notes || "None"}`
+  ].filter(Boolean).join("\n");
+  return { ok: true, lead: { ...base.lead, summary } };
+}
 function pathname(prefix, lead) {
   const day = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
   const hash = createHash("sha256").update(`${lead.contact.toLowerCase()}
@@ -1104,6 +1162,7 @@ function publicWidget(config) {
 
 // server/chat.ts
 var maxDuration = 30;
+var REGISTER_INTEREST_DEMO = "https://clockwork-ai-jobflow.vercel.app";
 var leadSchema = z.object({
   name: z.string().describe("The visitor's name"),
   business: z.string().describe("Their business or trade"),
@@ -1154,6 +1213,25 @@ async function POST(request) {
   }
   const page = knownPage(body.page, business.pages);
   const leadBody = body.lead;
+  if (body.form === "register-interest" && leadBody && typeof leadBody === "object") {
+    const parsed = validateRegisterInterest(leadBody, page);
+    if (!parsed.ok) return json({ error: parsed.error }, 400);
+    const saved = await saveLead(business, parsed.lead);
+    if (!saved.ok) {
+      return json(
+        {
+          error: `That didn't go through, sorry. Nothing was saved. Ring Callum on ${business.links.phone}, or book the free Website Check, and he'll take it from there.`
+        },
+        503
+      );
+    }
+    return json({
+      ok: true,
+      notified: saved.notified,
+      name: parsed.lead.name,
+      demo: REGISTER_INTEREST_DEMO
+    });
+  }
   if (leadBody && typeof leadBody === "object") {
     const parsed = validateLead(leadBody, "chat-form", page);
     if (!parsed.ok) return json({ error: parsed.error }, 400);

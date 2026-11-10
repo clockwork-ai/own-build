@@ -20,6 +20,7 @@
     ['/work', 'My work', '14:00'],
     ['/about', 'About', '17:30'],
     ['/book', 'Book a call', '08:00'],
+    ['/register-interest', 'Register interest', '16:00'],
   ];
 
   function ticks(g, c, n, rOut, rIn, every, rBig, attrs, bigAttrs, skip = -1) {

@@ -9,11 +9,14 @@ import {
   sameOrigin,
   takeRateLimit,
 } from "../lib/guard.ts";
-import { saveLead, validateLead } from "../lib/leads.ts";
+import { saveLead, validateLead, validateRegisterInterest } from "../lib/leads.ts";
 import { summariseTranscript } from "../lib/mail.ts";
 import { buildInstructions, publicWidget } from "../lib/prompt.ts";
 
 export const maxDuration = 30;
+
+// Shown only after someone registers interest, never on the public page.
+const REGISTER_INTEREST_DEMO = "https://clockwork-ai-jobflow.vercel.app";
 
 const leadSchema = z.object({
   name: z.string().describe("The visitor's name"),
@@ -72,6 +75,28 @@ export async function POST(request: Request): Promise<Response> {
 
   const page = knownPage((body as { page?: unknown }).page, business.pages);
   const leadBody = (body as { lead?: unknown }).lead;
+
+  // Register interest in Clockwork Flow: same saveLead path as the chat form.
+  if ((body as { form?: unknown }).form === "register-interest" && leadBody && typeof leadBody === "object") {
+    const parsed = validateRegisterInterest(leadBody, page);
+    if (!parsed.ok) return json({ error: parsed.error }, 400);
+    const saved = await saveLead(business, parsed.lead);
+    if (!saved.ok) {
+      return json(
+        {
+          error: `That didn't go through, sorry. Nothing was saved. Ring Callum on ${business.links.phone}, or book the free Website Check, and he'll take it from there.`,
+        },
+        503,
+      );
+    }
+    return json({
+      ok: true,
+      notified: saved.notified,
+      name: parsed.lead.name,
+      demo: REGISTER_INTEREST_DEMO,
+    });
+  }
+
   if (leadBody && typeof leadBody === "object") {
     const parsed = validateLead(leadBody, "chat-form", page);
     if (!parsed.ok) return json({ error: parsed.error }, 400);

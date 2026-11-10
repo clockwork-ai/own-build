@@ -584,6 +584,7 @@ function renderPage(terms) {
         <a href="/about">About</a>
         <a href="/missed-calls">Missed calls</a>
         <a href="/book">Book a call</a>
+        <a href="/register-interest">Register interest</a>
         <a href="mailto:${escapeHtml(terms.email)}">Email</a>
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
