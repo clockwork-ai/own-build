@@ -389,3 +389,7 @@ form legend{font-weight:700;margin-bottom:10px}
   .rv-on [data-rv]{opacity:1;transform:none}
 }
 .chat-open .mbar{display:none}
+.brand{min-height:44px}
+.foot__in a{display:inline-flex;align-items:center;min-height:44px}
+.foot__in p{margin-bottom:2px}
+.skip:focus{min-height:44px;display:inline-flex;align-items:center}
