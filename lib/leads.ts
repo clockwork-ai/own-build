@@ -123,14 +123,22 @@ function pathname(prefix: string, lead: LeadInput): string {
   return `${prefix}/${day}/${hash}.json`;
 }
 
-async function notify(config: BusinessConfig, lead: LeadInput): Promise<boolean> {
-  const emailed = await emailLead(config.lead.notifyEmail, lead, lead.summary || "No transcript was included.");
-  const hooked = await notifyWebhook(config, lead);
+// Optional collaborators for saveLead, so tests can pass fakes. Live callers pass nothing.
+export type SaveLeadDeps = {
+  put?: typeof put;
+  email?: typeof emailLead;
+  fetch?: typeof fetch;
+};
+
+async function notify(config: BusinessConfig, lead: LeadInput, deps: SaveLeadDeps): Promise<boolean> {
+  const email = deps.email ?? emailLead;
+  const emailed = await email(config.lead.notifyEmail, lead, lead.summary || "No transcript was included.");
+  const hooked = await notifyWebhook(config, lead, deps.fetch ?? fetch);
   console.info(`lead notice emailed=${emailed} webhook=${hooked}`);
   return emailed || hooked;
 }
 
-async function notifyWebhook(config: BusinessConfig, lead: LeadInput): Promise<boolean> {
+async function notifyWebhook(config: BusinessConfig, lead: LeadInput, send: typeof fetch): Promise<boolean> {
   const url = process.env[config.lead.webhookEnv];
   if (!url) return false;
   let target: URL;
@@ -145,7 +153,7 @@ async function notifyWebhook(config: BusinessConfig, lead: LeadInput): Promise<b
     return false;
   }
   try {
-    const response = await fetch(target, {
+    const response = await send(target, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
@@ -167,7 +175,11 @@ async function notifyWebhook(config: BusinessConfig, lead: LeadInput): Promise<b
   }
 }
 
-export async function saveLead(config: BusinessConfig, lead: LeadInput): Promise<LeadResult> {
+export async function saveLead(
+  config: BusinessConfig,
+  lead: LeadInput,
+  deps: SaveLeadDeps = {},
+): Promise<LeadResult> {
   if (!process.env.BLOB_READ_WRITE_TOKEN && !process.env.BLOB_STORE_ID) {
     console.error("lead storage: Blob is not connected");
     return { ok: false, error: "storage-not-configured" };
@@ -179,7 +191,7 @@ export async function saveLead(config: BusinessConfig, lead: LeadInput): Promise
     savedAt: new Date().toISOString(),
   };
   try {
-    await put(pathname(config.lead.storagePrefix, lead), JSON.stringify(record), {
+    await (deps.put ?? put)(pathname(config.lead.storagePrefix, lead), JSON.stringify(record), {
       access: "private",
       contentType: "application/json",
       addRandomSuffix: false,
@@ -190,7 +202,7 @@ export async function saveLead(config: BusinessConfig, lead: LeadInput): Promise
     console.error("lead storage: put failed", error instanceof Error ? error.name : "error");
     return { ok: false, error: "storage-failed" };
   }
-  const notified = await notify(config, lead);
+  const notified = await notify(config, lead, deps);
   console.info(`lead stored source=${lead.source} notified=${notified}`);
   return { ok: true, notified };
 }
