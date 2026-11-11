@@ -4,10 +4,22 @@
   var reduce = h.classList.contains('rm');
   function $$(s, r) { return Array.prototype.slice.call((r || d).querySelectorAll(s)); }
 
-  /* Header shadow on scroll, mobile menu */
-  var hdr = d.getElementById('hdr');
-  function onScroll() { if (hdr) hdr.classList.toggle('is-scrolled', window.scrollY > 16); }
-  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  /* Header: solid once you scroll. Phone contact bar: hidden while scrolling down, back when scrolling up. */
+  var hdr = d.getElementById('hdr'), mbar = d.getElementById('mbar'), lastY = window.scrollY, ticking = false;
+  function onScroll() {
+    var y = window.scrollY;
+    if (hdr) hdr.classList.toggle('is-scrolled', y > 24);
+    if (mbar) {
+      var nearEnd = y + window.innerHeight > d.documentElement.scrollHeight - 80;
+      if (y < window.innerHeight * 0.5) h.classList.remove('mbar-on');
+      else if (y < lastY - 4 || nearEnd) h.classList.add('mbar-on');
+      else if (y > lastY + 4) h.classList.remove('mbar-on');
+    }
+    lastY = y; ticking = false;
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+
   var burger = d.getElementById('burger'), mnav = d.getElementById('mnav');
   function setMenu(open) {
     burger.setAttribute('aria-expanded', open); mnav.classList.toggle('is-open', open); h.classList.toggle('menu-open', open);
@@ -16,6 +28,7 @@
   if (burger && mnav) {
     burger.addEventListener('click', function () { setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
     d.addEventListener('keydown', function (e) { if (e.key === 'Escape' && mnav.classList.contains('is-open')) { setMenu(false); burger.focus(); } });
+    $$('a', mnav).forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
   }
 
   /* Gentle reveal on scroll (off for reduce motion) */
@@ -26,6 +39,45 @@
     rv.forEach(function (el) { io.observe(el); });
   }
 
+  /* Before and after: drag (or use the arrow keys) to move the line */
+  $$('[data-ba]').forEach(function (fig) {
+    var media = fig.querySelector('.ba__media'), range = fig.querySelector('.ba__range');
+    if (!media || !range) return;
+    range.style.pointerEvents = 'none';
+    function set(p) {
+      p = Math.max(0, Math.min(100, p));
+      media.style.setProperty('--p', p + '%');
+      range.value = Math.round(p);
+      range.setAttribute('aria-valuetext', Math.round(p) + ' percent before');
+    }
+    function fromX(x) { var r = media.getBoundingClientRect(); return (x - r.left) / r.width * 100; }
+    var dragging = false, startX = 0, startY = 0, decided = false;
+    media.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse') { dragging = true; decided = true; set(fromX(e.clientX)); media.setPointerCapture(e.pointerId); e.preventDefault(); return; }
+      dragging = true; decided = false; startX = e.clientX; startY = e.clientY;
+    });
+    media.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      if (!decided) {
+        var dx = Math.abs(e.clientX - startX), dy = Math.abs(e.clientY - startY);
+        if (dx < 6 && dy < 6) return;
+        decided = true;
+        if (dy > dx) { dragging = false; return; } /* a vertical swipe: let the page scroll */
+        try { media.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+      set(fromX(e.clientX));
+    });
+    function end(e) {
+      if (dragging && !decided && e.type === 'pointerup') set(fromX(e.clientX)); /* a tap jumps the line there */
+      dragging = false;
+    }
+    media.addEventListener('pointerup', end);
+    media.addEventListener('pointercancel', end);
+    range.addEventListener('input', function () { set(+range.value); });
+    media.addEventListener('click', function () { range.focus({ preventScroll: true }); });
+    set(50);
+  });
+
   /* Sample Google profile buttons: they only reveal a note */
   $$('[data-gprofile]').forEach(function (b) {
     b.addEventListener('click', function () {
@@ -34,41 +86,6 @@
       $$('[aria-controls="' + note.id + '"]').forEach(function (x) { x.setAttribute('aria-expanded', open); });
     });
   });
-
-  /* Our work: filters and a simple photo viewer */
-  var gal = d.querySelector('.gal');
-  if (gal) {
-    var items = $$('li', gal), count = d.querySelector('[data-count]');
-    $$('.filters button').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var k = b.getAttribute('data-k'), n = 0;
-        $$('.filters button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
-        items.forEach(function (li) { var on = k === 'all' || li.getAttribute('data-cat') === k; li.hidden = !on; if (on) n++; });
-        if (count) count.textContent = n + (n === 1 ? ' job' : ' jobs');
-      });
-    });
-    var lb = d.getElementById('lb'), cur = 0;
-    function vis() { return items.filter(function (li) { return !li.hidden; }); }
-    function show(i) {
-      var v = vis(); cur = (i + v.length) % v.length;
-      var b = v[cur].querySelector('[data-lb]'), im = b.querySelector('img');
-      lb.querySelector('.lb__img').innerHTML = '<img src="' + im.src + '" alt="' + im.alt.replace(/"/g, '&quot;') + '"><span class="ph__tag">Stock photo</span>';
-      lb.querySelector('.lb__t').innerHTML = '<b></b><p></p>';
-      lb.querySelector('.lb__t b').textContent = b.getAttribute('data-t');
-      lb.querySelector('.lb__t p').textContent = b.getAttribute('data-d');
-    }
-    if (lb && lb.showModal) {
-      $$('[data-lb]', gal).forEach(function (b) {
-        b.addEventListener('click', function () { show(vis().indexOf(b.parentNode)); lb.showModal(); });
-      });
-      lb.addEventListener('click', function (e) {
-        if (e.target === lb || e.target.closest('[data-close]')) lb.close();
-        else if (e.target.closest('[data-prev]')) show(cur - 1);
-        else if (e.target.closest('[data-next]')) show(cur + 1);
-      });
-      lb.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
-    }
-  }
 
   /* Quote form: checks, then a thank you. Nothing is sent. */
   $$('form[data-demo-form]').forEach(function (f) {
