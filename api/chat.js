@@ -1022,13 +1022,14 @@ function pathname(prefix, lead) {
 ${lead.need.toLowerCase()}`).digest("hex").slice(0, 16);
   return `${prefix}/${day}/${hash}.json`;
 }
-async function notify(config, lead) {
-  const emailed = await emailLead(config.lead.notifyEmail, lead, lead.summary || "No transcript was included.");
-  const hooked = await notifyWebhook(config, lead);
+async function notify(config, lead, deps) {
+  const email = deps.email ?? emailLead;
+  const emailed = await email(config.lead.notifyEmail, lead, lead.summary || "No transcript was included.");
+  const hooked = await notifyWebhook(config, lead, deps.fetch ?? fetch);
   console.info(`lead notice emailed=${emailed} webhook=${hooked}`);
   return emailed || hooked;
 }
-async function notifyWebhook(config, lead) {
+async function notifyWebhook(config, lead, send) {
   const url = process.env[config.lead.webhookEnv];
   if (!url) return false;
   let target;
@@ -1043,7 +1044,7 @@ async function notifyWebhook(config, lead) {
     return false;
   }
   try {
-    const response = await fetch(target, {
+    const response = await send(target, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
@@ -1064,7 +1065,7 @@ async function notifyWebhook(config, lead) {
     return false;
   }
 }
-async function saveLead(config, lead) {
+async function saveLead(config, lead, deps = {}) {
   if (!process.env.BLOB_READ_WRITE_TOKEN && !process.env.BLOB_STORE_ID) {
     console.error("lead storage: Blob is not connected");
     return { ok: false, error: "storage-not-configured" };
@@ -1076,7 +1077,7 @@ async function saveLead(config, lead) {
     savedAt: (/* @__PURE__ */ new Date()).toISOString()
   };
   try {
-    await put(pathname(config.lead.storagePrefix, lead), JSON.stringify(record), {
+    await (deps.put ?? put)(pathname(config.lead.storagePrefix, lead), JSON.stringify(record), {
       access: "private",
       contentType: "application/json",
       addRandomSuffix: false,
@@ -1087,7 +1088,7 @@ async function saveLead(config, lead) {
     console.error("lead storage: put failed", error instanceof Error ? error.name : "error");
     return { ok: false, error: "storage-failed" };
   }
-  const notified = await notify(config, lead);
+  const notified = await notify(config, lead, deps);
   console.info(`lead stored source=${lead.source} notified=${notified}`);
   return { ok: true, notified };
 }
