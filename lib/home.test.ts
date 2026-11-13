@@ -21,15 +21,35 @@ test("defaults: headline A live, Dale on, Website Check opens the phone", () => 
   assert.deepEqual(Object.keys(cfg.HEADLINES), ["A", "B", "C", "D"]);
 });
 
-test("built page: one H1 with headline A, B to D nowhere on it, eight sections in order", () => {
+test("built page: one H1 with headline A, B to D nowhere on it, nine sections in order", () => {
   const html = render();
   const h1s = html.match(/<h1\b[^>]*>([^<]*)<\/h1>/g) ?? [];
   assert.equal(h1s.length, 1);
   assert.ok(h1s[0].includes(cfg.HEADLINES.A));
   for (const k of ["B", "C", "D"] as const) assert.ok(!html.includes(cfg.HEADLINES[k]), k);
   const ids = [...html.matchAll(/<section id="([^"]+)"/g)].map((m) => m[1]);
-  assert.deepEqual(ids, ["top", "breath", "what", "how", "proof", "measure", "faq", "go"]);
+  assert.deepEqual(ids, ["top", "breath", "jess", "what", "how", "proof", "measure", "faq", "go"]);
   assert.ok(!html.includes("{{"), "no placeholders left");
+});
+
+test("first screen: four trust lines, VAT wording is always 'no VAT added'", () => {
+  const html = render();
+  const trust = html.match(/<ul class="trust">(.*?)<\/ul>/)?.[1] ?? "";
+  const items = [...trust.matchAll(/<li>([^<]*)<\/li>/g)].map((m) => m[1]);
+  assert.deepEqual(items, ["Built for trades", "You own your domain", "No VAT added", "No tech skills needed"]);
+  assert.doesNotMatch(html, /plus VAT|ex VAT|VAT included|\+\s?VAT/i);
+});
+
+test("Jess section: the approved call, caller labelled Customer only, no Lyme number, Made to Measure linked", () => {
+  const html = render();
+  const jess = html.match(/<section id="jess"[\s\S]*?<\/section>/)?.[0] ?? "";
+  assert.match(jess, /I was on a job, so Jess picked up\./);
+  assert.match(jess, /Hiya, you're through to Lyme Plumbing and Heating\. I'm Jess, Callum's AI assistant\./);
+  assert.match(jess, /First time he'd ever used an AI receptionist, and it was really good\./);
+  assert.equal((jess.match(/<small>Customer<\/small>/g) ?? []).length, 2);
+  assert.doesNotMatch(jess, /07846|729203|live chat/i);
+  assert.match(html, /href="\/made-to-measure"[^>]*data-where="strip"/);
+  assert.doesNotMatch(html, /—|–/, "no em or en dashes on the homepage");
 });
 
 test("Dale off: no name, photo, figure or site of his in the page", () => {

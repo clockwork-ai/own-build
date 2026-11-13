@@ -19,6 +19,7 @@
     ['/clockwork-check', 'Free Website Check', '11:00'],
     ['/work', 'My work', '14:00'],
     ['/about', 'About', '17:30'],
+    ['/made-to-measure', 'Made to Measure', '18:00'],
     ['/book', 'Book a call', '08:00'],
     ['/register-interest', 'Register interest', '16:00'],
   ];

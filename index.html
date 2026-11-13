@@ -327,6 +327,25 @@
   .breath__list p { margin: 6px 0 0; color: var(--sc-ink-soft); line-height: 1.55; font-size: 0.94rem; }
   .breath__cap { margin: clamp(1.6rem, 4vh, 2.4rem) 0 0; font: 400 clamp(1.5rem, 1.1rem + 1.4vw, 2.2rem)/1.15 var(--sc-font-display); }
 
+  /* ---- 2b. Jess answers the phone: a real call, rebuilt as a card */
+  .jess__grid { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+  .jess__lede { margin: 16px 0 0; max-width: 46ch; font-size: 1.08rem; line-height: 1.6; color: color-mix(in oklab, var(--sc-ink) 86%, transparent); }
+  .call { margin: 0; padding: 18px; border-radius: 22px; background: linear-gradient(#1b1d22, #121317); border: 1px solid var(--sc-hairline); box-shadow: var(--sc-e3), var(--sc-edge); }
+  .call__head { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--sc-hairline); color: #eef0ea; }
+  .call__head b { display: block; font: 500 0.95rem/1.3 var(--sc-font-text); }
+  .call__head small { display: block; margin-top: 2px; font: 400 0.72rem/1.3 var(--sc-font-mono); color: var(--sc-ink-soft); }
+  .call__list { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 10px; }
+  .call__b { justify-self: start; max-width: 88%; padding: 12px 14px; border-radius: 16px 16px 16px 4px; background: #2a2d33; color: #eef0ea; font: 400 0.95rem/1.5 var(--sc-font-text); }
+  .call__b small { display: block; margin-bottom: 5px; font: 500 0.64rem/1 var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-accent); }
+  .call__b--cust { justify-self: end; border-radius: 16px 16px 4px 16px; background: #1a1c20; border: 1px solid var(--sc-hairline-strong); }
+  .call figcaption { margin-top: 12px; font: 400 0.76rem/1.4 var(--sc-font-mono); color: var(--sc-ink-soft); }
+  .jess__quote { margin: clamp(1.6rem, 4vh, 2.4rem) 0 0; padding-left: 18px; border-left: 2px solid var(--sc-accent); }
+  .jess__quote p { margin: 0; font: 400 clamp(1.35rem, 1rem + 1.1vw, 1.9rem)/1.2 var(--sc-font-display); font-style: italic; }
+  .jess__quote cite { display: block; margin-top: 10px; font: 400 0.82rem/1.4 var(--sc-font-mono); font-style: normal; color: var(--sc-ink-soft); }
+  .jess__close { margin: clamp(2rem, 5vh, 3rem) 0 0; padding-top: clamp(1.4rem, 3vh, 2rem); border-top: 1px solid var(--sc-hairline); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 28px; }
+  .jess__close p { margin: 0; max-width: 40ch; font: 400 clamp(1.3rem, 1rem + 1vw, 1.8rem)/1.2 var(--sc-font-display); }
+  .jess__ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+
   /* ---- 3. what you get */
   .outcomes { list-style: none; margin: clamp(2rem, 5vh, 3rem) 0 0; padding: 22px 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; border-block: 1px solid var(--sc-hairline); }
   .outcomes li { display: flex; align-items: center; gap: 14px; font: 500 1.02rem/1.3 var(--sc-font-text); }
@@ -407,6 +426,10 @@
     .hero2__grid { grid-template-columns: 1fr; }
     .reel { max-width: 26rem; }
     .breath__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .jess__grid { grid-template-columns: 1fr; gap: 1.8rem; }
+    .call { max-width: 30rem; }
+    .jess__ctas { width: 100%; }
+    .jess__ctas .btn { flex: 1 1 100%; }
     .outcomes, .tiers2, .steps3, .demos { grid-template-columns: 1fr; }
     .tiers2 { gap: 26px; }
     .proof2__grid { grid-template-columns: 1fr; }
@@ -418,6 +441,13 @@
     .breath__list { gap: 12px; }
     .breath__list p { font-size: 0.88rem; }
     .post__cap, .msgs__b { font-size: 0.8rem; }
+    .call { padding: 14px; }
+    .call__b { max-width: 92%; font-size: 0.9rem; }
+  }
+  /* Four trust lines on a narrow phone: two tidy columns, a dot in front of each, instead of a stray dot at a line start. */
+  @media (max-width: 480px) {
+    .trust { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
+    .trust li::before { content: "·"; margin-right: 8px; color: var(--lume-45); }
   }
 
 </style>
@@ -451,6 +481,7 @@
       <ol class="subdial__menu" id="dialmenu">
         <li><div class="menu__cta"><a class="btn btn--primary" href="{{CHECK_HREF}}"{{CHECK_TARGET}} data-ev="check" data-where="menu">Get your free Website Check</a><div><a class="btn btn--ghost" href="tel:+447460038202" data-ev="call" data-where="menu">Call</a><a class="btn btn--ghost" href="sms:+447460038202" data-ev="message" data-where="menu">Text</a><button class="btn btn--ghost" type="button" data-open-chat>Ask Clockwork</button></div></div></li>
         <li><div class="menu__head">On this page</div></li>
+        <li><a href="#jess"><span></span><span>Jess answers the phone</span></a></li>
         <li><a href="#what"><span></span><span>What you get</span></a></li>
         <li><a href="#how"><span></span><span>How it works</span></a></li>
         <li><a href="#proof"><span></span><span>Proof</span></a></li>
@@ -459,6 +490,7 @@
         <li><div class="menu__head">Pages</div></li>
         <li><a href="/clockwork-check"><span></span><span>Free Website Check</span></a></li>
         <li><a href="/services"><span></span><span>Services</span></a></li>
+        <li><a href="/made-to-measure"><span></span><span>Made to Measure</span></a></li>
         <li><a href="/roofers"><span></span><span>Roofers</span></a></li>
         <li><a href="/work"><span></span><span>My work</span></a></li>
         <li><a href="/about"><span></span><span>About</span></a></li>
@@ -484,7 +516,7 @@
           <!-- dale:on --><a class="btn btn--ghost" href="#proof" data-ev="see-dale" data-where="hero">See Dale's site</a><!-- /dale:on -->
           <!-- dale:off --><a class="btn btn--ghost" href="tel:+447460038202" data-ev="call" data-where="hero">Tap to call 07460 038202</a><!-- /dale:off -->
         </div>
-        <ul class="trust"><li>Built for trades</li><li>You own your domain</li><li>No tech skills needed</li></ul>
+        <ul class="trust"><li>Built for trades</li><li>You own your domain</li><li>No VAT added</li><li>No tech skills needed</li></ul>
       </div>
 
       <figure class="reel" aria-label="One job, four steps: the photo, the framed photo, the post, and the phone ringing">
@@ -515,6 +547,45 @@
         <!-- /dale:on -->
       </ol>
       <!-- dale:on --><p class="breath__cap">One job. Four ways it worked for him.</p><!-- /dale:on -->
+    </div>
+  </section>
+
+  <!-- 2b. JESS ANSWERS THE PHONE -->
+  <section id="jess" class="sec" data-title="Jess answers the phone" aria-labelledby="jess-h">
+    <div class="wrap">
+      <div class="jess__grid">
+        <div>
+          <span class="label">The call, 12 Nov, 8:58am</span>
+          <h2 id="jess-h" class="h2">I was on a job, so Jess picked up.</h2>
+          <p class="jess__lede">When you're on the tools, Jess answers in your name, takes the details and gets you to ring them back. This is a real enquiry to my own plumbing business, Lyme Plumbing and Heating, on Thursday 12 November. He found me through the Google reviews. No ads.</p>
+        </div>
+        <div>
+          <figure class="call" aria-label="The call, as it happened">
+            <div class="call__head">
+              <span class="ring__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span>
+              <span><b>Incoming call</b><small>Lyme Plumbing and Heating · Thu 12 Nov · 08:58</small></span>
+            </div>
+            <ol class="call__list">
+              <li class="call__b"><small>Jess</small>Hiya, you're through to Lyme Plumbing and Heating. I'm Jess, Callum's AI assistant. He's on a job right now, so I'll take your details and get him to ring you back.</li><!-- client-safe: ignore, approved verbatim greeting -->
+              <li class="call__b call__b--cust"><small>Customer</small>Looking for a plumber. Um, wondered Callum's availability for next week.</li>
+              <li class="call__b call__b--cust"><small>Customer</small>Uh, in- uh, installation of toilet, sink, and radiator.</li>
+              <li class="call__b"><small>Jess</small>Ah, lovely, a toilet, sink, and new radiator installation. Callum can definitely help you with that. For a bigger job like that, he'll give you a free quote.</li>
+            </ol>
+            <figcaption>Word for word from the recording. The customer's name and number are left out.</figcaption>
+          </figure>
+          <blockquote class="jess__quote">
+            <p>First time he'd ever used an AI receptionist, and it was really good.</p><!-- client-safe: ignore, the customer's own words, approved -->
+            <cite>The customer's words, after Callum rang back.</cite>
+          </blockquote>
+        </div>
+      </div>
+      <div class="jess__close">
+        <p>I test everything on my own business first. Jess can answer in your name the same way.</p>
+        <div class="jess__ctas">
+          <a class="btn btn--primary" href="{{CHECK_HREF}}"{{CHECK_TARGET}} data-ev="check" data-where="jess">Get your free Website Check</a>
+          <a class="btn btn--ghost" href="tel:+447460038202" data-ev="call" data-where="jess">Call 07460 038202</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -595,7 +666,7 @@
         <h2 id="mtm-h" class="h2">Need something nobody else sells?</h2>
         <p>Your paperwork, done your way, on your phone.</p>
       </div>
-      <a class="btn btn--dark" href="https://wa.me/447359838866?text=Hi%20Callum%2C%20the%20job%20that%20eats%20my%20time%20is%3A%20" target="_blank" rel="noopener" data-ev="mtm" data-where="strip">Tell us what eats your time</a>
+      <a class="btn btn--dark" href="/made-to-measure" data-ev="mtm" data-where="strip">See Made to Measure</a>
     </div>
   </section>
 
@@ -643,6 +714,7 @@
       <a href="/work">My work</a>
       <a href="/about">About</a>
       <a href="/missed-calls">Missed calls</a>
+      <a href="/made-to-measure">Made to Measure</a>
       <a href="/book">Book a call</a>
       <a href="/register-interest">Register interest</a>
       <a href="/privacy">Privacy</a>
