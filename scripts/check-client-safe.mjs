@@ -48,7 +48,7 @@ const rules = [...RULES.all, ...(profile === "all" ? [...RULES.clockwork, ...RUL
 const LIB_CODE = (f) => /^lib\/[^/]+\.(ts|js|mjs)$/i.test(f) && !/\.test\.(ts|js|mjs)$/i.test(f);
 const CLIENT_FACING = (f) => LIB_CODE(f) || (
   !/(^|\/)(node_modules|lib|api|server|scripts|tests?|\.github)\//.test(f) &&
-  !/(^|\/)(README|CLAUDE|CHANGELOG|LICENSE)[^/]*$/i.test(f) &&
+  !/(^|\/)(README|CLAUDE|AGENTS|CHANGELOG|LICENSE)[^/]*$/i.test(f) &&
   (/\.(html?|md|txt)$/i.test(f) || (/^(demos|p)\//.test(f) && /\.(js|mjs|json|css|svg)$/i.test(f))));
 
 // Gather [file, lineNo, text]
