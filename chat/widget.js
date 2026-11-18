@@ -82,7 +82,7 @@
   function safeHref(href, fallback) {
     try {
       const url = new URL(href, location.origin);
-      if (url.protocol === "tel:" || url.protocol === "mailto:" || url.origin === location.origin || url.protocol === "https:") return url.href;
+      if (url.protocol === "tel:" || url.protocol === "sms:" || url.protocol === "mailto:" || url.origin === location.origin || url.protocol === "https:") return url.href;
     } catch { /* keep fallback */ }
     return fallback;
   }
@@ -137,8 +137,10 @@
       const count = calls != null ? calls : filled ? Number(filled[1]) : null;
       push("Missed-call calculator", calculatorHref(count), false);
     }
-    if (/whatsapp/i.test(text)) push("WhatsApp", (config && config.whatsappHref) || "https://wa.me/447359838866", true);
-    if (/07460\s*038202|\+44\s*7460\s*038202/.test(text)) push("Call", (config && config.phoneHref) || "tel:+447460038202", false);
+    if (/07460\s*038202|\+44\s*7460\s*038202/.test(text)) {
+      push("Call", (config && config.phoneHref) || "tel:+447460038202", false);
+      push("Text", (config && config.textHref) || "sms:+447460038202", false);
+    }
     return actions;
   }
 
@@ -349,7 +351,7 @@
         bookHref: "https://cal.com/clockwork-ai/30min",
         bookLabel: "Book a free 30-minute call",
         phoneHref: "tel:+447460038202",
-        whatsappHref: "https://wa.me/447359838866",
+        textHref: "sms:+447460038202",
       });
     }
   }
@@ -493,7 +495,7 @@
       add(response.ok ? "assistant" : "note", payload.message || payload.error || "Sorry, that didn't send.");
       if (response.ok) form.reset();
     } catch {
-      add("note", "Sorry, that didn't send. Book the Free Website Check below, or WhatsApp Callum.");
+      add("note", "Sorry, that didn't send. Book the Free Website Check below, or call or text Callum on 07460 038202.");
     } finally {
       button.disabled = false;
     }

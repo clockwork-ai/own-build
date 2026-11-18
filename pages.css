@@ -336,7 +336,7 @@ main a:not(.btn):not(.linkline):hover { color: var(--sc-accent); }
 .foot nav { gap: 0 18px; }
 .foot nav a { display: inline-flex; align-items: center; min-height: 44px; }
 
-/* Book, call and WhatsApp at the top of the phone menu. */
+/* Book, call and text at the top of the phone menu. */
 .menu__cta { display: none; }
 @media (max-width: 860px) {
   .bar__tel { display: none; }

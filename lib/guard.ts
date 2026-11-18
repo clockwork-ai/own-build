@@ -124,7 +124,6 @@ export function scrubDashes(text: string): string {
 export type PathLinks = {
   audit: string;
   book: string;
-  whatsapp: string;
   phone: string;
   calculator: string;
 };
@@ -132,7 +131,6 @@ export type PathLinks = {
 const DEFAULT_LINKS: PathLinks = {
   audit: "/clockwork-check",
   book: "https://cal.com/clockwork-ai/30min",
-  whatsapp: "https://wa.me/447359838866",
   phone: "07460 038202",
   calculator: "/missed-calls#calculator",
 };
@@ -154,8 +152,8 @@ function wordsFor(raw: string, links: PathLinks): string {
   const host = url.hostname.replace(/^www\./, "");
   const path = url.pathname.replace(/\.html$/i, "");
   if (path === links.audit.replace(/\.html$/i, "") || path === "/clockwork-check") return `the Free Website Check${trailing}`;
-  if (host === "cal.com" || host === "wa.me") {
-    return host === "wa.me" ? `WhatsApp${trailing}` : `book a call${trailing}`;
+  if (host === "cal.com" || /^wa\.me$/i.test(host)) {
+    return /^wa\.me$/i.test(host) ? `call or text${trailing}` : `book a call${trailing}`;
   }
   if (path === "/missed-calls") {
     const calls = url.searchParams.get("calls");
