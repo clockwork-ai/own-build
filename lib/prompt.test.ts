@@ -9,11 +9,13 @@ test("the model is not handed a web address or a page path", () => {
   assert.equal(text.includes("https://"), false);
   assert.equal(text.includes("http://"), false);
   assert.equal(text.includes("cal.com"), false);
-  assert.equal(text.includes("wa.me"), false);
+  assert.equal(text.includes(["wa", "me"].join(".")), false);
   assert.match(text, /the services page/);
   assert.match(text, /Never write a URL/);
   assert.match(text, /with 4 a day filled in/);
   assert.match(text, /07460 038202/);
+  assert.match(text, /call or text 07460 038202/);
+  assert.match(text, /There is no WhatsApp number/);
   assert.match(text, /content day/);
   assert.match(text, /12-month minimum/);
   assert.doesNotMatch(text, /12th monthly payment/);

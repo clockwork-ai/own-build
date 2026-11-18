@@ -122,7 +122,7 @@
         <h2 class="sc-display">A two-minute self-check.</h2>
         <p>Answer honestly. Every yes is a hold-up I can usually fix. Nothing here is sent anywhere. There's no form.</p>
         <p class="big-quote" id="sc-score" aria-live="polite" style="margin-top:1.5rem">0 of 8.</p>
-        <p class="note" id="sc-msg">Tick the ones that sound like you. Then book the Free Website Check, or WhatsApp me.</p>
+        <p class="note" id="sc-msg">Tick the ones that sound like you. Then book the Free Website Check, or text me on 07460 038202.</p>
       </div>
       <div data-sc-in>
         <fieldset class="selfcheck">
@@ -138,9 +138,9 @@
         </fieldset>
         <div class="cta-row">
           <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book the Free Website Check</a>
-          <a class="btn btn--ghost" href="https://wa.me/447359838866?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20the%20Free%20Website%20Check." target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn--ghost" href="sms:+447460038202">Text 07460 038202</a>
         </div>
-        <p class="note" style="margin-top:12px">The ticks stay on this page. Book the call, or message me, and I'll do the missed-call, website and reviews check with you.</p>
+        <p class="note" style="margin-top:12px">The ticks stay on this page. Book the call, or text me on 07460 038202, and I'll do the missed-call, website and reviews check with you.</p>
       </div>
     </div>
   </section>
@@ -180,7 +180,7 @@
       </div>
       <div class="endband__alt">
         <a class="btn btn--ghost" href="tel:+447460038202">Call 07460 038202</a>
-        <a class="btn btn--ghost" href="https://wa.me/447359838866?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn btn--ghost" href="sms:+447460038202">Text 07460 038202</a>
           <a class="btn btn--ghost" href="mailto:callum@getclockworkai.com">Email Callum</a>
           <button class="btn btn--ghost" type="button" data-open-chat>Ask Clockwork</button>
       </div>
@@ -205,7 +205,7 @@
         <a href="/book">Book a call</a>
         <a href="/register-interest">Register interest</a>
         <a href="mailto:callum@getclockworkai.com">Email</a>
-        <a href="https://wa.me/447359838866?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="sms:+447460038202">Text</a>
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
       </nav>
@@ -232,7 +232,7 @@
   const update = () => {
     const n = boxes.filter(b => b.checked).length;
     score.textContent = n + ' of 8.';
-    msg.textContent = n === 0 ? 'Tick the ones that sound like you. Then book the Free Website Check, or WhatsApp me.' : n < 3 ? 'A couple of hold-ups. The Free Website Check will tell you if they are worth fixing.' : n < 6 ? 'That is several hours a week. Book the Free Website Check.' : 'That is a lot of evenings. Book the Free Website Check, or WhatsApp me.';
+    msg.textContent = n === 0 ? 'Tick the ones that sound like you. Then book the Free Website Check, or text me on 07460 038202.' : n < 3 ? 'A couple of hold-ups. The Free Website Check will tell you if they are worth fixing.' : n < 6 ? 'That is several hours a week. Book the Free Website Check.' : 'That is a lot of evenings. Book the Free Website Check, or text me on 07460 038202.';
   };
   boxes.forEach(b => b.addEventListener('change', update));
 })();

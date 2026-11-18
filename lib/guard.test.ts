@@ -151,6 +151,10 @@ test("turns raw paths and web addresses into words", () => {
   assert.equal(markdown, "Here is Free audit for you.");
   assert.equal(scrubPaths("Email callum@clockworkai.app or ring 07460 038202."), "Email callum@clockworkai.app or ring 07460 038202.");
   assert.equal(scrubPaths("Bring a brush and/or a ladder."), "Bring a brush and/or a ladder.");
+  const host = ["wa", "me"].join(".");
+  const turned = scrubPaths(`Use https://${host}/example today.`);
+  assert.equal(turned, "Use call or text today.");
+  assert.equal(turned.includes(host), false);
 });
 
 test("streams a price and a web address that arrive in small pieces", () => {
