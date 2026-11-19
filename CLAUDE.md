@@ -20,7 +20,7 @@ Always start from the latest `main` on GitHub. Work on a branch, open a pull req
 
 - The only prices allowed on the public site are the approved Foundation figures: £99 a month, 12-month minimum, £1,188 in total. No other figure, tier price or percentage goes on the site or in a graphic until Callum says publish. Growth and Autopilot stay "priced on your call".
 - Clockwork is not VAT registered. Say "no VAT added". Never write "plus VAT" or "ex VAT" on the site.
-- No "AI" talk and no "live chat" in client-facing copy. "Clockwork AI" is the brand name and is fine as a name. Jess is "the phone line" or "answers the phone", never an AI, a bot or live chat.
+- AI talk is fine on Clockwork. Clockwork sells AI automations, so say so plainly. Be honest that Jess is AI. Describe her as an AI phone line or an AI receptionist, and never present her as a person. Never call the chat "live chat".
 - `lib/business.ts` holds the chat's wording, rules, knowledge and `allowedPrices`. A price goes in `allowedPrices` only when that exact string is published on the site. Anything else is removed from the reply before it is shown.
 
 ## Brand (Dial kit)
