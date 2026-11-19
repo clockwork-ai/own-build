@@ -14,7 +14,10 @@ function check(text) {
   const file = join(dir, "page.html");
   try {
     writeFileSync(file, text);
-    return spawnSync(process.execPath, [script, file], { encoding: "utf8" });
+    // GitHub Actions prints findings as ::error lines. These tests want the local lines.
+    const env = { ...process.env };
+    delete env.GITHUB_ACTIONS;
+    return spawnSync(process.execPath, [script, file], { encoding: "utf8", env });
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
