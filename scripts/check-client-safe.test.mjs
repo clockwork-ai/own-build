@@ -27,10 +27,17 @@ test("plain AI passes", () => {
   const result = check([
     "<p>Jess is an AI phone line.</p>",
     "<p>She is an AI receptionist.</p>",
+    "<p>Clockwork uses artificial intelligence.</p>",
     "<p>A person can ring the office.</p>",
     "<p>The receptionist books the visit.</p>",
     "<p>This page is not a bot.</p>",
   ].join("\n"));
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  assert.match(result.stdout, /Client-safe check: clean/);
+});
+
+test("a real person away from Jess passes", () => {
+  const result = check("<p>A real person. You ring or message Callum.</p>");
   assert.equal(result.status, 0, result.stdout + result.stderr);
   assert.match(result.stdout, /Client-safe check: clean/);
 });
