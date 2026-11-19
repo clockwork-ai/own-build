@@ -22,8 +22,8 @@ body { letter-spacing: 0; }
 .skip { position: absolute; left: -999px; top: 8px; z-index: 100; background: var(--sc-accent); color: var(--sc-accent-ink); padding: 10px 16px; border-radius: 999px; }
 .skip:focus { left: 12px; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-main a:not(.btn):not(.linkline) { color: var(--sc-ink); text-decoration-color: color-mix(in oklab, var(--sc-accent) 60%, transparent); }
-main a:not(.btn):not(.linkline):hover { color: var(--sc-accent); }
+main a:not(.btn):not(.linkline):not(.opt) { color: var(--sc-ink); text-decoration-color: color-mix(in oklab, var(--sc-accent) 60%, transparent); }
+main a:not(.btn):not(.linkline):not(.opt):hover { color: var(--sc-accent); }
 
 /* ------------------------------------------------------------- buttons -- */
 .btn {
