@@ -20,8 +20,9 @@ const RULES = {
   clockwork: [
     { id: "pound", re: /£/, msg: "£ in client-facing content." },
     { id: "ai-tool", re: /\b(ChatGPT|OpenAI|GPT-?\d\w*|Claude|Anthropic|Gemini|Grok|Midjourney|DALL-?E|Copilot|Perplexity|kie\.ai|Stable Diffusion|LLMs?)\b/, msg: "AI or tool name." },
-    { id: "ai-word", re: /(?<!Clockwork\s)(?<![\w-])AI(?![\w-])|artificial intelligence/, msg: "\"AI\" outside the brand name Clockwork AI." },
+    { id: "ai-word", re: /artificial intelligence/, msg: "\"AI\" outside the brand name Clockwork AI." },
     { id: "live-chat", re: /live[\s-]?chat/i, msg: "Never say \"live chat\"." },
+    { id: "jess-person", re: /\breal person\b|\bhuman receptionist\b|\breal receptionist\b|(?:\bJess\b|\bphone line\b)(?:\s+\w+){0,3}\s+\bnot a bot\b|\bnot a bot\b(?:\s+\w+){0,3}\s+(?:\bJess\b|\bphone line\b)/i, msg: "Do not present Jess as a person." },
     { id: "pca-member", re: /\bPCA[\s-]*(member|registered|approved|accredited|certified)|member of the (PCA|Property Care Association)/i, msg: "Implies PCA membership. Say \"written to PCA standards\"." },
     { id: "rentokil", re: /Rentokil/i, msg: "Don't mention Rentokil." },
   ],
