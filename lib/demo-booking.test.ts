@@ -13,16 +13,18 @@ const config = (d: string): Chat => {
   const first = fs.readFileSync(path.join(root, d, "chat.js"), "utf8").split("\n", 1)[0];
   return JSON.parse(first.replace(/^window\.DEMO_CHAT=/, "").replace(/;$/, ""));
 };
+// Only demos whose chat books a visit are checked here. Marlbrow's chat starts a quote and never offers a time.
+const booking = demos.filter((d) => Array.isArray(config(d).slots));
 // "8am" -> 8, "5.30pm" -> 17.5, "12" -> 12
 const hour = (s: string) => { const m = s.match(/^(\d{1,2})(?:\.(\d{2}))?\s*(am|pm)?$/)!; let h = +m[1] + (m[2] ? +m[2] / 60 : 0); if (m[3] === "pm" && h < 12) h += 12; return h; };
 const range = (s: string) => { const m = s.match(/\((\d{1,2}(?:\.\d{2})?(?:am|pm)?) to (\d{1,2}(?:\.\d{2})?(?:am|pm)?)\)/); assert.ok(m, `slot label without a time range: ${s}`); return [hour(m![1]), hour(m![2])]; };
 const hoursText = (d: string) => fs.readFileSync(path.join(root, d, "index.html"), "utf8").match(/Mon to Fri [^<]*/)![0].replace(/\s+$/, "");
 
-test("found the four trade demos", () => {
-  for (const d of ["ginnel", "brookstop", "slatehollow", "lunebrook"]) assert.ok(demos.includes(d), d);
+test("found the four trade demos, each with a booking chat", () => {
+  for (const d of ["ginnel", "brookstop", "slatehollow", "lunebrook"]) assert.ok(booking.includes(d), d);
 });
 
-for (const d of demos) {
+for (const d of booking) {
   test(`${d}: weekday slots sit inside the advertised weekday hours`, () => {
     const h = hoursText(d);
     const wk = h.match(/Mon to Fri (\S+) to (\S+?)(?:,|$)/)!;
