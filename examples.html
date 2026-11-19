@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>See a site for your trade · Clockwork AI</title>
+<meta name="description" content="Six made-up trade firms, each with a working website built the way I'd build yours. Open the one closest to your trade and try it on your phone.">
+<link rel="canonical" href="https://clockworkai.app/examples">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clockwork AI">
+<meta property="og:title" content="See a site for your trade · Clockwork AI">
+<meta property="og:description" content="Six made-up trade firms, each with a working website built the way I'd build yours. Open the one closest to your trade and try it on your phone.">
+<meta property="og:url" content="https://clockworkai.app/examples">
+<meta property="og:image" content="https://clockworkai.app/assets/og-movement.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0E0F12">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="pages.css">
+<style>
+  .ex-note { margin: clamp(1.5rem, 4vh, 2.25rem) 0 0; max-width: 46rem; padding: 14px 18px; border: 1px solid var(--sc-hairline-strong); border-radius: 12px; color: var(--sc-ink-soft); font-size: 0.98rem; }
+  .ex-note b { color: var(--sc-ink); font-weight: 500; }
+  .ex-grid { list-style: none; margin: clamp(2rem, 5vh, 3rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2.25rem); }
+  .ex { display: flex; flex-direction: column; gap: 14px; }
+  .ex__shot { display: block; position: relative; border-radius: 22px; overflow: hidden; border: 1px solid var(--sc-hairline-strong); box-shadow: var(--sc-e3); aspect-ratio: 585 / 1266; max-height: 34rem; background: #17191D; transition: transform 220ms var(--sc-ease-out), border-color 220ms var(--sc-ease-out); }
+  .ex__shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .ex__shot:hover { transform: translateY(-3px); border-color: var(--sc-accent); }
+  .ex__trade { font: 500 0.74rem/1.2 var(--sc-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--sc-accent); }
+  .ex h3 { margin: 0; font-size: 1.25rem; font-weight: 500; }
+  .ex h3 small { display: block; margin-top: 4px; font-size: 0.92rem; font-weight: 400; color: var(--sc-ink-soft); }
+  .ex p { margin: 0; color: var(--sc-ink-soft); }
+  .ex p b { color: var(--sc-ink); font-weight: 500; }
+  @media (max-width: 1020px) { .ex-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 620px) {
+    .ex-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .ex__shot { max-width: 17rem; max-height: none; }
+  }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-FCHwsquUovwXaNBtHYdiJ.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body data-hour="14:30">
+<a class="skip" href="#main">Skip to content</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__logo" href="/" aria-label="Clockwork AI, home"><img src="assets/logo-lockup.svg" alt="Clockwork AI" width="200" height="40"></a>
+  <div class="bar__right">
+    <nav class="subdial" aria-label="Site">
+      <button class="subdial__btn" type="button" aria-expanded="false" aria-controls="dialmenu">
+        <svg viewBox="0 0 40 40" aria-hidden="true" id="subdialsvg">
+          <circle cx="20" cy="20" r="18.5" fill="#0E0F12" stroke="rgba(232,238,214,.28)"/>
+          <g id="subticks" stroke="rgba(232,238,214,.55)" stroke-width="1" stroke-linecap="round"></g>
+          <g id="submarks" fill="#CBB892"></g>
+          <line id="subhour" x1="20" y1="20" x2="20" y2="11.5" stroke="#E8EED6" stroke-width="1.8" stroke-linecap="round"/>
+          <line id="submin" x1="20" y1="20" x2="20" y2="6.5" stroke="#E8EED6" stroke-width="1.1" stroke-linecap="round"/>
+          <circle cx="20" cy="20" r="1.8" fill="#CBB892"/>
+        </svg>
+        <span class="subdial__time" id="subtime">14:30</span>
+        <span class="subdial__label" aria-hidden="true">Menu</span>
+        <span class="sr">Open the menu</span>
+      </button>
+      <ol class="subdial__menu" id="dialmenu"></ol>
+    </nav>
+    <a class="bar__tel" href="/work#found">Reviews</a>
+    <a class="bar__tel" href="tel:+447460038202">07460 038202</a>
+    <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="phero" id="top">
+    <div class="phero__plate" aria-hidden="true"><img src="assets/h-1100.webp" alt="" style="object-position:50% 35%"></div>
+    <div class="sc-wrap phero__inner">
+      <div data-sc-in data-sc-stagger="70">
+        <span class="sc-label">Examples · Sites by trade</span>
+        <h1 class="sc-display">See a site for your <em>trade.</em></h1>
+        <p class="lede">Six firms, six trades, each with a working website built the way I'd build yours. Open the one closest to what you do and try it on your phone: the buttons, the quote form and the chat all work.</p>
+        <div class="cta-row"><a class="btn btn--primary" href="#trades">Pick your trade</a><a class="linkline" href="/work">See my real work</a></div>
+      </div>
+      <div class="pdial" aria-hidden="true">
+        <svg viewBox="0 0 200 200" data-dial="hero" data-hour="14:30">
+          <circle cx="100" cy="100" r="97" fill="rgba(9,10,13,.55)" stroke="rgba(232,238,214,.22)" stroke-width="0.5"/>
+          <circle cx="100" cy="100" r="66" fill="none" stroke="rgba(232,238,214,.08)" stroke-width="0.4"/>
+        </svg>
+        <div class="pdial__read"><b>14:30</b><span>Examples</span></div>
+        <div class="pdial__glass"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trades" data-title="Pick your trade" class="block ground-1 trim">
+    <div class="sc-wrap">
+      <div class="block__head" data-sc-in><h2 class="sc-display">Pick your trade.</h2><p>Each one opens in a new tab.</p></div>
+      <p class="ex-note" data-sc-in><b>These firms are made up.</b> They're built to show what your site could do. The names, numbers and photos are samples, and each site says so. Yours is built around your business, your photos and your reviews.</p>
+      <ul class="ex-grid" data-sc-in data-sc-stagger="60">
+        <li class="ex">
+          <a class="ex__shot" href="https://ginnel.clockworkai.app/" target="_blank" rel="noopener" aria-label="Open the Ginnel Electrical example site (opens in a new tab)"><img src="assets/examples/ginnel.webp" width="585" height="1266" alt="A fictional electrician's website on a phone: yellow and black, with the headline Wired right, explained plainly." loading="lazy"></a>
+          <span class="ex__trade">Electrician</span>
+          <h3>Ginnel Electrical<small>Made up, set in Rochdale</small></h3>
+          <p><b>Try this:</b> Book a visit in the chat and see which days and times it offers, then try the fuse board check.</p>
+          <a class="linkline" href="https://ginnel.clockworkai.app/" target="_blank" rel="noopener">Open the site <span aria-hidden="true">↗</span></a>
+        </li>
+        <li class="ex">
+          <a class="ex__shot" href="https://brookstop.clockworkai.app/" target="_blank" rel="noopener" aria-label="Open the Brookstop Plumbing and Heating example site (opens in a new tab)"><img src="assets/examples/brookstop.webp" width="585" height="1266" alt="A fictional plumber's website on a phone: navy and cream, with the headline Warm homes, dry floors, straight answers." loading="lazy"></a>
+          <span class="ex__trade">Plumbing and heating</span>
+          <h3>Brookstop Plumbing &amp; Heating<small>Made up, set in Chorley</small></h3>
+          <p><b>Try this:</b> Tap Emergency to see what someone with a leak gets, or book a visit in the chat.</p>
+          <a class="linkline" href="https://brookstop.clockworkai.app/" target="_blank" rel="noopener">Open the site <span aria-hidden="true">↗</span></a>
+        </li>
+        <li class="ex">
+          <a class="ex__shot" href="https://slatehollow.clockworkai.app/" target="_blank" rel="noopener" aria-label="Open the Slatehollow Roofing example site (opens in a new tab)"><img src="assets/examples/slatehollow.webp" width="585" height="1266" alt="A fictional roofer's website on a phone: a rainy terrace with the headline Roofs built for this weather." loading="lazy"></a>
+          <span class="ex__trade">Roofing</span>
+          <h3>Slatehollow Roofing<small>Made up, set in Rossendale</small></h3>
+          <p><b>Try this:</b> Send roof photos for a quote, with tips on which shots to take, then drag a before and after.</p>
+          <a class="linkline" href="https://slatehollow.clockworkai.app/" target="_blank" rel="noopener">Open the site <span aria-hidden="true">↗</span></a>
+        </li>
+        <li class="ex">
+          <a class="ex__shot" href="https://lunebrook.clockworkai.app/" target="_blank" rel="noopener" aria-label="Open the Lunebrook Damp and Timber example site (opens in a new tab)"><img src="assets/examples/lunebrook.webp" width="585" height="1266" alt="A fictional damp proofing firm's website on a phone: deep green, with the headline Find the cause, then fix the damp." loading="lazy"></a>
+          <span class="ex__trade">Damp and timber</span>
+          <h3>Lunebrook Damp &amp; Timber<small>Made up, set in Lancaster</small></h3>
+          <p><b>Try this:</b> Work through the damp clues, then book a survey in the chat.</p>
+          <a class="linkline" href="https://lunebrook.clockworkai.app/" target="_blank" rel="noopener">Open the site <span aria-hidden="true">↗</span></a>
+        </li>
+        <li class="ex">
+          <a class="ex__shot" href="https://marlbrow.clockworkai.app/" target="_blank" rel="noopener" aria-label="Open the Marlbrow example site (opens in a new tab)"><img src="assets/examples/marlbrow.webp" width="585" height="1266" alt="A fictional garden design firm's website on a phone: a new garden behind a brick house, with the headline Gardens designed properly." loading="lazy"></a>
+          <span class="ex__trade">Gardens and landscaping</span>
+          <h3>Marlbrow<small>Made up, set in Ormskirk</small></h3>
+          <p><b>Try this:</b> Open a garden project on the work page and drag the before and after.</p>
+          <a class="linkline" href="https://marlbrow.clockworkai.app/" target="_blank" rel="noopener">Open the site <span aria-hidden="true">↗</span></a>
+        </li>
+        <li class="ex">
+          <a class="ex__shot" href="https://tarnhale.clockworkai.app/" target="_blank" rel="noopener" aria-label="Open the Tarnhale example site (opens in a new tab)"><img src="assets/examples/tarnhale.webp" width="585" height="1266" alt="A fictional architecture studio's website on a phone: a dark timber house at dusk, with the headline Houses for the fells." loading="lazy"></a>
+          <span class="ex__trade">Architect</span>
+          <h3>Tarnhale<small>Made up, set in Lancaster and the North West</small></h3>
+          <p><b>Try this:</b> Scroll the home page slowly, then open one of the five homes.</p>
+          <a class="linkline" href="https://tarnhale.clockworkai.app/" target="_blank" rel="noopener">Open the site <span aria-hidden="true">↗</span></a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="yours" data-title="When it's yours" class="block ground-2 trim">
+    <div class="sc-wrap split">
+      <div class="block__head sticky" data-sc-in>
+        <h2 class="sc-display">When it's yours.</h2>
+        <p>The examples show the kind of site. Yours starts from your business, not a template.</p>
+      </div>
+      <div data-sc-in>
+        <dl class="facts">
+          <div><dt>Your work</dt><dd>Photos of your own jobs, from your phone or from a content day, not stock.</dd></div>
+          <div><dt>Your reviews</dt><dd>Your real Google reviews, shown up front. Nothing made up.</dd></div>
+          <div><dt>Your area and hours</dt><dd>The towns you cover and the hours you work, so the bookings and replies match how you run.</dd></div>
+          <div><dt>Your way of working</dt><dd>How you quote, what happens after the job, and what you want people to do first: call, text a photo or book a visit.</dd></div>
+        </dl>
+        <p><a class="linkline" href="/work">See the real site I built for D &amp; P Roofing <span aria-hidden="true">→</span></a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="endband trim" aria-labelledby="end-h">
+    <div class="endband__plate" aria-hidden="true"><img src="assets/07-dawn.webp" alt="" loading="lazy"></div>
+    <div class="sc-wrap endband__inner">
+      <div class="enddisc">
+        <svg viewBox="0 0 200 200" data-dial="end" data-lit="7" aria-hidden="true">
+          <defs>
+            <radialGradient id="slotfill" cx="100" cy="100" r="98" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#CBB892" stop-opacity="0.03"/>
+              <stop offset="0.7" stop-color="#CBB892" stop-opacity="0.12"/>
+              <stop offset="1" stop-color="#CBB892" stop-opacity="0.22"/>
+            </radialGradient>
+          </defs>
+          <path d="M100 100 L100 2 A98 98 0 0 1 100 198 Z" fill="url(#slotfill)"/>
+          <path d="M100 5 A95 95 0 0 1 100 195" fill="none" stroke="#CBB892" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div class="enddisc__inner" data-sc-in>
+          <div class="enddisc__time">Your 30 minutes</div>
+          <h2 class="sc-display" id="end-h">Want one for your business?</h2>
+          <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
+          <p class="note">No obligation. You talk to Callum.</p>
+        </div>
+      </div>
+      <div class="endband__alt">
+        <a class="btn btn--ghost" href="tel:+447460038202">Call 07460 038202</a>
+        <a class="btn btn--ghost" href="https://wa.me/447359838866?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn--ghost" href="mailto:callum@getclockworkai.com">Email Callum</a>
+          <button class="btn btn--ghost" type="button" data-open-chat>Ask Clockwork</button>
+      </div>
+    </div>
+    <footer class="foot">
+      <img src="assets/logo-lockup.svg" alt="Clockwork AI" width="100" height="20">
+      <span>Proof over promises · Manchester and the North West · © 2026 Clockwork AI</span>
+      <nav aria-label="Footer">
+        <a href="/how-it-works">How it works</a>
+        <a href="/services">Services</a>
+        <a href="/roofers">Roofers</a>
+        <a href="/clockwork-check">Free Website Check</a>
+        <a href="/work">My work</a>
+        <a href="/examples">Examples</a>
+        <a href="/work#found">Reviews</a>
+        <a href="/about">About</a>
+        <a href="/missed-calls">Missed calls</a>
+        <a href="/made-to-measure">Made to Measure</a>
+        <a href="/book">Book a call</a>
+        <a href="/register-interest">Register interest</a>
+        <a href="mailto:callum@getclockworkai.com">Email</a>
+        <a href="https://wa.me/447359838866?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </nav>
+    </footer>
+  </section>
+</main>
+
+<nav class="dock" aria-label="Contact">
+  <a class="btn btn--ghost dock__icon" href="/work#found" aria-label="Reviews">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span class="dock__t">Reviews</span></a>
+  <a class="btn btn--ghost dock__icon" href="tel:+447460038202" aria-label="Call 07460 038202">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span class="dock__t">Call</span></a>
+  <a class="btn btn--ghost dock__icon" href="mailto:callum@getclockworkai.com" aria-label="Email Callum">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/></svg><span class="dock__t">Email</span></a>
+  <button class="btn btn--ghost dock__ask" type="button" data-open-chat>Ask Clockwork</button>
+  <a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a free call</a>
+</nav>
+
+<script src="scrollcraft.js"></script>
+<script src="pages.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+(function(){var n=0;function l(){if(n)return;n=1;var c=document.createElement("link");c.rel="stylesheet";c.href="/chat/widget.css";document.head.appendChild(c);var s=document.createElement("script");s.src="/chat/widget.js";document.body.appendChild(s);}document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-open-chat]");if(b&&!window.ClockworkChat){window.__cwOpen=b;l();}});addEventListener("load",function(){(window.requestIdleCallback?requestIdleCallback(l,{timeout:2200}):setTimeout(l,1400));});})();
+</script>
+</body>
+</html>
