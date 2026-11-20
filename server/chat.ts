@@ -107,7 +107,7 @@ export async function POST(request: Request): Promise<Response> {
     if (!saved.ok) {
       return json(
         {
-          error: "I couldn't save that just now. Book the Free Website Check, or WhatsApp Callum, and he'll take it from there.",
+          error: "I couldn't save that just now. Book the Free Website Check, or call or text Callum on 07460 038202, and he'll take it from there.",
         },
         503,
       );
@@ -148,7 +148,7 @@ export async function POST(request: Request): Promise<Response> {
           if (!saved.ok) {
             return {
               ok: false,
-              error: "The details could not be stored. Ask them to book the Free Website Check or use WhatsApp.",
+              error: "The details could not be stored. Ask them to book the Free Website Check, or to call or text 07460 038202.",
             };
           }
           return {
@@ -167,7 +167,6 @@ export async function POST(request: Request): Promise<Response> {
   const guard = createPriceStream(business.allowedPrices, business.priceStandIn, {
     audit: business.links.audit,
     book: business.links.book,
-    whatsapp: business.links.whatsapp,
     phone: business.links.phone,
     calculator: business.calculatorHref,
   });
