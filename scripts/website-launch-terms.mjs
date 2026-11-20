@@ -579,6 +579,9 @@ function renderPage(terms) {
         <a href="/how-it-works">How it works</a>
         <a href="/services">Services</a>
         <a href="/roofers">Roofers</a>
+        <a href="/plumbers">Plumbers</a>
+        <a href="/electricians">Electricians</a>
+        <a href="/landscapers">Landscapers</a>
         <a href="/work">My work</a>
         <a href="/work#found">Reviews</a>
         <a href="/about">About</a>
