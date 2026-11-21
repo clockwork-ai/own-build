@@ -131,11 +131,16 @@ test("the page is known to the lead route and listed in the sitemap", () => {
   assert.match(html, /<link rel="canonical" href="https:\/\/clockworkai\.app\/website-check">/);
 });
 
-test("the page says the check is written and emailed within 5 working days, including the success state", () => {
-  assert.match(html, /The Website Check is a written check of your website, sent by email within 5 working days\./);
+test("the page says the check is a free written check emailed within 5 working days, including the success state", () => {
+  const intro = "The Website Check is a free, written check of your website, sent by email within 5 working days.";
+  assert.match(html, /<meta name="description" content="The Website Check is a free, written check of your website, sent by email within 5 working days\.">/);
+  assert.match(html, /<meta property="og:description" content="The Website Check is a free, written check of your website, sent by email within 5 working days\.">/);
+  assert.equal(html.includes('name="twitter:description"'), false);
+  assert.match(html, /<p class="lede">The Website Check is a free, written check of your website, sent by email within 5 working days\.<\/p>/);
+  assert.equal(html.split(intro).length - 1, 3);
   assert.match(html, /I'll email you the written Website Check within 5 working days\./);
   const visible = html.replace(/<script[\s\S]*?<\/script>/g, " ").replace(/<style[\s\S]*?<\/style>/g, " ");
-  assert.match(visible, /sent by email within 5 working days/);
+  assert.match(visible, /The Website Check is a free, written check of your website, sent by email within 5 working days/);
   assert.match(visible, /written Website Check within 5 working days/);
 });
 
