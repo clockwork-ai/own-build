@@ -10,10 +10,12 @@ const src = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const render = (o: Partial<Parameters<typeof renderHome>[1]> = {}) =>
   renderHome(src, { daleOn: false, headline: cfg.HEADLINES.A, check: checkTarget(cfg), which: null, town: "", ...o });
 
-test("defaults: headline A live, Dale on, Website Check opens the phone", () => {
+test("defaults: headline A live, Dale on, Website Check opens the form", () => {
   assert.equal(cfg.HEADLINE, "A");
   assert.equal(cfg.DALE_ON, true);
-  assert.equal(cfg.CHECK_MODE, "phone");
+  assert.equal(cfg.CHECK_MODE, "form");
+  assert.equal(cfg.CHECK_TARGETS.form.href, "/website-check");
+  assert.equal(cfg.CHECK_TARGETS.form.newTab, false);
   assert.equal(cfg.CHECK_TARGETS.phone.href, "tel:+447460038202");
   assert.equal(cfg.DALE_ASSETS["dp-reroof.jpg"], "https://dandproofingandbuilding.co.uk/brand_assets/fb-reroof-ridge-2.jpg");
   assert.equal(cfg.DALE_ASSETS["dp-logo.png"], "https://dandproofingandbuilding.co.uk/brand_assets/logo-dandp-crop.png");
@@ -85,9 +87,9 @@ test("Dale on: his block shows, and the Which? figures appear only when they wer
 test("the Website Check target is one switch, used on every Website Check button", () => {
   const html = render();
   const checks = [...html.matchAll(/<a [^>]*data-ev="check"[^>]*>[\s\S]*?<\/a>/g)].map((m) => m[0]);
-  assert.ok(checks.length >= 6);
+  assert.equal(checks.length, 9);
   for (const a of checks) {
-    assert.ok(a.includes('href="tel:+447460038202"') && !a.includes("_blank"), a);
+    assert.ok(a.includes('href="/website-check"') && !a.includes("_blank"), a);
     assert.match(a, /Get your free Website Check|Free Website Check/);
   }
   const dock = html.match(/<nav class="dock"[\s\S]*?<\/nav>/)?.[0] ?? "";

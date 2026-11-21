@@ -18,13 +18,14 @@ export const HEADLINE = "A";
 
 // Where "Get your free Website Check" goes. One switch, three choices.
 //   call  : book a free call
-//   phone : tap to call. Live choice: those buttons open the phone dialler.
-//   form  : the Website Check page, or a form or calendar address, set in CHECK_TARGETS.form
-export const CHECK_MODE = "phone";
+//   phone : tap to call
+//   form  : the Website Check request page
+// Live choice: those buttons open /website-check.
+export const CHECK_MODE = "form";
 export const CHECK_TARGETS = {
   call: { href: "https://cal.com/clockwork-ai/30min", newTab: true },
   phone: { href: "tel:+447460038202", newTab: false },
-  form: { href: "/clockwork-check", newTab: false },
+  form: { href: "/website-check", newTab: false },
 };
 
 // Dale's live Which? figures are read from his live homepage at build time. If that fails,

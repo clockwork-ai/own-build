@@ -91,7 +91,10 @@
     const book = $('.dock .btn--primary'), wa = { href: 'https://wa.me/447359838866?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20' };
     if (book && wa) add(`<div class="menu__cta"><a class="btn btn--primary" href="${book.href}" target="_blank" rel="noopener">Book a free 30-minute call</a><div><a class="btn btn--ghost" href="tel:+447460038202">Call</a><a class="btn btn--ghost" href="${wa.href}" target="_blank" rel="noopener">WhatsApp</a><button class="btn btn--ghost" type="button" data-open-chat>Ask Clockwork</button></div></div>`);
     add('<div class="menu__head">Pages</div>');
+    // This form is a written check. Its menu does not offer the booking page.
+    const skip = here === "/website-check" ? new Set(["/book"]) : new Set();
     PAGES.forEach(([href, name, t]) => {
+      if (skip.has(href)) return;
       const li = add('<a></a>'), a = li.firstChild;
       a.href = href; a.innerHTML = `<time>${t}</time><span></span>`; a.lastChild.textContent = name;
       if (href === here) a.setAttribute('aria-current', 'page');

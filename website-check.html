@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Website Check | Clockwork AI</title>
+<meta name="description" content="The Website Check is a written check of your website, sent by email within 5 working days.">
+<link rel="canonical" href="https://clockworkai.app/website-check">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clockwork AI">
+<meta property="og:title" content="Website Check | Clockwork AI">
+<meta property="og:description" content="The Website Check is a written check of your website, sent by email within 5 working days.">
+<meta property="og:url" content="https://clockworkai.app/website-check">
+<meta property="og:image" content="https://clockworkai.app/assets/og-movement.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0E0F12">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="pages.css">
+<style>
+  .wc-main { padding-top: calc(env(safe-area-inset-top, 0px) + 108px); }
+  .wc-layout { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(280px, 1.15fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
+  .wc-copy h1 { font-size: clamp(2.6rem, 1.6rem + 2vw, 4rem); max-width: 12ch; margin: 0; }
+  .wc-copy .lede { margin: 18px 0 0; max-width: 36ch; font-size: var(--sc-t-lg); line-height: 1.5; color: color-mix(in oklab, var(--sc-ink) 86%, transparent); }
+  .wc-form { display: grid; gap: 18px; }
+  #check [hidden] { display: none !important; }
+  .wc-field { display: grid; gap: 8px; }
+  .wc-field > label { font: 500 0.78rem/1.4 var(--sc-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--sc-accent); }
+  .wc-opt { text-transform: none; letter-spacing: 0; color: var(--sc-ink-soft); }
+  .wc-form input[type="text"], .wc-form input[type="tel"], .wc-form input[type="email"] {
+    width: 100%; min-height: 50px; padding: 12px 14px; border-radius: 12px;
+    border: 1px solid var(--sc-hairline); background: #0E0F12; color: var(--sc-ink);
+    font: 400 1rem/1.4 var(--sc-font-body); }
+  .wc-form input:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 2px; border-color: transparent; }
+  .wc-form .btn { justify-self: start; min-height: 50px; }
+  .wc-msg { margin: 0; padding: 14px 16px; border-radius: 12px; line-height: 1.55; border: 1px solid var(--sc-hairline); }
+  .wc-msg--err { border-color: color-mix(in oklab, #d9785f 60%, transparent); color: var(--sc-ink); }
+  .wc-thanks h2 { margin: 0; font: 400 var(--sc-t-xl)/1.2 var(--sc-font-display); }
+  .wc-reach { margin: 4px 0 0; padding-top: 16px; border-top: 1px solid var(--sc-hairline); }
+  .wc-foot { margin-top: clamp(2.5rem, 6vw, 4rem); }
+  @media (max-width: 860px) { .wc-layout { grid-template-columns: 1fr; } }
+</style>
+<script async src="https://plausible.io/js/pa-FCHwsquUovwXaNBtHYdiJ.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body class="wc" data-hour="12:00">
+<a class="skip" href="#main">Skip to content</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__logo" href="/" aria-label="Clockwork AI, home"><img src="assets/logo-lockup.svg" alt="Clockwork AI" width="200" height="40"></a>
+  <div class="bar__right">
+    <nav class="subdial" aria-label="Site">
+      <button class="subdial__btn" type="button" aria-expanded="false" aria-controls="dialmenu">
+        <svg viewBox="0 0 40 40" aria-hidden="true" id="subdialsvg">
+          <circle cx="20" cy="20" r="18.5" fill="#0E0F12" stroke="rgba(232,238,214,.28)"/>
+          <g id="subticks" stroke="rgba(232,238,214,.55)" stroke-width="1" stroke-linecap="round"></g>
+          <g id="submarks" fill="#CBB892"></g>
+          <line id="subhour" x1="20" y1="20" x2="20" y2="11.5" stroke="#E8EED6" stroke-width="1.8" stroke-linecap="round"/>
+          <line id="submin" x1="20" y1="20" x2="20" y2="6.5" stroke="#E8EED6" stroke-width="1.1" stroke-linecap="round"/>
+          <circle cx="20" cy="20" r="1.8" fill="#CBB892"/>
+        </svg>
+        <span class="subdial__time" id="subtime">12:00</span>
+        <span class="subdial__label" aria-hidden="true">Menu</span>
+        <span class="sr">Open the menu</span>
+      </button>
+      <ol class="subdial__menu" id="dialmenu"></ol>
+    </nav>
+    <a class="btn btn--primary" href="#check">Send the form</a>
+  </div>
+</header>
+
+<main id="main" class="wc-main">
+  <section id="check" data-title="Website Check" class="block ground-1">
+    <div class="sc-wrap wc-layout">
+      <div class="wc-copy" data-sc-in>
+        <h1 class="sc-display">Website Check.</h1>
+        <p class="lede">The Website Check is a written check of your website, sent by email within 5 working days.</p>
+      </div>
+
+      <div class="panel" data-sc-in>
+        <form class="wc-form" id="wc-form" novalidate>
+          <div class="wc-field">
+            <label for="wc-name">Name</label>
+            <input type="text" id="wc-name" name="name" autocomplete="name" required minlength="2" maxlength="80">
+          </div>
+          <div class="wc-field">
+            <label for="wc-business">Business name</label>
+            <input type="text" id="wc-business" name="business" autocomplete="organization" required minlength="2" maxlength="80">
+          </div>
+          <div class="wc-field">
+            <label for="wc-link">Website or Facebook link <span class="wc-opt">(optional)</span></label>
+            <input type="text" id="wc-link" name="link" inputmode="url" maxlength="180" placeholder="Your site, or a Facebook page">
+          </div>
+          <div class="wc-field">
+            <label for="wc-email">Email</label>
+            <input type="email" id="wc-email" name="email" autocomplete="email" required maxlength="120">
+          </div>
+          <div class="wc-field">
+            <label for="wc-phone">Phone <span class="wc-opt">(optional)</span></label>
+            <input type="tel" id="wc-phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="40">
+          </div>
+          <div class="wc-field">
+            <label for="wc-area">Area or postcode</label>
+            <input type="text" id="wc-area" name="area" autocomplete="postal-code" required minlength="2" maxlength="60" placeholder="Town or postcode">
+          </div>
+          <p class="note" style="margin:0">I'll only use these details to write your Website Check and email it to you. Nothing else. <a href="/privacy">How I handle data</a>.</p>
+          <p class="wc-msg wc-msg--err" id="wc-error" role="alert" hidden></p>
+          <button class="btn btn--primary" type="submit" id="wc-submit">Send the form</button>
+        </form>
+
+        <div class="wc-thanks" id="wc-thanks" tabindex="-1" hidden>
+          <h2 id="wc-thanks-title">Thanks. I'll email you the written Website Check within 5 working days.</h2>
+        </div>
+
+        <p class="wc-reach"><a href="tel:+447460038202">Call</a> or <a href="sms:+447460038202">text 07460 038202</a></p>
+      </div>
+    </div>
+    <footer class="foot wc-foot">
+      <img src="assets/logo-lockup.svg" alt="Clockwork AI" width="100" height="20">
+      <span>Proof over promises · Manchester and the North West · © 2026 Clockwork AI</span>
+      <nav aria-label="Footer">
+        <a href="/">Home</a>
+        <a href="/privacy">Privacy</a>
+        <a href="mailto:callum@getclockworkai.com">Email</a>
+      </nav>
+    </footer>
+  </section>
+</main>
+
+<script src="scrollcraft.js"></script>
+<script src="pages.js"></script>
+<script>
+// Website Check: posts to the same lead route as the register interest form.
+(() => {
+  const form = document.getElementById('wc-form');
+  const err = document.getElementById('wc-error');
+  const btn = document.getElementById('wc-submit');
+  const thanks = document.getElementById('wc-thanks');
+  const fail = 'That didn\'t go through, sorry. Nothing was saved.';
+  const show = (text) => { err.textContent = text; err.hidden = false; };
+  const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const isPhone = (v) => { const d = v.replace(/\D/g, ''); return d.length >= 10 && d.length <= 15 && /^[+\d][\d\s()-]+$/.test(v); };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    err.hidden = true;
+    const f = new FormData(form);
+    const val = (k) => String(f.get(k) || '').trim();
+    const lead = {
+      name: val('name'), business: val('business'), link: val('link'),
+      email: val('email'), phone: val('phone'), area: val('area'),
+    };
+    if (lead.name.length < 2) return show('Add your name.');
+    if (lead.business.length < 2) return show('Add your business name.');
+    if (lead.area.length < 2) return show('Add your area or postcode.');
+    if (!isEmail(lead.email)) return show('Add an email address.');
+    if (lead.phone && (isEmail(lead.phone) || !isPhone(lead.phone))) return show('Check the phone number, or leave it blank.');
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ form: 'website-check', page: '/website-check', lead }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        show(res.status === 400 && data.error ? data.error : fail);
+        return;
+      }
+      document.getElementById('wc-thanks-title').textContent = `Thanks, ${data.name || lead.name}. I'll email you the written Website Check within 5 working days.`;
+      form.hidden = true;
+      thanks.hidden = false;
+      thanks.focus();
+      if (window.plausible) window.plausible('Website Check');
+    } catch {
+      show(fail);
+    } finally {
+      btn.disabled = false;
+      if (!form.hidden) btn.textContent = 'Send the form';
+    }
+  });
+})();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
