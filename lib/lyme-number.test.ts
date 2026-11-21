@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
+import { readClockworkPhone, websiteCheckStopLine } from "./clockwork-number.ts";
 
 /**
  * Lyme Plumbing's number must not appear on Clockwork, in any of the
@@ -68,6 +69,16 @@ test("Lyme's number and the WhatsApp short link are absent from the built site",
   if (!fs.existsSync(built)) return;
   const hits = filesUnder(built, skipDir).flatMap(offending);
   assert.deepEqual(hits, []);
+});
+
+test("the Website Check stop line uses 07460 038202", () => {
+  const bad = `${head} ${tail}`;
+  const line = websiteCheckStopLine({ CLOCKWORK_PHONE: bad });
+  assert.equal(line, "Call or text 07460 038202");
+  assert.equal(readClockworkPhone({ CLOCKWORK_PHONE: bad }), "07460 038202");
+  assert.equal(readClockworkPhone({}), "07460 038202");
+  assert.equal(numberRe.test(line), false);
+  assert.equal(waRe.test(line), false);
 });
 
 test("the booking page offers a call or a text on the Clockwork number", () => {
