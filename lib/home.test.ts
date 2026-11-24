@@ -82,11 +82,26 @@ test("Dale on: his block shows, and the Which? figures appear only when they wer
   assert.equal(parseWhich("no figures here"), null);
 });
 
-test("the Website Check target is one switch, used on every Website Check button", () => {
+test("the hero Website Check button points at the form", () => {
+  const html = render();
+  const hero = [...html.matchAll(/<a [^>]*data-ev="check"[^>]*>[\s\S]*?<\/a>/g)]
+    .map((m) => m[0])
+    .find((a) => a.includes('data-where="hero"')) ?? "";
+  assert.match(hero, /href="\/website-check"/);
+  assert.match(hero, /Get your free Website Check/);
+  assert.doesNotMatch(hero, /target="_blank"|tel:|cal\.com/);
+  assert.match(src, /<a class="btn btn--primary" href="\/website-check" data-ev="check" data-where="hero">Get your free Website Check<\/a>/);
+});
+
+test("the Website Check target is one switch, used on every Website Check button except the hero", () => {
   const html = render();
   const checks = [...html.matchAll(/<a [^>]*data-ev="check"[^>]*>[\s\S]*?<\/a>/g)].map((m) => m[0]);
   assert.ok(checks.length >= 6);
   for (const a of checks) {
+    if (a.includes('data-where="hero"')) {
+      assert.ok(a.includes('href="/website-check"') && !a.includes("_blank"), a);
+      continue;
+    }
     assert.ok(a.includes('href="tel:+447460038202"') && !a.includes("_blank"), a);
     assert.match(a, /Get your free Website Check|Free Website Check/);
   }
@@ -94,7 +109,10 @@ test("the Website Check target is one switch, used on every Website Check button
   assert.match(dock, /href="tel:\+447460038202"[^>]*data-where="dock">[\s\S]*?dock__t">Call/);
   assert.match(dock, /href="sms:\+447460038202"[^>]*data-where="dock">[\s\S]*?dock__t">Text/);
   const booked = renderHome(src, { daleOn: true, headline: cfg.HEADLINES.A, check: checkTarget({ ...cfg, CHECK_MODE: "call" }), which: null, town: "" });
-  assert.ok([...booked.matchAll(/<a [^>]*data-ev="check"[^>]*>/g)].every((m) => m[0].includes('href="https://cal.com/clockwork-ai/30min"') && m[0].includes('target="_blank"')));
+  assert.ok([...booked.matchAll(/<a [^>]*data-ev="check"[^>]*>/g)].every((m) => {
+    if (m[0].includes('data-where="hero"')) return m[0].includes('href="/website-check"') && !m[0].includes("_blank");
+    return m[0].includes('href="https://cal.com/clockwork-ai/30min"') && m[0].includes('target="_blank"');
+  }));
 });
 
 test("house rules: no long dashes, no pound signs, no live chat, Autopilot not Automation, no prices, no review schema", () => {

@@ -10,7 +10,7 @@ export type LeadInput = {
   contact: string;
   need: string;
   page?: string;
-  source: "chat-tool" | "chat-form" | "register-interest";
+  source: "chat-tool" | "chat-form" | "register-interest" | "website-check";
   summary?: string;
 };
 
@@ -114,6 +114,67 @@ export function validateRegisterInterest(
   return { ok: true, lead: { ...base.lead, summary } };
 }
 
+/**
+ * A written Website Check request (the /website-check page).
+ * Turns the form into the same lead record register interest uses, so storage,
+ * the notice email and the webhook stay as they are. Nothing is sent to the person who filled it in.
+ */
+export function validateWebsiteCheck(
+  input: {
+    name?: unknown;
+    business?: unknown;
+    link?: unknown;
+    email?: unknown;
+    phone?: unknown;
+    area?: unknown;
+  },
+  knownPage?: string,
+): { ok: true; lead: LeadInput } | { ok: false; error: string } {
+  const line = (v: unknown, max: number) => cleanLine(typeof v === "string" ? v : "", max);
+  const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const isPhone = (v: string) => {
+    const digits = v.replace(/\D/g, "");
+    return digits.length >= 10 && digits.length <= 15 && /^[+\d][\d\s()-]+$/.test(v);
+  };
+  const name = line(input.name, 80);
+  const businessName = line(input.business, 80);
+  const email = line(input.email, 120);
+  const phone = line(input.phone, 40);
+  const link = line(input.link, 180);
+  const area = line(input.area, 60);
+  if (name.length < 2) return { ok: false, error: "Add your name." };
+  if (businessName.length < 2) return { ok: false, error: "Add your business name." };
+  if (area.length < 2) return { ok: false, error: "Add your area or postcode." };
+  if (!isEmail(email) || !isValidContact(email)) return { ok: false, error: "Add an email address." };
+  if (phone && (isEmail(phone) || !isPhone(phone))) return { ok: false, error: "Check the phone number, or leave it blank." };
+  const need = [
+    "Written Website Check.",
+    `Area: ${area}.`,
+    `Website or Facebook: ${link || "none given"}.`,
+    phone ? `Phone: ${phone}.` : "",
+  ].filter(Boolean).join(" ");
+  const base = validateLead(
+    { name, business: businessName, contact: email, need },
+    "website-check",
+    knownPage,
+  );
+  if (!base.ok) {
+    const error = base.error === "I need the business or trade." ? "Add your business name."
+      : base.error === "I need a phone number or email." ? "Add an email address."
+      : "Add your name.";
+    return { ok: false, error };
+  }
+  const summary = [
+    "Website Check request:",
+    `Business: ${businessName}`,
+    `Email: ${email}`,
+    `Phone: ${phone || "None"}`,
+    `Area or postcode: ${area}`,
+    `Website or Facebook: ${link || "None"}`,
+  ].join("\n");
+  return { ok: true, lead: { ...base.lead, summary } };
+}
+
 function pathname(prefix: string, lead: LeadInput): string {
   const day = new Date().toISOString().slice(0, 10);
   const hash = createHash("sha256")
@@ -204,5 +265,6 @@ export async function saveLead(
   }
   const notified = await notify(config, lead, deps);
   console.info(`lead stored source=${lead.source} notified=${notified}`);
+  if (!notified) console.error(`lead stored without notice source=${lead.source}`);
   return { ok: true, notified };
 }

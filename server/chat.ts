@@ -9,7 +9,7 @@ import {
   sameOrigin,
   takeRateLimit,
 } from "../lib/guard.ts";
-import { saveLead, validateLead, validateRegisterInterest } from "../lib/leads.ts";
+import { saveLead, validateLead, validateRegisterInterest, validateWebsiteCheck } from "../lib/leads.ts";
 import { summariseTranscript } from "../lib/mail.ts";
 import { buildInstructions, publicWidget } from "../lib/prompt.ts";
 
@@ -94,6 +94,24 @@ export async function POST(request: Request): Promise<Response> {
       notified: saved.notified,
       name: parsed.lead.name,
       demo: REGISTER_INTEREST_DEMO,
+    });
+  }
+
+  // Website Check request: same saveLead path as register interest, different source.
+  if ((body as { form?: unknown }).form === "website-check" && leadBody && typeof leadBody === "object") {
+    const parsed = validateWebsiteCheck(leadBody, page);
+    if (!parsed.ok) return json({ error: parsed.error }, 400);
+    const saved = await saveLead(business, parsed.lead);
+    if (!saved.ok) {
+      return json(
+        { error: "That didn't go through, sorry. Nothing was saved." },
+        503,
+      );
+    }
+    return json({
+      ok: true,
+      notified: saved.notified,
+      name: parsed.lead.name,
     });
   }
 
