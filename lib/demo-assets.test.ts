@@ -85,6 +85,34 @@ const names = (await readdir(demosDir, { withFileTypes: true }))
   .map((e) => e.name)
   .sort();
 
+test("easy damp PDF book and deposit links stay on the demo, not its parent folder", async () => {
+  const src = await readFile(path.join(demosDir, "easy-damp", "report.js"), "utf8");
+  const built = src.match(/var base = ([^;]+);/);
+  assert.ok(built, "report.js must set the PDF link base");
+  assert.doesNotMatch(
+    built[1],
+    /pathname\.replace\(\s*\/\[\^\/\]\*\$\//,
+    "that replace drops the last path segment, so the links point at /demos/",
+  );
+  const baseFor = (pathname: string) =>
+    new Function("location", `return (${built[1]});`)({ origin: "https://clockworkai.app", pathname }) as string;
+  // The live page, the slash address, and index.html. The slash and index.html
+  // addresses redirect to /demos/easy-damp before this script runs. If they
+  // did not, origin + pathname would still stay under the demo, not /demos/.
+  for (const pathname of ["/demos/easy-damp", "/demos/easy-damp/", "/demos/easy-damp/index.html"]) {
+    for (const hash of ["#book", "#deposit"]) {
+      const link = new URL(baseFor(pathname) + hash);
+      assert.equal(link.hash, hash);
+      assert.ok(link.pathname.startsWith("/demos/easy-damp"), link.href);
+      assert.notEqual(link.pathname.replace(/\/+$/, ""), "/demos");
+    }
+  }
+  const book = new URL(baseFor("/demos/easy-damp") + "#book");
+  const deposit = new URL(baseFor("/demos/easy-damp") + "#deposit");
+  assert.equal(book.pathname + book.hash, "/demos/easy-damp#book");
+  assert.equal(deposit.pathname + deposit.hash, "/demos/easy-damp#deposit");
+});
+
 test("site-wide trailing slash stays off", async () => {
   const cfg = JSON.parse(await readFile(path.join(root, "vercel.json"), "utf8"));
   assert.equal(cfg.trailingSlash, false);

@@ -212,7 +212,7 @@
       font("bold", 13, C.ink); text("Total", M + 90, y + 2); text(money(sub + vat), W - M, y + 2, { align: "right" }); y += 9;
       font("normal", 10, C.muted); text("Deposit to book a date: " + money(ED.deposit) + ". The rest is due when the job's finished.", M + 90, y, { maxWidth: CW - 90 }); y += 14;
       font("normal", 9.5, C.muted); text("This quote is valid for 30 days from " + J.dateShort + ".", M, y); y += 9;
-      var base = location.origin + location.pathname.replace(/[^/]*$/, "");
+      var base = location.origin + location.pathname;
       button("Book the work", M, y, (CW - 6) / 2, C.orange, base + "#book");
       button("Pay a deposit", M + (CW + 6) / 2, y, (CW - 6) / 2, C.navy, base + "#deposit");
       y += 18;
