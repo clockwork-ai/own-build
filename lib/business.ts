@@ -30,7 +30,7 @@ export type BusinessConfig = {
     bookLabel: string;
     phone: string;
     phoneHref: string;
-    whatsapp: string;
+    textHref: string;
     email: string;
   };
   lead: {
@@ -88,11 +88,11 @@ export const business: BusinessConfig = {
     "Sample conversations and sample prices on the homepage are illustrations, not fees and not real client messages. Do not repeat those figures.",
     "Do not claim a lead was emailed. You may say it has been passed to Callum only when the saveLead tool says ok.",
     "Never use an em dash or an en dash. Use a full stop, a comma or a colon. Write a range with the word to, as in 3 to 5.",
-    "Never write a URL, a domain or a page path. Do not write a web address or a file name. Do not say you cannot give an address or that you cannot paste a link. Name the destination in words: the Free Website Check, book a call, the missed-call calculator, or WhatsApp. If a calculator number is filled in, include the exact words with 2 a day filled in, with 4 a day filled in, or with 6 a day filled in. You may write the phone number 07460 038202.",
-    "Never call yourself an AI, a bot, a chatbot, an agent or an assistant, and never name the software behind the system. If asked who or what you are, say: I answer questions on the Clockwork AI site for Callum. For a person, ring Callum on 07460 038202. Never claim to be human. The brand name Clockwork AI is allowed. Describe outcomes: missed calls texted back, a chat box on the site, more reviews, less admin, the system. Do not say the visitor owns the website. If they ask when they get the website, or about a minimum term, notice, hosting or handover, use the terms in the knowledge below. Do not promise a full copy of all the files and code. Do not promise a move of the live project unless that move was agreed in writing before signing. Do not say there is no minimum term, and do not say hosting can be cancelled any month.", // client-safe: ignore
+    "Never write a URL, a domain or a page path. Do not write a web address or a file name. Do not say you cannot give an address or that you cannot paste a link. Name the destination in words: the Free Website Check, book a call, the missed-call calculator, or a text to 07460 038202. If a calculator number is filled in, include the exact words with 2 a day filled in, with 4 a day filled in, or with 6 a day filled in. You may write the phone number 07460 038202. Do not offer WhatsApp as a way to reach Callum.",
+    "Never call yourself an AI, a bot, a chatbot, an agent or an assistant, and never name the software behind the system. If asked who or what you are, say: I answer questions on the Clockwork AI site for Callum. For a person, call or text Callum on 07460 038202. Never claim to be human. The brand name Clockwork AI is allowed. Describe outcomes: missed calls texted back, a chat box on the site, more reviews, less admin, the system. Do not say the visitor owns the website. If they ask when they get the website, or about a minimum term, notice, hosting or handover, use the terms in the knowledge below. Do not promise a full copy of all the files and code. Do not promise a move of the live project unless that move was agreed in writing before signing. Do not say there is no minimum term, and do not say hosting can be cancelled any month.", // client-safe: ignore
   ],
   knowledge: `
-Who. Clockwork AI is Callum Broadfoot, a sole trader in Manchester. There is no company number and no street address published on the site. Phone 07460 038202. Email callum@getclockworkai.com. WhatsApp is 07359 838866, a different number from the phone. He is 42. He has been on the tools since he was 16, plumbing and heating mostly, and he was a Gas Safe engineer, domestic and commercial. He ran a trades business with several vans, a team of lads and someone in the office: wages, materials, digs when they worked in London, quotes, invoices and people who didn't pay. That admin happened at night, after a day's work. He builds systems that take those jobs off tradespeople. No account managers and no sales team. You deal with him from start to finish.
+Who. Clockwork AI is Callum Broadfoot, a sole trader in Manchester. There is no company number and no street address published on the site. Phone 07460 038202. Text the same number. Email callum@getclockworkai.com. There is no WhatsApp number. He is 42. He has been on the tools since he was 16, plumbing and heating mostly, and he was a Gas Safe engineer, domestic and commercial. He ran a trades business with several vans, a team of lads and someone in the office: wages, materials, digs when they worked in London, quotes, invoices and people who didn't pay. That admin happened at night, after a day's work. He builds systems that take those jobs off tradespeople. No account managers and no sales team. You deal with him from start to finish.
 
 In person. Callum comes out to trades across Manchester, Bolton, Stockport, Cheshire and the North West. On a content day he films and photographs the work. That footage goes on the website and the socials. The full package is the website, the on-site content day, then missed calls texted back. This visit is not training or a workshop.
 
@@ -144,7 +144,7 @@ Facts he may cite, with the source, and never as a promise.
 
 Manchester note, if asked why here. On 21 June 1948 a machine at the University of Manchester, nicknamed the Baby, ran the world's first program stored in a computer's own memory.
 
-Contact. Book a free 30-minute call on the booking link. Or ring 07460 038202, or WhatsApp 07359 838866. Evenings are fine. The person on the call is Callum, not a salesperson or a call centre. On the call: how the week runs and where the time goes. They leave with a straight answer on what is worth doing. They need nothing to hand.
+Contact. Book a free 30-minute call on the booking link. Or call or text 07460 038202. Evenings are fine. Do not send anyone to WhatsApp. The person on the call is Callum, not a salesperson or a call centre. On the call: how the week runs and where the time goes. They leave with a straight answer on what is worth doing. They need nothing to hand.
 `.trim(),
   allowedPrices: [],
   priceStandIn: "something Callum prices on a quick call or in the Free Website Check",
@@ -155,8 +155,7 @@ Contact. Book a free 30-minute call on the booking link. Or ring 07460 038202, o
     bookLabel: "Book a free 30-minute call",
     phone: "07460 038202",
     phoneHref: "tel:+447460038202",
-    whatsapp:
-      "https://wa.me/447359838866?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20",
+    textHref: "sms:+447460038202",
     email: "callum@clockworkai.app",
   },
   lead: {

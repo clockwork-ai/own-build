@@ -10,7 +10,7 @@ Ask it about the services, the six-part trades system, the free Business Bottlen
 
 After a scroll or a short wait, a small question appears above the bubble, once per browser session. The wording and the quick replies are in `lib/business.ts`. The calculator itself is the section on `missed-calls.html`. It stays in the browser. The chat names it in words, and the widget adds a button. That button can pre-fill missed calls with `?calls=`.
 
-The assistant never writes a web address or a page path. If a reply still contains one, the server turns it into words before it is shown. The widget then puts a button under the message, such as Free audit, Book a call, Missed-call calculator or WhatsApp. On a phone, the panel follows the visible viewport, so the close button and the input stay on screen when the keyboard is open.
+The assistant never writes a web address or a page path. If a reply still contains one, the server turns it into words before it is shown. The widget then puts a button under the message, such as Free audit, Book a call, Missed-call calculator, or Call or text 07460 038202. On a phone, the panel follows the visible viewport, so the close button and the input stay on screen when the keyboard is open.
 
 ## Reuse it on a client site
 

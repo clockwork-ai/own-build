@@ -175,7 +175,7 @@
   .foot nav { gap: 0 18px; }
   .foot nav a { display: inline-flex; align-items: center; min-height: 44px; }
   
-  /* Book, call and WhatsApp at the top of the phone menu. */
+  /* Book, call and text at the top of the phone menu. */
   @media (max-width: 860px) {
     :root { --dock-h: calc(64px + env(safe-area-inset-bottom, 0px)); }
     .bar .btn { display: none; }
@@ -210,7 +210,7 @@
     .dock { gap: 3px; padding-left: 4px; padding-right: 4px; }
     .dock .btn { padding: 0 4px; font-size: 0.66rem; letter-spacing: -0.01em; }
   }
-  /* Book, call and WhatsApp at the top of the phone menu. */
+  /* Book, call and text at the top of the phone menu. */
   .menu__cta { display: none; }
   @media (max-width: 860px) {
     .bar__tel { display: none; }
@@ -695,7 +695,7 @@
       <div class="final__alt">
         <a class="btn btn--ghost" href="tel:+447460038202" data-ev="call" data-where="final">Call 07460 038202</a>
         <a class="btn btn--ghost" href="mailto:callum@getclockworkai.com" data-ev="email" data-where="final">Email</a>
-        <a class="btn btn--ghost" href="https://wa.me/447359838866?text=Hi%20Callum%2C%20I%20found%20Clockwork%20AI%20online.%20I%27d%20like%20to%20talk%20about%3A%20" target="_blank" rel="noopener" data-ev="message" data-where="final">Message on WhatsApp</a>
+        <a class="btn btn--ghost" href="sms:+447460038202" data-ev="message" data-where="final">Text 07460 038202</a>
         <button class="btn btn--ghost" type="button" data-open-chat>Ask Clockwork</button>
       </div>
     </div>
