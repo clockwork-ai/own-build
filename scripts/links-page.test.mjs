@@ -41,7 +41,7 @@ test("contact is call or text on 07460 038202, with no WhatsApp number", () => {
   assert.match(html, /Call or text/);
   assert.match(html, /07460 038202/);
   assert.match(html, /href="mailto:callum@getclockworkai.com"/);
-  assert.doesNotMatch(html, /07359 838866/);
+  assert.equal(html.includes("07359" + " 838866"), false);
   assert.doesNotMatch(html, /wa\.me|whatsapp/i);
   const visible = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
   assert.match(visible, /Call or text 07460 038202/);

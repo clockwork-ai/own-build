@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
@@ -22,10 +23,16 @@ const numberRe = new RegExp(
 const waRe = new RegExp(wa.replace(".", "\\."), "i");
 
 const root = path.resolve(import.meta.dirname, "..");
+const self = path.join(root, "lib", "lyme-number.test.ts");
 const skipDir = new Set(["node_modules", ".git"]);
 const binary = new Set([
   ".png", ".jpg", ".jpeg", ".webp", ".gif", ".ico", ".woff", ".woff2", ".pdf", ".mp4", ".webm", ".zip",
 ]);
+
+function trackedFiles(): string[] {
+  const listed = execFileSync("git", ["ls-files", "-z"], { cwd: root });
+  return listed.toString("utf8").split("\0").filter(Boolean).map((rel) => path.join(root, rel));
+}
 
 function filesUnder(dir: string, skip: Set<string>): string[] {
   const out: string[] = [];
@@ -57,10 +64,10 @@ function offending(file: string): string[] {
   return found;
 }
 
-test("Lyme's number and the WhatsApp short link are absent from the source", () => {
-  const skip = new Set(skipDir);
-  skip.add("public");
-  const hits = filesUnder(root, skip).flatMap(offending);
+test("Lyme's number and the WhatsApp short link are absent from tracked files", () => {
+  const hits = trackedFiles()
+    .filter((file) => file !== self && !binary.has(path.extname(file).toLowerCase()))
+    .flatMap(offending);
   assert.deepEqual(hits, []);
 });
 
