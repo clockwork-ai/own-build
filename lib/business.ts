@@ -184,6 +184,7 @@ Contact. Book a free 30-minute call on the booking link. Or call or text 07460 0
     "/services",
     "/terms",
     "/work",
+    "/website-check",
   ],
   nudge: {
     text: "Can you afford to miss calls while you're up a ladder or on a job? How many calls do you reckon you miss a day?",

@@ -114,7 +114,8 @@ Contact. Book a free 30-minute call on the booking link. Or call or text 07460 0
     "/roofers",
     "/services",
     "/terms",
-    "/work"
+    "/work",
+    "/website-check"
   ],
   nudge: {
     text: "Can you afford to miss calls while you're up a ladder or on a job? How many calls do you reckon you miss a day?",
@@ -782,15 +783,27 @@ function buildLeadEmail(to, from, lead, summary) {
   const need = oneLine(lead.need, 400) || "Not given";
   const page = oneLine(lead.page ?? "", 80) || "Not recorded";
   const flow = lead.source === "register-interest";
-  const arrived = flow ? "Register interest page (Clockwork Flow early access)" : lead.source === "chat-form" ? "Details form" : "Chat";
+  const check = lead.source === "website-check";
+  const arrived = check ? "Website Check page" : flow ? "Register interest page (Clockwork Flow early access)" : lead.source === "chat-form" ? "Details form" : "Chat";
   const recent = plainBlock(summary, 1800) || "No transcript was included.";
-  const heading = flow ? "New Clockwork Flow register interest" : "New chat lead";
+  const heading = check ? "New Website Check request" : flow ? "New Clockwork Flow register interest" : "New chat lead";
   const subject = scrubDashes(`${heading}: ${name}`);
   const lines = flow ? [
     heading,
     "",
     `Name: ${name}`,
     `Trade: ${business2}`,
+    `Contact: ${contact}`,
+    `Page: ${page}`,
+    `How it arrived: ${arrived}`,
+    "",
+    "Their answers:",
+    recent
+  ] : check ? [
+    heading,
+    "",
+    `Name: ${name}`,
+    `Business: ${business2}`,
     `Contact: ${contact}`,
     `Page: ${page}`,
     `How it arrived: ${arrived}`,
@@ -1015,6 +1028,49 @@ function validateRegisterInterest(input, knownPage2) {
   ].filter(Boolean).join("\n");
   return { ok: true, lead: { ...base.lead, summary } };
 }
+function validateWebsiteCheck(input, knownPage2) {
+  const line = (v, max) => cleanLine(typeof v === "string" ? v : "", max);
+  const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const isPhone = (v) => {
+    const digits = v.replace(/\D/g, "");
+    return digits.length >= 10 && digits.length <= 15 && /^[+\d][\d\s()-]+$/.test(v);
+  };
+  const name = line(input.name, 80);
+  const businessName = line(input.business, 80);
+  const email = line(input.email, 120);
+  const phone = line(input.phone, 40);
+  const link = line(input.link, 180);
+  const area = line(input.area, 60);
+  if (name.length < 2) return { ok: false, error: "Add your name." };
+  if (businessName.length < 2) return { ok: false, error: "Add your business name." };
+  if (area.length < 2) return { ok: false, error: "Add your area or postcode." };
+  if (!isEmail(email) || !isValidContact(email)) return { ok: false, error: "Add an email address." };
+  if (phone && (isEmail(phone) || !isPhone(phone))) return { ok: false, error: "Check the phone number, or leave it blank." };
+  const need = [
+    "Written Website Check.",
+    `Area: ${area}.`,
+    `Website or Facebook: ${link || "none given"}.`,
+    phone ? `Phone: ${phone}.` : ""
+  ].filter(Boolean).join(" ");
+  const base = validateLead(
+    { name, business: businessName, contact: email, need },
+    "website-check",
+    knownPage2
+  );
+  if (!base.ok) {
+    const error = base.error === "I need the business or trade." ? "Add your business name." : base.error === "I need a phone number or email." ? "Add an email address." : "Add your name.";
+    return { ok: false, error };
+  }
+  const summary = [
+    "Website Check request:",
+    `Business: ${businessName}`,
+    `Email: ${email}`,
+    `Phone: ${phone || "None"}`,
+    `Area or postcode: ${area}`,
+    `Website or Facebook: ${link || "None"}`
+  ].join("\n");
+  return { ok: true, lead: { ...base.lead, summary } };
+}
 function pathname(prefix, lead) {
   const day = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
   const hash = createHash("sha256").update(`${lead.contact.toLowerCase()}
@@ -1230,6 +1286,22 @@ async function POST(request) {
       notified: saved.notified,
       name: parsed.lead.name,
       demo: REGISTER_INTEREST_DEMO
+    });
+  }
+  if (body.form === "website-check" && leadBody && typeof leadBody === "object") {
+    const parsed = validateWebsiteCheck(leadBody, page);
+    if (!parsed.ok) return json({ error: parsed.error }, 400);
+    const saved = await saveLead(business, parsed.lead);
+    if (!saved.ok) {
+      return json(
+        { error: "That didn't go through, sorry. Nothing was saved." },
+        503
+      );
+    }
+    return json({
+      ok: true,
+      notified: saved.notified,
+      name: parsed.lead.name
     });
   }
   if (leadBody && typeof leadBody === "object") {
