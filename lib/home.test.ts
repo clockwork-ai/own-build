@@ -116,6 +116,7 @@ test("Facebook card: Dale's real re-roof post, with no year, and the photo file 
   assert.match(items[0] ?? "", /<h3>Job finished<\/h3><p>One photo on his phone before he packs up\.<\/p>/);
   assert.match(items[1] ?? "", /<h3>Framed with his name<\/h3><p>His logo, score and number, ready to share\.<\/p>/);
   assert.match(items[3] ?? "", /<h3>Reviews on his site<\/h3><p>His score sits up front where customers look first\.<\/p>/);
+  assert.doesNotMatch(items[3] ?? "", /Phone ringing/);
   assert.match(on, /One job\. Four places it shows up\./);
   assert.doesNotMatch(on, /Four ways it worked for him/);
   assert.doesNotMatch(on, /phone rings/i);
