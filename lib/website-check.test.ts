@@ -112,6 +112,16 @@ test("consent links to the privacy page, in the same pattern as register interes
   assert.match(html, /I'll only use these details to write your Website Check and email it to you\. Nothing else\. <a href="\/privacy">How I handle data<\/a>\./);
 });
 
+test("the form uses method post, and without JavaScript it gives the call, text and email line", () => {
+  assert.match(html, /<form class="wc-form" id="wc-form" method="post" novalidate>/);
+  const noscript = html.match(/<noscript>[\s\S]*?<\/noscript>/)?.[0] ?? "";
+  assert.match(noscript, /<p class="note"/);
+  const text = noscript.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  assert.equal(text, "This form needs JavaScript. Call or text 07460 038202, or email callum@getclockworkai.com.");
+  assert.match(noscript, /<a href="tel:\+447460038202">07460 038202<\/a>/);
+  assert.match(noscript, /<a href="mailto:callum@getclockworkai\.com">callum@getclockworkai\.com<\/a>/);
+});
+
 test("the form posts source website-check through the register interest lead route", () => {
   assert.match(html, /fetch\('\/api\/chat'/);
   assert.match(html, /form: 'website-check'/);
@@ -152,8 +162,8 @@ test("under the form, the only number is Call or text 07460 038202", () => {
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ");
   assert.match(visible, /Call or text 07460 038202/);
-  assert.equal(visible.split("07460 038202").length - 1, 1);
-  assert.equal(html.split("+447460038202").length - 1, 2);
+  assert.equal(visible.split("07460 038202").length - 1, 2);
+  assert.equal(html.split("+447460038202").length - 1, 3);
 });
 
 test("the page does not mention a call, a booking, WhatsApp, Twilio or a price", () => {
@@ -162,9 +172,9 @@ test("the page does not mention a call, a booking, WhatsApp, Twilio or a price",
     .replace(/<style[\s\S]*?<\/style>/g, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
-    .replace("Call or text 07460 038202", " ");
+    .replaceAll("Call or text 07460 038202", " ");
   assert.doesNotMatch(visible, /\b(call|calls|calling|book|booking|booked)\b/i);
-  assert.deepEqual(html.match(/\bcall\b/gi), ["Call"]);
+  assert.deepEqual(html.match(/\bcall\b/gi), ["Call", "Call"]);
   assert.doesNotMatch(html, /\b(book|booking|booked)\b|whatsapp|wa\.me|twilio|cal\.com/i);
   assert.doesNotMatch(html, /£|per month|a month|\/mo\b/i);
   assert.doesNotMatch(html, /\b(unlock|seamless|elevate|game-changer|leverage)\b/i);

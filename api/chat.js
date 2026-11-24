@@ -1145,6 +1145,7 @@ async function saveLead(config, lead, deps = {}) {
   }
   const notified = await notify(config, lead, deps);
   console.info(`lead stored source=${lead.source} notified=${notified}`);
+  if (!notified) console.error(`lead stored without notice source=${lead.source}`);
   return { ok: true, notified };
 }
 

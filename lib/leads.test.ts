@@ -280,6 +280,51 @@ describe("saveLead with injected deps", () => {
     });
   });
 
+  test("a failed notice is logged as an error and the log has no personal details", async () => {
+    const savedToken = process.env.BLOB_READ_WRITE_TOKEN;
+    const savedStore = process.env.BLOB_STORE_ID;
+    const savedHook = process.env[hookEnv];
+    process.env.BLOB_READ_WRITE_TOKEN = "test-token-not-real";
+    delete process.env.BLOB_STORE_ID;
+    delete process.env[hookEnv];
+    const errors: unknown[][] = [];
+    const errorMock = mock.method(console, "error", (...args: unknown[]) => {
+      errors.push(args);
+    });
+    const infoMock = mock.method(console, "info", () => {});
+    const personal: LeadInput = {
+      name: "Sam Lee",
+      business: "Lee Roofing",
+      contact: "sam@example.com",
+      need: "Written Website Check. Area: SK1 1AA. Phone: 07700 900123.",
+      page: "/website-check",
+      source: "website-check",
+      summary: "Website Check request:\nEmail: sam@example.com\nPhone: 07700 900123\nArea or postcode: SK1 1AA",
+    };
+    try {
+      const result = await saveLead(business, personal, {
+        put: fakePut(),
+        email: fakeEmail(false),
+        fetch: fakeFetch(500),
+      });
+      assert.deepEqual(result, { ok: true, notified: false });
+      const logged = errors.map((args) => args.map((part) => String(part)).join(" ")).join("\n");
+      assert.match(logged, /lead stored without notice source=website-check/);
+      for (const bit of ["Sam Lee", "sam@example.com", "Lee Roofing", "07700", "900123", "SK1", "1AA"]) {
+        assert.equal(logged.includes(bit), false, bit);
+      }
+    } finally {
+      errorMock.mock.restore();
+      infoMock.mock.restore();
+      if (savedToken === undefined) delete process.env.BLOB_READ_WRITE_TOKEN;
+      else process.env.BLOB_READ_WRITE_TOKEN = savedToken;
+      if (savedStore === undefined) delete process.env.BLOB_STORE_ID;
+      else process.env.BLOB_STORE_ID = savedStore;
+      if (savedHook === undefined) delete process.env[hookEnv];
+      else process.env[hookEnv] = savedHook;
+    }
+  });
+
   test("stored record path, contents and options", async () => {
     // Pin the clock so the day in the path can't change between the two saves.
     mock.timers.enable({ apis: ["Date"], now: Date.parse("2026-11-11T12:00:00.000Z") });
