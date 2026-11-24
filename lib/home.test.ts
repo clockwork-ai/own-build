@@ -112,9 +112,13 @@ test("Facebook card: Dale's real re-roof post, with no year, and the photo file 
   assert.doesNotMatch(card, /comment/i);
   assert.match(card, /src="assets\/dp-fb-reroof\.webp"/);
   assert.equal(existsSync(new URL("../assets/dp-fb-reroof.webp", import.meta.url)), true);
+  assert.match(card, /A real post from his own page, shown as an example of the Facebook channel\./);
   assert.match(items[0] ?? "", /<h3>Job finished<\/h3><p>One photo on his phone before he packs up\.<\/p>/);
   assert.match(items[1] ?? "", /<h3>Framed with his name<\/h3><p>His logo, score and number, ready to share\.<\/p>/);
-  assert.match(items[3] ?? "", /<h3>Reviews on his site, phone rings<\/h3><p>His score sits up front where customers look first\.<\/p>/);
+  assert.match(items[3] ?? "", /<h3>Reviews on his site<\/h3><p>His score sits up front where customers look first\.<\/p>/);
+  assert.match(on, /One job\. Four places it shows up\./);
+  assert.doesNotMatch(on, /Four ways it worked for him/);
+  assert.doesNotMatch(on, /phone rings/i);
   assert.doesNotMatch(card, /Post goes out|written for him|copies, pastes|Just now/);
   assert.match(on, /D&nbsp;&amp;&nbsp;P Roofing &amp; Building<small>Just now<\/small>/);
 });
