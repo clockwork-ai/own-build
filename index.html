@@ -305,6 +305,15 @@
   .post__img img { width: 100%; height: 100%; object-fit: cover; }
   .post__cap { padding: 12px 14px 16px; font: 400 0.86rem/1.45 var(--sc-font-text); }
   .post__cap b { font-weight: 600; }
+  /* Real Facebook post. This card only. The reel keeps the shared post rules. */
+  .post--real { grid-template-rows: auto auto minmax(0, 1fr) auto; background: #fff; }
+  .post--real .post__head { align-items: flex-start; gap: 8px; padding: 8px 10px 4px; font-size: 0.74rem; }
+  .post--real .post__who { min-width: 0; }
+  .post--real .post__av { width: 24px; height: 24px; flex: none; margin-top: 1px; font-size: 0.62rem; }
+  .breath__list .post--real .post__cap { margin: 0; padding: 0 10px 6px; color: #16181c; font: 400 0.72rem/1.35 var(--sc-font-text); }
+  .post--real .post__img { background: #0c1c36; }
+  .post--real .post__img img { object-fit: cover; object-position: center 42%; }
+  .breath__list .post--real .post__react { display: flex; gap: 12px; margin: 0; padding: 6px 10px 8px; border-top: 1px solid #e6e2dc; color: #5e6168; font: 500 0.68rem/1.2 var(--sc-font-text); }
   .msgs { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; padding: 18px 16px 22px; background: linear-gradient(#1b1d22, #121317); }
   .msgs__b { max-width: 88%; padding: 11px 13px; border-radius: 16px 16px 16px 4px; background: #2a2d33; font: 400 0.9rem/1.45 var(--sc-font-text); color: #eef0ea; }
   .msgs__b--me { align-self: flex-end; border-radius: 16px 16px 4px 16px; background: var(--sc-accent); color: var(--sc-accent-ink); }
@@ -441,6 +450,9 @@
     .breath__list { gap: 12px; }
     .breath__list p { font-size: 0.88rem; }
     .post__cap, .msgs__b { font-size: 0.8rem; }
+    .breath__list .post--real .post__head { font-size: 0.68rem; padding: 6px 8px 2px; }
+    .breath__list .post--real .post__cap { font-size: 0.68rem; padding: 0 8px 4px; }
+    .breath__list .post--real .post__react { font-size: 0.64rem; padding: 5px 8px 6px; }
     .call { padding: 14px; }
     .call__b { max-width: 92%; font-size: 0.9rem; }
   }
@@ -542,7 +554,7 @@
         <!-- dale:on -->
         <li><div class="breath__card"><img src="assets/dale/dp-reroof.jpg" width="750" height="1000" alt="Dale's finished re-roof, photographed on his phone." loading="lazy"></div><h3>Job finished</h3><p>One photo on his phone before he packs up.</p></li>
         <li><div class="breath__card"><img src="assets/dale/dp-reroof.jpg" width="750" height="1000" alt="The same re-roof framed with the D and P logo, Which? score and phone number." loading="lazy"><div class="frame"><div class="stamp"><p class="stamp__job">Re-roof finished</p><div class="stamp__cards"><div class="stamp__card stamp__card--logo"><img src="assets/dale/dp-logo.png" width="500" height="76" alt=""></div><!-- which --><div class="stamp__card stamp__card--which"><img class="stamp__badge" src="assets/dale/badge-which.png" width="711" height="562" alt=""><span class="stamp__rate"><span class="stamp__stars" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.2 14.7 8.5l6.8.6-5.2 4.5 1.6 6.6L12 16.8 6.1 20.2l1.6-6.6L2.5 9.1l6.8-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.2 14.7 8.5l6.8.6-5.2 4.5 1.6 6.6L12 16.8 6.1 20.2l1.6-6.6L2.5 9.1l6.8-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.2 14.7 8.5l6.8.6-5.2 4.5 1.6 6.6L12 16.8 6.1 20.2l1.6-6.6L2.5 9.1l6.8-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.2 14.7 8.5l6.8.6-5.2 4.5 1.6 6.6L12 16.8 6.1 20.2l1.6-6.6L2.5 9.1l6.8-.6z"/></svg><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.2 14.7 8.5l6.8.6-5.2 4.5 1.6 6.6L12 16.8 6.1 20.2l1.6-6.6L2.5 9.1l6.8-.6z"/></svg></span><span class="stamp__fig"><b>{{DP_RATING}}</b><small>{{DP_COUNT}} reviews</small></span></span></div><!-- /which --></div><div class="stamp__meta"><span class="stamp__rule" aria-hidden="true"></span><span class="stamp__phone">07587 415299</span><span class="stamp__site">dandproofingandbuilding.co.uk</span></div></div></div></div><h3>Framed with his name</h3><p>His logo, score and number, ready to share.</p></li>
-        <li><div class="breath__card"><div class="post"><div class="post__head"><span class="post__av">DP</span><span>D&nbsp;&amp;&nbsp;P<small>Just now</small></span></div><div class="post__img"><img src="assets/dale/dp-reroof.jpg" width="750" height="1000" alt="" loading="lazy"></div><p class="post__cap"><b>Re-roof finished.</b></p></div></div><h3>Post goes out</h3><p>The caption is written for him. He copies, pastes, done.</p></li>
+        <li><div class="breath__card"><div class="post post--real"><div class="post__head"><span class="post__av" aria-hidden="true">DP</span><span class="post__who">D&nbsp;&amp;&nbsp;P Roofing and Building ltd<small>April 21</small></span></div><p class="post__cap">Another one finished by the teams, full re roof with a new roofline 👌🔨🔨</p><div class="post__img"><img src="assets/dp-fb-reroof.webp" width="680" height="680" alt="Three photos of a re-roofed house: red tiles, a new dark ridge and gutter, and neighbouring roofs under a blue sky." loading="lazy"></div><p class="post__react"><span>3 likes</span><span>3 shares</span></p></div></div><h3>His Facebook page</h3><p>A real post from his page, shown as an example of the Facebook channel.</p></li>
         <li><div class="breath__card"><div class="msgs"><!-- which --><div class="badge"><b>{{DP_RATING}}</b><span>from {{DP_COUNT}} reviews</span></div><!-- /which --><div class="ring"><span class="ring__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span><span>Phone ringing</span></div></div></div><h3>Reviews on his site, phone rings</h3><p>His score sits up front where customers look first.</p></li>
         <!-- /dale:on -->
       </ol>

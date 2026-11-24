@@ -2,7 +2,7 @@
 // the Website Check target in one place, and Which? figures only when read from his live site.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import * as cfg from "../scripts/home-config.mjs";
 import { checkTarget, parseWhich, renderHome } from "../scripts/home-build.mjs";
 
@@ -95,6 +95,28 @@ test("the Website Check target is one switch, used on every Website Check button
   assert.match(dock, /href="sms:\+447460038202"[^>]*data-where="dock">[\s\S]*?dock__t">Text/);
   const booked = renderHome(src, { daleOn: true, headline: cfg.HEADLINES.A, check: checkTarget({ ...cfg, CHECK_MODE: "call" }), which: null, town: "" });
   assert.ok([...booked.matchAll(/<a [^>]*data-ev="check"[^>]*>/g)].every((m) => m[0].includes('href="https://cal.com/clockwork-ai/30min"') && m[0].includes('target="_blank"')));
+});
+
+test("Facebook card: Dale's real re-roof post, with no year, and the photo file on disk", () => {
+  const on = render({ daleOn: true, which: { rating: "5.0", count: "143" } });
+  const list = on.match(/<ol class="breath__list">([\s\S]*?)<\/ol>/)?.[1] ?? "";
+  const items = [...list.matchAll(/<li>([\s\S]*?)<\/li>/g)].map((m) => m[1]);
+  assert.equal(items.length, 4);
+  const card = items[2] ?? "";
+  assert.match(card, /D&nbsp;&amp;&nbsp;P Roofing and Building ltd/);
+  assert.match(card, /Another one finished by the teams, full re roof with a new roofline 👌🔨🔨/);
+  assert.match(card, />April 21</);
+  assert.match(card, /3 likes/);
+  assert.match(card, /3 shares/);
+  assert.doesNotMatch(card, /\b(?:19|20)\d{2}\b/);
+  assert.doesNotMatch(card, /comment/i);
+  assert.match(card, /src="assets\/dp-fb-reroof\.webp"/);
+  assert.equal(existsSync(new URL("../assets/dp-fb-reroof.webp", import.meta.url)), true);
+  assert.match(items[0] ?? "", /<h3>Job finished<\/h3><p>One photo on his phone before he packs up\.<\/p>/);
+  assert.match(items[1] ?? "", /<h3>Framed with his name<\/h3><p>His logo, score and number, ready to share\.<\/p>/);
+  assert.match(items[3] ?? "", /<h3>Reviews on his site, phone rings<\/h3><p>His score sits up front where customers look first\.<\/p>/);
+  assert.doesNotMatch(card, /Post goes out|written for him|copies, pastes|Just now/);
+  assert.match(on, /D&nbsp;&amp;&nbsp;P Roofing &amp; Building<small>Just now<\/small>/);
 });
 
 test("house rules: no long dashes, no pound signs, no live chat, Autopilot not Automation, no prices, no review schema", () => {
