@@ -1,12 +1,13 @@
 // Demo pages are opened at /demos/<name> with the trailing slash removed.
 // vercel.json sets cleanUrls and trailingSlash false for the whole site, so a
-// relative asset on that URL resolves in /demos/ and 404s. Each demo page sets
-// a base href: /demos/<name>/ on that path, and / on a demo subdomain (or a
-// preview with ?demo=<name>), so subdomain links stay at /about rather than
-// /demos/<name>/about. A static base or root-absolute /demos/<name>/ asset
-// path would change the subdomain address bar. This test fails if any demo
-// page still loads an asset, font, fetch or in-site link by a relative URL
-// that would break on the no-slash path.
+// relative asset on that URL resolves in /demos/ and 404s. The preload scanner
+// does not run scripts, so document.write alone still lets it request
+// /demos/style.css. Each page therefore also has a static base element for
+// that scanner. The script writes its base first, and the first base wins:
+// /demos/<name>/ on that path, and / on a demo subdomain (or a preview with
+// ?demo=<name>), so subdomain links stay at /about. This test fails if any
+// demo page still loads an asset, font, fetch or in-site link by a relative
+// URL that would break on the no-slash path.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { access, readdir, readFile } from "node:fs/promises";
@@ -116,6 +117,7 @@ for (const name of names) {
     const pages = files.filter((f) => f.endsWith(".html"));
     assert.ok(pages.includes("index.html"), "needs index.html");
     const script = baseScript(name);
+    const staticBase = `<base href="/demos/${name}/">`;
     const bare = `https://clockworkai.app/demos/${name}`;
     const fixedBase = `https://clockworkai.app${demoBaseHref(`/demos/${name}`, name)}`;
 
@@ -124,13 +126,17 @@ for (const name of names) {
       const at = html.indexOf(script);
       assert.notEqual(at, -1, `${page} is missing the demo base script`);
       assert.equal(html.indexOf(script, at + 1), -1, `${page} has the base script twice`);
+      const atStatic = html.indexOf(staticBase);
+      assert.ok(atStatic > at, `${page} needs a static base after the script so the preload scanner has a base, and the script stays first`);
+      assert.equal(html.indexOf(staticBase, atStatic + staticBase.length), -1, `${page} has two static bases`);
 
       const attrs = quotedAttrs(html, ["href", "src", "poster", "srcset", "imagesrcset"]);
       for (const attr of attrs) {
         if (attr.index >= at && attr.index < at + script.length) continue;
+        if (attr.index >= atStatic && attr.index < atStatic + staticBase.length) continue;
         for (const raw of candidates(attr.name, attr.value)) {
           if (!isPathRelative(raw)) continue;
-          assert.ok(attr.index > at, `${page} uses relative ${attr.name}="${raw}" before the base script`);
+          assert.ok(attr.index > atStatic, `${page} uses relative ${attr.name}="${raw}" before the static base`);
           const broken = new URL(raw, bare);
           const fixed = new URL(raw, fixedBase);
           assert.ok(
