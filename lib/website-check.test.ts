@@ -112,9 +112,14 @@ test("consent links to the privacy page, in the same pattern as register interes
   assert.match(html, /I'll only use these details to write your Website Check and email it to you\. Nothing else\. <a href="\/privacy">How I handle data<\/a>\./);
 });
 
+test("without JavaScript the reveal stays visible", () => {
+  const head = html.slice(html.indexOf("<head>"), html.indexOf("</head>"));
+  assert.match(head, /<noscript><style>\[data-sc-in\]\{opacity:1 !important;transform:none !important\}<\/style><\/noscript>/);
+});
+
 test("the form uses method post, and without JavaScript it gives the call, text and email line", () => {
   assert.match(html, /<form class="wc-form" id="wc-form" method="post" novalidate>/);
-  const noscript = html.match(/<noscript>[\s\S]*?<\/noscript>/)?.[0] ?? "";
+  const noscript = html.match(/<noscript><p class="note"[\s\S]*?<\/noscript>/)?.[0] ?? "";
   assert.match(noscript, /<p class="note"/);
   const text = noscript.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
   assert.equal(text, "This form needs JavaScript. Call or text 07460 038202, or email callum@getclockworkai.com.");
