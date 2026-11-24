@@ -118,7 +118,7 @@
     <div class="sc-wrap split">
       <div class="block__head sticky" data-sc-in>
         <h2 class="sc-display">Register your interest.</h2>
-        <p>It takes a minute. I'll be in touch about early access, and the free Website Check if you'd like it.</p>
+        <p>It takes a minute. I'll contact you about your interest in Clockwork Flow, including early access, and the free Website Check if you'd like it.</p>
         <dl class="facts" style="margin-top:2rem">
           <div><dt>You get</dt><dd>Early access to Clockwork Flow when it's ready.</dd></div>
           <div><dt>Also free</dt><dd>A Website Check: a 30-minute call about your missed calls, website and reviews. No obligation.</dd></div>
@@ -176,14 +176,14 @@
             <label for="ri-notes">Anything else? <span style="text-transform:none;letter-spacing:0;color:var(--sc-ink-soft)">(optional)</span></label>
             <input type="text" id="ri-notes" name="notes" maxlength="140">
           </div>
-          <p class="note" style="margin:0">I'll only use these details to offer you early access and to follow up about Clockwork Flow and the free Website Check. Nothing else. <a href="/privacy">How I handle data</a>.</p>
+          <p class="note" style="margin:0">I use these details to contact you about your interest in Clockwork Flow, including early access and the free Website Check if you want it. I don't add you to a marketing list, and this form does not ask you to join one. <a href="/privacy">How I handle data</a>.</p>
           <p class="ri-msg ri-msg--err" id="ri-error" role="alert" hidden></p>
           <button class="btn btn--primary" type="submit" id="ri-submit">Register interest</button>
         </form>
 
         <div class="ri-thanks" id="ri-thanks" tabindex="-1" hidden>
-          <h3 id="ri-thanks-title">Thanks. You're on the list.</h3>
-          <p>You've registered interest in early access to Clockwork Flow. Callum will be in touch.</p>
+          <h3 id="ri-thanks-title">Thanks. I've got your interest.</h3>
+          <p>You've registered interest in Clockwork Flow. Callum will contact you about that interest.</p>
           <p>While you wait, the free Website Check is there if you want it: a 30-minute call about your missed calls, website and reviews. No obligation.</p>
           <div class="cta-row"><a class="btn btn--primary" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book the free Website Check</a><a class="btn btn--ghost" href="/clockwork-check">What the check covers</a></div>
           <div class="ri-demo" id="ri-demo" hidden></div>
@@ -281,7 +281,7 @@
         show(res.status === 400 && data.error ? data.error : (data.error || fail));
         return;
       }
-      document.getElementById('ri-thanks-title').textContent = `Thanks, ${data.name || lead.name}. You're on the list.`;
+      document.getElementById('ri-thanks-title').textContent = `Thanks, ${data.name || lead.name}. I've got your interest.`;
       if (data.demo) {
         const box = document.getElementById('ri-demo');
         const p = document.createElement('p');

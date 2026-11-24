@@ -212,8 +212,10 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   assert.match(privacy, /A testimonial is your choice/);
   assert.match(privacy, /I don't include your customers' private details/);
   assert.match(privacy, /I don't ask for any other case-study material/);
-  assert.doesNotMatch(privacy, /£|Mailchimp|Stripe|Notion|Google Drive|Blob|consent|postal address/);
-  assert.match(privacy, /Last updated 9 November 2026/);
+  assert.doesNotMatch(privacy, /£|Mailchimp|Stripe|Notion|Google Drive|Blob|postal address/);
+  assert.equal((privacy.match(/consent/g) || []).length, 1);
+  assert.match(privacy, /withdraw a consent you have given/);
+  assert.match(privacy, /Last updated 18 November 2026/);
   assert.match(privacy, /If an enquiry doesn't turn into work, I delete your details within 12 months/);
 });
 
