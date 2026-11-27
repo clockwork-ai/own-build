@@ -337,7 +337,6 @@ html.motion [data-reveal].is-in {
   .date-grid, .split { grid-template-columns: 1fr 1fr; align-items: center; gap: 3rem; }
   .foot__grid { grid-template-columns: 1.05fr 1.95fr; align-items: start; }
   .foot__features { grid-template-columns: 1fr 1fr; }
-  .foot__once { grid-column: 1 / -1; }
   .reviews { grid-template-columns: repeat(3, 1fr); }
 }
 
