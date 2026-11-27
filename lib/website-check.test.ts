@@ -186,11 +186,12 @@ test("the page does not mention a call, a booking, WhatsApp, Twilio or a price",
   assert.doesNotMatch(html, /[–—]/);
 });
 
-test("the hero Website Check button opens the form, and the other eight keep their wording and the phone switch", () => {
+test("the hero and final Website Check buttons open the form, and the other seven keep the phone switch", () => {
   assert.equal(cfg.CHECK_MODE, "phone");
   assert.equal(cfg.CHECK_TARGETS.phone.href, "tel:+447460038202");
   const src = readFileSync(new URL("../index.html", import.meta.url), "utf8");
   assert.match(src, /<a class="btn btn--primary" href="\/website-check" data-ev="check" data-where="hero">Get your free Website Check<\/a>/);
+  assert.match(src, /<a class="btn btn--primary" href="\/website-check" data-ev="check" data-where="final">Get your free Website Check<\/a>/);
   const home = renderHome(src, {
     daleOn: false,
     headline: cfg.HEADLINES.A,
@@ -205,7 +206,11 @@ test("the hero Website Check button opens the form, and the other eight keep the
   assert.match(hero, /Get your free Website Check/);
   assert.doesNotMatch(hero, /target="_blank"|tel:|sms:|cal\.com/);
   for (const anchor of checks) {
-    if (anchor.includes('data-where="hero"')) continue;
+    if (anchor.includes('data-where="hero"') || anchor.includes('data-where="final"')) {
+      assert.match(anchor, /href="\/website-check"/);
+      assert.doesNotMatch(anchor, /target="_blank"|tel:|sms:|cal\.com/);
+      continue;
+    }
     assert.match(anchor, /href="tel:\+447460038202"/);
     assert.doesNotMatch(anchor, /href="\/website-check"|cal\.com/);
   }
