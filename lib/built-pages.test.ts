@@ -9,7 +9,8 @@ import { checkTarget, renderHome } from "../scripts/home-build.mjs";
 /**
  * Assembles the HTML the build publishes. Pages are copied as they stand,
  * and the homepage is rendered the same way the build writes it. Fails if
- * a removed contact string is still in a page. The pieces are joined here
+ * a removed contact string is still in a page or in the chat knowledge.
+ * The pieces are joined here
  * so this file does not contain them, and the existing repo-wide scan
  * does not trip on it.
  */
@@ -65,12 +66,15 @@ test("built pages do not contain the removed contact strings", () => {
   if (fs.existsSync(built)) {
     hits.push(...htmlFiles(built).flatMap((file) => hitsIn(path.relative(root, file), fs.readFileSync(file, "utf8"))));
   }
+  for (const rel of ["lib/business.ts", "api/chat.js"]) {
+    hits.push(...hitsIn(rel, fs.readFileSync(path.join(root, rel), "utf8")));
+  }
   assert.deepEqual(hits, []);
 });
 
-const contactRule = "Contact is only call or text 07460 038202, email, or the booking link. Do not offer any other messaging app.";
+const contactRule = "Evenings are fine. The person on the call is Callum";
 const howCost = "Photos and questions hard to find, jobs priced late";
-const servicesList = "Photos, postcodes and questions from your site, sorted into one list per customer";
+const servicesList = "Photos and postcodes land in one list per customer, not lost in forty chats.";
 
 test("the contact rule and the one list lines are pinned, and forty chats is off how it works and roofers", () => {
   assert.ok(business.knowledge.includes(contactRule));
