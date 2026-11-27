@@ -206,8 +206,11 @@ test("the deal section pins the pay, sign and own wording, and stays visible wit
   assert.match(deal, /<h2 class="sc-display h2-md">What you pay, what you sign, what stays yours<\/h2>/);
   assert.match(deal, /<dt>What stays yours<\/dt>/);
   assert.doesNotMatch(deal, /what you own/i);
-  assert.match(deal, /Foundation at £99 a month\. 12-month minimum\. £1,188 in total\. No VAT added\./);
-  assert.match(deal, /Growth and Autopilot are priced on your call\./);
+  const approved = "Foundation is £99 a month, with a 12-month minimum, £1,188 in total. No VAT added. Growth and Autopilot are priced on your call. The price you pay is the one in your written agreement.";
+  assert.equal(deal.split(approved).length - 1, 1);
+  assert.match(deal, /<dt>What you pay<\/dt>\s*<dd>Foundation is £99 a month, with a 12-month minimum, £1,188 in total\. No VAT added\. Growth and Autopilot are priced on your call\. The price you pay is the one in your written agreement\. <a href="tel:\+447460038202">Call<\/a>/);
+  const sign = deal.slice(deal.indexOf("<dt>What you sign</dt>"), deal.indexOf("<dt>What stays yours</dt>"));
+  assert.doesNotMatch(sign, /The price you pay is the one in your written agreement/);
   assert.match(deal, /07460 038202/);
   assert.match(deal, /<a href="tel:\+447460038202">Call<\/a> or <a href="sms:\+447460038202">text 07460 038202<\/a>/);
   assert.match(deal, /No VAT added/);
