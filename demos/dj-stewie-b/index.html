@@ -6,61 +6,52 @@
 <script>document.write('<base href="'+(location.pathname.indexOf('/demos/dj-stewie-b')===0?'/demos/dj-stewie-b/':'/')+'">')</script>
 <base href="/demos/dj-stewie-b/">
 <title>DJ Stewie B | Weddings and all occasions</title>
-<meta name="description" content="Demo by Clockwork AI. DJ Stewie B plays open format at weddings and all occasions, in Manchester and across the UK.">
+<meta name="description" content="Demo by Clockwork AI. Clockwork helps events and DJ businesses with their website, enquiries, date checks and marketing. DJ Stewie B plays open format at weddings and all occasions, from High Lane and Stockport, and across the UK.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#070708">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#09090b">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
 </head>
 <body id="top">
 <a class="skip" href="#main">Skip to content</a>
 <p class="demo-label" role="note">Demo by <a href="https://clockworkai.app" target="_blank" rel="noopener">Clockwork AI</a>. This is an example page.</p>
-<header class="top">
-  <a class="brand" href="#top" aria-label="DJ Stewie B, home"><span class="brand__dj">DJ</span><span class="brand__name">Stewie B</span></a>
-  <nav class="nav" aria-label="On this page">
-    <a href="#weddings">Weddings</a>
-    <a href="#mixes">Mixes</a>
-    <a href="#booking">Booking</a>
-    <a href="#reviews">Reviews</a>
-  </nav>
-  <a class="btn" href="#date">Check my date</a>
-</header>
-<main id="main">
+<div class="hero-track">
   <section class="hero" aria-labelledby="hero-h">
-    <div class="wrap hero__grid">
-      <div>
-        <p class="eyebrow">Manchester</p>
-        <h1 id="hero-h">Weddings and <span>all occasions.</span></h1>
-        <p class="lede">I'm DJ Stewie B, a professional DJ in Manchester. I play open format at weddings and all occasions, and I play across the UK.</p>
-        <a class="btn" href="#date">Check my date</a>
-      </div>
-      <div class="art">
-        <div class="stage" role="img" aria-label="Placeholder artwork. A black and red badge on a dark ground. Not a photo.">
-          <p class="mark" aria-hidden="true"><span class="mark__dj">D<span class="eq"><i></i><i></i><i></i><i></i></span>J</span><span class="mark__name">Stewie B</span></p>
-        </div>
-        <p class="cap">Placeholder. Not a photo.</p>
-      </div>
+    <header class="top">
+      <a class="brand" href="#top" aria-label="DJ Stewie B, home"><span class="brand__dj">DJ</span><span class="brand__name">Stewie B</span></a>
+      <nav class="nav" aria-label="On this page">
+        <a href="#date">Date</a>
+        <a href="#weddings">Weddings</a>
+        <a href="#reviews">Reviews</a>
+      </nav>
+      <a class="btn btn--ghost" href="#date">Check my date</a>
+    </header>
+    <div class="hero__media">
+      <img src="img/decks-1200.jpg" srcset="img/decks-800.jpg 800w, img/decks-1200.jpg 1200w" sizes="100vw" width="1200" height="768" alt="DJ Stewie B behind the decks, headphones around his neck, in purple light." fetchpriority="high">
+      <div class="hero__shade" aria-hidden="true"></div>
+    </div>
+    <div class="hero__copy wrap">
+      <p class="eyebrow">High Lane and Stockport</p>
+      <h1 id="hero-h">DJ Stewie B</h1>
+      <p class="lede">Open format. Weddings and all occasions. Across the UK.</p>
+      <a class="btn" href="#date">Check my date</a>
     </div>
   </section>
-  <ul class="facts" aria-label="Where and what I play">
-    <li>Manchester</li>
-    <li>Open format</li>
-    <li>Weddings and all occasions</li>
-    <li>Across the UK</li>
-  </ul>
-  <section class="sec" id="date" aria-labelledby="date-h">
-    <div class="wrap">
-      <p class="eyebrow">Enquiry</p>
-      <h2 id="date-h">Check my date</h2>
-      <p class="lede" id="date-intro">Leave the date, the type of event, your name and your number. On a live site, the enquiry is waiting when I'm done. This is a demo, so the form sends nothing.</p>
-      <form class="card" id="check-date" action="#date" onsubmit="event.preventDefault()" aria-describedby="date-intro">
+</div>
+<main id="main">
+  <section class="sec date-sec" id="date" aria-labelledby="date-h">
+    <div class="wrap date-grid">
+      <div data-reveal>
+        <p class="eyebrow">Enquiry</p>
+        <h2 id="date-h">Check my date</h2>
+        <p class="lede">Leave the date, the type of event, your name and your number. This is a demo, so the form sends nothing.</p>
+      </div>
+      <form class="card" id="check-date" action="#date" onsubmit="event.preventDefault()" aria-describedby="date-intro" data-reveal>
+        <p class="sr" id="date-intro">The form stays on this page. Nothing is sent.</p>
         <div class="form__grid">
           <div class="field">
-            <label for="date-input">Date</label>
-            <input id="date-input" name="date" type="date" required autocomplete="off">
+            <label for="date-input">Date <span class="hint">dd/mm/yyyy</span></label>
+            <input id="date-input" name="date" type="text" inputmode="numeric" lang="en-GB" placeholder="dd/mm/yyyy" autocomplete="off" required>
           </div>
           <div class="field">
             <label for="event-input">Event type</label>
@@ -88,115 +79,64 @@
       </form>
     </div>
   </section>
-  <section class="sec sec--tight" id="weddings" aria-labelledby="wed-h">
+  <section class="sec wed" id="weddings" aria-labelledby="wed-h">
     <div class="wrap split">
-      <div>
-        <p class="eyebrow">For couples</p>
+      <div data-reveal>
+        <p class="eyebrow">The room</p>
         <h2 id="wed-h">Weddings</h2>
-        <p class="lede">I play weddings open format, so the music can follow the room: the couple, the families, and the friends who stay on.</p>
-        <p>Check the date on this page.</p>
+        <p class="lede">Open format, for the wedding and for all occasions. A couple can check the date here.</p>
       </div>
-      <div class="art">
-        <div class="floor" role="img" aria-label="Placeholder artwork. A dark floor with a red wash of light. Not a photo from a wedding.">
-          <span class="floor__light"></span>
-          <span class="floor__boards"></span>
-        </div>
-        <p class="cap">Placeholder. Not a photo from a wedding.</p>
-      </div>
-    </div>
-  </section>
-  <section class="sec" id="mixes" aria-labelledby="mix-h">
-    <div class="wrap">
-      <p class="eyebrow">Hear it first</p>
-      <h2 id="mix-h">Mixes and video</h2>
-      <p class="lede">A couple checking a date, someone booking a night, or a venue checking me out, can hear and see a set before getting in touch. These players are placeholders. No mix and no video is embedded.</p>
-      <div class="players">
-        <article class="player">
-          <div class="player__stage">
-            <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <button class="play" type="button" data-placeholder aria-controls="mix-note" aria-pressed="false" aria-label="Play mix placeholder"></button>
-          </div>
-          <h3>Mix placeholder</h3>
-          <p>No audio is loaded.</p>
-          <p id="mix-note" class="note" role="status" hidden>Placeholder only. Nothing is loaded or played.</p>
-        </article>
-        <article class="player player--video">
-          <div class="player__stage">
-            <button class="play" type="button" data-placeholder aria-controls="video-note" aria-pressed="false" aria-label="Play video placeholder"></button>
-          </div>
-          <h3>Video placeholder</h3>
-          <p>No video is embedded.</p>
-          <p id="video-note" class="note" role="status" hidden>Placeholder only. Nothing is loaded or played.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-  <section class="sec sec--tight" id="booking" aria-labelledby="book-h">
-    <div class="wrap">
-      <p class="eyebrow">From the date to the night</p>
-      <h2 id="book-h">How booking works</h2>
-      <p class="lede">Four steps. No payment is taken on this demo.</p>
-      <ol class="steps">
-        <li>
-          <h3>Check your date</h3>
-          <p>Add the date, the type of event, your name and your number.</p>
-        </li>
-        <li>
-          <h3>A chat</h3>
-          <p>An AI chat on this site takes a question day and night, and I get the details to follow up. <!-- client-safe: ignore --></p>
-        </li>
-        <li>
-          <h3>Hold the date</h3>
-          <p>On a live site, this is where a deposit could hold the date, if you take one. This demo takes no payment.</p>
-        </li>
-        <li>
-          <h3>The night</h3>
-          <p>I play open format, for the wedding or the occasion you booked.</p>
-        </li>
-      </ol>
+      <figure class="stage" data-reveal>
+        <img src="img/stage.svg" width="1600" height="900" alt="Placeholder artwork. A dark stage and a wash of red light. Not a photo." loading="lazy" decoding="async">
+        <figcaption>Placeholder. Not a photo.</figcaption>
+      </figure>
     </div>
   </section>
   <section class="sec" id="reviews" aria-labelledby="rev-h">
     <div class="wrap">
-      <p class="eyebrow">What would sit here</p>
-      <h2 id="rev-h">Reviews</h2>
-      <p class="lede">Every card below is an example review. Nothing here is a real quote, and no names are shown.</p>
+      <div data-reveal>
+        <p class="eyebrow">What would sit here</p>
+        <h2 id="rev-h">Reviews</h2>
+        <p class="lede">Every card below is an example. No names are shown.</p>
+      </div>
       <div class="reviews">
-        <article class="review">
+        <article class="review" data-reveal>
           <p class="chip">Example review</p>
-          <p>A wedding card would sit here after the night, written by the couple.</p>
+          <p>A line from a wedding would sit here.</p>
         </article>
-        <article class="review">
+        <article class="review" data-reveal>
           <p class="chip">Example review</p>
-          <p>A card for a night, or another occasion, would sit here.</p>
+          <p>A line from a night would sit here.</p>
         </article>
-        <article class="review">
+        <article class="review" data-reveal>
           <p class="chip">Example review</p>
-          <p>A card from a venue, a supplier or an organiser would sit here.</p>
+          <p>A line from a venue would sit here.</p>
         </article>
       </div>
-      <p class="review-note">This card is an example for the demo. It is not a quote.</p>
+      <p class="review-note">These cards are examples, not real reviews.</p>
     </div>
   </section>
 </main>
 <footer class="foot">
   <div class="wrap foot__grid">
-    <div>
+    <div class="foot__brand">
       <p class="brand brand--plain" aria-hidden="true"><span class="brand__dj">DJ</span><span class="brand__name">Stewie B</span></p>
-      <p>Open format. Weddings and all occasions. Manchester, and across the UK.</p>
+      <p>Open format. Weddings and all occasions. High Lane and Stockport, and across the UK.</p>
     </div>
-    <div>
-      <h2>AI phone line</h2><!-- client-safe: ignore -->
-      <p>An AI phone line takes the details when I am playing, and gets me to ring back. <!-- client-safe: ignore --></p>
+    <div class="foot__features">
+      <div>
+        <h2>AI phone line</h2><!-- client-safe: ignore -->
+        <p>An AI phone line takes the details when I am playing, and gets me to ring back. <!-- client-safe: ignore --></p>
+      </div>
+      <div>
+        <h2>AI chat</h2><!-- client-safe: ignore -->
+        <p>An AI chat on this site takes a question day and night. <!-- client-safe: ignore --></p>
+      </div>
+      <p class="foot__once">It is not a person.</p>
     </div>
-    <div>
-      <h2>AI chat</h2><!-- client-safe: ignore -->
-      <p>An AI chat on this site takes a question day and night. <!-- client-safe: ignore --></p>
-    </div>
-    <p class="foot__once">It is not a person.</p>
   </div>
   <div class="wrap legal">
-    <p>Demo by <a href="https://clockworkai.app" target="_blank" rel="noopener">Clockwork AI</a>. Questions about this example page: <a href="tel:+447460038202">call</a> or <a href="sms:+447460038202">text</a> 07460 038202. That number is Clockwork's, not a booking line.</p>
+    <p>Demo by <a href="https://clockworkai.app" target="_blank" rel="noopener">Clockwork AI</a>. Clockwork helps events and DJ businesses with their website, enquiries, date checks and marketing. Call or text <a href="tel:+447460038202">07460 038202</a>. That number is Clockwork's, not a booking line.</p>
   </div>
 </footer>
 <script src="site.js" defer></script>

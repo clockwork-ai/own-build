@@ -64,7 +64,7 @@ test("the check my date form makes no network call", () => {
   assert.match(html, /name="event"/);
   assert.match(html, /name="name"/);
   assert.match(html, /name="number"/);
-  assert.match(html, /type="date"/);
+  assert.match(html, /id="date-input"[^>]*type="text"[^>]*lang="en-GB"[^>]*placeholder="dd\/mm\/yyyy"/);
   assert.doesNotMatch(html, /<form[^>]*method=/i);
   assert.doesNotMatch(html, /\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|\/api\//);
   assert.doesNotMatch(js, /\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|\/api\/|https?:|new Audio|HTMLMediaElement/);
@@ -74,7 +74,7 @@ test("the check my date form makes no network call", () => {
   const listeners = new Map<string, (event: Record<string, unknown>) => void>();
   const note = { hidden: true, textContent: "" };
   const values: Record<string, string> = {
-    date: "2026-08-08",
+    date: "08/08/2026",
     event: "Wedding",
     name: "Guest",
     number: "n",
@@ -89,35 +89,14 @@ test("the check my date form makes no network call", () => {
       return { value: values[key] ?? "" };
     },
   };
-  const playerNotes: Record<string, { hidden: boolean; textContent: string }> = {};
-  const pressed: string[] = [];
-  const buttons = ["mix-note", "video-note"].map((id) => ({
-    id,
-    getAttribute(attr: string) {
-      return attr === "aria-controls" ? id : null;
-    },
-    setAttribute(attr: string, value: string) {
-      if (attr === "aria-pressed") pressed.push(value);
-    },
-    addEventListener(type: string, fn: (event: Record<string, unknown>) => void) {
-      listeners.set(type + ":" + id, fn);
-    },
-  }));
   const doc = {
     getElementById(id: string) {
       if (id === "check-date") return form;
       if (id === "check-date-note") return note;
-      if (id === "mix-note" || id === "video-note") {
-        playerNotes[id] = playerNotes[id] || {
-          hidden: true,
-          textContent: "Placeholder only. Nothing is loaded or played.",
-        };
-        return playerNotes[id];
-      }
       return null;
     },
-    querySelectorAll(sel: string) {
-      return sel === "[data-placeholder]" ? buttons : [];
+    querySelectorAll() {
+      return [];
     },
   };
 
@@ -130,12 +109,8 @@ test("the check my date form makes no network call", () => {
     navigator: { sendBeacon() { hits.push("beacon"); return true; } },
   };
   vm.runInNewContext(js, context);
-  const api = context.DJStewieDemo as {
-    bindCheckDate: (doc: unknown) => void;
-    bindPlayers: (doc: unknown) => void;
-  };
+  const api = context.DJStewieDemo as { bindCheckDate: (doc: unknown) => void };
   api.bindCheckDate(doc);
-  api.bindPlayers(doc);
 
   let prevented = false;
   listeners.get("submit")!({ preventDefault() { prevented = true; } });
@@ -150,11 +125,6 @@ test("the check my date form makes no network call", () => {
   listeners.get("submit")!({ preventDefault() {} });
   assert.match(note.textContent, /Add the date/);
   assert.equal(hits.length, 0);
-
-  listeners.get("click:mix-note")!({ preventDefault() {}, currentTarget: buttons[0] });
-  assert.equal(playerNotes["mix-note"].hidden, false);
-  assert.match(playerNotes["mix-note"].textContent, /Nothing is loaded or played/);
-  assert.equal(hits.length, 0);
 });
 
 test("reviews are labelled examples, and players are not embeds", () => {
@@ -164,14 +134,21 @@ test("reviews are labelled examples, and players are not embeds", () => {
     assert.match(review, /Example review/);
     assert.doesNotMatch(review, /It is not a quote/);
   }
-  assert.equal((html.match(/This card is an example for the demo\. It is not a quote\./g) || []).length, 1);
-  assert.match(html, /<h3>A chat<\/h3>\s*<p>An AI chat on this site takes a question day and night, and I get the details to follow up\./);
-  assert.doesNotMatch(html, /The chat on this site takes a question day and night, and I get the details to follow up\./);
-  assert.match(html, /<h3>Hold the date<\/h3>\s*<p>On a live site, this is where a deposit could hold the date, if you take one\. This demo takes no payment\.<\/p>/);
-  assert.doesNotMatch(html, /A deposit to hold the date|A deposit holds a wedding/);
-  assert.doesNotMatch(html, /Customers, suppliers, organisers and venue owners come first/);
-  assert.doesNotMatch(html, /suppliers, organisers and venue owners alongside them/);
-  assert.equal((html.match(/It is not a person\./g) || []).length, 1);
+  assert.equal((html.match(/These cards are examples, not real reviews\./g) || []).length, 1);
+  assert.match(html, /<html lang="en-GB">/);
+  assert.match(html, /id="date-input"[^>]*lang="en-GB"/);
+  assert.match(html, /dd\/mm\/yyyy/);
+  assert.match(html, /Demo by <a href="https:\/\/clockworkai\.app"[^>]*>Clockwork AI<\/a>/);
+  assert.match(html, /noindex, nofollow/);
+  const features = html.slice(html.indexOf('class="foot__features"'), html.indexOf("wrap legal"));
+  const phone = features.indexOf("AI phone line");
+  const chat = features.indexOf("AI chat");
+  const person = features.indexOf("It is not a person.");
+  assert.ok(phone >= 0 && chat > phone && person > chat);
+  const brand = html.slice(html.indexOf('class="foot__brand"'), html.indexOf('class="foot__features"'));
+  assert.equal(brand.includes("It is not a person."), false);
+  assert.match(css, /\.foot__features \{ grid-template-columns: 1fr 1fr; \}/);
+  assert.match(css, /\.foot__once \{ grid-column: 1 \/ -1; \}/);
   assert.doesNotMatch(html, /<(iframe|audio|video|embed|object|blockquote)\b/i);
   assert.doesNotMatch(html, /youtube|youtu\.be|vimeo|soundcloud|mixcloud|spotify|instagram|facebook|tiktok|weddingjam|evepla/i);
   assert.match(html, /Demo by <a href="https:\/\/clockworkai\.app"[^>]*>Clockwork AI<\/a>/);
@@ -188,5 +165,25 @@ test("copy stays inside the brief: no prices, no other phone numbers, no dashes"
   for (const phone of phones) {
     const digits = phone.replace(/\D/g, "").replace(/^44/, "").replace(/^0/, "");
     assert.equal(digits, "7460038202", phone);
+  }
+});
+
+test("the demo page does not use trade wording", () => {
+  const text = html.replace(/<script[\s\S]*?<\/script>/g, " ").replace(/<[^>]+>/g, " ");
+  const banned = [
+    "trade",
+    "tradesman",
+    "on the tools",
+    "vans",
+    "jobs",
+    "quotes",
+    "clockwork jobs",
+    "plumbers",
+    "roofers",
+    "heating",
+    "boilers",
+  ];
+  for (const word of banned) {
+    assert.equal(new RegExp("\\b" + word + "\\b", "i").test(text), false, word);
   }
 });
