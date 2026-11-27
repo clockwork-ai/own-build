@@ -165,6 +165,8 @@ test("reviews are labelled examples, and players are not embeds", () => {
     assert.doesNotMatch(review, /It is not a quote/);
   }
   assert.equal((html.match(/This card is an example for the demo\. It is not a quote\./g) || []).length, 1);
+  assert.match(html, /<h3>A chat<\/h3>\s*<p>An AI chat on this site takes a question day and night, and I get the details to follow up\./);
+  assert.doesNotMatch(html, /The chat on this site takes a question day and night, and I get the details to follow up\./);
   assert.match(html, /<h3>Hold the date<\/h3>\s*<p>On a live site, this is where a deposit could hold the date, if you take one\. This demo takes no payment\.<\/p>/);
   assert.doesNotMatch(html, /A deposit to hold the date|A deposit holds a wedding/);
   assert.doesNotMatch(html, /Customers, suppliers, organisers and venue owners come first/);
