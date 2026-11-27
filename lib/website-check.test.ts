@@ -171,19 +171,56 @@ test("under the form, the only number is Call or text 07460 038202", () => {
   assert.equal(html.split("+447460038202").length - 1, 3);
 });
 
-test("the page does not mention a call, a booking, WhatsApp, Twilio or a price", () => {
-  const visible = html
+function dealSection(): string {
+  const start = html.indexOf('<section id="deal"');
+  const end = html.indexOf("</section>", start);
+  assert.ok(start > 0 && end > start);
+  return html.slice(start, end);
+}
+
+function outsideDeal(source: string): string {
+  const start = source.indexOf('<section id="deal"');
+  const end = source.indexOf("</section>", start);
+  assert.ok(start > 0 && end > start);
+  return source.slice(0, start) + source.slice(end + "</section>".length);
+}
+
+test("the form and the introduction do not mention a booking, WhatsApp, Twilio or a price", () => {
+  const rest = outsideDeal(html);
+  const visible = rest
     .replace(/<script[\s\S]*?<\/script>/g, " ")
     .replace(/<style[\s\S]*?<\/style>/g, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
     .replaceAll("Call or text 07460 038202", " ");
   assert.doesNotMatch(visible, /\b(call|calls|calling|book|booking|booked)\b/i);
-  assert.deepEqual(html.match(/\bcall\b/gi), ["Call", "Call"]);
+  assert.deepEqual(rest.match(/\bcall\b/gi), ["Call", "Call"]);
   assert.doesNotMatch(html, /\b(book|booking|booked)\b|whatsapp|wa\.me|twilio|cal\.com/i);
-  assert.doesNotMatch(html, /£|per month|a month|\/mo\b/i);
+  assert.doesNotMatch(rest, /£|per month|a month|\/mo\b/i);
   assert.doesNotMatch(html, /\b(unlock|seamless|elevate|game-changer|leverage)\b/i);
   assert.doesNotMatch(html, /[–—]/);
+});
+
+test("the deal section pins what you sign and what stays yours, and stays visible without JavaScript", () => {
+  const deal = dealSection();
+  assert.match(deal, /<h2 class="sc-display h2-md">What you sign, what stays yours<\/h2>/);
+  assert.match(deal, /<dt>What you sign<\/dt>/);
+  assert.match(deal, /<dt>What stays yours<\/dt>/);
+  assert.doesNotMatch(deal, /what you own|what you pay/i);
+  assert.match(deal, /Work I do for a client is covered by what we agree in writing before I start\./);
+  assert.match(deal, /The price you pay is the one in your written agreement\./);
+  assert.match(deal, /If the monthly plan stops, what happens to missed calls, the chat box and review requests is in that written agreement\./);
+  assert.match(deal, /The domain is in your name and stays yours\. I hold access to look after it, nothing more\. If you ever leave, it goes with you\. It stays in your registrar account\./);
+  assert.match(deal, /renewals and settings needed to keep mail and the site working\./);
+  assert.match(deal, /I keep a note of them\./);
+  assert.match(deal, /Your number stays your number\. Nothing about how customers reach you changes unless you ask\./);
+  assert.doesNotMatch(deal, /£/);
+  assert.doesNotMatch(deal, /[–—]/);
+  assert.match(deal, /data-sc-in/);
+  const head = html.slice(html.indexOf("<head>"), html.indexOf("</head>"));
+  assert.match(head, /<noscript><style>\[data-sc-in\]\{opacity:1 !important;transform:none !important\}<\/style><\/noscript>/);
+  const dealAt = html.indexOf('<section id="deal"');
+  assert.ok(dealAt > 0 && dealAt < html.indexOf('<script src="scrollcraft.js">'));
 });
 
 test("the hero Website Check button opens the form, and the other eight keep their wording and the phone switch", () => {
