@@ -20,8 +20,8 @@ const hour = (s: string) => { const m = s.match(/^(\d{1,2})(?:\.(\d{2}))?\s*(am|
 const range = (s: string) => { const m = s.match(/\((\d{1,2}(?:\.\d{2})?(?:am|pm)?) to (\d{1,2}(?:\.\d{2})?(?:am|pm)?)\)/); assert.ok(m, `slot label without a time range: ${s}`); return [hour(m![1]), hour(m![2])]; };
 const hoursText = (d: string) => fs.readFileSync(path.join(root, d, "index.html"), "utf8").match(/Mon to Fri [^<]*/)![0].replace(/\s+$/, "");
 
-test("found the four trade demos, each with a booking chat", () => {
-  for (const d of ["ginnel", "brookstop", "slatehollow", "lunebrook"]) assert.ok(booking.includes(d), d);
+test("found the five trade demos, each with a booking chat", () => {
+  for (const d of ["ginnel", "brookstop", "slatehollow", "lunebrook", "culvermill"]) assert.ok(booking.includes(d), d);
 });
 
 for (const d of booking) {

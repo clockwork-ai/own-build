@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Culvermill Drainage">
+  <rect width="32" height="32" rx="7" fill="#14202A"/>
+  <circle cx="16" cy="16" r="9" fill="none" stroke="#9DC3D2" stroke-width="2.4"/>
+  <path d="M7.6 18.6a9 9 0 0 0 16.8 0z" fill="#B5362C"/>
+  <path d="M7 18.6h18" stroke="#F1EEE8" stroke-width="1.6" stroke-linecap="round"/>
+</svg>
