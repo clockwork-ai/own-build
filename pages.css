@@ -294,6 +294,13 @@ main a:not(.btn):not(.linkline):not(.opt):hover { color: var(--sc-accent); }
 
   .phero { min-height: auto; padding-top: calc(env(safe-area-inset-top, 0px) + 92px); }
   .phero__inner { grid-template-columns: 1fr; }
+  /* Buttons are nowrap, so a long label's min-content is the whole line.
+     Inside a one-column split, that min-content widens the grid track. The
+     track starts after the page gutter (20px at 390), so a label about 390px
+     wide ends 20px past the screen and the page scrolls sideways. Wrapping
+     the label keeps the track inside the column. The longest word still fits.
+     display stays inline-flex so short labels keep the same pill. */
+  .cta-row .btn { white-space: normal; text-align: center; max-width: 100%; }
   .pdial { order: -1; width: min(64vw, 280px); justify-self: start; }
   .phero__plate img { opacity: 0.35; }
   .split, .svc, .faq { grid-template-columns: 1fr; }
