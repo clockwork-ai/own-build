@@ -28,7 +28,7 @@ function answer(html: string, question: string): string {
 test("homepage fair questions: the new cost answer, the missed-call question, and the held domain answer", () => {
   assert.equal(
     answer(home, "What does it cost?"),
-    'Flat monthly, no per-minute charges. There\'s a fixed setup and a monthly plan, both priced on your free call, so you know the full cost before anything starts. The minimum term is in my <a href="https://clockworkai.app/terms">terms</a>.',
+    'Flat monthly, no per-minute charges. There\'s a fixed setup and a monthly plan, both priced on your free call, so you know the full cost before anything starts. The minimum term is in my <a href="/terms">terms</a>.',
   );
   assert.equal(
     answer(home, "What happens if I miss a call when I'm on a job?"),
@@ -94,6 +94,11 @@ test("missed calls has the new section above fair questions, and no clockwork-ch
   assert.equal(missed.includes("/clockwork-check"), false);
   assert.match(missed, /<a class="btn btn--primary" href="\/website-check">Get your free Website Check<\/a>/);
   assert.match(missed, /<a href="\/website-check">Free Website Check<\/a>/);
+  assert.equal(missed.includes("panel--key"), false);
+  assert.equal(missed.includes("Jess is the receptionist"), false);
+  assert.equal(missed.includes("When you need the phone answered, not just a text back."), false);
+  assert.equal(missed.includes("See how a real call went"), false);
+  assert.equal(missed.split("Jess").length - 1, 1);
 });
 
 test("the booking page calls the 30 minute slot a call, not a Website Check", () => {
