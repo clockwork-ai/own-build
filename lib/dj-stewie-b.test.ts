@@ -138,7 +138,9 @@ test("reviews are labelled examples, and players are not embeds", () => {
   assert.match(html, /<html lang="en-GB">/);
   assert.match(html, /id="date-input"[^>]*lang="en-GB"/);
   assert.match(html, /dd\/mm\/yyyy/);
-  assert.match(html, /North West, willing to travel/);
+  assert.match(html, /<p class="eyebrow">North West, willing to travel<\/p>/);
+  assert.equal((html.match(/North West and across the UK/g) || []).length, 2);
+  assert.doesNotMatch(html, /willing to travel, and across the UK/);
   assert.match(html, /Open format\. Weddings and all occasions\. Across the UK\./);
   assert.match(html, /<option>Party<\/option>/);
   assert.doesNotMatch(html, /High Lane|Stockport|A night/);
