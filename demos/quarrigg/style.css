@@ -315,7 +315,7 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .hero__bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.05);animation:settle 20s ease-out forwards}
 @keyframes settle{to{transform:scale(1)}}
 .rm .hero__bg img{animation:none;transform:none}
-.hero__shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,20,15,.55) 0%,rgba(18,20,15,.22) 34%,rgba(18,20,15,.9) 100%)}
+.hero__shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,20,15,.5) 0%,rgba(18,20,15,.3) 26%,rgba(18,20,15,.78) 62%,rgba(18,20,15,.94) 100%)}
 .hero__in{position:relative;padding:clamp(76px,13vw,150px) 0 clamp(44px,6vw,76px)}
 .hero .eyebrow{color:#E4C58C;text-shadow:0 1px 8px rgba(0,0,0,.7)}
 .hero h1{margin-bottom:20px;text-shadow:0 4px 30px rgba(0,0,0,.4)}
@@ -437,3 +437,10 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 /* 404 */
 .nf{min-height:60vh;display:grid;place-items:center;text-align:center;background:#23261F;color:#F4F1EA;padding:60px 0}
 .nf b{display:block;font:800 clamp(100px,22vw,220px)/.9 var(--f-h);color:#E4C58C;letter-spacing:-.04em}
+
+/* fixes after the first walk */
+@media(min-width:900px){.steps--4{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:700px){.split .towns{grid-template-columns:1fr}}
+.band{border-top:1px solid rgba(255,255,255,.1);background:#1F2219}
+.dark+.band,.band+.foot{border-top-color:rgba(255,255,255,.12)}
+.part b{align-self:start}
