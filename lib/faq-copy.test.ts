@@ -1,7 +1,7 @@
 // Pins the fair-question copy on the homepage, services, missed calls and the booking page.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import * as cfg from "../scripts/home-config.mjs";
 import { checkTarget, renderHome } from "../scripts/home-build.mjs";
 
@@ -99,13 +99,34 @@ test("missed calls has the new section above fair questions, and no clockwork-ch
 test("the booking page calls the 30 minute slot a call, not a Website Check", () => {
   assert.equal(
     answer(book, "Is it really free?"),
-    "Yes. The call is a free 30-minute call. 30 minutes, no cost and no obligation.",
+    "Yes. It's a free 30-minute call, with no cost and no obligation.",
   );
   const beforeFooter = book.slice(0, book.indexOf("<footer"));
   assert.doesNotMatch(beforeFooter, /Website Check|free check/i);
   assert.match(beforeFooter, /Book a call/);
   assert.match(beforeFooter, /a free 30-minute call/);
   assert.doesNotMatch(book, /within 5 working days/);
+});
+
+test("no built page links Website Check text to /clockwork-check", () => {
+  const root = new URL("..", import.meta.url);
+  const pages = readdirSync(root).filter((name) => name.endsWith(".html") && name !== "clockwork-check.html");
+  const hits: string[] = [];
+  const take = (file: string, html: string) => {
+    for (const match of html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)) {
+      const href = match[1].match(/href="([^"]*)"/)?.[1] ?? "";
+      const text = match[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      if (/website check/i.test(text) && href.includes("/clockwork-check")) hits.push(`${file}: ${text} -> ${href}`);
+    }
+  };
+  for (const name of pages) take(name, readFileSync(new URL(`../${name}`, import.meta.url), "utf8"));
+  take("built homepage", home);
+  take("chat/widget.js", readFileSync(new URL("../chat/widget.js", import.meta.url), "utf8"));
+  const nav = readFileSync(new URL("../pages.js", import.meta.url), "utf8");
+  const row = nav.match(/\['([^']+)', 'Free Website Check', '11:00'\]/);
+  assert.equal(row?.[1], "/website-check");
+  assert.equal(readFileSync(new URL("../lib/business.ts", import.meta.url), "utf8").includes('audit: "/website-check"'), true);
+  assert.deepEqual(hits, []);
 });
 
 test("the changed pages contain no em or en dash", () => {

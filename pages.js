@@ -16,7 +16,7 @@
     ['/how-it-works', 'How it works', '06:30'],
     ['/services', 'Services', '09:00'],
     ['/missed-calls', 'Missed calls', '10:42'],
-    ['/clockwork-check', 'Free Website Check', '11:00'],
+    ['/website-check', 'Free Website Check', '11:00'],
     ['/work', 'My work', '14:00'],
     ['/about', 'About', '17:30'],
     ['/made-to-measure', 'Made to Measure', '18:00'],

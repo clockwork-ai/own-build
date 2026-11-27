@@ -17,7 +17,7 @@ test("links page points at real routes and carries the Instagram UTMs", () => {
     return href[1].replaceAll("&amp;", "&");
   });
   assert.deepEqual(hrefs, [
-    `/clockwork-check?${utm}`,
+    `/website-check?${utm}`,
     `/work?${utm}`,
     `/?${utm}`,
     `/book?${utm}`,

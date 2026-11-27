@@ -37,7 +37,7 @@
       </form>
       <div class="cw-more">
         <button class="cw-details" type="button" aria-expanded="false">Leave your details</button>
-        <a class="cw-audit" href="/clockwork-check">Free Website Check</a>
+        <a class="cw-audit" href="/website-check">Free Website Check</a>
         <a class="cw-book" href="https://cal.com/clockwork-ai/30min" target="_blank" rel="noopener">Book a call</a>
       </div>
     </section>
@@ -163,7 +163,7 @@
     actions.forEach((action) => {
       const link = document.createElement("a");
       link.className = "cw-action";
-      link.href = safeHref(action.href, "/clockwork-check");
+      link.href = safeHref(action.href, "/website-check");
       link.textContent = action.label;
       if (action.external) {
         link.target = "_blank";
@@ -197,7 +197,7 @@
     launch.setAttribute("aria-label", next.launcherLabel || "Open the chat");
     input.placeholder = next.placeholder || input.placeholder;
     form.querySelector("button").textContent = next.formSubmit || "Send";
-    audit.href = safeHref(next.auditHref, "/clockwork-check");
+    audit.href = safeHref(next.auditHref, "/website-check");
     book.href = safeHref(next.bookHref, "https://cal.com/clockwork-ai/30min");
     if (next.nudge && next.nudge.text) nudgeOpen.textContent = next.nudge.text;
     if (!nudgeMode) renderSuggestions(next.suggestions);
@@ -346,7 +346,7 @@
         calculatorHref: "/missed-calls#calculator",
         formTitle: "Leave your details",
         formSubmit: "Send to Callum",
-        auditHref: "/clockwork-check",
+        auditHref: "/website-check",
         auditLabel: "Free Website Check",
         bookHref: "https://cal.com/clockwork-ai/30min",
         bookLabel: "Book a free 30-minute call",
