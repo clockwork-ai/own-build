@@ -8,6 +8,7 @@
   --serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
   --sans: system-ui, "Segoe UI", sans-serif;
   --max: 1180px;
+  --demo-bar: 2.5rem;
   color-scheme: dark;
 }
 
@@ -59,6 +60,7 @@ p { margin: 0 0 0.9rem; }
   position: sticky;
   top: 0;
   z-index: 40;
+  min-height: var(--demo-bar);
   margin: 0;
   padding: 0.55rem 1rem;
   background: var(--red);
@@ -116,9 +118,9 @@ p { margin: 0 0 0.9rem; }
 
 .hero {
   position: sticky;
-  top: 0;
-  min-height: 100vh;
-  min-height: 100svh;
+  top: var(--demo-bar);
+  min-height: calc(100vh - var(--demo-bar));
+  min-height: calc(100svh - var(--demo-bar));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -192,6 +194,8 @@ p { margin: 0 0 0.9rem; }
 .hero__copy .lede { color: #ddd6c8; }
 
 .sec { padding: 5.5rem 1.15rem; background: var(--bg); position: relative; }
+
+.date-sec { padding-top: calc(5.5rem + var(--demo-bar)); }
 
 .date-grid, .split { display: grid; gap: 2rem; }
 
@@ -305,6 +309,8 @@ input, select {
 
 .legal a { text-underline-offset: 0.15em; }
 
+.legal a[href^="tel:"] { white-space: nowrap; }
+
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .reveal, [data-reveal] {
@@ -351,7 +357,7 @@ html.motion [data-reveal].is-in {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-track { height: auto; }
-  .hero { position: relative; min-height: 100svh; }
+  .hero { position: relative; min-height: calc(100svh - var(--demo-bar)); }
   html.motion [data-reveal],
   [data-reveal] {
     animation: none;

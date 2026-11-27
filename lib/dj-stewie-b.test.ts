@@ -154,6 +154,10 @@ test("reviews are labelled examples, and players are not embeds", () => {
   assert.equal((chatBlock.match(/It is not a person\./g) || []).length, 1);
   const brand = html.slice(html.indexOf('class="foot__brand"'), html.indexOf('class="foot__features"'));
   assert.equal(brand.includes("It is not a person."), false);
+  assert.match(css, /--demo-bar:\s*2\.5rem/);
+  assert.match(css, /\.hero \{[^}]*top:\s*var\(--demo-bar\)/);
+  assert.match(css, /\.date-sec \{[^}]*padding-top:\s*calc\(5\.5rem \+ var\(--demo-bar\)\)/);
+  assert.match(css, /\.legal a\[href\^="tel:"\] \{ white-space:\s*nowrap; \}/);
   assert.match(css, /\.foot__features \{ grid-template-columns: 1fr 1fr; \}/);
   assert.doesNotMatch(css, /\.foot__once \{ grid-column: 1 \/ -1; \}/);
   assert.doesNotMatch(html, /<(iframe|audio|video|embed|object|blockquote)\b/i);
