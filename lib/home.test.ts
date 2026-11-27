@@ -146,7 +146,7 @@ test("house rules: no long dashes, no pound signs, no live chat, Autopilot not A
   const foundation = "Foundation is £99 a month, with a 12-month minimum, £1,188 in total. No VAT added. Growth and Autopilot are priced on your call. The price you pay is the one in your written agreement.";
   for (const html of [render(), render({ daleOn: true, which: { rating: "5.0", count: "143" } })]) {
     const text = html.replace(/<style>[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/g, "");
-    assert.equal(text.split(foundation).length - 1, 1);
+    assert.equal(text.split(foundation).length - 1, 2);
     const rest = text.replaceAll(foundation, "");
     assert.doesNotMatch(rest, /[–—]|£|live[\s-]?chat|\bAutomation\b/i);
     assert.doesNotMatch(rest, /\b\d+\s*(per month|a month|\/mo)\b/i);

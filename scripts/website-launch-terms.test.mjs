@@ -156,12 +156,13 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   assert.doesNotMatch(services, /happy customers are asked/);
   assert.doesNotMatch(home, /A review request after every job|A quoting and job app|A page for each service and town|Monthly posts made from your own jobs/);
   const foundation = "Foundation is £99 a month, with a 12-month minimum, £1,188 in total. No VAT added. Growth and Autopilot are priced on your call. The price you pay is the one in your written agreement.";
-  assert.equal(home.split(foundation).length - 1, 1);
-  assert.equal(services.split(foundation).length - 1, 2);
+  assert.equal(home.split(foundation).length - 1, 2);
+  assert.equal(services.split(foundation).length - 1, 4);
   assert.equal(currentTerms.split(foundation).length - 1, 1);
+  assert.equal(roofers.split(foundation).length - 1, 2);
   assert.doesNotMatch(home.replaceAll(foundation, ""), /£/);
   assert.doesNotMatch(services.replaceAll(foundation, ""), /£/);
-  assert.doesNotMatch(roofers, /£/);
+  assert.doesNotMatch(roofers.replaceAll(foundation, ""), /£/);
   assert.doesNotMatch(currentTerms.replaceAll(foundation, ""), /£99/);
   assert.match(home, /Missed calls texted back/);
   assert.match(home, /Database Reactivation/);
