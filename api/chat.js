@@ -80,7 +80,7 @@ Contact. Book a free 30-minute call on the booking link. Or call or text 07460 0
   allowedPrices: [],
   priceStandIn: "something Callum prices on a quick call or in the Free Website Check",
   links: {
-    audit: "/clockwork-check",
+    audit: "/website-check",
     auditLabel: "Free Website Check",
     book: "https://cal.com/clockwork-ai/30min",
     bookLabel: "Book a free 30-minute call",

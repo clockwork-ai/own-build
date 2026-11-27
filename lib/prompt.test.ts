@@ -38,7 +38,7 @@ test("the chat knowledge no longer mentions the old founding offer", () => {
 
 test("the public widget config still has the button destinations", () => {
   const widget = publicWidget(business);
-  assert.equal(widget.auditHref, "/clockwork-check");
+  assert.equal(widget.auditHref, "/website-check");
   assert.equal(widget.suggestions.length, 3);
   assert.equal("rules" in widget, false);
   assert.equal("knowledge" in widget, false);
