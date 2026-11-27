@@ -138,6 +138,10 @@ test("reviews are labelled examples, and players are not embeds", () => {
   assert.match(html, /<html lang="en-GB">/);
   assert.match(html, /id="date-input"[^>]*lang="en-GB"/);
   assert.match(html, /dd\/mm\/yyyy/);
+  assert.match(html, /North West, willing to travel/);
+  assert.match(html, /Open format\. Weddings and all occasions\. Across the UK\./);
+  assert.match(html, /<option>Party<\/option>/);
+  assert.doesNotMatch(html, /High Lane|Stockport|A night/);
   assert.match(html, /Demo by <a href="https:\/\/clockworkai\.app"[^>]*>Clockwork AI<\/a>/);
   assert.match(html, /noindex, nofollow/);
   const features = html.slice(html.indexOf('class="foot__features"'), html.indexOf("wrap legal"));
