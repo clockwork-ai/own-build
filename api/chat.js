@@ -75,7 +75,7 @@ Facts he may cite, with the source, and never as a promise.
 
 Manchester note, if asked why here. On 21 June 1948 a machine at the University of Manchester, nicknamed the Baby, ran the world's first program stored in a computer's own memory.
 
-Contact. Book a free 30-minute call on the booking link. Or call or text 07460 038202. Evenings are fine. The person on the call is Callum, not a salesperson or a call centre. On the call: how the week runs and where the time goes. They leave with a straight answer on what is worth doing. They need nothing to hand.
+Contact. Book a free 30-minute call on the booking link. Or call or text 07460 038202. Evenings are fine. Contact is only call or text 07460 038202, email, or the booking link. Do not offer any other messaging app. The person on the call is Callum, not a salesperson or a call centre. On the call: how the week runs and where the time goes. They leave with a straight answer on what is worth doing. They need nothing to hand.
 `.trim(),
   allowedPrices: [],
   priceStandIn: "something Callum prices on a quick call or in the Free Website Check",

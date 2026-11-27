@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
+import { business } from "./business.ts";
 import * as cfg from "../scripts/home-config.mjs";
 import { checkTarget, renderHome } from "../scripts/home-build.mjs";
 
@@ -65,4 +66,20 @@ test("built pages do not contain the removed contact strings", () => {
     hits.push(...htmlFiles(built).flatMap((file) => hitsIn(path.relative(root, file), fs.readFileSync(file, "utf8"))));
   }
   assert.deepEqual(hits, []);
+});
+
+const contactRule = "Contact is only call or text 07460 038202, email, or the booking link. Do not offer any other messaging app.";
+const howList = "Photos, postcodes and questions from your site sorted into one list per customer";
+const servicesList = "Photos, postcodes and questions from your site, sorted into one list per customer";
+
+test("the contact rule and the one list lines are pinned, and forty chats is off how it works and roofers", () => {
+  assert.ok(business.knowledge.includes(contactRule));
+  const pages = new Map(htmlFiles(root).map((file) => [path.relative(root, file), pageHtml(file)]));
+  const how = pages.get("how-it-works.html") ?? "";
+  const roofers = pages.get("roofers.html") ?? "";
+  const services = pages.get("services.html") ?? "";
+  assert.ok(how.includes(howList));
+  assert.ok(services.includes(servicesList));
+  assert.equal(how.includes("forty chats"), false);
+  assert.equal(roofers.includes("forty chats"), false);
 });
