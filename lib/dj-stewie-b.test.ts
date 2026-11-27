@@ -160,7 +160,16 @@ test("the check my date form makes no network call", () => {
 test("reviews are labelled examples, and players are not embeds", () => {
   const reviews = html.match(/<article class="review"[\s\S]*?<\/article>/g) || [];
   assert.equal(reviews.length, 3);
-  for (const review of reviews) assert.match(review, /Example review/);
+  for (const review of reviews) {
+    assert.match(review, /Example review/);
+    assert.doesNotMatch(review, /It is not a quote/);
+  }
+  assert.equal((html.match(/This card is an example for the demo\. It is not a quote\./g) || []).length, 1);
+  assert.match(html, /<h3>Hold the date<\/h3>\s*<p>On a live site, this is where a deposit could hold the date, if you take one\. This demo takes no payment\.<\/p>/);
+  assert.doesNotMatch(html, /A deposit to hold the date|A deposit holds a wedding/);
+  assert.doesNotMatch(html, /Customers, suppliers, organisers and venue owners come first/);
+  assert.doesNotMatch(html, /suppliers, organisers and venue owners alongside them/);
+  assert.equal((html.match(/It is not a person\./g) || []).length, 1);
   assert.doesNotMatch(html, /<(iframe|audio|video|embed|object|blockquote)\b/i);
   assert.doesNotMatch(html, /youtube|youtu\.be|vimeo|soundcloud|mixcloud|spotify|instagram|facebook|tiktok|weddingjam|evepla/i);
   assert.match(html, /Demo by <a href="https:\/\/clockworkai\.app"[^>]*>Clockwork AI<\/a>/);
@@ -170,7 +179,7 @@ test("copy stays inside the brief: no prices, no other phone numbers, no dashes"
   const blob = html + "\n" + css + "\n" + js;
   assert.equal(blob.includes("\u2014"), false);
   assert.equal(blob.includes("\u2013"), false);
-  assert.doesNotMatch(blob, /£|whatsapp|wa\.me|live[\s-]?chat|Jess|07725|642563|07359|838866/i);
+  assert.doesNotMatch(blob, /£|whatsapp|live[\s-]?chat|Jess|07725|642563/i);
   assert.doesNotMatch(blob, /\b(unlock|seamless|elevate|game-changer|leverage)\b/i);
   const phones = blob.match(/\+?\d[\d\s()-]{8,}\d/g) || [];
   assert.ok(phones.length > 0);

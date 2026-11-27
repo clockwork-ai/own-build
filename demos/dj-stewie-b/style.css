@@ -460,6 +460,8 @@ select {
 
 .review p:last-child { margin: 0; color: var(--muted); }
 
+.review-note { margin: 1rem 0 0; color: var(--muted); }
+
 .steps {
   list-style: none;
   margin: 1.4rem 0 0;
@@ -496,6 +498,8 @@ select {
 }
 
 .foot__grid { display: grid; gap: 1.8rem; }
+
+.foot__once { grid-column: 1 / -1; margin: 0; }
 
 .legal {
   margin-top: 1.6rem;
