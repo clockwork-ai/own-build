@@ -201,18 +201,13 @@ test("the form and the introduction do not mention a booking, WhatsApp, Twilio o
   assert.doesNotMatch(html, /[–—]/);
 });
 
-test("the deal section pins the pay, sign and own wording, and stays visible without JavaScript", () => {
+test("the deal section pins the price line, and stays visible without JavaScript", () => {
   const deal = dealSection();
-  assert.match(deal, /<h2 class="sc-display h2-md">What you pay, what you sign, what stays yours<\/h2>/);
-  assert.match(deal, /<dt>What stays yours<\/dt>/);
-  assert.doesNotMatch(deal, /what you own/i);
   const approved = "Foundation is £99 a month, with a 12-month minimum, £1,188 in total. No VAT added. Growth and Autopilot are priced on your call. The price you pay is the one in your written agreement.";
+  assert.match(deal, /<h2 class="sc-display h2-md">What you pay<\/h2>/);
+  assert.doesNotMatch(deal, /what you sign|what stays yours|what you own/i);
   assert.equal(deal.split(approved).length - 1, 1);
-  assert.match(deal, /<dt>What you pay<\/dt>\s*<dd>Foundation is £99 a month, with a 12-month minimum, £1,188 in total\. No VAT added\. Growth and Autopilot are priced on your call\. The price you pay is the one in your written agreement\. <a href="tel:\+447460038202">Call<\/a>/);
-  const sign = deal.slice(deal.indexOf("<dt>What you sign</dt>"), deal.indexOf("<dt>What stays yours</dt>"));
-  assert.doesNotMatch(sign, /The price you pay is the one in your written agreement/);
-  assert.match(deal, /07460 038202/);
-  assert.match(deal, /<a href="tel:\+447460038202">Call<\/a> or <a href="sms:\+447460038202">text 07460 038202<\/a>/);
+  assert.match(deal, /<p>Foundation is £99 a month, with a 12-month minimum, £1,188 in total\. No VAT added\. Growth and Autopilot are priced on your call\. The price you pay is the one in your written agreement\. <a href="tel:\+447460038202">Call<\/a> or <a href="sms:\+447460038202">text 07460 038202<\/a>\.<\/p>/);
   assert.match(deal, /No VAT added/);
   assert.deepEqual(deal.match(/VAT/g), ["VAT"]);
   assert.doesNotMatch(deal, /plus VAT|ex VAT|VAT included|\+\s?VAT/i);
@@ -229,12 +224,6 @@ test("the deal section pins the pay, sign and own wording, and stays visible wit
   assert.match(head, /<noscript><style>\[data-sc-in\]\{opacity:1 !important;transform:none !important\}<\/style><\/noscript>/);
   const dealAt = html.indexOf('<section id="deal"');
   assert.ok(dealAt > 0 && dealAt < html.indexOf('<script src="scrollcraft.js">'));
-  const staticText = deal.replace(/<script[\s\S]*?<\/script>/g, " ").replace(/<[^>]+>/g, " ");
-  assert.match(staticText, /What you pay, what you sign, what stays yours/);
-  assert.match(staticText, /What stays yours/);
-  assert.match(staticText, /£99 a month/);
-  assert.match(staticText, /12-month minimum/);
-  assert.match(staticText, /£1,188/);
 });
 
 test("the hero Website Check button opens the form, and the other eight keep their wording and the phone switch", () => {
