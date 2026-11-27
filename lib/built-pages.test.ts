@@ -69,7 +69,7 @@ test("built pages do not contain the removed contact strings", () => {
 });
 
 const contactRule = "Contact is only call or text 07460 038202, email, or the booking link. Do not offer any other messaging app.";
-const howList = "Photos, postcodes and questions from your site sorted into one list per customer";
+const howCost = "Photos and questions hard to find, jobs priced late";
 const servicesList = "Photos, postcodes and questions from your site, sorted into one list per customer";
 
 test("the contact rule and the one list lines are pinned, and forty chats is off how it works and roofers", () => {
@@ -78,7 +78,7 @@ test("the contact rule and the one list lines are pinned, and forty chats is off
   const how = pages.get("how-it-works.html") ?? "";
   const roofers = pages.get("roofers.html") ?? "";
   const services = pages.get("services.html") ?? "";
-  assert.ok(how.includes(howList));
+  assert.ok(how.includes(howCost));
   assert.ok(services.includes(servicesList));
   assert.equal(how.includes("forty chats"), false);
   assert.equal(roofers.includes("forty chats"), false);
