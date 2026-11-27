@@ -143,10 +143,13 @@ test("Facebook card: Dale's real re-roof post, with no year, and the photo file 
 });
 
 test("house rules: no long dashes, no pound signs, no live chat, Autopilot not Automation, no prices, no review schema", () => {
+  const foundation = "Foundation is £99 a month, with a 12-month minimum, £1,188 in total. No VAT added. Growth and Autopilot are priced on your call. The price you pay is the one in your written agreement.";
   for (const html of [render(), render({ daleOn: true, which: { rating: "5.0", count: "143" } })]) {
     const text = html.replace(/<style>[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/g, "");
-    assert.doesNotMatch(text, /[–—]|£|live[\s-]?chat|\bAutomation\b/i);
-    assert.doesNotMatch(text, /\b\d+\s*(per month|a month|\/mo)\b/i);
+    assert.equal(text.split(foundation).length - 1, 1);
+    const rest = text.replaceAll(foundation, "");
+    assert.doesNotMatch(rest, /[–—]|£|live[\s-]?chat|\bAutomation\b/i);
+    assert.doesNotMatch(rest, /\b\d+\s*(per month|a month|\/mo)\b/i);
     assert.doesNotMatch(html, /AggregateRating|"@type":\s*"Review"|reviewRating/);
     for (const cut of ["02:14", "What's slowing you down", "1948", "Not a trade", "Moneypenny", "HBR"]) assert.ok(!text.includes(cut), cut);
   }
