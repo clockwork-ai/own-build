@@ -156,6 +156,7 @@ test("reviews are labelled examples, and players are not embeds", () => {
   assert.equal(brand.includes("It is not a person."), false);
   assert.match(css, /--demo-bar:\s*2\.5rem/);
   assert.match(css, /\.hero \{[^}]*top:\s*var\(--demo-bar\)/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?\.hero \{[^}]*top:\s*0;/);
   assert.match(css, /\.date-sec \{[^}]*padding-top:\s*calc\(5\.5rem \+ var\(--demo-bar\)\)/);
   assert.match(css, /\.legal a\[href\^="tel:"\] \{ white-space:\s*nowrap; \}/);
   assert.match(css, /\.foot__features \{ grid-template-columns: 1fr 1fr; \}/);

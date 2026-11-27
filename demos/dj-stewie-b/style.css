@@ -357,7 +357,7 @@ html.motion [data-reveal].is-in {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-track { height: auto; }
-  .hero { position: relative; min-height: calc(100svh - var(--demo-bar)); }
+  .hero { position: relative; top: 0; min-height: calc(100svh - var(--demo-bar)); }
   html.motion [data-reveal],
   [data-reveal] {
     animation: none;
