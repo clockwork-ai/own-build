@@ -332,26 +332,28 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .hero__meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:26px;font:400 12px/1.5 var(--f-m);color:#BDB1CB;letter-spacing:.02em;text-transform:uppercase}
 .hero .ph__tag{left:16px;right:auto;bottom:16px}
 
-/* the sheen scale, drawn rather than photographed: how much light each finish throws back */
+/* the sheen scale, drawn rather than photographed: the same wall colour under the same
+   window, with the reflection getting sharper as the finish gets shinier */
 .sheens{display:grid;gap:14px}
 @media(min-width:700px){.sheens{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:1000px){.sheens{grid-template-columns:repeat(4,1fr)}}
 .sheen{background:var(--card);border:1px solid var(--line);border-radius:var(--rc);padding:18px}
 .sheen h3{font-size:19px;margin:0 0 6px}
 .sheen p{color:var(--soft);font-size:15px;margin:0}
-.sheen__sw{display:block;height:76px;border-radius:var(--rb);margin-bottom:14px;border:1px solid var(--line);position:relative;overflow:hidden;background:#D9D3E2}
-/* matt: the light lands and stays there */
-.sheen__sw--matt{background:#CFC7DC}
-.sheen__sw--matt::after{content:"";position:absolute;inset:0;background:linear-gradient(150deg,rgba(255,255,255,.1),transparent 55%)}
-/* eggshell: a low soft lift across it */
-.sheen__sw--egg{background:#C8BFD8}
-.sheen__sw--egg::after{content:"";position:absolute;inset:0;background:linear-gradient(150deg,rgba(255,255,255,.34),rgba(255,255,255,.04) 52%,transparent 70%)}
-/* satin: a defined band of light with an edge to it */
-.sheen__sw--satin{background:#BEB3D2}
-.sheen__sw--satin::after{content:"";position:absolute;inset:0;background:linear-gradient(150deg,rgba(255,255,255,.62) 0%,rgba(255,255,255,.3) 26%,rgba(255,255,255,.02) 56%,transparent 72%)}
-/* gloss: a hard highlight and a reflection under it */
-.sheen__sw--gloss{background:#B2A4C9}
-.sheen__sw--gloss::after{content:"";position:absolute;inset:0;background:linear-gradient(150deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.55) 14%,rgba(255,255,255,.06) 40%,rgba(255,255,255,.22) 66%,transparent 84%)}
+.sheen__sw{display:block;height:84px;border-radius:var(--rb);margin-bottom:14px;border:1px solid var(--line);position:relative;overflow:hidden;background:#7E6FA0;isolation:isolate}
+/* the window reflection. Nothing on matt, a glow on eggshell, a band on satin,
+   two hard panes on gloss */
+.sheen__sw::before{content:"";position:absolute;top:-25%;bottom:-25%;left:-15%;right:-15%;transform:skewX(-17deg)}
+/* the overall lift the finish gives the whole surface */
+.sheen__sw::after{content:"";position:absolute;inset:0}
+.sheen__sw--matt::before{background:none}
+.sheen__sw--matt::after{background:linear-gradient(152deg,rgba(255,255,255,.05),transparent 62%)}
+.sheen__sw--egg::before{background:linear-gradient(90deg,transparent 14%,rgba(255,255,255,.2) 34%,rgba(255,255,255,.2) 52%,transparent 72%);filter:blur(13px)}
+.sheen__sw--egg::after{background:linear-gradient(152deg,rgba(255,255,255,.14),rgba(255,255,255,.03) 50%,transparent 74%)}
+.sheen__sw--satin::before{background:linear-gradient(90deg,transparent 18%,rgba(255,255,255,.42) 28%,rgba(255,255,255,.42) 44%,transparent 54%);filter:blur(4px)}
+.sheen__sw--satin::after{background:linear-gradient(152deg,rgba(255,255,255,.3),rgba(255,255,255,.06) 44%,transparent 68%)}
+.sheen__sw--gloss::before{background:linear-gradient(90deg,transparent 19%,rgba(255,255,255,.88) 21%,rgba(255,255,255,.88) 35%,transparent 37%,transparent 41%,rgba(255,255,255,.88) 43%,rgba(255,255,255,.88) 55%,transparent 57%)}
+.sheen__sw--gloss::after{background:linear-gradient(152deg,rgba(255,255,255,.5),rgba(255,255,255,.04) 36%,transparent 60%),linear-gradient(0deg,rgba(255,255,255,.18),transparent 34%)}
 
 /* one colour, three lights: the thing a tester pot is really for */
 .lights{display:grid;gap:10px;margin:22px 0}
