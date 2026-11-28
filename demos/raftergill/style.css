@@ -305,11 +305,11 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
    through it and one rooflight let into the slope near the top, because a rooflight is
    the cheapest daylight there is and it is the first thing most of these jobs get. */
 .mark{position:relative;padding-bottom:28px}
-.mark::after{content:"";position:absolute;left:0;bottom:2px;width:176px;height:18px;
+.mark::after{content:"";position:absolute;left:0;bottom:2px;width:150px;height:22px;
   background:
-    linear-gradient(var(--acc),var(--acc)) 128px 0/22px 18px no-repeat,
-    repeating-linear-gradient(90deg,var(--pine) 0 2px,rgba(0,0,0,0) 2px 15px) 0 0/176px 18px no-repeat,
-    linear-gradient(var(--slate),var(--slate)) 0 0/176px 18px no-repeat;
+    linear-gradient(var(--acc),var(--acc)) 104px 0/20px 22px no-repeat,
+    repeating-linear-gradient(90deg,var(--pine) 0 2px,rgba(0,0,0,0) 2px 18px) 0 0/150px 22px no-repeat,
+    linear-gradient(var(--slate),var(--slate)) 0 0/150px 22px no-repeat;
   clip-path:polygon(0 100%,100% 0,100% 100%)}
 
 /* the alternating band: pale plaster, the colour of the room once it is finished */
@@ -319,9 +319,9 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .dark .mate__av{background:#1A1613;color:#F0BE5B}
 .dark .srow:hover{background:#FFFFFF}
 .dark .mark::after{background:
-    linear-gradient(var(--acc),var(--acc)) 128px 0/22px 18px no-repeat,
-    repeating-linear-gradient(90deg,#B98B52 0 2px,rgba(0,0,0,0) 2px 15px) 0 0/176px 18px no-repeat,
-    linear-gradient(#7C8B95,#7C8B95) 0 0/176px 18px no-repeat}
+    linear-gradient(var(--acc),var(--acc)) 104px 0/20px 22px no-repeat,
+    repeating-linear-gradient(90deg,#B98B52 0 2px,rgba(0,0,0,0) 2px 18px) 0 0/150px 22px no-repeat,
+    linear-gradient(#7C8B95,#7C8B95) 0 0/150px 22px no-repeat}
 
 /* hero */
 .hero{position:relative;min-height:min(84vh,840px);display:grid;align-items:end;color:#F7F2E8;overflow:hidden;background:#120F0D}
@@ -345,7 +345,7 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
    None of them carry a measurement, because the one thing we will not do on this site is
    print a head height as though it were a rule. */
 .dwg{display:block;width:100%;height:auto;background:var(--dwg-bg);border-radius:var(--rb);box-shadow:inset 0 0 0 1px var(--line)}
-.dwg text{font:400 11px/1 var(--f-m);letter-spacing:.03em;fill:var(--dwg-ink)}
+.dwg text{font:400 12px/1 var(--f-m);letter-spacing:.03em;fill:var(--dwg-ink);paint-order:stroke;stroke:var(--dwg-bg);stroke-width:3.5px;stroke-linejoin:round}
 .dwg .t-s{font-size:9.5px}
 .dwg .t-a{fill:var(--acc-text);font-weight:500}
 .dwg .t-b{fill:var(--sos);font-weight:500}
@@ -365,8 +365,9 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .dwg .bad{stroke:var(--sos);stroke-width:1.4;fill:none}
 .dwg .hatch line{stroke:var(--dwg-ink);stroke-width:.7;opacity:.5}
 .dwg .glzl{stroke:var(--acc);stroke-width:8;stroke-linecap:butt}
-.dwg .jol{stroke:var(--pine);stroke-width:7;stroke-linecap:square}
-.dwg .jolt{stroke:var(--pine);stroke-width:4;stroke-linecap:square}
+.dwg .jol{stroke:var(--pine);stroke-width:8;stroke-linecap:square}
+.dwg .joln{stroke:var(--pine);stroke-width:4;stroke-linecap:square}
+.dwg .jolt{stroke:var(--pine);stroke-width:3;stroke-linecap:square}
 
 /* a pair of drawings, the same thing done two ways */
 .pair{display:grid;gap:16px;margin:22px 0 0}
@@ -410,8 +411,8 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .stages i{display:block;height:38px;border-radius:3px;border:1px solid var(--line);position:relative;overflow:hidden;background:#2A231C}
 /* 1. the survey and the drawings: the roof measured and set out on paper */
 .stages div:nth-child(1) i{background:#F0E9DC}
-.stages div:nth-child(1) i::before{content:"";position:absolute;left:8px;right:8px;top:9px;bottom:6px;border:1px solid #8A5E10;border-bottom-width:0;clip-path:polygon(0 100%,50% 0,100% 100%)}
-.stages div:nth-child(1) i::after{content:"";position:absolute;left:14%;right:14%;bottom:9px;height:1px;background:#8A5E10}
+.stages div:nth-child(1) i::before{content:"";position:absolute;left:10px;right:10px;top:5px;bottom:11px;background:#8A5E10;clip-path:polygon(50% 0,100% 100%,93% 100%,50% 11%,7% 100%,0 100%)}
+.stages div:nth-child(1) i::after{content:"";position:absolute;left:10px;right:10px;bottom:8px;height:0;border-top:1px dashed #8A5E10}
 /* 2. steels in and the new floor laid over the old ceiling */
 .stages div:nth-child(2) i::before{content:"";position:absolute;left:0;right:0;top:13px;height:7px;background:var(--steel)}
 .stages div:nth-child(2) i::after{content:"";position:absolute;left:0;right:0;top:20px;height:9px;background:repeating-linear-gradient(90deg,var(--pine) 0 5px,rgba(0,0,0,0) 5px 15px)}
@@ -425,7 +426,7 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 /* 5. insulated, boarded, plastered and the stairs in */
 .stages div:nth-child(5) i{background:#F0E9DC}
 .stages div:nth-child(5) i::before{content:"";position:absolute;inset:0;background:#DCD3C4;clip-path:polygon(0 100%,40% 18%,56% 18%,56% 100%)}
-.stages div:nth-child(5) i::after{content:"";position:absolute;left:60%;right:8px;bottom:6px;height:22px;background:repeating-linear-gradient(to top right,#B5894F 0 4px,rgba(0,0,0,0) 4px 8px)}
+.stages div:nth-child(5) i::after{content:"";position:absolute;left:58%;right:8px;bottom:6px;top:8px;background:#B5894F;clip-path:polygon(0 100%,0 78%,25% 78%,25% 54%,50% 54%,50% 30%,75% 30%,75% 6%,100% 6%,100% 100%)}
 .stages p{margin:0}
 
 /* service rows */
@@ -477,6 +478,9 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .gal{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);grid-auto-rows:clamp(150px,19vw,250px)}
 @media(min-width:900px){.gal{grid-template-columns:repeat(4,1fr)}.gal .wide{grid-column:span 2}}
 .gal a{position:relative;display:block;border-radius:var(--rb);overflow:hidden;height:100%;text-decoration:none;background:#2A231C}
+/* the filter sets the hidden attribute, and display:block on the line above beats the
+   browser default for it, so a filtered out card stays on screen without this */
+.gal a[hidden]{display:none}
 .gal a img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .gal a:hover img{transform:scale(1.04)}
 .gal__m{position:absolute;inset:auto 0 0 0;padding:28px 12px 10px;background:linear-gradient(transparent,rgba(10,8,6,.9));color:#fff}
@@ -541,6 +545,12 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .tips{display:grid;gap:8px;grid-template-columns:repeat(3,1fr);margin:6px 0 0;padding:0;list-style:none}
 .tips li{border-radius:var(--rb);background:var(--note-bg);padding:10px;font-size:13px;text-align:center}
 .tips svg{width:42px;height:32px;display:block;margin:0 auto 6px;color:var(--acc-text)}
+
+/* nothing on this site is an emergency, so neither the quick action on a phone nor the
+   call button in the dialog gets dressed up as one. The shared base paints both in the
+   warning colour, which would be the wrong promise on a trade where everything waits. */
+.mbar__sos{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.sos__call{background:var(--acc);color:var(--acc-ink)}
 
 /* the suitability list: questions to walk round with, and no score at the end */
 .check__list label:has(input:checked){border-color:var(--acc);background:var(--note-bg)}
