@@ -501,6 +501,9 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 /* header stack on a phone: keep the brand on one line and start the menu below the bar */
 .brand__w{white-space:nowrap}
 @media(max-width:480px){
+  /* the chat button is fixed bottom right and lands on the end of the hero strapline
+     at rest, so keep the strapline clear of that corner and let it wrap instead */
+  .hero__meta{padding-right:84px}
   .brand{font-size:clamp(14px,3.9vw,21px)}
   .demo-bar{font-size:12px;line-height:1.35;padding:7px 14px}
   .mnav{padding-top:200px}
