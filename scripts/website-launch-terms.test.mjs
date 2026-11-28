@@ -155,10 +155,15 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   assert.match(knowledge, /Never quote a price/);
   assert.doesNotMatch(services, /happy customers are asked/);
   assert.doesNotMatch(home, /A review request after every job|A quoting and job app|A page for each service and town|Monthly posts made from your own jobs/);
-  assert.doesNotMatch(home, /£/);
-  assert.doesNotMatch(services, /£/);
-  assert.doesNotMatch(roofers, /£/);
-  assert.doesNotMatch(currentTerms, /£99/);
+  const foundation = "Foundation is £99 a month, with a 12-month minimum, £1,188 in total. No VAT added. Growth and Autopilot are priced on your call. The price you pay is the one in your written agreement.";
+  assert.equal(home.split(foundation).length - 1, 2);
+  assert.equal(services.split(foundation).length - 1, 4);
+  assert.equal(currentTerms.split(foundation).length - 1, 1);
+  assert.equal(roofers.split(foundation).length - 1, 2);
+  assert.doesNotMatch(home.replaceAll(foundation, ""), /£/);
+  assert.doesNotMatch(services.replaceAll(foundation, ""), /£/);
+  assert.doesNotMatch(roofers.replaceAll(foundation, ""), /£/);
+  assert.doesNotMatch(currentTerms.replaceAll(foundation, ""), /£99/);
   assert.match(home, /Missed calls texted back/);
   assert.match(home, /Database Reactivation/);
   assert.match(home, /The Referral Flywheel/);
@@ -171,7 +176,8 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   for (const line of [terms.roofersGrowth, terms.roofersAutopilot, terms.roofersEveryCustomer]) {
     assert.ok(roofers.includes(line), line);
   }
-  assert.ok(currentTerms.includes("These website terms don't publish a price."));
+  assert.equal(currentTerms.includes("These website terms don't publish a price."), false);
+  assert.ok(currentTerms.includes("Foundation is £99 a month, with a 12-month minimum, £1,188 in total. No VAT added. Growth and Autopilot are priced on your call. The price you pay is the one in your written agreement."));
   assert.ok(currentTerms.includes("there is a 12-month minimum from the day the website actually goes live"));
   assert.equal(currentTerms.includes("These website terms don't set a minimum term"), false);
   assert.equal(currentTerms.includes("Hosting and care is a separate monthly service you can cancel any month."), false);
@@ -180,9 +186,10 @@ test("the same Foundation list is on the homepage, services, roofers and the dra
   assert.equal(html.includes("If you stop the monthly payments before the 12th, the site comes offline."), false);
   assert.equal(html.includes("You then receive a full copy of the files and code, or I move the site into an account in your name."), false);
   assert.doesNotMatch(html, /does not choose|Which Foundation description applies|happy customers are asked/);
+  const foundationLine = "Foundation is £99 a month, with a 12-month minimum, £1,188 in total. No VAT added. Growth and Autopilot are priced on your call. The price you pay is the one in your written agreement.";
   for (const file of ["index.html", "services.html", "roofers.html", "terms.html", "how-it-works.html", "pages.js", "lib/business.ts"]) {
     assert.equal(read(file).includes("website-launch-terms"), false, file);
-    assert.doesNotMatch(read(file), /£99/);
+    assert.doesNotMatch(read(file).replaceAll(foundationLine, ""), /£99/);
   }
   const sitemap = read("sitemap.xml");
   assert.equal((sitemap.match(/website-launch-terms/g) || []).length, 0);
@@ -281,7 +288,7 @@ test("keeps the promotion rules that are already decided", () => {
   assert.doesNotMatch(html, /id="open-/);
   assert.match(read("privacy.html"), /callum@getclockworkai\.com/);
   assert.match(read("terms.html"), /07460 038202/);
-  assert.doesNotMatch(read("terms.html"), /£99|website-launch-terms|14 days from that email/);
+  assert.doesNotMatch(read("terms.html").replaceAll("Foundation is £99 a month, with a 12-month minimum, £1,188 in total. No VAT added. Growth and Autopilot are priced on your call. The price you pay is the one in your written agreement.", ""), /£99|website-launch-terms|14 days from that email/);
 });
 
 test("does not market a free website, a prize, or a second way to apply", () => {

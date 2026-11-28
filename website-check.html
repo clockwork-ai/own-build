@@ -45,6 +45,8 @@
   .wc-msg--err { border-color: color-mix(in oklab, #d9785f 60%, transparent); color: var(--sc-ink); }
   .wc-thanks h2 { margin: 0; font: 400 var(--sc-t-xl)/1.2 var(--sc-font-display); }
   .wc-reach { margin: 4px 0 0; padding-top: 16px; border-top: 1px solid var(--sc-hairline); }
+  .wc-deal { max-width: 68rem; }
+  .wc-deal dd { max-width: 68ch; }
   .wc-foot { margin-top: clamp(2.5rem, 6vw, 4rem); }
   @media (max-width: 860px) { .wc-layout { grid-template-columns: 1fr; } }
 </style>
@@ -128,6 +130,17 @@
         </div>
 
         <p class="wc-reach"><a href="tel:+447460038202">Call</a> or <a href="sms:+447460038202">text 07460 038202</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="deal" data-title="What you pay" class="block ground-2 trim">
+    <div class="sc-wrap wc-deal">
+      <div class="block__head" data-sc-in>
+        <h2 class="sc-display h2-md">What you pay</h2>
+      </div>
+      <div class="prose" data-sc-in>
+        <p>Foundation is £99 a month, with a 12-month minimum, £1,188 in total. No VAT added. Growth and Autopilot are priced on your call. The price you pay is the one in your written agreement. <a href="tel:+447460038202">Call</a> or <a href="sms:+447460038202">text 07460 038202</a>.</p> <!-- client-safe: ignore -->
       </div>
     </div>
     <footer class="foot wc-foot">
