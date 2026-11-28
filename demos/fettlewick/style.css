@@ -292,7 +292,7 @@ h1,h2,h3,h4{font-weight:800}
 .brand{font-size:25px;font-weight:800}
 .brand span{font-weight:500;opacity:.72}
 .eyebrow{color:var(--eyebrow)}
-.ink{background:#1E241F;color:#EDEAE1;--soft:#A9B0A4;--line:rgba(255,255,255,.13);--card:#272E28;--note-bg:rgba(62,125,50,.18);--eyebrow:#CFE2B9;--ico-bg:#2C5E23;--ico-ink:#EDEAE1}
+.ink{background:#1E241F;color:#EDEAE1;--soft:#A9B0A4;--line:rgba(255,255,255,.13);--card:#272E28;--note-bg:rgba(62,125,50,.18);--eyebrow:#CFE2B9;--acc-text:#CFE2B9;--ico-bg:#2C5E23;--ico-ink:#EDEAE1}
 .ink .card p,.ink .lede{color:#A9B0A4}
 
 /* ---------- the signature: a job sheet line under every heading ----------
@@ -375,12 +375,13 @@ h1,h2,h3,h4{font-weight:800}
 /* ---------- how it works, as five ticked stages ---------- */
 .stages{display:grid;gap:10px;counter-reset:st}
 @media(min-width:860px){.stages{grid-template-columns:repeat(5,1fr)}}
-.stages div{background:var(--card);border:1px solid var(--line);border-radius:var(--rc);padding:18px 16px;display:grid;gap:8px;align-content:start}
-.stages div::before{counter-increment:st;content:counter(st);width:30px;height:30px;border-radius:3px;border:2px solid var(--ink);display:grid;place-items:center;font:500 13px/1 var(--f-m);opacity:.85}
+.stages>div{background:var(--card);border:1px solid var(--line);border-radius:var(--rc);padding:18px 16px;display:grid;gap:8px;align-content:start}
+.stages>div::before{counter-increment:st;content:counter(st);width:30px;height:30px;border-radius:3px;border:2px solid var(--ink);display:grid;place-items:center;font:500 13px/1 var(--f-m);opacity:.85}
 .stages .stage__s{width:100%;height:52px;border-radius:4px;background:var(--note-bg);position:relative;overflow:hidden}
+.stages .stage__s svg{display:block;width:100%;height:100%}
 .stages h3{font-size:20px;margin:0}
 .stages p{color:var(--soft);font-size:14.5px;margin:0;line-height:1.5}
-.stages div:last-child::before{border-color:var(--acc);background:var(--acc);color:#fff;opacity:1}
+.stages>div:last-child::before{border-color:var(--acc);background:var(--acc);color:#fff;opacity:1}
 
 /* ---------- drawings ---------- */
 .dwg{background:var(--card);border:1px solid var(--line);border-radius:var(--rc);padding:clamp(14px,2vw,22px)}
@@ -389,12 +390,13 @@ h1,h2,h3,h4{font-weight:800}
 .dwg__h{font:500 11px/1 var(--f-m);letter-spacing:.13em;text-transform:uppercase;color:var(--soft);margin:0 0 12px}
 .pair{display:grid;gap:12px}
 @media(min-width:760px){.pair{grid-template-columns:1fr 1fr}}
+.split .pair,.split .pair--3{grid-template-columns:1fr}
 .pair--3{display:grid;gap:12px}
 @media(min-width:760px){.pair--3{grid-template-columns:repeat(3,1fr)}}
-.dwg .lbl{font:500 11px var(--f-m);fill:var(--ink);paint-order:stroke;stroke:#FDFCF8;stroke-width:4px;stroke-linejoin:round}
+.dwg .lbl{font:500 11px var(--f-m);fill:var(--ink);paint-order:stroke;stroke:#FDFCF8;stroke-width:3px;stroke-linejoin:round}
 .dwg .lbl--a{fill:#2C5E23}
 .dwg .lbl--n{fill:#9A3A22}
-.dwg .ttl{font:700 14px var(--f-h);fill:var(--ink);letter-spacing:-.01em;paint-order:stroke;stroke:#FDFCF8;stroke-width:4px;stroke-linejoin:round}
+.dwg .ttl{font:700 14px var(--f-h);fill:var(--ink);letter-spacing:-.01em;paint-order:stroke;stroke:#FDFCF8;stroke-width:3px;stroke-linejoin:round}
 .dwg .wall{fill:#D9D3C5}
 .dwg .board{fill:#C3BCAA}
 .dwg .brick{fill:#B9A596}
@@ -410,6 +412,9 @@ h1,h2,h3,h4{font-weight:800}
 .dwg .ln--a{stroke:#2C5E23;stroke-width:2}
 .dwg .ln--n{stroke:#9A3A22;stroke-width:2}
 .dwg .mtl{fill:#8A8F88}
+.dwg .mortar{stroke:#A89483;stroke-width:1;fill:none}
+.dwg .board{fill:#B6AD99}
+.dwg .void{fill:#FBFAF6}
 .dwg .tick{fill:none;stroke:#2C5E23;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .dwg .arr{fill:none;stroke:#9A3A22;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
@@ -532,3 +537,9 @@ h1,h2,h3,h4{font-weight:800}
 /* ---------- sample reviews and tags keep their contrast on dark ---------- */
 .ink .sample,.band .sample,.nf .sample,.foot .sample,.tile--urg .sample{background:#CFE2B9;color:#1E241F}
 .band__btns .btn--ghost{color:#EDEAE1}
+
+/* The demo bar wording runs to three lines on a phone, which puts the bottom of
+   the sticky header below the shared base's 130px of top padding on the mobile
+   menu, so the first menu item ends up hidden behind it. Measured at 390: the
+   bar is 99 and the header 73. */
+@media(max-width:1039px){.mnav{padding-top:184px}}
