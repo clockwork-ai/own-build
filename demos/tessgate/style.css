@@ -304,14 +304,14 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
    cut tile at the end in fired clay, because the cut has to land somewhere and where
    it lands is the only decision on the wall that nobody can undo. */
 .mark{position:relative;padding-bottom:26px}
-.mark::after{content:"";position:absolute;left:0;bottom:2px;width:206px;height:14px;background:
-  linear-gradient(var(--clay),var(--clay)) 166px 0/20px 14px no-repeat,
-  repeating-linear-gradient(90deg,var(--glaze) 0 32px,rgba(0,0,0,0) 32px 36px) 0 0/160px 3px no-repeat,
-  repeating-linear-gradient(90deg,var(--ink) 0 32px,rgba(0,0,0,0) 32px 36px) 0 0/160px 14px no-repeat}
+.mark::after{content:"";position:absolute;left:0;bottom:2px;width:168px;height:14px;background:
+  linear-gradient(var(--clay),var(--clay)) 148px 0/20px 14px no-repeat,
+  repeating-linear-gradient(90deg,var(--glaze) 0 32px,rgba(0,0,0,0) 32px 36px) 0 0/140px 3px no-repeat,
+  repeating-linear-gradient(90deg,var(--ink) 0 32px,rgba(0,0,0,0) 32px 36px) 0 0/140px 14px no-repeat}
 .dark .mark::after{background:
-  linear-gradient(var(--clay),var(--clay)) 166px 0/20px 14px no-repeat,
-  repeating-linear-gradient(90deg,var(--glaze-lt) 0 32px,rgba(0,0,0,0) 32px 36px) 0 0/160px 3px no-repeat,
-  repeating-linear-gradient(90deg,var(--glaze) 0 32px,rgba(0,0,0,0) 32px 36px) 0 0/160px 14px no-repeat}
+  linear-gradient(var(--clay),var(--clay)) 148px 0/20px 14px no-repeat,
+  repeating-linear-gradient(90deg,var(--glaze-lt) 0 32px,rgba(0,0,0,0) 32px 36px) 0 0/140px 3px no-repeat,
+  repeating-linear-gradient(90deg,var(--glaze) 0 32px,rgba(0,0,0,0) 32px 36px) 0 0/140px 14px no-repeat}
 
 /* the alternating band: deep kiln ink, the colour of a fired body before it is glazed */
 .dark{background:#121A2A;color:#EFF1F5;--ink:#EFF1F5;--soft:#A0AABC;--line:rgba(255,255,255,.14);--card:#1B2538;--note-bg:#1E2940;--eyebrow:#A8C4F0;--acc-text:#A8C4F0;--field-bg:#1B2538;--field-line:rgba(255,255,255,.22);--sample-bg:#A8C4F0;--sample-ink:#121A2A;--ico-bg:#243150;--ico-ink:#A8C4F0}
@@ -410,44 +410,49 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 /* the face the wall used to finish at, and the step the new work pushes it out by */
 .ot__face{display:block;position:absolute;left:51%;top:6px;bottom:6px;width:0;border-left:2px dashed var(--acc);z-index:2}
 .ot__step{display:block;position:absolute;left:51%;width:23%;top:10px;height:9px;border:2px solid var(--acc);border-bottom:0;z-index:2}
-.ot__k{display:block;position:absolute;right:8px;bottom:8px;font:400 10px/1.35 var(--f-m);letter-spacing:.04em;text-transform:uppercase;color:var(--soft);text-align:right}
+.ot__k{display:block;margin:8px 0 0;font:400 10px/1.4 var(--f-m);letter-spacing:.04em;text-transform:uppercase;color:var(--soft)}
 .ot__m{display:block;position:absolute;font:400 10px/1 var(--f-m);letter-spacing:.05em;text-transform:uppercase;background:var(--bg);color:var(--acc-text);padding:4px 6px;border-radius:2px;white-space:nowrap;box-shadow:0 1px 3px rgba(18,26,42,.18);z-index:3}
 .ot__m--step{left:52%;top:22px}
 .ot__m--void{left:4px;bottom:8px;color:var(--sos)}
 
-/* 3. the grout joint and the corner, in section. Grout is not waterproof and was never
-   meant to be: it is a filler that takes up the difference between one tile and the
-   next. What keeps water out is what is behind it. */
-.joint{display:block;position:relative;height:170px;background:var(--note-bg);border-radius:var(--rc);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden;margin:22px 0 14px}
+/* 3. the grout joint and what is actually behind a black one, drawn in section. Grout is
+   not waterproof and was never meant to be: it is a filler that takes up the difference
+   between one tile and the next. What keeps water out is what is behind it. Bounded in
+   width on purpose, because a section drawn a thousand pixels wide stops reading as a
+   section and starts reading as a set of stripes. */
+.joint{display:block;position:relative;max-width:620px;height:196px;background:var(--note-bg);border-radius:var(--rc);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden;margin:22px auto 14px}
 .joint span{display:block;position:absolute}
-/* the wall behind */
-.joint__wall{left:0;right:0;top:0;height:40px;background:#CBD2DE;background-image:repeating-linear-gradient(56deg,rgba(18,26,42,.22) 0 1px,rgba(18,26,42,0) 1px 7px)}
-/* the bed of adhesive, solid under the left tile and missing under the right one */
-.joint__bed{top:40px;height:16px;background:var(--kiln-mid)}
-.joint__bed--l{left:0;width:46%}
-.joint__bed--r{left:54%;width:28%}
-/* the two tiles, standing off the wall on that bed */
-.joint__t{top:56px;height:46px;background:linear-gradient(180deg,#FFFFFF,#E2E7EE);box-shadow:inset 0 0 0 1px rgba(18,26,42,.14)}
-.joint__t--l{left:0;width:46%}
-.joint__t--r{left:54%;width:46%}
-.joint__t::after{content:"";display:block;position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--glaze-lt)}
-/* the void under the right hand tile, where the bed was never combed out properly */
-.joint__void{left:82%;width:18%;top:40px;height:16px;background:var(--kiln);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+/* the wall behind, hatched the way a section is hatched */
+.joint__wall{left:0;right:0;top:0;height:58px;background:#CBD2DE;background-image:repeating-linear-gradient(56deg,rgba(18,26,42,.22) 0 1px,rgba(18,26,42,0) 1px 7px)}
+/* the bed of adhesive, combed out solid under the left tile and run out under the right */
+.joint__bed{top:58px;height:22px;background:var(--kiln-mid)}
+.joint__bed--l{left:0;width:44%}
+.joint__bed--r{left:56%;width:24%}
+/* the two tiles, standing off the wall on that bed, glazed face towards the room */
+.joint__t{top:80px;height:54px;background:linear-gradient(180deg,#FFFFFF,#E2E7EE);box-shadow:inset 0 0 0 1.5px rgba(18,26,42,.32)}
+.joint__t--l{left:0;width:44%}
+.joint__t--r{left:56%;width:44%}
+.joint__t::after{content:"";display:block;position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--glaze-lt)}
+/* the void under the right hand tile, where the bed was never combed out to the edge */
+.joint__void{left:80%;width:20%;top:58px;height:22px;background:repeating-linear-gradient(45deg,rgba(192,69,42,.22) 0 4px,rgba(192,69,42,0) 4px 9px),var(--note-bg);box-shadow:inset 0 0 0 2px var(--sos)}
 /* the joint itself: porous, which is the whole point of the drawing */
-.joint__g{left:46%;width:8%;top:40px;height:62px;background:#D5D9E1;background-image:radial-gradient(circle at 30% 24%,rgba(18,26,42,.4) 0 1.2px,rgba(18,26,42,0) 1.2px),radial-gradient(circle at 72% 58%,rgba(18,26,42,.4) 0 1.2px,rgba(18,26,42,0) 1.2px),radial-gradient(circle at 44% 82%,rgba(18,26,42,.4) 0 1.2px,rgba(18,26,42,0) 1.2px);background-size:9px 9px,11px 11px,8px 8px}
-/* water finding its way down the joint and sitting in the void */
-.joint__w{left:48.4%;width:3.2%;top:40px;height:58px;background:linear-gradient(180deg,rgba(78,134,224,.75),rgba(78,134,224,.2))}
-.joint__p{left:82%;width:18%;top:44px;height:8px;background:rgba(78,134,224,.6);border-radius:2px}
+.joint__g{left:44%;width:12%;top:58px;height:76px;background:#D5D9E1;background-image:radial-gradient(circle at 30% 24%,rgba(18,26,42,.42) 0 1.3px,rgba(18,26,42,0) 1.3px),radial-gradient(circle at 72% 58%,rgba(18,26,42,.42) 0 1.3px,rgba(18,26,42,0) 1.3px),radial-gradient(circle at 44% 82%,rgba(18,26,42,.42) 0 1.3px,rgba(18,26,42,0) 1.3px);background-size:9px 9px,11px 11px,8px 8px}
+/* water finding its way down through the joint and sitting in the void */
+.joint__w{left:47.4%;width:5.2%;top:58px;height:70px;background:linear-gradient(180deg,rgba(78,134,224,.8),rgba(78,134,224,.22))}
+.joint__p{left:80%;width:20%;top:64px;height:11px;background:rgba(78,134,224,.65);border-radius:2px}
 /* the growth, which is what somebody is actually looking at when they say the grout has
-   gone black */
-.joint__b{left:46.6%;width:6.8%;top:94px;height:8px;background:#2C3A2A;border-radius:0 0 2px 2px}
+   gone black. It is at the room face, because that is the only end of it you can see. */
+.joint__b{left:44.7%;width:10.6%;top:124px;height:10px;background:#2C3A2A;border-radius:0 0 2px 2px}
+/* the room side, so nobody has to work out which way round the drawing is */
+.joint__room{left:0;right:0;top:134px;bottom:0;background:transparent;border-top:1px dashed rgba(18,26,42,.22)}
 .joint__m{font:400 10px/1 var(--f-m);letter-spacing:.05em;text-transform:uppercase;background:var(--bg);color:var(--acc-text);padding:4px 6px;border-radius:2px;white-space:nowrap;box-shadow:0 1px 3px rgba(18,26,42,.18);z-index:3}
-.joint__m--g{left:50%;transform:translateX(-50%);top:110px}
-.joint__m--v{right:8px;bottom:36px;color:var(--sos)}
-.joint__m--w{left:8px;top:112px}
+.joint__m--g{left:50%;transform:translateX(-50%);top:144px}
+.joint__m--v{right:8px;top:92px;color:var(--sos)}
+.joint__m--w{left:25%;top:96px}
+.joint__m--r{right:8px;bottom:8px;color:var(--soft)}
 
-/* the internal corner: the one joint on the wall that moves, which is why it is never
-   grouted */
+/* the internal corner: the one joint on a tiled wall that moves. Drawn in plan as an L,
+   one tiled surface running across and one running up, meeting at the inside corner. */
 .corner{display:grid;gap:16px;margin:22px 0}
 @media(min-width:720px){.corner{grid-template-columns:1fr 1fr}}
 .cn{background:var(--card);border:1px solid var(--line);border-radius:var(--rc);padding:18px;border-top:4px solid var(--line)}
@@ -455,16 +460,20 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .cn--good{border-top-color:var(--acc)}
 .cn h3{font-size:19px;margin:14px 0 6px}
 .cn p{color:var(--soft);font-size:15px;margin:0}
-.cn__d{display:block;position:relative;height:124px;background:var(--note-bg);border-radius:var(--rb);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden}
+.cn__d{display:block;position:relative;aspect-ratio:5/4;max-width:300px;margin:0 auto;background:var(--note-bg);border-radius:var(--rb);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden}
 .cn__d span{display:block;position:absolute}
-.cn__a{left:16px;top:16px;width:54%;bottom:16px;background:linear-gradient(140deg,#FFFFFF,#E2E7EE);box-shadow:inset 0 0 0 1px rgba(18,26,42,.14)}
-.cn__b{right:16px;top:16px;width:26%;bottom:16px;background:linear-gradient(200deg,#E7EBF1,#D3DAE4);box-shadow:inset 0 0 0 1px rgba(18,26,42,.14)}
-/* grout in the corner: hard, so when the two walls move a fraction it splits */
-.cn__grout{left:calc(16px + 54%);width:calc(20% - 32px);top:16px;bottom:16px;background:#D5D9E1}
-.cn__crack{left:calc(16px + 54% + 10px);width:4px;top:24px;bottom:24px;background:var(--sos);clip-path:polygon(0 0,100% 6%,0 18%,100% 30%,0 44%,100% 58%,0 70%,100% 84%,0 100%,100% 100%,100% 0)}
-/* sealant in the corner: flexible, so it takes the movement and stays shut */
-.cn__seal{left:calc(16px + 54% - 8px);width:calc(20% - 16px);top:16px;bottom:16px;background:#F0F0E8;border-top-left-radius:70% 22%;border-bottom-left-radius:70% 22%;box-shadow:inset 0 0 0 1px rgba(18,26,42,.12)}
-.cn__m{position:absolute;display:block;font:400 10px/1 var(--f-m);letter-spacing:.05em;text-transform:uppercase;background:var(--bg);color:var(--acc-text);padding:4px 6px;border-radius:2px;white-space:nowrap;box-shadow:0 1px 3px rgba(18,26,42,.18);z-index:3;left:8px;bottom:8px}
+/* the surface running across the bottom, glazed face upwards */
+.cn__a{left:14px;right:72px;bottom:14px;height:46px;background:linear-gradient(180deg,#FFFFFF,#DDE3EB);box-shadow:inset 0 0 0 1px rgba(18,26,42,.18)}
+.cn__a::after{content:"";display:block;position:absolute;left:0;right:0;top:0;height:4px;background:var(--glaze-lt)}
+/* the surface running up the right, glazed face towards the room */
+.cn__b{right:14px;width:44px;top:14px;bottom:14px;background:linear-gradient(90deg,#DDE3EB,#FFFFFF);box-shadow:inset 0 0 0 1px rgba(18,26,42,.18)}
+.cn__b::after{content:"";display:block;position:absolute;top:0;bottom:0;left:0;width:4px;background:var(--glaze-lt)}
+/* grout: hard, flush, and filling the gap between the two. It has nowhere to go. */
+.cn__grout{right:58px;width:14px;bottom:14px;height:60px;background:#D5D9E1;box-shadow:inset 0 0 0 1px rgba(18,26,42,.12)}
+.cn__crack{right:62px;width:5px;bottom:17px;height:54px;background:var(--sos);clip-path:polygon(0 0,100% 7%,0 20%,100% 33%,0 46%,100% 59%,0 72%,100% 85%,0 100%,100% 100%,100% 0)}
+/* sealant: a flexible fillet, lapping onto both faces, concave towards the room */
+.cn__seal{right:58px;width:30px;bottom:14px;height:76px;background:radial-gradient(circle at 0 0,rgba(0,0,0,0) 0 30px,#F3EFE2 30px);box-shadow:none}
+.cn__m{position:absolute;display:block;font:400 10px/1 var(--f-m);letter-spacing:.05em;text-transform:uppercase;background:var(--bg);color:var(--acc-text);padding:4px 6px;border-radius:2px;white-space:nowrap;box-shadow:0 1px 3px rgba(18,26,42,.18);z-index:3;left:10px;top:10px}
 .cn--bad .cn__m{color:var(--sos)}
 
 /* 4. flatness, and why a big tile is a different job to a small one. The wall is never
@@ -488,16 +497,16 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .flat__lip{left:89%;width:9%;bottom:58px;height:13px;background:linear-gradient(180deg,#FFFFFF,#DDE3EB);box-shadow:inset 0 0 0 1px rgba(18,26,42,.2)}
 /* the small tiles, each one short enough to follow the wall down and back up again */
 .flat__sm{height:10px;background:linear-gradient(180deg,#FFFFFF,#DDE3EB);box-shadow:inset 0 0 0 1px rgba(18,26,42,.2)}
-.flat__sm--1{left:14%;width:11%;bottom:63px;transform:rotate(-2deg)}
-.flat__sm--2{left:26%;width:11%;bottom:61px;transform:rotate(5deg)}
-.flat__sm--3{left:38%;width:11%;bottom:48px;transform:rotate(7deg)}
-.flat__sm--4{left:50%;width:11%;bottom:31px;transform:rotate(3deg)}
-.flat__sm--5{left:62%;width:11%;bottom:29px;transform:rotate(-7deg)}
-.flat__sm--6{left:74%;width:11%;bottom:52px;transform:rotate(-5deg)}
+.flat__sm--1{left:14%;width:11%;bottom:63px;transform:rotate(-1deg)}
+.flat__sm--2{left:26%;width:11%;bottom:55px;transform:rotate(7deg)}
+.flat__sm--3{left:38%;width:11%;bottom:37px;transform:rotate(6deg)}
+.flat__sm--4{left:50%;width:11%;bottom:29px;transform:rotate(0deg)}
+.flat__sm--5{left:62%;width:11%;bottom:39px;transform:rotate(-8deg)}
+.flat__sm--6{left:74%;width:11%;bottom:57px;transform:rotate(-6deg)}
 .flat__m{font:400 10px/1 var(--f-m);letter-spacing:.05em;text-transform:uppercase;background:var(--bg);color:var(--acc-text);padding:4px 6px;border-radius:2px;white-space:nowrap;box-shadow:0 1px 3px rgba(18,26,42,.18);z-index:3}
 .flat__m--big{left:8px;top:8px}
 .flat__m--gap{left:28%;bottom:34px;color:var(--sos)}
-.flat__m--lip{right:8px;top:8px;color:var(--sos)}
+.flat__m--lip{right:8px;bottom:78px;color:var(--sos)}
 .flat__m--sm{left:8px;top:8px}
 .flat__m--wall{right:8px;bottom:8px}
 
@@ -510,8 +519,8 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .stack__b--tile{flex:0 0 22%;background:linear-gradient(180deg,#FFFFFF,#E2E7EE);box-shadow:inset 0 -1px 0 rgba(18,26,42,.14)}
 .stack__b--tile::after{content:"";display:block;position:absolute;left:0;right:0;top:0;height:4px;background:var(--glaze-lt)}
 .stack__b--ad{flex:0 0 13%;background:var(--kiln-mid);background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.14) 0 2px,rgba(255,255,255,0) 2px 11px)}
-.stack__b--mat{flex:0 0 12%;background:#B4473A;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.5) 0 4px,rgba(255,255,255,0) 4px 26px)}
-.stack__b--memb{flex:0 0 14%;background:var(--clay);background-image:repeating-linear-gradient(90deg,rgba(18,26,42,.22) 0 1px,rgba(18,26,42,0) 1px 14px)}
+.stack__b--mat{flex:0 0 12%;background:#B4473A;background-image:repeating-linear-gradient(90deg,rgba(255,235,228,.92) 0 7px,rgba(255,255,255,0) 7px 52px)}
+.stack__b--memb{flex:0 0 14%;background:#5E7A8C;background-image:radial-gradient(circle at 50% 50%,rgba(18,26,42,.45) 0 4px,rgba(18,26,42,0) 4.5px);background-size:26px 26px}
 .stack__b--floor{flex:0 0 39%;background:#C3BBAA;background-image:repeating-linear-gradient(74deg,rgba(18,26,42,.14) 0 2px,rgba(18,26,42,0) 2px 9px)}
 .stack__n{display:grid;place-items:center;position:absolute;left:12px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:var(--bg);color:var(--ink);font:400 12px var(--f-m);box-shadow:0 1px 4px rgba(18,26,42,.3)}
 .stack__t{display:block;position:absolute;left:50px;top:50%;transform:translateY(-50%);font:400 11px/1 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--bg);text-shadow:0 1px 3px rgba(18,26,42,.6)}
@@ -540,7 +549,8 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .stages div:nth-child(4) i{background:#DDE3EB;background-image:repeating-linear-gradient(90deg,#FFFFFF 0 20px,rgba(0,0,0,0) 20px 23px)}
 .stages div:nth-child(4) i::after{content:"";display:block;position:absolute;left:0;right:0;top:11px;height:5px;background:repeating-linear-gradient(90deg,rgba(0,0,0,0) 0 18px,var(--clay) 18px 23px)}
 /* grouted and sealed: joints filled, corner sealed, job done */
-.stages div:nth-child(5) i{background:#E6E9EE;background-image:repeating-linear-gradient(90deg,#FFFFFF 0 20px,rgba(0,0,0,0) 20px 23px),repeating-linear-gradient(0deg,#FFFFFF 0 13px,rgba(0,0,0,0) 13px 16px)}
+.stages div:nth-child(5) i{background:#AFB8C6;background-image:repeating-linear-gradient(90deg,#FFFFFF 0 20px,rgba(0,0,0,0) 20px 23px),repeating-linear-gradient(0deg,#FFFFFF 0 13px,rgba(0,0,0,0) 13px 16px)}
+.stages div:nth-child(5) i::after{content:"";display:block;position:absolute;right:0;top:0;bottom:0;width:5px;background:#F0F0E8}
 .stages p{margin:0}
 
 /* service rows */
@@ -687,6 +697,14 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
   .gal__m{padding:22px 10px 8px}
   .gal__m b{font-size:16px}
   .gal{grid-auto-rows:clamp(165px,19vw,250px)}
-  .joint{height:150px}
   .flat__sc{height:132px}
+}
+/* the joint section carries four labels, which collide once the box is under about 560
+   wide. The two the drawing can speak for itself on come off, and the aria label still
+   describes all of it. */
+@media(max-width:560px){
+  .joint{height:206px}
+  .joint__m--w,.joint__m--r{display:none}
+  .joint__m--g{left:8px;top:148px;transform:none}
+  .joint__m--v{right:8px;top:88px}
 }
