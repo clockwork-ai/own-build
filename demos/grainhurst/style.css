@@ -372,52 +372,72 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
   linear-gradient(170deg,rgba(255,232,196,.12),rgba(255,232,196,0) 60%)}
 .timber__b--walnut::after{background:#5B3D24}
 
-/* the gaps round a door, drawn at a size you can actually see. The leaf, the lining,
-   and the four gaps that decide whether it shuts in August as well as February. */
+/* the gaps round a door, drawn at a size you can actually see. The lining, the leaf,
+   and the gap between them painted dark so the thing the drawing is about is the thing
+   you notice first. */
 .gaps{display:grid;gap:18px;margin:22px 0;align-items:start}
-@media(min-width:760px){.gaps{grid-template-columns:260px 1fr}}
-.gaps__d{position:relative;aspect-ratio:3/4;background:var(--note-bg);border-radius:var(--rb);padding:16px 16px 26px;box-shadow:inset 0 0 0 1px var(--line)}
-/* the lining, then the leaf sat inside it with the gaps showing as the background */
-.gaps__l{position:absolute;inset:16px 16px 26px;background:
-  repeating-linear-gradient(90deg,rgba(176,131,70,.22) 0 2px,rgba(176,131,70,0) 2px 13px),#E8CFA3;
-  box-shadow:inset 0 0 0 1px rgba(110,80,40,.4)}
-.gaps__leaf{position:absolute;top:22px;left:24px;right:24px;bottom:40px;background:
+@media(min-width:760px){.gaps{grid-template-columns:300px 1fr}}
+.gaps__d{position:relative;aspect-ratio:3/4;max-width:300px;background:var(--note-bg);border-radius:var(--rb);box-shadow:inset 0 0 0 1px var(--line)}
+/* the lining, with the opening cut out of it as a dark void */
+.gaps__l{position:absolute;inset:30px;background:
+  repeating-linear-gradient(90deg,rgba(176,131,70,.26) 0 2px,rgba(176,131,70,0) 2px 13px),#E8CFA3;
+  box-shadow:inset 0 0 0 1px rgba(110,80,40,.45)}
+.gaps__l::after{content:"";position:absolute;inset:16px;background:var(--walnut)}
+/* the leaf sat in the opening, with the gap showing round it */
+.gaps__leaf{position:absolute;top:54px;left:54px;right:54px;bottom:70px;background:
   repeating-linear-gradient(90deg,rgba(132,92,44,.3) 0 3px,rgba(132,92,44,0) 3px 12px),#D8B883;
-  border-radius:2px;box-shadow:inset 0 0 0 1px rgba(110,80,40,.45),0 2px 6px rgba(42,30,19,.18)}
-.gaps__leaf::after{content:"";position:absolute;right:9px;top:52%;width:9px;height:9px;border-radius:50%;background:var(--brass)}
-/* the hinges down the left edge of the leaf */
-.gaps__h{position:absolute;left:21px;width:7px;height:20px;background:var(--brass);border-radius:1px}
-.gaps__h--t{top:52px}.gaps__h--b{bottom:70px}
-.gaps__m{position:absolute;font:500 10px/1 var(--f-m);letter-spacing:.05em;text-transform:uppercase;color:var(--acc-text);background:var(--bg);padding:3px 5px;border-radius:3px;white-space:nowrap}
-.gaps__m--top{top:6px;left:50%;transform:translateX(-50%)}
-.gaps__m--side{bottom:44%;right:-2px}
-.gaps__m--foot{bottom:4px;left:50%;transform:translateX(-50%)}
+  border-radius:1px;box-shadow:inset 0 0 0 1px rgba(110,80,40,.5),0 2px 8px rgba(42,30,19,.3)}
+.gaps__leaf::after{content:"";position:absolute;right:12px;top:52%;width:11px;height:11px;border-radius:50%;background:var(--brass);box-shadow:0 1px 2px rgba(42,30,19,.5)}
+/* the hinges, sat across the gap on the hinge side */
+.gaps__h{position:absolute;left:44px;width:16px;height:34px;background:var(--brass);border-radius:1px;box-shadow:inset 0 0 0 1px rgba(110,80,40,.5)}
+.gaps__h--t{top:92px}.gaps__h--b{bottom:118px}
+.gaps__m{position:absolute;font:500 10px/1 var(--f-m);letter-spacing:.05em;text-transform:uppercase;color:var(--acc-text);background:var(--bg);padding:4px 6px;border-radius:3px;white-space:nowrap;box-shadow:0 1px 3px rgba(42,30,19,.15)}
+.gaps__m--top{top:7px;left:50%;transform:translateX(-50%)}
+.gaps__m--side{top:66%;right:2px;transform:translateY(-50%)}
+.gaps__m--foot{bottom:7px;left:50%;transform:translateX(-50%)}
 .gaps__k{display:grid;gap:2px;border-radius:var(--rc);overflow:hidden;counter-reset:g}
 .gaps__k div{background:var(--card);padding:14px 16px;display:grid;gap:3px}
 .gaps__k b{font:var(--hw) 17px/1.3 var(--f-h);letter-spacing:var(--hls)}
 .gaps__k span{color:var(--soft);font-size:15px}
 
-/* where a staircase creaks: the same two steps in section, with the four parts that
-   either hold it still or let it move */
-.stairsec{position:relative;aspect-ratio:16/9;background:var(--note-bg);border-radius:var(--rc);overflow:hidden;margin:22px 0;box-shadow:inset 0 0 0 1px var(--line)}
-.stairsec__s{position:absolute;left:6%;right:6%;top:10%;bottom:12%;background:
-  repeating-linear-gradient(90deg,rgba(176,131,70,.26) 0 2px,rgba(176,131,70,0) 2px 14px),#E8CFA3;
-  clip-path:polygon(0 100%,0 46%,34% 46%,34% 38%,66% 38%,66% 0,100% 0,100% 8%,74% 8%,74% 46%,42% 46%,42% 54%,0 54%);
-  box-shadow:inset 0 0 0 1px rgba(110,80,40,.35)}
-.stairsec__t{position:absolute;background:#D8B883;box-shadow:inset 0 0 0 1px rgba(110,80,40,.45)}
-.stairsec__t--1{left:6%;width:36%;top:50%;height:7%}
-.stairsec__t--2{left:38%;width:36%;top:42%;height:7%}
-.stairsec__w{position:absolute;width:9%;height:13%;background:var(--brass);clip-path:polygon(0 0,100% 0,100% 100%)}
-.stairsec__w--1{left:34%;top:57%}
-.stairsec__w--2{left:66%;top:49%}
-.stairsec__g{position:absolute;width:5%;height:9%;background:var(--acc);border-radius:1px}
-.stairsec__g--1{left:36%;top:64%}
-.stairsec__g--2{left:68%;top:56%}
-.stairsec__n{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--walnut);color:var(--pine);display:grid;place-items:center;font:500 12px var(--f-m)}
-.stairsec__n--1{left:14%;top:44%}
-.stairsec__n--2{left:76%;top:16%}
-.stairsec__n--3{left:30%;top:66%}
-.stairsec__n--4{left:46%;top:76%}
+/* where a staircase creaks: two steps drawn side on, with the four parts that either
+   hold a stair still or let it move. Treads and risers in timber, the wedges in brass
+   and the glue blocks in walnut, because those two are the parts that go missing. */
+.stairsec{position:relative;aspect-ratio:16/9;background:var(--note-bg);border-radius:var(--rc);overflow:hidden;margin:22px 0 14px;box-shadow:inset 0 0 0 1px var(--line)}
+.stairsec span{position:absolute}
+.stairsec__floor{left:4%;right:4%;top:91%;height:2%;background:var(--walnut);opacity:.35;border-radius:2px}
+/* treads: the boards you stand on */
+.stairsec__t{background:
+  repeating-linear-gradient(90deg,rgba(132,92,44,.3) 0 3px,rgba(132,92,44,0) 3px 13px),#D8B883;
+  box-shadow:inset 0 0 0 1px rgba(110,80,40,.5)}
+.stairsec__t--1{left:6%;width:46%;top:52%;height:8%}
+.stairsec__t--2{left:44%;width:46%;top:22%;height:8%}
+/* risers: the uprights at the front of each step */
+.stairsec__r{background:
+  repeating-linear-gradient(0deg,rgba(176,131,70,.28) 0 2px,rgba(176,131,70,0) 2px 13px),#E8CFA3;
+  box-shadow:inset 0 0 0 1px rgba(110,80,40,.45)}
+.stairsec__r--1{left:8%;width:6%;top:60%;height:31%}
+.stairsec__r--2{left:46%;width:6%;top:30%;height:30%}
+/* the tapered wedges, driven in from underneath to hold the tread in the string */
+.stairsec__w{background:var(--brass);box-shadow:inset 0 0 0 1px rgba(110,80,40,.4)}
+.stairsec__w--1{left:34%;width:14%;top:60%;height:11%;clip-path:polygon(0 0,100% 0,100% 100%)}
+.stairsec__w--2{left:72%;width:14%;top:30%;height:11%;clip-path:polygon(0 0,100% 0,100% 100%)}
+/* the glue blocks, in the corner under the tread and behind the riser */
+.stairsec__g{background:var(--acc);border-radius:1px}
+.stairsec__g--1{left:14%;width:7%;top:60%;height:10%}
+.stairsec__g--2{left:52%;width:7%;top:30%;height:10%}
+.stairsec__n{width:26px;height:26px;border-radius:50%;background:var(--walnut);color:var(--pine);display:grid;place-items:center;font:500 12px var(--f-m);box-shadow:0 0 0 2px var(--note-bg)}
+.stairsec__n--1{left:62%;top:23%}
+.stairsec__n--2{left:46.6%;top:43%}
+.stairsec__n--3{left:42%;top:61%}
+.stairsec__n--4{left:14.6%;top:61%}
+@media(max-width:560px){
+  /* on a phone the badges are large next to the parts, so stand them off rather than
+     sitting them on top of the wedge and the glue block */
+  .stairsec__n{width:21px;height:21px;font-size:10px}
+  .stairsec__n--3{left:37%;top:74%}
+  .stairsec__n--4{left:9%;top:74%}
+}
 .stairkey{display:grid;gap:2px;border-radius:var(--rc);overflow:hidden;counter-reset:s}
 @media(min-width:800px){.stairkey{grid-template-columns:repeat(2,1fr);gap:2px}}
 .stairkey div{background:var(--card);padding:14px 16px 16px 50px;position:relative;display:grid;gap:3px}
@@ -432,22 +452,23 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .alc{background:var(--card);border:1px solid var(--line);border-radius:var(--rc);padding:16px}
 .alc h3{font-size:18px;margin:0 0 4px}
 .alc p{color:var(--soft);font-size:15px;margin:0}
-.alc__p{position:relative;aspect-ratio:16/10;background:var(--note-bg);border-radius:var(--rb);overflow:hidden;margin-bottom:14px;box-shadow:inset 0 0 0 1px var(--line)}
+.alc__p{display:block;position:relative;aspect-ratio:16/10;background:var(--note-bg);border-radius:var(--rb);overflow:hidden;margin-bottom:14px;box-shadow:inset 0 0 0 1px var(--line)}
 /* the two walls of the alcove, deliberately not parallel */
 .alc__w{position:absolute;background:var(--walnut)}
-.alc__w--back{left:8%;right:8%;top:10%;height:7%}
-.alc__w--left{left:8%;top:10%;width:6%;bottom:12%;clip-path:polygon(0 0,100% 0,100% 100%,38% 100%)}
-.alc__w--right{right:8%;top:10%;width:6%;bottom:12%;clip-path:polygon(0 0,100% 0,62% 100%,0 100%)}
+.alc__w--back{left:4%;right:4%;top:10%;height:7%}
+/* the inner faces lean, so the alcove is wider at the back than at the front */
+.alc__w--left{left:4%;top:10%;width:12%;bottom:12%;clip-path:polygon(0 0,33% 0,100% 100%,0 100%)}
+.alc__w--right{left:84%;top:10%;width:12%;bottom:12%;clip-path:polygon(67% 0,100% 0,100% 100%,0 100%)}
 /* the unit itself */
 .alc__u{position:absolute;background:
   repeating-linear-gradient(90deg,rgba(132,92,44,.26) 0 3px,rgba(132,92,44,0) 3px 12px),#D8B883;
   box-shadow:inset 0 0 0 1px rgba(110,80,40,.5)}
-.alc--free .alc__u{left:22%;right:22%;top:20%;bottom:16%}
-.alc--fit .alc__u{left:14%;right:14%;top:17%;bottom:14%}
+.alc--free .alc__u{left:22%;right:22%;top:21%;bottom:15%}
+.alc--fit .alc__u{left:18%;right:18%;top:18%;bottom:13%}
 /* the scribed fillers that take up the difference */
 .alc__f{position:absolute;background:var(--brass);box-shadow:inset 0 0 0 1px rgba(110,80,40,.4)}
-.alc--fit .alc__f--l{left:14%;top:17%;width:7%;bottom:14%;clip-path:polygon(0 0,100% 0,100% 100%,44% 100%)}
-.alc--fit .alc__f--r{right:14%;top:17%;width:7%;bottom:14%;clip-path:polygon(0 0,100% 0,56% 100%,0 100%)}
+.alc--fit .alc__f--l{left:8%;top:18%;width:10%;bottom:13%;clip-path:polygon(0 0,100% 0,100% 100%,80% 100%)}
+.alc--fit .alc__f--r{left:82%;top:18%;width:10%;bottom:13%;clip-path:polygon(0 0,100% 0,20% 100%,0 100%)}
 .alc__g{position:absolute;font:500 10px/1 var(--f-m);letter-spacing:.05em;text-transform:uppercase;color:var(--sos);background:var(--bg);padding:3px 5px;border-radius:3px;white-space:nowrap}
 .alc--free .alc__g--l{left:4%;bottom:6%}
 .alc--free .alc__g--r{right:4%;bottom:6%}
@@ -465,6 +486,7 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .stages div:nth-child(2) i{background:#E8CFA3;background-image:repeating-linear-gradient(90deg,rgba(176,131,70,.3) 0 2px,rgba(176,131,70,0) 2px 15px),linear-gradient(168deg,rgba(255,255,255,.26),transparent 60%)}
 .stages div:nth-child(3) i{background:#E8CFA3;background-image:repeating-linear-gradient(90deg,rgba(176,131,70,.3) 0 2px,rgba(176,131,70,0) 2px 15px)}
 .stages div:nth-child(3) i::after{content:"";position:absolute;left:34%;top:0;bottom:0;width:1px;background:#4A3520;box-shadow:16px 0 0 #4A3520;opacity:.85}
+.stages div:nth-child(3) i::before{content:"";position:absolute;left:calc(34% + 17px);right:0;top:0;bottom:0;background:repeating-linear-gradient(64deg,rgba(74,53,32,.5) 0 1px,rgba(74,53,32,0) 1px 6px)}
 .stages div:nth-child(4) i{background:#E8CFA3;background-image:repeating-linear-gradient(90deg,rgba(176,131,70,.3) 0 2px,rgba(176,131,70,0) 2px 15px)}
 .stages div:nth-child(4) i::after{content:"";position:absolute;left:30%;top:-10%;width:22%;height:120%;background:#D8B883;box-shadow:inset 0 0 0 1px rgba(110,80,40,.5);clip-path:polygon(14% 0,86% 0,100% 100%,0 100%)}
 .stages div:nth-child(5) i{background:#D8B883;background-image:repeating-linear-gradient(90deg,rgba(132,92,44,.3) 0 3px,rgba(132,92,44,0) 3px 12px),linear-gradient(150deg,rgba(255,255,255,.34),rgba(255,255,255,.04) 48%,transparent 72%)}
