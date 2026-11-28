@@ -328,7 +328,7 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .hero .lede{color:#D4DEDD;max-width:52ch;margin-bottom:26px}
 .hero__btns{display:flex;flex-wrap:wrap;gap:12px}
 .hero__meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:26px;font:400 12px/1.5 var(--f-m);color:#B6C3C6;letter-spacing:.02em;text-transform:uppercase}
-.hero .ph__tag{left:auto;right:16px;bottom:16px}
+.hero .ph__tag{left:16px;right:auto;bottom:16px}
 
 /* gutter profiles, drawn rather than photographed */
 .mats{display:grid;gap:14px}
@@ -341,7 +341,7 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .mat__sw::before{content:"";position:absolute;left:14px;right:14px;top:20px;height:34px;background:#F6FAF9;border:2px solid #2E4249;border-top:0}
 .mat__sw::after{content:"";position:absolute;left:8px;right:8px;top:18px;height:4px;background:#2E4249}
 .mat__sw--half::before{border-radius:0 0 999px 999px}
-.mat__sw--ogee::before{border-radius:0 0 3px 14px;left:16px;right:12px}
+.mat__sw--ogee::before{border-radius:0 0 2px 16px;left:16px;right:12px;box-shadow:inset -9px 0 0 -7px #2E4249}
 .mat__sw--square::before{border-radius:0}
 .mat__sw--deep::before{border-radius:0 0 999px 999px;top:14px;height:42px;left:10px;right:10px}
 .mat__sw--deep::after{left:6px;right:6px;top:12px}
@@ -487,6 +487,9 @@ a.card:hover{transform:translateY(-3px);border-color:var(--acc)}
 .order li span{color:var(--soft);font-size:15px}
 
 /* layout and spacing carried over from the shared base */
+/* the shared .split centres its two columns, which leaves a long prose column
+   next to a floating picture. Where the prose runs long, start them level. */
+.split--top{align-items:start}
 @media(min-width:900px){.steps--4{grid-template-columns:repeat(4,1fr)}}
 @media(min-width:700px){.split .towns{grid-template-columns:1fr}}
 .band{border-top:1px solid var(--line)}
